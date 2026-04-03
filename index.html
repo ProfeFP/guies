@@ -1545,73 +1545,295 @@ ${contingut}
 
 
   <!-- ══════════════════════════════════════════
-       BLOC VIII
+       BLOC IX — RSS I DADES EXTERNES
   ══════════════════════════════════════════ -->
   <section class="bloc-lectura" id="bloc-9">
     <span class="badge-seccio">Bloc IX</span>
-    <h2>Connexió Real (Projectes Dinàmics i Dades Externes)</h2>
-    <p>Una web professional genera contingut <strong>dinàmicament</strong> des de dades. Primer carregarem les targetes des d'un <strong>array JavaScript</strong> (fàcil de mantenir i filtrar), i com a repte connectarem amb una <strong>API externa</strong> amb <code>fetch()</code> i <code>async/await</code>.</p>
+    <h2>Connexió Real (Noticies en Viu via RSS i fetch)</h2>
+    <p>
+      Molts diaris i webs publiquen les seves notícies en format <strong>RSS</strong>
+      (un fitxer XML actualitzat constantment). Amb <code>fetch()</code> i
+      <code>async/await</code> podem llegir-lo i pintar-lo amb el nostre propi disseny.
+      Com que els navegadors bloquegen peticions directes a altres dominis (política
+      <strong>CORS</strong>), fem servir el proxy gratuït <code>rss2json.com</code>
+      que converteix l'XML a JSON.
+    </p>
     <div class="contenidor-codi">
       <div class="capçalera-codi">
-        <span>🌐 Bloc IX: Targetes des d'un Array + Filtre</span>
+        <span>🌐 Bloc IX: Noticiari en Viu — Diari Ara</span>
         <div class="botons-grup">
           <button class="boto-previsualitzar" onclick="previsualitzar(this)">👁️ Previsualitzar</button>
           <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
         </div>
       </div>
       <pre contenteditable="true" class="editor-codi">
-&lt;div class="container py-4"&gt;
-    &lt;h3 class="mb-3"&gt;Els meus Projectes&lt;/h3&gt;
-    &lt;div id="filtres" class="d-flex gap-2 mb-4"&gt;
-        &lt;button class="btn btn-primary btn-sm"    data-filtre="tots"&gt;Tots&lt;/button&gt;
-        &lt;button class="btn btn-outline-primary btn-sm" data-filtre="HTML/CSS"&gt;HTML/CSS&lt;/button&gt;
-        &lt;button class="btn btn-outline-primary btn-sm" data-filtre="JavaScript"&gt;JavaScript&lt;/button&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ca"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Noticiari ARA en Viu&lt;/title&gt;
+  &lt;link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"&gt;
+  &lt;style&gt;
+    /* ── Variables i reset ── */
+    :root {
+      --vermell:  #c0392b;
+      --fosc:     #1a1a2e;
+      --gris:     #6b7280;
+      --vora:     #e5e7eb;
+      --fons:     #f9fafb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--fons); color: var(--fosc); }
+
+    /* ── Capçalera del diari ── */
+    .diari-cap {
+      background: var(--fosc);
+      padding: 20px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .diari-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; color: white; letter-spacing: -.02em;
+    }
+    .diari-logo span { color: var(--vermell); }
+    .diari-data { color: rgba(255,255,255,.45); font-size: .78rem; }
+    .diari-linia { height: 4px; background: var(--vermell); }
+
+    /* ── Contenidor principal ── */
+    .noticiari { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+    /* ── Titular de secció ── */
+    .seccio-titol {
+      display: flex; align-items: center; gap: 12px;
+      font-size: .7rem; font-weight: 700; color: var(--vermell);
+      text-transform: uppercase; letter-spacing: .1em;
+      margin-bottom: 24px; padding-bottom: 12px;
+      border-bottom: 2px solid var(--vora);
+    }
+    .seccio-titol::before {
+      content: ''; display: block;
+      width: 6px; height: 18px;
+      background: var(--vermell); border-radius: 3px;
+    }
+
+    /* ── Graella de notícies ── */
+    .graella {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 2px;
+      background: var(--vora);
+      border: 1px solid var(--vora);
+      border-radius: 8px; overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    /* Notícia destacada: ocupa tota la columna esquerra */
+    .noticia { background: white; position: relative; overflow: hidden; }
+    .noticia-0 { grid-row: span 2; }
+
+    .noticia-img {
+      width: 100%; aspect-ratio: 16/9;
+      object-fit: cover; display: block;
+      transition: transform .4s ease;
+    }
+    .noticia-0 .noticia-img { height: 100%; aspect-ratio: unset; max-height: 420px; }
+    .noticia:hover .noticia-img { transform: scale(1.03); }
+
+    .noticia-cos {
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .noticia-0 .noticia-cos { padding: 20px; }
+
+    .noticia-categoria {
+      font-size: .65rem; font-weight: 700; color: var(--vermell);
+      text-transform: uppercase; letter-spacing: .08em;
+    }
+    .noticia-titol {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; line-height: 1.35; color: var(--fosc);
+      text-decoration: none; display: block;
+      transition: color .2s;
+    }
+    .noticia-0 .noticia-titol { font-size: 1.45rem; }
+    .noticia-titol:hover { color: var(--vermell); }
+
+    .noticia-desc {
+      font-size: .8rem; color: var(--gris);
+      line-height: 1.6; display: -webkit-box;
+      -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .noticia-meta {
+      font-size: .7rem; color: #9ca3af;
+      margin-top: auto; padding-top: 8px;
+      border-top: 1px solid var(--vora);
+    }
+
+    /* ── Fila de notícies petites ── */
+    .graella-petites {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--vora);
+      border: 1px solid var(--vora); border-radius: 8px;
+      overflow: hidden;
+    }
+    .noticia-petita {
+      background: white; padding: 16px;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .noticia-petita img {
+      width: 80px; height: 60px; object-fit: cover;
+      border-radius: 4px; flex-shrink: 0;
+    }
+    .noticia-petita .noticia-titol { font-size: .83rem; }
+    .noticia-petita .noticia-meta  { font-size: .68rem; }
+
+    /* ── Estat de càrrega i error ── */
+    .estat {
+      text-align: center; padding: 60px 20px;
+      color: var(--gris); font-size: .9rem;
+    }
+    .spinner {
+      width: 36px; height: 36px; border: 3px solid var(--vora);
+      border-top-color: var(--vermell); border-radius: 50%;
+      animation: gira .8s linear infinite; margin: 0 auto 16px;
+    }
+    @keyframes gira { to { transform: rotate(360deg); } }
+
+    @media (max-width: 700px) {
+      .graella          { grid-template-columns: 1fr; }
+      .noticia-0        { grid-row: span 1; }
+      .graella-petites  { grid-template-columns: 1fr; }
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+  &lt;div class="diari-cap"&gt;
+    &lt;div class="diari-logo"&gt;Diari &lt;span&gt;ARA&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="diari-data" id="dataActual"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="diari-linia"&gt;&lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main class="noticiari"&gt;
+  &lt;div id="contingut"&gt;
+    &lt;div class="estat"&gt;
+      &lt;div class="spinner"&gt;&lt;/div&gt;
+      &lt;p&gt;Connectant amb el Diari ARA...&lt;/p&gt;
     &lt;/div&gt;
-    &lt;div id="projectes" class="row g-4"&gt;&lt;/div&gt;
-&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/main&gt;
 
 &lt;script&gt;
-    const meusProjectes = [
-        { titol: "Portfoli Personal",  descripcio: "La web construïda durant el curs.",           imatge: "https://picsum.photos/seed/pf1/400/200", link: "#", etiquetes: ["HTML/CSS", "JavaScript"] },
-        { titol: "App de Tasques",      descripcio: "Gestió de tasques amb LocalStorage.",         imatge: "https://picsum.photos/seed/tk2/400/200", link: "#", etiquetes: ["JavaScript"] },
-        { titol: "Web Cafeteria",       descripcio: "Web per a un negoci local.",                  imatge: "https://picsum.photos/seed/cf3/400/200", link: "#", etiquetes: ["HTML/CSS"] },
-        { titol: "Wordle en Català",    descripcio: "Joc d'endevinar paraules en 6 intents.",     imatge: "https://picsum.photos/seed/wl4/400/200", link: "#", etiquetes: ["JavaScript"] }
-    ];
+  // Data actual a la capçalera
+  document.getElementById('dataActual').textContent =
+    new Date().toLocaleDateString('ca-ES', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
 
-    function crearTargeta(p) {
-        const tags = p.etiquetes.map(e =&gt;
-            `&lt;span class="badge bg-primary bg-opacity-10 text-primary me-1"&gt;${e}&lt;/span&gt;`
-        ).join('');
-        return `
-            &lt;div class="col-md-3"&gt;
-                &lt;div class="card h-100 shadow-sm"&gt;
-                    &lt;img src="${p.imatge}" class="card-img-top" style="height:150px;object-fit:cover" alt="${p.titol}"&gt;
-                    &lt;div class="card-body"&gt;
-                        &lt;h6 class="card-title"&gt;${p.titol}&lt;/h6&gt;
-                        &lt;div class="mb-2"&gt;${tags}&lt;/div&gt;
-                        &lt;p class="card-text small text-muted"&gt;${p.descripcio}&lt;/p&gt;
-                        &lt;a href="${p.link}" class="btn btn-primary btn-sm"&gt;Veure →&lt;/a&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;`;
+  // Netejar HTML d'una cadena (treure etiquetes)
+  function netejarHTML(str) {
+    if (!str) return '';
+    return str.replace(/&lt;[^&gt;]+&gt;/g, '').replace(/&amp;nbsp;/g, ' ').trim();
+  }
+
+  // Format de data llegible
+  function formatData(str) {
+    if (!str) return '';
+    const d = new Date(str);
+    return isNaN(d) ? '' : d.toLocaleDateString('ca-ES', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+  }
+
+  // Imatge de la notícia (thumbnail o placeholder)
+  function obtenirImatge(item) {
+    return item.thumbnail
+        || item.enclosure?.link
+        || 'https://picsum.photos/seed/' + Math.abs(item.title.charCodeAt(0)) + '/400/250';
+  }
+
+  // Construcció d'una targeta gran
+  function targeta(item, classe) {
+    const img  = obtenirImatge(item);
+    const desc = netejarHTML(item.description).substring(0, 160);
+    return `
+      &lt;article class="noticia ${classe}"&gt;
+        &lt;div style="overflow:hidden"&gt;
+          &lt;img src="${img}" class="noticia-img" alt="${item.title}" loading="lazy"
+               onerror="this.src='https://picsum.photos/seed/ara/400/250'"&gt;
+        &lt;/div&gt;
+        &lt;div class="noticia-cos"&gt;
+          &lt;span class="noticia-categoria"&gt;${item.categories?.[0] || 'Notícies'}&lt;/span&gt;
+          &lt;a href="${item.link}" target="_blank" class="noticia-titol"&gt;${item.title}&lt;/a&gt;
+          &lt;p class="noticia-desc"&gt;${desc}&lt;/p&gt;
+          &lt;div class="noticia-meta"&gt;🕐 ${formatData(item.pubDate)}&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;`;
+  }
+
+  // Construcció d'una targeta petita
+  function targetaPetita(item) {
+    const img = obtenirImatge(item);
+    return `
+      &lt;article class="noticia-petita"&gt;
+        &lt;img src="${img}" alt="${item.title}" loading="lazy"
+             onerror="this.src='https://picsum.photos/seed/sm/80/60'"&gt;
+        &lt;div&gt;
+          &lt;a href="${item.link}" target="_blank" class="noticia-titol"&gt;${item.title}&lt;/a&gt;
+          &lt;div class="noticia-meta"&gt;🕐 ${formatData(item.pubDate)}&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/article&gt;`;
+  }
+
+  // Càrrega de l'RSS via proxy rss2json
+  async function carregarAra() {
+    const contenidor = document.getElementById('contingut');
+    const rssUrl  = 'https://www.ara.cat/rss/latest/';
+    const apiUrl  = 'https://api.rss2json.com/v1/api.json?rss_url='
+                  + encodeURIComponent(rssUrl) + '&count=10';
+    try {
+      const res   = await fetch(apiUrl);
+      const dades = await res.json();
+
+      if (dades.status !== 'ok' || !dades.items?.length) {
+        throw new Error('Resposta no vàlida: ' + dades.message);
+      }
+
+      const items = dades.items;
+
+      // 4 primeres: graella principal (1 gran + 2 mitges)
+      const graella = `
+        &lt;p class="seccio-titol"&gt;Últimes notícies&lt;/p&gt;
+        &lt;div class="graella"&gt;
+          ${targeta(items[0], 'noticia-0')}
+          ${targeta(items[1], 'noticia-1')}
+          ${targeta(items[2], 'noticia-2')}
+          ${targeta(items[3], 'noticia-3')}
+        &lt;/div&gt;`;
+
+      // 3 següents: fila petita
+      const petites = `
+        &lt;p class="seccio-titol"&gt;Més notícies&lt;/p&gt;
+        &lt;div class="graella-petites"&gt;
+          ${items.slice(4, 7).map(targetaPetita).join('')}
+        &lt;/div&gt;`;
+
+      contenidor.innerHTML = graella + petites;
+
+    } catch (err) {
+      contenidor.innerHTML = `
+        &lt;div class="estat"&gt;
+          ⚠️ No s'han pogut carregar les notícies.&lt;br&gt;
+          &lt;small style="color:#9ca3af"&gt;${err.message}&lt;/small&gt;
+        &lt;/div&gt;`;
     }
+  }
 
-    function renderitzar(filtre) {
-        const llista = filtre === 'tots'
-            ? meusProjectes
-            : meusProjectes.filter(p =&gt; p.etiquetes.includes(filtre));
-        document.getElementById('projectes').innerHTML = llista.map(crearTargeta).join('');
-    }
+  carregarAra();
+&lt;/script&gt;
 
-    document.getElementById('filtres').addEventListener('click', e =&gt; {
-        if (!e.target.dataset.filtre) return;
-        document.querySelectorAll('#filtres .btn').forEach(b =&gt; b.className = 'btn btn-outline-primary btn-sm');
-        e.target.className = 'btn btn-primary btn-sm';
-        renderitzar(e.target.dataset.filtre);
-    });
-
-    renderitzar('tots');
-&lt;/script&gt;</pre>
+&lt;/body&gt;
+&lt;/html&gt;</pre>
     </div>
   </section>
 
@@ -1619,21 +1841,39 @@ ${contingut}
     <div class="bloc-exercicis-header">
       <span class="icona-exercici">🎯</span>
       <div>
-        <h3>Exercicis del Bloc IX: Projectes Dinàmics al Portfoli</h3>
-        <span class="portfoli-objectiu">📂 Substitueix les targetes estàtiques del Bloc III</span>
+        <h3>Exercicis del Bloc IX: Noticiari en Viu al Portfoli</h3>
+        <span class="portfoli-objectiu">📂 Afegeix una secció "Notícies" o una pàgina nova noticies.html</span>
       </div>
     </div>
     <ul class="exercici-llista">
-      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Array de projectes:</strong> Crea l'array <code>meusProjectes</code> al teu portfoli amb els 6 projectes reals. Omple tots els camps: titol, descripcio, imatge, link i etiquetes.</span></label></li>
-      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Genera les targetes:</strong> Substitueix el HTML estàtic per un <code>div#contenidor-projectes</code> buit i la funció <code>crearTargeta()</code>. Verifica que les 6 targetes es veuen correctament.</span></label></li>
-      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Botons de filtre:</strong> Afegeix botons "Tots", "HTML/CSS" i "JavaScript". En clicar, filtra l'array i torna a generar. Pista: <code>.filter(p => p.etiquetes.includes('JavaScript'))</code></span></label></li>
-      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Etiquetes visuals:</strong> Comprova que els badges apareixen a cada targeta. Experimenta amb colors: <code>bg-success</code>, <code>bg-warning text-dark</code>, <code>bg-info</code>...</span></label></li>
-      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text">⭐ <strong>(Repte 1)</strong> Connecta amb l'<strong>API de GitHub</strong>: <code>fetch('https://api.github.com/users/EL-TEU-USUARI/repos')</code> retorna els teus repositoris en JSON. Mapeja cada repo a una targeta.</span></label></li>
-      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text">⭐ <strong>(Repte 2)</strong> Afegeix un spinner de Bootstrap mentre es generen les targetes. Simula el retard amb <code>setTimeout(() => renderitzar('tots'), 800)</code>.</span></label></li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Previsualitza i entén el codi:</strong> Clica "👁️ Previsualitzar". Espera 2-3 segons que carregui l'RSS real. Inspecciona al DevTools (F12 → Network) la petició a <code>rss2json.com</code> i mira la resposta JSON.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Canvia la font RSS:</strong> Substitueix la URL de l'Ara per un altre diari: <code>https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada</code> (El País) o <code>https://www.vilaweb.cat/rss/</code> (VilaWeb). Comprova que el noticiari es refresca amb les noves notícies.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Adapta els colors:</strong> Canvia <code>--vermell: #c0392b</code> i <code>--fosc: #1a1a2e</code> per la teva paleta de colors del portfoli. Ha de quedar integrat visualment amb la resta de la web.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Controla el nombre de notícies:</strong> Modifica el paràmetre <code>&count=10</code> de l'URL de l'API per <code>&count=6</code>. Ajusta el codi perquè la graella gran mostri 3 notícies i la fila petita en mostri 3 més.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Integra-ho al portfoli:</strong> Afegeix una secció <code>id="noticies"</code> al teu <code>index.html</code> i crida la funció <code>carregarAra()</code>. Afegeix "Notícies" al menú navbar. Comprova el scroll i la càrrega.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text">⭐ <strong>(Repte)</strong> Afegeix un botó "🔄 Actualitzar" que buidi el contenidor, mostri el spinner i torni a cridar <code>carregarAra()</code>. Afegeix també un refresc automàtic cada 5 minuts amb <code>setInterval(carregarAra, 300000)</code>.</span></label>
+      </li>
     </ul>
     <div class="nota-resultat">
       <span>✅</span>
-      <div><strong>PORTFOLI COMPLET! 🎉</strong> Les targetes es generen des de dades. Actualitzar el portfoli és tan fàcil com editar l'array. Web professional, responsive, interactiva i dinàmica.</div>
+      <div><strong>Estat del portfoli:</strong> El portfoli consumeix dades reals d'internet en temps real. Entens <code>fetch()</code>, <code>async/await</code>, JSON i CORS. La connexió amb APIs externes és la base de totes les webs modernes.</div>
     </div>
   </section>
 
