@@ -49,8 +49,12 @@
       letter-spacing: .05em; text-transform: uppercase;
     }
     .mapa-grid {
-      display: flex; flex-wrap: wrap; justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
       gap: .5rem; max-width: 900px; margin: 0 auto;
+    }
+    @media (max-width: 640px) {
+      .mapa-grid { grid-template-columns: repeat(2, 1fr); }
     }
     /* Cada bloc del mapa és ara un LINK */
     a.mapa-bloc {
@@ -58,8 +62,7 @@
       border: 1px solid rgba(255,255,255,.15);
       border-radius: 8px; padding: .6rem 1rem;
       font-size: .78rem; text-align: center;
-      min-width: 130px; color: white;
-      text-decoration: none;
+      color: white; text-decoration: none;
       transition: background .2s, transform .2s, border-color .2s;
       display: block;
     }
@@ -347,7 +350,7 @@
       const contingut  = editor.innerText.trim();
       const esDocument = contingut.toLowerCase().includes('<!doctype') || contingut.toLowerCase().includes('<html');
 
-      const srcdoc = esDocument ? contingut : `<!DOCTYPE html>
+      const htmlFinal = esDocument ? contingut : `<!DOCTYPE html>
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
@@ -363,16 +366,30 @@
 </body>
 </html>`;
 
+      // Usem Blob URL en lloc de srcdoc per compatibilitat amb GitHub Pages
+      // (srcdoc pot ser bloquejat per CSP quan es serveix via HTTPS)
+      const blob = new Blob([htmlFinal], { type: 'text/html; charset=utf-8' });
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Alliberem l'anterior URL de blob si n'hi havia
+      if (window._blobPreviewUrl) URL.revokeObjectURL(window._blobPreviewUrl);
+      window._blobPreviewUrl = blobUrl;
+
       document.getElementById('titolModal').textContent =
         labelSpan ? labelSpan.textContent : 'Previsualització';
-      document.getElementById('iframePreview').srcdoc = srcdoc;
+      document.getElementById('iframePreview').src = blobUrl;
       document.getElementById('modalPreview').style.display = 'flex';
       document.body.style.overflow = 'hidden';
     }
 
     function tancarModal() {
       document.getElementById('modalPreview').style.display = 'none';
-      document.getElementById('iframePreview').srcdoc = '';
+      document.getElementById('iframePreview').src = 'about:blank';
+      // Alliberem memòria del blob
+      if (window._blobPreviewUrl) {
+        URL.revokeObjectURL(window._blobPreviewUrl);
+        window._blobPreviewUrl = null;
+      }
       document.body.style.overflow = '';
     }
 
@@ -1129,7 +1146,7 @@
     &lt;div class="mb-3"&gt;
         &lt;label for="email" class="form-label fw-semibold"&gt;Correu electrònic&lt;/label&gt;
         &lt;input type="email" id="email" name="email"
-               class="form-control" placeholder="anna@escola.cat" required&gt;
+               class="form-control" placeholder="<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ceafa0a0af8eabbdada1a2afe0adafba">[email&#160;protected]</a>" required&gt;
         &lt;div class="invalid-feedback"&gt;Escriu un email vàlid.&lt;/div&gt;
     &lt;/div&gt;
 
@@ -1593,7 +1610,7 @@
     &lt;meta charset="UTF-8"&gt;
     &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
     &lt;title&gt;Portfoli Protegit&lt;/title&gt;
-    &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+    &lt;link href="https://cdn.jsdelivr.net/npm/<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cfada0a0bbbcbbbdaebf8ffae1fce1fc">[email&#160;protected]</a>/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
     &lt;style&gt;
         /* Pantalla de login — centrada, fons degradat */
         #pantalla-login {
@@ -1765,7 +1782,7 @@ window.addEventListener('load', () =&gt; {
 });
 &lt;/script&gt;
 
-&lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d1b3bebea5a2a5a3b0a191e4ffe2ffe2">[email&#160;protected]</a>/dist/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre>
     </div>
@@ -1833,15 +1850,4 @@ window.addEventListener('load', () =&gt; {
 </main>
 
 <!-- Toast de progrés guardat -->
-<div id="toastGuardat">💾 Progrés guardat!</div>
-
-<!-- Modal de previsualització -->
-<div id="modalPreview">
-  <div class="modal-contenidor">
-    <div class="modal-cap">
-      <div class="modal-cap-info">
-        <span class="modal-badge">👁️ Preview</span>
-        <span class="modal-titol" id="titolModal">Previsualització</span>
-      </div>
-      <div class="modal-botons">
-        <span
+<div id="toastGuardat">💾 Progrés guardat!</
