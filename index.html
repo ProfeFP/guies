@@ -1,454 +1,1847 @@
 <!DOCTYPE html>
 <html lang="ca">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Guia Interactiva: HTML/CSS/JS</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header>
-      <h1>📘 Manual de Superviviència Digital</h1>
-      <p>Aprèn modificant el codi en temps real.</p>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guia Interactiva: HTML/CSS/JS → El teu Portfoli</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
 
-    <main id="contingut">
-      <section class="bloc-lectura">
-        <h2>Bloc I: L'Estructura "Trinitat" (HTML/CSS/JS)</h2>
-        <p>
-          Una pàgina web professional sempre té tres parts: l'<strong
-            >esquelet</strong
-          >
-          (HTML), el <strong>vestit</strong> (CSS) i el
-          <strong>cervell</strong> (JS). En aquest bloc veuràs com conviuen tots
-          tres dins d'un sol fitxer.
-        </p>
+  <style>
+    :root {
+      --primari:    #1a2332;
+      --accent:     #3b82f6;
+      --accent-fosc:#2563eb;
+      --verd:       #10b981;
+      --verd-fosc:  #059669;
+      --fons-codi:  #0f172a;
+      --text-codi:  #e2e8f0;
+      --fons:       #f1f5f9;
+    }
 
-        <div class="contenidor-codi">
-          <div class="capçalera-codi">
-            <span>Bloc I: Estructura Completa</span>
-            <button class="boto-copia" onclick="copiarCodi(this)">
-              Copiar
-            </button>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      line-height: 1.7; color: var(--primari);
+      background: var(--fons); margin: 0; padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a2332 0%, #243447 100%);
+      color: white; text-align: center; padding: 3rem 2rem 2.5rem;
+      position: relative; overflow: hidden;
+    }
+    header::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(59,130,246,.15), transparent 60%);
+    }
+    header h1 { font-size: 2rem; margin: 0 0 .5rem; position: relative; }
+    header p  { margin: 0; opacity: .75; position: relative; font-size: .95rem; }
+
+    /* ── Mapa del Portfoli ───────────────────────────── */
+    .mapa-portfoli {
+      background: linear-gradient(135deg, #1e3a5f, #0f2340);
+      color: white; padding: 2rem;
+    }
+    .mapa-portfoli h2 {
+      text-align: center; margin: 0 0 1.5rem;
+      font-size: 1.05rem; opacity: .9;
+      letter-spacing: .05em; text-transform: uppercase;
+    }
+    .mapa-grid {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: .5rem; max-width: 900px; margin: 0 auto;
+    }
+    /* Cada bloc del mapa és ara un LINK */
+    a.mapa-bloc {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 8px; padding: .6rem 1rem;
+      font-size: .78rem; text-align: center;
+      min-width: 130px; color: white;
+      text-decoration: none;
+      transition: background .2s, transform .2s, border-color .2s;
+      display: block;
+    }
+    a.mapa-bloc:hover {
+      background: rgba(59,130,246,.25);
+      border-color: rgba(59,130,246,.5);
+      transform: translateY(-3px);
+      color: white;
+    }
+    a.mapa-bloc .num { font-size: 1.2rem; display: block; margin-bottom: 2px; }
+
+    /* ── Layout principal ───────────────────────────── */
+    main { max-width: 860px; margin: 30px auto; padding: 0 20px 40px; }
+
+    .badge-seccio {
+      display: inline-block; background: var(--accent); color: white;
+      font-size: .7rem; font-weight: 600; padding: 3px 10px;
+      border-radius: 20px; margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: .05em;
+    }
+
+    /* ── Blocs de lectura ───────────────────────────── */
+    .bloc-lectura {
+      background: white; padding: 28px; margin-bottom: 0;
+      border-radius: 12px 12px 0 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      border-bottom: 1px dashed #e2e8f0;
+      scroll-margin-top: 24px; /* offset per al scroll */
+    }
+    .bloc-lectura h2 { margin-top: 0; font-size: 1.3rem; color: var(--primari); }
+    .bloc-lectura code {
+      background: #f1f5f9; color: #dc2626;
+      padding: 1px 5px; border-radius: 4px;
+      font-family: 'Fira Code', monospace; font-size: .88em;
+    }
+
+    /* ── Codi ───────────────────────────────────────── */
+    .contenidor-codi {
+      background: var(--fons-codi); border-radius: 0 0 6px 6px;
+      overflow: hidden; margin-top: 16px;
+    }
+    .capçalera-codi {
+      background: #1e293b; padding: 8px 15px;
+      display: flex; justify-content: space-between; align-items: center;
+      color: #94a3b8; font-size: .78rem; font-family: 'Fira Code', monospace;
+    }
+    .capçalera-codi .botons-grup { display: flex; gap: 6px; }
+    .editor-codi {
+      padding: 18px; color: var(--text-codi);
+      font-family: 'Fira Code', 'Consolas', monospace; font-size: .83rem;
+      outline: none; white-space: pre-wrap; margin: 0; line-height: 1.6;
+    }
+    .boto-copia {
+      background: var(--accent); color: white; border: none;
+      padding: 4px 12px; border-radius: 4px; cursor: pointer;
+      font-size: .7rem; font-weight: 600; transition: background .2s;
+    }
+    .boto-copia:hover { background: var(--accent-fosc); }
+    .boto-previsualitzar {
+      background: #7c3aed; color: white; border: none;
+      padding: 4px 10px; border-radius: 4px; cursor: pointer;
+      font-size: .7rem; font-weight: 600; transition: background .2s;
+    }
+    .boto-previsualitzar:hover { background: #6d28d9; }
+
+    /* ── Blocs d'exercicis ──────────────────────────── */
+    .bloc-exercicis {
+      background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+      border-left: 5px solid var(--verd);
+      padding: 24px 28px; margin-bottom: 35px;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .bloc-exercicis-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+    .icona-exercici { font-size: 2rem; line-height: 1; }
+    .bloc-exercicis h3 { margin: 0 0 4px; color: #064e3b; font-size: 1.05rem; }
+    .portfoli-objectiu {
+      display: inline-block; background: var(--verd); color: white;
+      font-size: .68rem; padding: 2px 10px; border-radius: 20px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: .04em;
+    }
+
+    /* ── Llista d'exercicis amb CHECKBOXES ──────────── */
+    .exercici-llista { list-style: none; padding: 0; margin: 0; }
+    .exercici-llista li {
+      padding: 8px 4px;
+      border-bottom: 1px dashed #a7f3d0;
+    }
+    .exercici-llista li:last-child { border-bottom: none; }
+
+    /* El label ocupa tota la fila i és clicable */
+    .exercici-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      cursor: pointer; width: 100%;
+    }
+
+    /* Checkbox personalitzat */
+    .exercici-item input[type="checkbox"] {
+      appearance: none; -webkit-appearance: none;
+      width: 20px; height: 20px; min-width: 20px;
+      border: 2px solid var(--verd);
+      border-radius: 5px;
+      cursor: pointer;
+      position: relative; margin-top: 1px;
+      transition: background .2s, border-color .2s, box-shadow .2s;
+      background: white;
+    }
+    .exercici-item input[type="checkbox"]:hover {
+      border-color: var(--verd-fosc);
+      box-shadow: 0 0 0 3px rgba(16,185,129,.18);
+    }
+    .exercici-item input[type="checkbox"]:checked {
+      background: var(--verd);
+      border-color: var(--verd);
+    }
+    .exercici-item input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute; top: -2px; left: 2px;
+      color: white; font-size: 13px; font-weight: 900;
+    }
+
+    /* Text que s'atenua i es talla quan es marca */
+    .exercici-text {
+      font-size: .92rem; line-height: 1.55;
+      transition: color .25s;
+    }
+    .exercici-item input:checked + .exercici-text {
+      text-decoration: line-through;
+      color: #9ca3af;
+    }
+    .exercici-text strong { color: #065f46; }
+    .exercici-item input:checked + .exercici-text strong { color: #9ca3af; }
+    .exercici-text code {
+      background: #d1fae5; color: #065f46;
+      padding: 1px 5px; border-radius: 4px;
+      font-family: 'Fira Code', monospace; font-size: .82em;
+    }
+    .exercici-item input:checked + .exercici-text code {
+      background: #f1f5f9; color: #9ca3af;
+    }
+
+    /* Nota resultat */
+    .nota-resultat {
+      background: var(--verd-fosc); color: white;
+      padding: 10px 16px; border-radius: 8px; margin-top: 16px;
+      font-size: .82rem; display: flex; gap: 8px; align-items: flex-start;
+    }
+    .nota-resultat strong { display: block; margin-bottom: 2px; }
+
+    /* ── Progrés per Bloc ───────────────────────────── */
+    .progres-bloc {
+      display: flex; align-items: center; gap: 10px;
+      margin: 12px 0 16px; padding: 0 2px;
+    }
+    .progres-bloc-barra {
+      flex: 1; height: 7px; background: #d1fae5; border-radius: 4px; overflow: hidden;
+    }
+    .progres-barra-inner {
+      height: 100%; width: 0%;
+      background: var(--verd); border-radius: 4px;
+      transition: width .45s cubic-bezier(.4,0,.2,1);
+    }
+    .progres-bloc.tot-completat .progres-barra-inner { background: #059669; }
+    .progres-bloc-text {
+      font-size: .73rem; color: var(--verd-fosc); font-weight: 700;
+      white-space: nowrap; min-width: 90px; text-align: right;
+    }
+    .progres-bloc.tot-completat .progres-bloc-text { color: #064e3b; }
+
+    /* ── Progrés Global al Mapa ─────────────────────── */
+    .zona-progres-global {
+      max-width: 900px; margin: 18px auto 0; padding: 0 4px;
+    }
+    .progres-global-cap {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px;
+    }
+    #progres-global-text { font-size: .8rem; color: rgba(255,255,255,.75); font-weight: 600; }
+    .btn-reiniciar {
+      background: rgba(239,68,68,.18); color: #fca5a5;
+      border: 1px solid rgba(239,68,68,.3); border-radius: 20px;
+      padding: 3px 12px; font-size: .7rem; font-weight: 600;
+      cursor: pointer; transition: all .2s; font-family: inherit;
+    }
+    .btn-reiniciar:hover { background: rgba(239,68,68,.4); color: white; border-color: rgba(239,68,68,.6); }
+    .barra-global {
+      height: 8px; background: rgba(255,255,255,.1); border-radius: 4px; overflow: hidden;
+    }
+    #barra-global-inner {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--verd), var(--accent));
+      border-radius: 4px; transition: width .5s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* Petit indicador de progrés als blocs del mapa */
+    .mapa-progres {
+      font-size: .65rem; margin-top: 4px; opacity: .8; font-weight: 600;
+      letter-spacing: .02em;
+    }
+    a.mapa-bloc.bloc-complet { background: rgba(16,185,129,.2); border-color: rgba(16,185,129,.4); }
+
+    /* ── Toast "Progrés guardat" ────────────────────── */
+    #toastGuardat {
+      position: fixed; bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(70px);
+      background: var(--primari); color: white;
+      padding: 9px 22px; border-radius: 30px;
+      font-size: .8rem; font-weight: 600; z-index: 10000;
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+      pointer-events: none; white-space: nowrap;
+      border: 1px solid rgba(255,255,255,.1);
+    }
+    #toastGuardat.visible { transform: translateX(-50%) translateY(0); }
+
+    /* ── Modal de previsualització ──────────────────── */
+    #modalPreview {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.75); z-index: 9999;
+      align-items: center; justify-content: center;
+      padding: 20px; backdrop-filter: blur(4px);
+    }
+    .modal-contenidor {
+      background: white; width: 100%; max-width: 920px;
+      height: 82vh; border-radius: 14px; overflow: hidden;
+      display: flex; flex-direction: column;
+      box-shadow: 0 24px 80px rgba(0,0,0,.4);
+      animation: modalEntrada .2s ease;
+    }
+    @keyframes modalEntrada {
+      from { opacity:0; transform: scale(.96) translateY(10px); }
+      to   { opacity:1; transform: scale(1)  translateY(0); }
+    }
+    .modal-cap {
+      background: #1e293b; padding: 12px 20px;
+      display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
+    }
+    .modal-cap-info { display: flex; align-items: center; gap: 12px; }
+    .modal-badge    { background: #7c3aed; color: white; font-size: .65rem; padding: 3px 10px; border-radius: 20px; font-weight: 700; text-transform: uppercase; }
+    .modal-titol    { color: white; font-size: .9rem; font-weight: 600; font-family: 'Fira Code', monospace; }
+    .modal-botons   { display: flex; gap: 8px; align-items: center; }
+    .modal-url-bar  { background: #334155; color: #94a3b8; font-size: .75rem; padding: 4px 12px; border-radius: 6px; font-family: 'Fira Code', monospace; }
+    .btn-tancar {
+      background: #ef4444; color: white; border: none;
+      width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+      font-size: 1rem; transition: background .2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .btn-tancar:hover { background: #dc2626; }
+    .modal-toolbar {
+      background: #f8fafc; border-bottom: 1px solid #e2e8f0;
+      padding: 8px 16px; display: flex; gap: 8px; align-items: center; flex-shrink: 0;
+    }
+    .semafors { display: flex; gap: 6px; }
+    .semafors span { width: 12px; height: 12px; border-radius: 50%; display: block; }
+    .semafors .vermell { background: #ef4444; }
+    .semafors .groc    { background: #f59e0b; }
+    .semafors .verd-s  { background: #10b981; }
+    .modal-toolbar .nota-tip { font-size: .73rem; color: #64748b; margin-left: 8px; }
+    #iframePreview { flex: 1; border: none; width: 100%; background: white; }
+
+    @keyframes apareixerFinal {
+      from { opacity: 0; transform: translateY(30px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0)    scale(1);   }
+    }
+  </style>
+
+  <script>
+    // ═══════════════════════════════════════════════
+    //  COPIAR I PREVISUALITZAR
+    // ═══════════════════════════════════════════════
+    function copiarCodi(boto) {
+      const editor = boto.closest('.contenidor-codi').querySelector('.editor-codi');
+      navigator.clipboard.writeText(editor.innerText).then(() => {
+        const orig = boto.innerText;
+        boto.innerText = '✓ Copiat!';
+        boto.style.background = '#10b981';
+        setTimeout(() => { boto.innerText = orig; boto.style.background = ''; }, 2000);
+      });
+    }
+
+    function previsualitzar(boto) {
+      const contenidor = boto.closest('.contenidor-codi');
+      const editor     = contenidor.querySelector('.editor-codi');
+      const labelSpan  = contenidor.querySelector('.capçalera-codi > span');
+      const contingut  = editor.innerText.trim();
+      const esDocument = contingut.toLowerCase().includes('<!doctype') || contingut.toLowerCase().includes('<html');
+
+      const srcdoc = esDocument ? contingut : `<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>body { padding: 32px; font-family: 'Poppins', sans-serif; background: #f8fafc; } h1,h2,h3 { color: #1a2332; }</style>
+</head>
+<body>
+  ${contingut}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"><\/script>
+</body>
+</html>`;
+
+      document.getElementById('titolModal').textContent =
+        labelSpan ? labelSpan.textContent : 'Previsualització';
+      document.getElementById('iframePreview').srcdoc = srcdoc;
+      document.getElementById('modalPreview').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function tancarModal() {
+      document.getElementById('modalPreview').style.display = 'none';
+      document.getElementById('iframePreview').srcdoc = '';
+      document.body.style.overflow = '';
+    }
+
+    // ═══════════════════════════════════════════════
+    //  PERSISTÈNCIA DEL PROGRÉS (localStorage)
+    // ═══════════════════════════════════════════════
+    const CLAU_STORAGE = 'portfoli-progres-v1';
+
+    function obtenirCheckboxes() {
+      return [...document.querySelectorAll('.exercici-item input[type="checkbox"]')];
+    }
+
+    // Guarda l'estat de tots els checkboxes
+    function guardarProgres() {
+      try {
+        const estat = {};
+        obtenirCheckboxes().forEach(cb => { if (cb.id) estat[cb.id] = cb.checked; });
+        localStorage.setItem(CLAU_STORAGE, JSON.stringify(estat));
+        mostrarToast('💾 Progrés guardat!');
+      } catch(e) {
+        mostrarToast('⚠️ Mode privat: el progrés no es guardarà');
+      }
+      actualitzarProgres();
+    }
+
+    // Restaura l'estat guardat en carregar la pàgina
+    function restaurarProgres() {
+      try {
+        const guardat = JSON.parse(localStorage.getItem(CLAU_STORAGE) || '{}');
+        obtenirCheckboxes().forEach(cb => {
+          if (cb.id && guardat[cb.id] === true) cb.checked = true;
+        });
+      } catch(e) { /* localStorage no disponible (mode privat) */ }
+      actualitzarProgres();
+    }
+
+    // Esborra tot el progrés
+    function reiniciarProgres() {
+      if (!confirm('Segur que vols reiniciar tot el progrés?\nTotes les marques s\'esborraran.')) return;
+      try { localStorage.removeItem(CLAU_STORAGE); } catch(e) {}
+      obtenirCheckboxes().forEach(cb => { cb.checked = false; });
+      actualitzarProgres();
+      mostrarToast('🗑️ Progrés reiniciat');
+    }
+
+    // Actualitza totes les barres de progrés
+    function actualitzarProgres() {
+      let totalGlobal = 0, marcatsGlobal = 0;
+
+      document.querySelectorAll('.bloc-exercicis').forEach((bloc, i) => {
+        const cbs     = [...bloc.querySelectorAll('input[type="checkbox"]')];
+        const total   = cbs.length;
+        const marcats = cbs.filter(c => c.checked).length;
+        totalGlobal  += total;
+        marcatsGlobal += marcats;
+
+        // Barra del bloc
+        const barraInner = bloc.querySelector('.progres-barra-inner');
+        const text       = bloc.querySelector('.progres-bloc-text');
+        const container  = bloc.querySelector('.progres-bloc');
+        if (barraInner) barraInner.style.width = total > 0 ? `${(marcats/total)*100}%` : '0%';
+        if (text)       text.textContent = marcats === total && total > 0
+                          ? `✅ Tot completat!`
+                          : `${marcats} / ${total} completats`;
+        if (container)  container.classList.toggle('tot-completat', marcats === total && total > 0);
+
+        // Indicador al mapa
+        const mapBloc = document.querySelector(`a[href="#bloc-${i+1}"]`);
+        if (mapBloc) {
+          let pill = mapBloc.querySelector('.mapa-progres');
+          if (!pill) {
+            pill = document.createElement('div');
+            pill.className = 'mapa-progres';
+            mapBloc.appendChild(pill);
+          }
+          pill.textContent  = marcats === total && total > 0 ? '✅ Fet!' : `${marcats}/${total}`;
+          mapBloc.classList.toggle('bloc-complet', marcats === total && total > 0);
+        }
+      });
+
+      // Barra global
+      const pct = totalGlobal > 0 ? Math.round((marcatsGlobal / totalGlobal) * 100) : 0;
+      const barraG = document.getElementById('barra-global-inner');
+      const textG  = document.getElementById('progres-global-text');
+      if (barraG) barraG.style.width = `${pct}%`;
+      if (textG)  textG.textContent  =
+        pct === 100
+          ? `🎓 Tots els exercicis completats!`
+          : `${marcatsGlobal} / ${totalGlobal} exercicis completats · ${pct}%`;
+
+      // Mostra/amaga la secció final
+      const resumFinal = document.getElementById('resum-final');
+      if (resumFinal) {
+        const eraVisible = resumFinal.style.display !== 'none';
+        const haDeSerVisible = (pct === 100 && totalGlobal > 0);
+
+        if (haDeSerVisible && !eraVisible) {
+          // Primera vegada que es completa: apareix amb animació i scroll
+          resumFinal.style.display = 'block';
+          // Re-dispara l'animació
+          resumFinal.style.animation = 'none';
+          resumFinal.offsetHeight; // forçar reflow
+          resumFinal.style.animation = '';
+          setTimeout(() => resumFinal.scrollIntoView({ behavior: 'smooth', block: 'center' }), 150);
+          mostrarToast('🎓 Felicitats! Has completat tots els exercicis!');
+        } else if (!haDeSerVisible && eraVisible) {
+          resumFinal.style.display = 'none';
+        }
+      }
+    }
+
+    // Toast de notificació
+    let _toastTimer;
+    function mostrarToast(missatge) {
+      const toast = document.getElementById('toastGuardat');
+      if (!toast) return;
+      toast.textContent = missatge;
+      toast.classList.add('visible');
+      clearTimeout(_toastTimer);
+      _toastTimer = setTimeout(() => toast.classList.remove('visible'), 2200);
+    }
+
+    // ═══════════════════════════════════════════════
+    //  INICIALITZACIÓ
+    // ═══════════════════════════════════════════════
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Modal: tanca al clicar backdrop o Esc
+      document.getElementById('modalPreview').addEventListener('click', function(e) {
+        if (e.target === this) tancarModal();
+      });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') tancarModal(); });
+
+      // Assignar IDs únics als checkboxes i inserir barres de progrés per bloc
+      document.querySelectorAll('.bloc-exercicis').forEach((bloc, blocIdx) => {
+
+        // IDs + listeners
+        bloc.querySelectorAll('input[type="checkbox"]').forEach((cb, cbIdx) => {
+          cb.id = `cb-b${blocIdx + 1}-e${cbIdx}`;
+          cb.addEventListener('change', guardarProgres);
+        });
+
+        // Inserir barra de progrés del bloc just abans de .nota-resultat
+        const notaResultat = bloc.querySelector('.nota-resultat');
+        const progresDiv   = document.createElement('div');
+        progresDiv.className = 'progres-bloc';
+        progresDiv.innerHTML = `
+          <div class="progres-bloc-barra">
+            <div class="progres-barra-inner"></div>
           </div>
-          <pre contenteditable="true" class="editor-codi">
-    &lt;!DOCTYPE html&gt;
-    &lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;La meva primera web&lt;/title&gt;
-        &lt;style&gt;
-            /* AQUÍ VA EL CSS (EL VESTIT) */
-            h1 { color: #e67e22; text-align: center; font-family: sans-serif; }
-        &lt;/style&gt;
-        &lt;script&gt;
+          <span class="progres-bloc-text">0 / 0 completats</span>`;
+        if (notaResultat) {
+          bloc.insertBefore(progresDiv, notaResultat);
+        } else {
+          bloc.appendChild(progresDiv);
+        }
+      });
+
+      // Restaurar progrés guardat
+      restaurarProgres();
+    });
+  </script>
+</head>
+<body>
+
+<header>
+  <h1>📘 Guia Interactiva: HTML / CSS / JS</h1>
+  <p>Aprèn els conceptes · Practica amb el codi · Construeix el teu Portfoli personal</p>
+</header>
+
+<!-- Mapa del Portfoli: cada bloc és un link amb àncora -->
+<div class="mapa-portfoli">
+  <h2>🗺️ El teu objectiu final — clica un bloc per anar-hi directament</h2>
+  <div class="mapa-grid">
+    <a class="mapa-bloc" href="#bloc-1"><span class="num">📄</span>Bloc I<br><small>Fitxer base</small></a>
+    <a class="mapa-bloc" href="#bloc-2"><span class="num">⚙️</span>Bloc II<br><small>Config &amp; Bootstrap</small></a>
+    <a class="mapa-bloc" href="#bloc-3"><span class="num">🏗️</span>Bloc III<br><small>Estructura semàntica</small></a>
+    <a class="mapa-bloc" href="#bloc-4"><span class="num">🏷️</span>Bloc IV<br><small>Foto · Links · ID</small></a>
+    <a class="mapa-bloc" href="#bloc-5"><span class="num">🎨</span>Bloc V<br><small>Estils visuals</small></a>
+    <a class="mapa-bloc" href="#bloc-6"><span class="num">📋</span>Bloc VI<br><small>Formularis</small></a>
+    <a class="mapa-bloc" href="#bloc-7"><span class="num">📐</span>Bloc VII<br><small>Layout Flexbox</small></a>
+    <a class="mapa-bloc" href="#bloc-8"><span class="num">🧠</span>Bloc VIII<br><small>Interactivitat JS</small></a>
+    <a class="mapa-bloc" href="#bloc-9"><span class="num">🌐</span>Bloc IX<br><small>Dades dinàmiques</small></a>
+    <a class="mapa-bloc" href="#bloc-10"><span class="num">🔐</span>Bloc X<br><small>Cookies &amp; Seguretat</small></a>
+  </div>
+
+  <!-- Barra de progrés global -->
+  <div class="zona-progres-global">
+    <div class="progres-global-cap">
+      <span id="progres-global-text">0 / 0 exercicis completats · 0%</span>
+      <button class="btn-reiniciar" onclick="reiniciarProgres()">🗑️ Reiniciar progrés</button>
+    </div>
+    <div class="barra-global">
+      <div id="barra-global-inner"></div>
+    </div>
+  </div>
+</div>
+
+<main id="contingut">
+
+  <!-- ══════════════════════════════════════════
+       BLOC I
+  ══════════════════════════════════════════ -->
+  <section class="bloc-lectura" id="bloc-1">
+    <span class="badge-seccio">Bloc I</span>
+    <h2>L'Estructura "Trinitat" (HTML / CSS / JS)</h2>
+    <p>Una pàgina web professional sempre té tres parts: l'<strong>esquelet</strong> (HTML), el <strong>vestit</strong> (CSS) i el <strong>cervell</strong> (JS). Conviuen dins d'un sol fitxer — el teu futur <code>index.html</code>.</p>
+    <div class="contenidor-codi">
+      <div class="capçalera-codi">
+        <span>📄 Bloc I: Estructura Completa</span>
+        <div class="botons-grup">
+          <button class="boto-previsualitzar" onclick="previsualitzar(this)">👁️ Previsualitzar</button>
+          <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+        </div>
+      </div>
+      <pre contenteditable="true" class="editor-codi">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;La meva primera web&lt;/title&gt;
+    &lt;style&gt;
+        /* AQUÍ VA EL CSS (EL VESTIT) */
+        h1 { color: #e67e22; text-align: center; font-family: sans-serif; }
+        body { background-color: #f9f9f9; }
+    &lt;/style&gt;
+    &lt;script&gt;
         // AQUÍ VA EL JAVASCRIPT (EL CERVELL)
         console.log("Hola! La pàgina s'ha carregat correctament.");
     &lt;/script&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-    
+&lt;/head&gt;
+&lt;body&gt;
+
     &lt;h1&gt;Soc una pàgina HTML&lt;/h1&gt;
-           
-    &lt;/body&gt;
-    &lt;/html&gt;</pre
-          >
-        </div>
-      </section>
-      <section class="bloc-lectura">
-        <h2>Bloc II: La Configuració "Pro" (Metadades, UTF-8 i Bootstrap)</h2>
-        <p>
-          Dins del <code>&lt;head&gt;</code> preparem la web per al món real:
-          accents que es veuen bé, connexió a llibreries externes (Bootstrap) i
-          com es veurà el link quan el compartim per WhatsApp.
-        </p>
+    &lt;p&gt;Aquí va el contingut de la web.&lt;/p&gt;
 
-        <div class="contenidor-codi">
-          <div class="capçalera-codi">
-            <span>Exemple: Estructura Completa del Head</span>
-            <button class="boto-copia" onclick="copiarCodi(this)">
-              Copiar
-            </button>
-          </div>
-          <pre contenteditable="true" class="editor-codi">
-    &lt;!DOCTYPE html&gt;
-    &lt;html lang="ca"&gt;
-    &lt;head&gt;
-        &lt;!-- 1. Codificació per a accents i ç --&gt;
-        &lt;meta charset="UTF-8"&gt;
-    
-        &lt;!-- 2. Responsive: Adaptació a mòbils --&gt;
-        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-    
-        &lt;!-- 3. Metadades OpenGraph (per a Xarxes Socials) --&gt;
-        &lt;meta property="og:title" content="Portfoli Docent de Reus"&gt;
-        &lt;meta property="og:image" content="https://via.placeholder.com/1200x630"&gt;
-    
-        &lt;!-- 4. Connexió a BOOTSTRAP 5 (CSS) --&gt;
-        &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
-    
-        &lt;!-- 5. Tipografia de Google Fonts --&gt;
-        &lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"&gt;
-    
-        &lt;style&gt;
-            body { font-family: 'Inter', sans-serif; }
-            .prova-lletra { font-weight: 700; color: #0d6efd; }
-        &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body class="container mt-4"&gt;
-    
-        &lt;h1 class="text-primary"&gt;L'educació a l'era digital&lt;/h1&gt;
-        &lt;p&gt;Gràcies a UTF-8, els accents es veuen perfectes.&lt;/p&gt;
-        
-        &lt;span class="prova-lletra"&gt;Soc un text amb la lletra 'Inter' de Google&lt;/span&gt;
-        
-        &lt;!-- Botó amb estil de Bootstrap --&gt;
-        &lt;button class="btn btn-success d-block mt-3"&gt;Guardar Canvis&lt;/button&gt;
-    
-        &lt;!-- 6. JavaScript de Bootstrap (al final del body) --&gt;
-        &lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
-    &lt;/body&gt;
-    &lt;/html&gt;</pre
-          >
-        </div>
-      </section>
-      <section class="bloc-lectura">
-        <h2>Bloc III: Anatomia de l'Etiqueta (Atributs, Classes i ID)</h2>
-        <p>
-          Les etiquetes no només diuen "què són", sinó "com es comporten". Fem
-          servir <strong>Atributs</strong> per donar informació extra,
-          <strong>Classes</strong> per agrupar estils i <strong>ID</strong> per
-          identificar un element únic.
-        </p>
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+    </div>
+  </section>
 
-        <div class="contenidor-codi">
-          <div class="capçalera-codi">
-            <span>Exemple: Etiquetes amb Superpoders</span>
-            <button class="boto-copia" onclick="copiarCodi(this)">
-              Copiar
-            </button>
-          </div>
-          <pre contenteditable="true" class="editor-codi">
-        &lt;!-- 1. DIV: El contenidor (Bloc) --&gt;
-        &lt;div id="seccio-principal" class="caixa-estil"&gt;
-            
-            &lt;!-- 2. IMG: Imatge amb atributs (src, alt, width) --&gt;
-            &lt;img src="https://via.placeholder.com/150" alt="Imatge d'exemple" width="100"&gt;
-        
-            &lt;!-- 3. BR: Salt de línia (sense tancament) --&gt;
-            &lt;br&gt;
-        
-            &lt;!-- 4. A: Enllaç amb atribut ID per a JS --&gt;
-            &lt;a href="https://agora.xtec.cat" id="enllaç-escola"&gt;Visita la nostra web&lt;/a&gt;
-        
-            &lt;!-- 5. BUTTON: Interacció amb classe --&gt;
-            &lt;button class="boto-accions" onclick="alert('Hola!')"&gt;Clica'm&lt;/button&gt;
-        
-            &lt;!-- 6. INPUT: L'etiqueta que no podem oblidar per rebre dades --&gt;
-            &lt;input type="text" placeholder="Escriu el teu nom..." id="entrada-usuari"&gt;
-        
-        &lt;/div&gt;
-        
-        &lt;style&gt;
-            /* Fem servir la CLASSE (.) per estils compartits */
-            .caixa-estil { border: 2px solid #3498db; padding: 20px; border-radius: 10px; }
-            .boto-accions { background: #e74c3c; color: white; border: none; padding: 10px; }
-        
-            /* Fem servir l'ID (#) per estils ÚNICS */
-            #enllaç-escola { font-weight: bold; color: green; display: block; margin: 10px 0; }
-        &lt;/style&gt;</pre
-          >
-        </div>
-      </section>
-      <section class="bloc-lectura">
-        <h2>Bloc IV: El Disseny en Detall (Estils de Text i Imatge)</h2>
-        <p>
-          El CSS ens permet controlar cada detall visual. Aquí veurem com
-          transformar un text simple en un titular elegant i com fer que una
-          imatge sembli professional amb vores i ombres.
-        </p>
+  <section class="bloc-exercicis">
+    <div class="bloc-exercicis-header">
+      <span class="icona-exercici">🎯</span>
+      <div>
+        <h3>Exercicis del Bloc I: Crea el fitxer base del teu Portfoli</h3>
+        <span class="portfoli-objectiu">📂 Resultat: tens el fitxer index.html creat</span>
+      </div>
+    </div>
+    <ul class="exercici-llista">
+      <li>
+        <label class="exercici-item">
+          <input type="checkbox">
+          <span class="exercici-text"><strong>Crea el fitxer:</strong> Obre VS Code i crea <code>index.html</code> — serà el teu portfoli durant tot el curs. Prem <kbd>!</kbd> + <kbd>Tab</kbd> per a l'esquelet automàtic amb Emmet.</span>
+        </label>
+      </li>
+      <li>
+        <label class="exercici-item">
+          <input type="checkbox">
+          <span class="exercici-text"><strong>El teu títol:</strong> Canvia <code>&lt;title&gt;</code> per <code>Portfoli de [El teu Nom]</code>. Comprova que es veu a la pestanya del navegador (botó dret → "Open with Live Server").</span>
+        </label>
+      </li>
+      <li>
+        <label class="exercici-item">
+          <input type="checkbox">
+          <span class="exercici-text"><strong>La teva presentació:</strong> Afegeix un <code>&lt;h1&gt;</code> amb el teu nom i un <code>&lt;p&gt;</code> amb una frase que et defineixi ("Estudiant de 4t ESO apassionat per la tecnologia").</span>
+        </label>
+      </li>
+      <li>
+        <label class="exercici-item">
+          <input type="checkbox">
+          <span class="exercici-text"><strong>El teu color:</strong> Al bloc <code>&lt;style&gt;</code>, canvia el <code>background-color</code> del body pel teu color preferit. Visita <a href="https://coolors.co" target="_blank">coolors.co</a> per inspirar-te.</span>
+        </label>
+      </li>
+      <li>
+        <label class="exercici-item">
+          <input type="checkbox">
+          <span class="exercici-text">⭐ <strong>(Repte)</strong> Obre les DevTools (F12) → pestanya "Console". Comprova que apareix el teu <code>console.log</code>. Modifica el missatge perquè digui el teu nom.</span>
+        </label>
+      </li>
+    </ul>
+    <div class="nota-resultat">
+      <span>✅</span>
+      <div><strong>Estat del portfoli:</strong> Tens un <code>index.html</code> amb nom, presentació i colors teus. Petit però teu!</div>
+    </div>
+  </section>
 
-        <div class="contenidor-codi">
-          <div class="capçalera-codi">
-            <span>Exemple: Tipografia i Maquillatge Visual</span>
-            <button class="boto-copia" onclick="copiarCodi(this)">
-              Copiar
-            </button>
-          </div>
-          <pre contenteditable="true" class="editor-codi">
-      &lt;!-- 1. Text amb estil treballat --&gt;
-      &lt;h2 class="titol-elegant"&gt;Benvinguts a l'Aula Digital&lt;/h2&gt;
-      &lt;p class="paragraf-modern"&gt;
-          Aquest text té un interlineat i un espaiat pensats per a una lectura còmoda.
-      &lt;/p&gt;
-      
-      &lt;!-- 2. Imatge amb estil professional --&gt;
-      &lt;img src="https://picsum.photos/300/200" class="imatge-estilitzada" alt="Foto de mostra"&gt;
-      
-      &lt;style&gt;
-          /* Estils per al TEXT */
-          .titol-elegant {
-              color: #2c3e50;
-              font-family: 'Segoe UI', sans-serif;
-              font-size: 2.5rem;
-              text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-              border-bottom: 3px solid #3498db;
-              display: inline-block;
-              margin-bottom: 15px;
-          }
-      
-          .paragraf-modern {
-              color: #7f8c8d;
-              line-height: 1.8; /* Espai entre línies */
-              letter-spacing: 0.5px; /* Espai entre lletres */
-              text-align: justify;
-          }
-      
-          /* Estils per a la IMATGE */
-          .imatge-estilitzada {
-              width: 100%;
-              max-width: 300px;
-              border-radius: 15px; /* Vores arrodonides */
-              box-shadow: 0 10px 20px rgba(0,0,0,0.2); /* Ombra profunda */
-              border: 5px solid white;
-              transition: transform 0.3s ease; /* Animació suau */
-          }
-      
-          .imatge-estilitzada:hover {
-              transform: scale(1.05); /* S'engrandeix en passar el ratolí */
-          }
-      &lt;/style&gt;</pre
-          >
-        </div>
-      </section>
-      <section class="bloc-lectura">
-        <h2>Bloc V: L'Ordre Lògic (Semàntica HTML5)</h2>
-        <p>
-          No totes les caixes són iguals. L'HTML5 ens dóna etiquetes amb
-          significat perquè els cercadors i les eines d'accessibilitat entenguin
-          quina part és el menú, quina el contingut i quina el peu de pàgina.
-        </p>
 
-        <div class="contenidor-codi">
-          <div class="capçalera-codi">
-            <span>Exemple: Estructura d'una Pàgina Real</span>
-            <button class="boto-copia" onclick="copiarCodi(this)">
-              Copiar
-            </button>
-          </div>
-          <pre contenteditable="true" class="editor-codi">
-    &lt;!-- El cap de la web (Logo, títol, menú) --&gt;
-    &lt;header&gt;
-        &lt;h1&gt;Institut de Reus&lt;/h1&gt;
-        &lt;nav&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;a href="#"&gt;Inici&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;&lt;a href="#"&gt;Projectes&lt;/a&gt;&lt;/li&gt;
-            &lt;/ul&gt;
-        &lt;/nav&gt;
-    &lt;/header&gt;
-    
-    &lt;!-- El contingut principal i únic de la pàgina --&gt;
-    &lt;main&gt;
-        &lt;section id="noticies"&gt;
-            &lt;h2&gt;Últimes Notícies&lt;/h2&gt;
-            &lt;article&gt;
-                &lt;h3&gt;Guanyem el premi d'Innovació&lt;/h3&gt;
-                &lt;p&gt;L'alumnat de 4t d'ESO ha creat una web...&lt;/p&gt;
-            &lt;/article&gt;
-        &lt;/section&gt;
-    
-        &lt;aside&gt;
-            &lt;p&gt;Barra lateral: Enllaços d'interès o avisos ràpids.&lt;/p&gt;
-        &lt;/aside&gt;
-    &lt;/main&gt;
-    
-    &lt;!-- El final de la web (Contacte, xarxes, copyright) --&gt;
-    &lt;footer&gt;
-        &lt;p&gt;&copy; 2026 - Creat amb finalitats docents&lt;/p&gt;
-    &lt;/footer&gt;
-    
+  <!-- ══════════════════════════════════════════
+       BLOC II
+  ══════════════════════════════════════════ -->
+  <section class="bloc-lectura" id="bloc-2">
+    <span class="badge-seccio">Bloc II</span>
+    <h2>La Configuració "Pro" (Metadades, Bootstrap i Google Fonts)</h2>
+    <p>Dins del <code>&lt;head&gt;</code> preparem la web per al món real: accents correctes, connexió a <strong>Bootstrap</strong>, tipografies de <strong>Google Fonts</strong> i metadades <strong>OpenGraph</strong> per a WhatsApp i xarxes socials.</p>
+    <div class="contenidor-codi">
+      <div class="capçalera-codi">
+        <span>⚙️ Bloc II: Head Complet i Professional</span>
+        <div class="botons-grup">
+          <button class="boto-previsualitzar" onclick="previsualitzar(this)">👁️ Previsualitzar</button>
+          <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+        </div>
+      </div>
+      <pre contenteditable="true" class="editor-codi">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ca"&gt;
+&lt;head&gt;
+    &lt;!-- 1. CODIFICACIÓ: accents, ç sense problemes --&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;!-- 2. RESPONSIVE: la web s'adapta a mòbils --&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;!-- 3. SEO bàsic --&gt;
+    &lt;meta name="author" content="El teu Nom"&gt;
+    &lt;meta name="description" content="Portfoli personal d'en/la [Nom]. Projectes de programació web."&gt;
+    &lt;!-- 4. OPEN GRAPH: es veu quan es comparteix a WhatsApp --&gt;
+    &lt;meta property="og:title" content="Portfoli de [El teu Nom]"&gt;
+    &lt;meta property="og:description" content="Descobreix els meus projectes de programació"&gt;
+    &lt;meta property="og:image" content="https://picsum.photos/1200/630"&gt;
+    &lt;meta property="og:type" content="website"&gt;
+    &lt;title&gt;Portfoli de [El teu Nom]&lt;/title&gt;
+    &lt;!-- 5. BOOTSTRAP 5 --&gt;
+    &lt;link href="https://cdn.jsdelivr.net/npm/<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="87e5e8e8f3f4f3f5e6f7c7b2a9b4a9b4">[email&#160;protected]</a>/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+    &lt;!-- 6. GOOGLE FONTS (canvia 'Poppins' per la que vulguis) --&gt;
+    &lt;link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap" rel="stylesheet"&gt;
     &lt;style&gt;
-        header { background: #34495e; color: white; padding: 10px; }
-        main { display: flex; gap: 20px; padding: 20px; }
-        section { flex: 3; }
-        aside { flex: 1; background: #ecf0f1; padding: 10px; }
-        footer { text-align: center; background: #2c3e50; color: white; padding: 10px; }
-    &lt;/style&gt;</pre
-          >
-        </div>
-      </section>
-      <section class="bloc-lectura">
-        <h2>Bloc VI: L'Art d'endreçar l'espai (Flexbox)</h2>
-        <p>
-          Com fem que el menú estigui a l'esquerra i el contingut a la dreta?
-          Amb <code>display: flex</code>, el contenidor es torna "elàstic" i
-          ordena els seus elements de manera automàtica.
-        </p>
+        body { font-family: 'Poppins', sans-serif; }
+        :root { --color-principal: #0d6efd; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body class="container mt-5"&gt;
 
-        <div class="contenidor-codi">
-          <div class="capçalera-codi">
-            <span>Exemple: Graella de Recursos</span>
-            <button class="boto-copia" onclick="copiarCodi(this)">
-              Copiar
-            </button>
-          </div>
-          <pre contenteditable="true" class="editor-codi">
-    &lt;!-- El contenidor PARE defineix les regles --&gt;
-    &lt;div class="zona-flex"&gt;
-        &lt;div class="targeta"&gt;🍎 Recurs A&lt;/div&gt;
-        &lt;div class="targeta"&gt;📚 Recurs B&lt;/div&gt;
-        &lt;div class="targeta"&gt;💻 Recurs C&lt;/div&gt;
-    &lt;/div&gt;
-    
-    &lt;style&gt;
-        .zona-flex {
-            display: flex;            /* Activem el mode flexible */
-            justify-content: space-around; /* Reparteix l'espai entre elements */
-            align-items: center;      /* Centra verticalment */
-            flex-wrap: wrap;          /* Si no caben, salten a la línia següent (Mòbil!) */
-            gap: 20px;               /* Distància de seguretat entre caixes */
-            background: #f8f9fa;
-            padding: 30px;
-            border: 1px dashed #ccc;
-        }
-    
-        .targeta {
-            background: white;
-            border-bottom: 4px solid #0d6efd;
-            padding: 20px;
-            flex: 1;                 /* Totes intenten mesurar el mateix */
-            min-width: 200px;        /* Però no es fan més petites que 200px */
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-    &lt;/style&gt;</pre
-          >
-        </div>
-      </section>
-      <section class="bloc-lectura">
-        <h2>Bloc VII: El Cervell de la Web (Validació amb JavaScript)</h2>
-        <p>
-          JavaScript ens permet comprovar les dades abans d'enviar-les. En
-          aquest exemple, el botó d'enviar estarà bloquejat (desactivat) fins
-          que l'usuari escrigui un correu electrònic amb el format correcte.
-        </p>
+    &lt;h1 class="text-primary"&gt;Hola! Soc [El teu Nom] 👋&lt;/h1&gt;
+    &lt;p class="text-muted lead"&gt;Gràcies a UTF-8, els accents es veuen perfectes.&lt;/p&gt;
+    &lt;a href="cv.pdf" class="btn btn-primary me-2"&gt;📄 Descarrega el meu CV&lt;/a&gt;
+    &lt;a href="#contacte" class="btn btn-outline-secondary"&gt;✉️ Contacta'm&lt;/a&gt;
 
-        <div class="contenidor-codi">
-          <div class="capçalera-codi">
-            <span>Exemple: Formulari Intel·ligent</span>
-            <button class="boto-copia" onclick="copiarCodi(this)">
-              Copiar
-            </button>
-          </div>
-          <pre contenteditable="true" class="editor-codi">
-    &lt;!-- Formulari simple de Bootstrap --&gt;
-    &lt;div class="p-4 border rounded bg-light"&gt;
-        &lt;div class="mb-3"&gt;
-            &lt;label for="emailInput" class="form-label"&gt;Correu electrònic d'escola:&lt;/label&gt;
-            &lt;input type="email" class="form-control" id="emailInput" placeholder="nom@escola.cat"&gt;
-            &lt;div id="avis-error" class="text-danger mt-1" style="display:none;"&gt;L'email no és vàlid encara...&lt;/div&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="accec3c3d8dfd8decddcec99829f829f">[email&#160;protected]</a>/dist/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+    </div>
+  </section>
+
+  <section class="bloc-exercicis">
+    <div class="bloc-exercicis-header">
+      <span class="icona-exercici">🎯</span>
+      <div>
+        <h3>Exercicis del Bloc II: Configura el cap del teu Portfoli</h3>
+        <span class="portfoli-objectiu">📂 Afegeix al &lt;head&gt; del teu index.html</span>
+      </div>
+    </div>
+    <ul class="exercici-llista">
+      <li>
+        <label class="exercici-item">
+          <input type="checkbox">
+          <span class="exercici-text"><strong>Codificació i idioma:</strong> Afegeix <code>charset="UTF-8"</code> i <code>lang="ca"</code> al teu fitxer. Escriu un text amb accents (à, é, ç) i comprova que es veuen bé al navegador.</span>
+        </label>
+      </li>
+      <li>
+        <label class="exercici-item">
+          <input type="checkbox">
+          <span class="exercici-text"><strong>SEO:</strong> Afegeix meta <code>author</code> amb el teu nom i <code>description</code> amb màxim 160 caràcters (és el que mostra Google!).</span>
+        </label>
+      </li>
+      <li>
+        <label class="exercici-item">
+          <input type="checkbox">
+          <span class="exercici-text"><strong>Open Graph:</strong> Afegeix <code>og:title</code>, <code>og:description</code> i <code>og:image</code>. Simula com es veurà quan ho comparteixis a <a href="https://www.opengraph.xyz" target="_blank">opengraph.xyz</a>.</span>
+        </label>
+      </li>
+      <li>
+        <label class="exercici-item">
+          <input type="checkbox">
+          <span class="exercici-text"><strong>Bootstrap:</strong> Afegeix el link CSS al <code>&lt;head&gt;</code> i el JS al final del <code>&lt;body&gt;</code>. Comprova que funciona: afegeix <code>text-primary</code> al teu <code>&lt;h1&gt;</code> — ha de tornar-se blau.</span>
+        </label>
+      </li>
+      <li>
+        <label class="exercici-item">
+          <input type="checkbox">
+          <span class="exercici-text"><strong>Google Fonts:</strong> Visita <a href="https://fonts.google.com" target="_blank">fonts.google.com</a>, tria una tipografia (Poppins, Raleway, Nunito...) i aplica-la al <code>body</code> amb CSS.</span>
+        </label>
+      </li>
+      <li>
+        <label class="exercici-item">
+          <input type="checkbox">
+          <span class="exercici-text"><strong>Botons:</strong> Afegeix "📄 Descarrega el meu CV" (<code>btn btn-primary</code>) i "✉️ Contacta'm" (<code>btn btn-outline-secondary</code>) al teu body.</span>
+        </label>
+      </li>
+      <li>
+        <label class="exercici-item">
+          <input type="checkbox">
+          <span class="exercici-text">⭐ <strong>(Repte)</strong> Crea variables CSS (<code>:root { --color: ... }</code>) per al teu color principal. Utilitza-la al menys en dos llocs i verifica que canviant-la allà canvia tota la web de cop.</span>
+        </label>
+      </li>
+    </ul>
+    <div class="nota-resultat">
+      <span>✅</span>
+      <div><strong>Estat del portfoli:</strong> Head professional amb charset, SEO, OpenGraph, Bootstrap i la teva tipografia. La web ja "parla" correctament amb cercadors i xarxes socials.</div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       BLOC III
+  ══════════════════════════════════════════ -->
+  <section class="bloc-lectura" id="bloc-3">
+    <span class="badge-seccio">Bloc III</span>
+    <h2>L'Esquelet del Portfoli (Semàntica HTML5 + Bootstrap)</h2>
+    <p>HTML5 ens dóna etiquetes amb <strong>significat propi</strong> — <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code> — perquè Google entengui l'estructura. El <strong>menú hamburger</strong> (☰) plega el nav automàticament en mòbil gràcies a Bootstrap.</p>
+    <div class="contenidor-codi">
+      <div class="capçalera-codi">
+        <span>🏗️ Bloc III: Esquelet Complet del Portfoli</span>
+        <div class="botons-grup">
+          <button class="boto-previsualitzar" onclick="previsualitzar(this)">👁️ Previsualitzar</button>
+          <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+        </div>
+      </div>
+      <pre contenteditable="true" class="editor-codi">
+&lt;!-- Bootstrap CSS al &lt;head&gt; (del Bloc II) --&gt;
+
+&lt;header&gt;
+    &lt;nav class="navbar navbar-expand-lg navbar-dark bg-dark"&gt;
+        &lt;div class="container"&gt;
+            &lt;a class="navbar-brand fw-bold" href="#"&gt;👨‍💻 El teu Nom&lt;/a&gt;
+            &lt;button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#menuNav"&gt;
+                &lt;span class="navbar-toggler-icon"&gt;&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;div class="collapse navbar-collapse" id="menuNav"&gt;
+                &lt;ul class="navbar-nav ms-auto gap-2"&gt;
+                    &lt;li class="nav-item"&gt;&lt;a class="nav-link" href="#sobre-mi"&gt;Sobre mi&lt;/a&gt;&lt;/li&gt;
+                    &lt;li class="nav-item"&gt;&lt;a class="nav-link" href="#projectes"&gt;Projectes&lt;/a&gt;&lt;/li&gt;
+                    &lt;li class="nav-item"&gt;&lt;a class="nav-link" href="#habilitats"&gt;Habilitats&lt;/a&gt;&lt;/li&gt;
+                    &lt;li class="nav-item"&gt;
+                        &lt;a class="nav-link btn btn-outline-light px-3" href="#contacte"&gt;Contacte&lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
         &lt;/div&gt;
-        
-        &lt;button id="botoEnviar" class="btn btn-primary" disabled&gt;Enviar dades&lt;/button&gt;
-    &lt;/div&gt;
-    
-    &lt;script&gt;
-        const inputEmail = document.getElementById('emailInput');
-        const boto = document.getElementById('botoEnviar');
-        const avis = document.getElementById('avis-error');
-    
-        // Escoltador d'esdeveniments: "quan l'usuari escrigui..."
-        inputEmail.addEventListener('input', function() {
-            const valor = inputEmail.value;
-            
-            // Regla de validació simple (conté @ i .)
-            const esValid = valor.includes('@') && valor.includes('.');
-    
-            if (esValid) {
-                boto.disabled = false; // Activem el botó
-                avis.style.display = 'none';
-                inputEmail.classList.add('is-valid');
-                inputEmail.classList.remove('is-invalid');
-            } else {
-                boto.disabled = true; // Bloquegem el botó
-                avis.style.display = 'block';
-                inputEmail.classList.add('is-invalid');
-                inputEmail.classList.remove('is-valid');
-            }
-        });
-    &lt;/script&gt;</pre
-          >
-        </div>
-      </section>
+    &lt;/nav&gt;
+&lt;/header&gt;
 
-      <section class="bloc-lectura">
-        <h2>Bloc VIII: Connexió Real (Notícies del Diari ARA)</h2>
-        <p>
-          La web pot "llegir" altres mitjans. Aquí connectem amb l'RSS de
-          l'Ara.cat, processem les dades i les maquetem amb imatges i
-          descripcions en temps real.
-        </p>
-
-        <div class="contenidor-codi">
-          <div class="capçalera-codi">
-            <span>Exemple: Noticiari Dinàmic</span>
-            <button class="boto-copia" onclick="copiarCodi(this)">
-              Copiar
-            </button>
-          </div>
-          <pre contenteditable="true" class="editor-codi">
-    &lt;div class="container mt-4"&gt;
-        &lt;h3 class="mb-4 text-danger border-bottom pb-2"&gt;Últimes notícies: Diari ARA&lt;/h3&gt;
-        &lt;div id="noticiari" class="row g-4"&gt;
-            &lt;p class="text-muted"&gt;Connectant amb el diari...&lt;/p&gt;
+&lt;main&gt;
+    &lt;section id="sobre-mi" class="py-5 bg-light text-center"&gt;
+        &lt;div class="container"&gt;
+            &lt;h1 class="display-5 fw-bold"&gt;Hola, soc [El teu Nom] 👋&lt;/h1&gt;
+            &lt;p class="lead text-muted"&gt;Estudiant · Creador/a · Curiós/a digital&lt;/p&gt;
         &lt;/div&gt;
-    &lt;/div&gt;
-    
-    &lt;script&gt;
-        async function carregarAra() {
-            const contenidor = document.getElementById('noticiari');
-            const rssUrl = 'https://www.ara.cat/rss/latest/';
-            // Fem servir un convertidor RSS a JSON gratuït per evitar bloquejos (CORS)
-            const apiProxy = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-    
-            try {
-                const resposta = await fetch(apiProxy);
-                const dades = await resposta.json();
-    
-                contenidor.innerHTML = ""; // Netegem el missatge de càrrega
-    
-                // Agafem les primeres 3 notícies
-                dades.items.slice(0, 3).forEach(item => {
-                    const col = document.createElement('div');
-                    col.className = "col-md-4";
-                    
-                    // Busquem la imatge (en el format JSON sol venir a 'enclosure' o 'thumbnail')
-                    const imatge = item.enclosure.link || item.thumbnail || 'https://via.placeholder.com/300x200?text=ARA';
-    
-                    col.innerHTML = `
-                        &lt;div class="card h-100 shadow-sm"&gt;
-                            &lt;img src="${imatge}" class="card-img-top" style="height:180px; object-fit:cover;" alt="Foto"&gt;
-                            &lt;div class="card-body"&gt;
-                                &lt;h5 class="card-title"&gt;${item.title}&lt;/h5&gt;
-                                &lt;p class="card-text text-muted small"&gt;${item.description.substring(0, 100)}...&lt;/p&gt;
-                                &lt;a href="${item.link}" target="_blank" class="btn btn-outline-danger btn-sm"&gt;Llegir més&lt;/a&gt;
-                            &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section id="projectes" class="py-5"&gt;
+        &lt;div class="container"&gt;
+            &lt;h2 class="mb-4 border-bottom pb-2"&gt;🗂️ Els meus Projectes&lt;/h2&gt;
+            &lt;!-- FILA 1 --&gt;
+            &lt;div class="row g-4 mb-4"&gt;
+                &lt;article class="col-md-4"&gt;
+                    &lt;div class="card h-100 shadow-sm"&gt;
+                        &lt;img src="https://picsum.photos/seed/p1/400/200" class="card-img-top" alt="Projecte 1"&gt;
+                        &lt;div class="card-body"&gt;
+                            &lt;h5 class="card-title"&gt;Projecte 1&lt;/h5&gt;
+                            &lt;p class="card-text text-muted small"&gt;Descripció breu...&lt;/p&gt;
                         &lt;/div&gt;
-                    `;
-                    contenidor.appendChild(col);
-                });
-            } catch (error) {
-                contenidor.innerHTML = "&lt;p class='text-danger'&gt;No s'han pogut carregar les notícies.&lt;/p&gt;";
-            }
-        }
-    
-        carregarAra();
-    &lt;/script&gt;</pre
-          >
-        </div>
-      </section>
-    </main>
+                        &lt;div class="card-footer bg-transparent"&gt;
+                            &lt;a href="#" class="btn btn-primary btn-sm"&gt;Veure →&lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+                &lt;article class="col-md-4"&gt;
+                    &lt;div class="card h-100 shadow-sm"&gt;
+                        &lt;img src="https://picsum.photos/seed/p2/400/200" class="card-img-top" alt="Projecte 2"&gt;
+                        &lt;div class="card-body"&gt;
+                            &lt;h5 class="card-title"&gt;Projecte 2&lt;/h5&gt;
+                            &lt;p class="card-text text-muted small"&gt;Descripció breu...&lt;/p&gt;
+                        &lt;/div&gt;
+                        &lt;div class="card-footer bg-transparent"&gt;
+                            &lt;a href="#" class="btn btn-primary btn-sm"&gt;Veure →&lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+                &lt;article class="col-md-4"&gt;
+                    &lt;div class="card h-100 shadow-sm"&gt;
+                        &lt;img src="https://picsum.photos/seed/p3/400/200" class="card-img-top" alt="Projecte 3"&gt;
+                        &lt;div class="card-body"&gt;
+                            &lt;h5 class="card-title"&gt;Projecte 3&lt;/h5&gt;
+                            &lt;p class="card-text text-muted small"&gt;Descripció breu...&lt;/p&gt;
+                        &lt;/div&gt;
+                        &lt;div class="card-footer bg-transparent"&gt;
+                            &lt;a href="#" class="btn btn-primary btn-sm"&gt;Veure →&lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+            &lt;/div&gt;
+            &lt;!-- FILA 2 --&gt;
+            &lt;div class="row g-4"&gt;
+                &lt;article class="col-md-4"&gt;
+                    &lt;div class="card h-100 shadow-sm"&gt;
+                        &lt;img src="https://picsum.photos/seed/p4/400/200" class="card-img-top" alt="Projecte 4"&gt;
+                        &lt;div class="card-body"&gt;
+                            &lt;h5 class="card-title"&gt;Projecte 4&lt;/h5&gt;
+                            &lt;p class="card-text text-muted small"&gt;Descripció breu...&lt;/p&gt;
+                        &lt;/div&gt;
+                        &lt;div class="card-footer bg-transparent"&gt;
+                            &lt;a href="#" class="btn btn-primary btn-sm"&gt;Veure →&lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+                &lt;article class="col-md-4"&gt;
+                    &lt;div class="card h-100 shadow-sm"&gt;
+                        &lt;img src="https://picsum.photos/seed/p5/400/200" class="card-img-top" alt="Projecte 5"&gt;
+                        &lt;div class="card-body"&gt;
+                            &lt;h5 class="card-title"&gt;Projecte 5&lt;/h5&gt;
+                            &lt;p class="card-text text-muted small"&gt;Descripció breu...&lt;/p&gt;
+                        &lt;/div&gt;
+                        &lt;div class="card-footer bg-transparent"&gt;
+                            &lt;a href="#" class="btn btn-primary btn-sm"&gt;Veure →&lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+                &lt;article class="col-md-4"&gt;
+                    &lt;div class="card h-100 shadow-sm"&gt;
+                        &lt;img src="https://picsum.photos/seed/p6/400/200" class="card-img-top" alt="Projecte 6"&gt;
+                        &lt;div class="card-body"&gt;
+                            &lt;h5 class="card-title"&gt;Projecte 6&lt;/h5&gt;
+                            &lt;p class="card-text text-muted small"&gt;Descripció breu...&lt;/p&gt;
+                        &lt;/div&gt;
+                        &lt;div class="card-footer bg-transparent"&gt;
+                            &lt;a href="#" class="btn btn-primary btn-sm"&gt;Veure →&lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/section&gt;
+&lt;/main&gt;
 
-    <script src="script.js"></script>
-  </body>
-</html>
+&lt;footer class="bg-dark text-white py-4 mt-5"&gt;
+    &lt;div class="container text-center"&gt;
+        &lt;p class="mb-1"&gt;&amp;copy; 2026 · [El teu Nom] · Creat amb HTML, CSS i JS&lt;/p&gt;
+        &lt;div class="d-flex justify-content-center gap-3 small"&gt;
+            &lt;a href="https://github.com" class="text-muted"&gt;GitHub&lt;/a&gt;
+            &lt;a href="https://linkedin.com" class="text-muted"&gt;LinkedIn&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/footer&gt;</pre>
+    </div>
+  </section>
+
+  <section class="bloc-exercicis">
+    <div class="bloc-exercicis-header">
+      <span class="icona-exercici">🎯</span>
+      <div>
+        <h3>Exercicis del Bloc III: L'esquelet complet del Portfoli</h3>
+        <span class="portfoli-objectiu">📂 Aquest és el cos sencer del teu index.html</span>
+      </div>
+    </div>
+    <ul class="exercici-llista">
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Estructura semàntica:</strong> Copia tot el codi al teu <code>index.html</code>. Comprova que el menú, les targetes i el footer es veuen correctament al navegador.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Navbar personalitzada:</strong> Canvia el <code>navbar-brand</code> pel teu nom. Canvia <code>bg-dark</code> per <code>bg-primary</code> o pels teus colors.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Menú hamburger:</strong> Redueix la finestra a mòbil (F12 → responsive). Les tres ratlles ☰ han d'aparèixer i el menú ha de plegar/desplegar. Si no funciona, comprova que tens el JS de Bootstrap al final del body.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Secció "Sobre mi":</strong> Personalitza el títol amb el teu nom real i la teva frase personal del Bloc I.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>6 targetes de projectes:</strong> Omple les 6 amb projectes reals o inventats. Canvia títol, descripció, imatge (pots usar <a href="https://picsum.photos" target="_blank">picsum.photos</a>) i link de cada una.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Footer:</strong> Afegeix el teu nom, l'any i links als teus perfils de GitHub i/o xarxes socials.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text">⭐ <strong>(Repte)</strong> Afegeix una secció <code>&lt;section id="habilitats"&gt;</code> amb badges Bootstrap (<code>&lt;span class="badge bg-primary"&gt;HTML&lt;/span&gt;</code>) per a cada tecnologia que coneixes.</span></label></li>
+    </ul>
+    <div class="nota-resultat">
+      <span>✅</span>
+      <div><strong>Estat del portfoli:</strong> Navbar responsive amb hamburger, secció "Sobre mi", 6 targetes de projectes i footer. Ja sembla una web real!</div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       BLOC IV
+  ══════════════════════════════════════════ -->
+  <section class="bloc-lectura" id="bloc-4">
+    <span class="badge-seccio">Bloc IV</span>
+    <h2>Anatomia de l'Etiqueta (Atributs, Classes i ID)</h2>
+    <p>Les etiquetes no només diuen "què són", sinó "com es comporten". <strong>Atributs</strong> (<code>src</code>, <code>href</code>, <code>alt</code>) donen informació extra; <strong>Classes</strong> (<code>.nom</code>) apliquen estils a molts elements; <strong>ID</strong> (<code>#nom</code>) identifica un element únic per a JS o ancles del menú.</p>
+    <div class="contenidor-codi">
+      <div class="capçalera-codi">
+        <span>🏷️ Bloc IV: Etiquetes amb Superpoders</span>
+        <div class="botons-grup">
+          <button class="boto-previsualitzar" onclick="previsualitzar(this)">👁️ Previsualitzar</button>
+          <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+        </div>
+      </div>
+      <pre contenteditable="true" class="editor-codi">
+&lt;!-- 1. IMG: foto de perfil --&gt;
+&lt;img src="https://i.pravatar.cc/150?img=3"
+     alt="Foto de perfil de [Nom]"
+     width="120"
+     class="foto-perfil"
+     id="ma-foto"&gt;
+
+&lt;!-- 2. TIPUS D'ENLLAÇOS --&gt;
+&lt;a href="https://github.com" target="_blank"&gt;El meu GitHub&lt;/a&gt;
+&lt;a href="#projectes"&gt;Veure els meus projectes ↓&lt;/a&gt;
+&lt;a href="mailto:<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="224c4d4f624751414d4e430c414356">[email&#160;protected]</a>"&gt;Envia'm un correu ✉️&lt;/a&gt;
+
+&lt;!-- 3. BUTTON --&gt;
+&lt;button class="btn btn-success" onclick="alert('Gràcies!')"&gt;
+    Enviar missatge
+&lt;/button&gt;
+
+&lt;!-- 4. INPUT --&gt;
+&lt;input type="text" placeholder="Escriu el teu nom..." id="entrada-nom" class="form-control"&gt;
+
+&lt;style&gt;
+    .foto-perfil {
+        border-radius: 50%;
+        border: 4px solid #0d6efd;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    #ma-foto { display: block; margin: 0 auto 16px; }
+&lt;/style&gt;</pre>
+    </div>
+  </section>
+
+  <section class="bloc-exercicis">
+    <div class="bloc-exercicis-header">
+      <span class="icona-exercici">🎯</span>
+      <div>
+        <h3>Exercicis del Bloc IV: Foto, links i identitat al Portfoli</h3>
+        <span class="portfoli-objectiu">📂 Afegeix a la secció "Sobre mi" i al footer</span>
+      </div>
+    </div>
+    <ul class="exercici-llista">
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Foto de perfil:</strong> A la secció <code>id="sobre-mi"</code>, afegeix una <code>&lt;img&gt;</code> amb la teva foto (o avatar de <a href="https://i.pravatar.cc" target="_blank">pravatar.cc</a>). L'atribut <code>alt</code> és obligatori. Fes-la rodona amb <code>border-radius: 50%</code>.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Links de projectes:</strong> Comprova que cada botó "Veure projecte" apunta a un <code>href</code> real. Afegeix <code>target="_blank"</code> als que han d'obrir en pestanya nova.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Botó mailto:</strong> Afegeix <code>&lt;a href="mailto:el-teu-email"&gt;</code> al footer. Clica'l — ha d'obrir el teu gestor de correu.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>IDs per al menú:</strong> Comprova que cada secció té el <code>id</code> correcte. Els links del nav han de fer scroll fins a cada secció en clicar-los.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text">⭐ <strong>(Repte)</strong> Afegeix icones socials amb <strong>Bootstrap Icons</strong>: inclou <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="096b66667d7a7d7b687924606a66677a4938273838273a">[email&#160;protected]</a>/font/bootstrap-icons.min.css"&gt;</code> i usa <code>&lt;i class="bi bi-github"&gt;&lt;/i&gt;</code> als links del footer.</span></label></li>
+    </ul>
+    <div class="nota-resultat">
+      <span>✅</span>
+      <div><strong>Estat del portfoli:</strong> Foto de perfil, links funcionals, botó de contacte per correu. El portfoli ja té identitat personal i és navegable.</div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       BLOC V
+  ══════════════════════════════════════════ -->
+  <section class="bloc-lectura" id="bloc-5">
+    <span class="badge-seccio">Bloc V</span>
+    <h2>El Disseny en Detall (Estils de Text, Imatge i Efectes Hover)</h2>
+    <p>CSS controla cada detall visual. Combinarem <code>color</code>, <code>font-size</code>, <code>box-shadow</code>, pseudo-elements (<code>::after</code>) i <code>transition</code> per transformar textos simples en titulars elegants i afegir vida a les targetes.</p>
+    <div class="contenidor-codi">
+      <div class="capçalera-codi">
+        <span>🎨 Bloc V: Tipografia i Efectes Visuals</span>
+        <div class="botons-grup">
+          <button class="boto-previsualitzar" onclick="previsualitzar(this)">👁️ Previsualitzar</button>
+          <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+        </div>
+      </div>
+      <pre contenteditable="true" class="editor-codi">
+&lt;h2 class="titol-seccio"&gt;Els meus Projectes&lt;/h2&gt;
+&lt;p class="paragraf-modern"&gt;Cada projecte és una oportunitat d'aprendre alguna cosa nova.&lt;/p&gt;
+
+&lt;div class="targeta-projecte"&gt;
+    &lt;img src="https://picsum.photos/seed/demo/400/200" class="imatge-targeta" alt="Projecte demo"&gt;
+    &lt;div style="padding:16px"&gt;
+        &lt;h5&gt;Nom del Projecte&lt;/h5&gt;
+        &lt;p style="color:#6c757d;font-size:.85rem"&gt;Descripció breu...&lt;/p&gt;
+        &lt;a href="#" class="btn btn-primary btn-sm"&gt;Veure →&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+    .titol-seccio {
+        font-size: 2rem; font-weight: 700; color: #1a2332;
+        position: relative; padding-bottom: 12px; margin-bottom: 24px;
+    }
+    .titol-seccio::after {
+        content: ''; position: absolute;
+        bottom: 0; left: 0; width: 50px; height: 4px;
+        background: #0d6efd; border-radius: 2px;
+    }
+    .paragraf-modern {
+        color: #6c757d; line-height: 1.9;
+        letter-spacing: 0.3px; max-width: 560px;
+    }
+    .targeta-projecte {
+        background: white; max-width: 340px;
+        border-radius: 12px; overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .targeta-projecte:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 16px 32px rgba(13,110,253,0.18);
+    }
+    .imatge-targeta { width: 100%; height: 175px; object-fit: cover; display: block; }
+&lt;/style&gt;</pre>
+    </div>
+  </section>
+
+  <section class="bloc-exercicis">
+    <div class="bloc-exercicis-header">
+      <span class="icona-exercici">🎯</span>
+      <div>
+        <h3>Exercicis del Bloc V: Dóna estil al teu Portfoli</h3>
+        <span class="portfoli-objectiu">📂 Afegeix CSS al &lt;style&gt; del teu index.html</span>
+      </div>
+    </div>
+    <ul class="exercici-llista">
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Capçalera amb gradient:</strong> Aplica <code>background: linear-gradient(135deg, #1a2332, #0d6efd)</code> a la navbar. Tria els teus dos colors preferits.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Tipografia global:</strong> Aplica la teva Google Font al <code>body</code> i usa <code>font-weight: 700</code> als títols. Comprova la diferència visual.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Foto rodona estilitzada:</strong> Afegeix <code>border-radius: 50%</code>, <code>box-shadow</code> i <code>border</code> de color. Afegeix hover amb <code>transform: scale(1.05)</code> i <code>transition</code>.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Classe .titol-seccio:</strong> Crea-la i aplica-la a tots els <code>&lt;h2&gt;</code> del portfoli. Afegeix el pseudo-element <code>::after</code> amb una línia de color sota el títol.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Hover a les targetes:</strong> Afegeix <code>transition</code> i <code>transform: translateY(-8px)</code> en hover. Experimenta amb valors de <code>box-shadow</code> per a l'elevació.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text">⭐ <strong>(Repte)</strong> Crea una classe <code>.tema-fosc</code> que canviï el fons a <code>#121212</code> i el text a <code>#f1f1f1</code>. Al Bloc VIII l'activaràs amb un botó JS.</span></label></li>
+    </ul>
+    <div class="nota-resultat">
+      <span>✅</span>
+      <div><strong>Estat del portfoli:</strong> Tipografia pròpia, colors, efectes hover a les targetes i foto elegant. Ja no sembla una plantilla genèrica.</div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       BLOC VI — FORMULARIS
+  ══════════════════════════════════════════ -->
+  <section class="bloc-lectura" id="bloc-6">
+    <span class="badge-seccio">Bloc VI</span>
+    <h2>Recollir Dades de l'Usuari (Formularis HTML)</h2>
+    <p>
+      Els formularis són la porta d'entrada de totes les dades a la web. A través d'ells
+      l'usuari envia el seu nom, el seu correu, tria opcions o puja fitxers. Cada
+      <code>&lt;input&gt;</code> té un <strong>type</strong> que defineix el seu comportament
+      i el teclat que mostra en mòbil. L'atribut <code>name</code> identifica el camp quan
+      s'envia al servidor, i <code>required</code> bloqueja l'enviament si el camp és buit.
+    </p>
+    <div class="contenidor-codi">
+      <div class="capçalera-codi">
+        <span>📋 Bloc VI: Tots els camps d'un Formulari Professional</span>
+        <div class="botons-grup">
+          <button class="boto-previsualitzar" onclick="previsualitzar(this)">👁️ Previsualitzar</button>
+          <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+        </div>
+      </div>
+      <pre contenteditable="true" class="editor-codi">
+&lt;form id="formulari-contacte" class="p-4 bg-light rounded border" novalidate&gt;
+    &lt;h4 class="mb-4"&gt;📋 Formulari de Contacte&lt;/h4&gt;
+
+    &lt;!-- TEXT: nom, cognoms, adreces... --&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label for="nom" class="form-label fw-semibold"&gt;Nom complet&lt;/label&gt;
+        &lt;input type="text" id="nom" name="nom"
+               class="form-control" placeholder="Anna García"
+               required minlength="2"&gt;
+        &lt;div class="invalid-feedback"&gt;Escriu el teu nom (mínim 2 lletres).&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- EMAIL: teclat amb @ en mòbil --&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label for="email" class="form-label fw-semibold"&gt;Correu electrònic&lt;/label&gt;
+        &lt;input type="email" id="email" name="email"
+               class="form-control" placeholder="anna@escola.cat" required&gt;
+        &lt;div class="invalid-feedback"&gt;Escriu un email vàlid.&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- TEL: teclat numèric en mòbil --&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label for="tel" class="form-label fw-semibold"&gt;Telèfon &lt;span class="text-muted fw-normal"&gt;(opcional)&lt;/span&gt;&lt;/label&gt;
+        &lt;input type="tel" id="tel" name="tel"
+               class="form-control" placeholder="600 123 456"&gt;
+    &lt;/div&gt;
+
+    &lt;!-- SELECT: llista desplegable --&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label for="motiu" class="form-label fw-semibold"&gt;Motiu del contacte&lt;/label&gt;
+        &lt;select id="motiu" name="motiu" class="form-select" required&gt;
+            &lt;option value=""&gt;-- Tria una opció --&lt;/option&gt;
+            &lt;option value="feina"&gt;Oferta de feina&lt;/option&gt;
+            &lt;option value="col·laboracio"&gt;Col·laboració&lt;/option&gt;
+            &lt;option value="projecte"&gt;Projecte conjunt&lt;/option&gt;
+            &lt;option value="altre"&gt;Altre&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/div&gt;
+
+    &lt;!-- RADIO: tria UNA opció exclusiva --&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label class="form-label fw-semibold"&gt;Preferència de contacte&lt;/label&gt;
+        &lt;div class="d-flex gap-3"&gt;
+            &lt;div class="form-check"&gt;
+                &lt;input class="form-check-input" type="radio"
+                       name="preferencia" id="rEmail" value="email" checked&gt;
+                &lt;label class="form-check-label" for="rEmail"&gt;Per correu&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class="form-check"&gt;
+                &lt;input class="form-check-input" type="radio"
+                       name="preferencia" id="rTel" value="tel"&gt;
+                &lt;label class="form-check-label" for="rTel"&gt;Per telèfon&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- CHECKBOX: acceptar condicions --&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;div class="form-check"&gt;
+            &lt;input class="form-check-input" type="checkbox"
+                   id="privacitat" name="privacitat" required&gt;
+            &lt;label class="form-check-label" for="privacitat"&gt;
+                He llegit i accepto la &lt;a href="#" class="text-primary"&gt;política de privacitat&lt;/a&gt;
+            &lt;/label&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- RANGE: puntuació lliscant --&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label for="valoracio" class="form-label fw-semibold"&gt;
+            Com values el portfoli? &lt;span id="valorText" class="text-primary fw-bold"&gt;5 / 10&lt;/span&gt;
+        &lt;/label&gt;
+        &lt;input type="range" id="valoracio" name="valoracio"
+               class="form-range" min="1" max="10" value="5"&gt;
+    &lt;/div&gt;
+
+    &lt;!-- TEXTAREA: text llarg --&gt;
+    &lt;div class="mb-4"&gt;
+        &lt;label for="missatge" class="form-label fw-semibold"&gt;Missatge&lt;/label&gt;
+        &lt;textarea id="missatge" name="missatge" class="form-control"
+                  rows="4" placeholder="Escriu el teu missatge aquí..."
+                  required minlength="10"&gt;&lt;/textarea&gt;
+        &lt;div class="invalid-feedback"&gt;El missatge ha de tenir al menys 10 caràcters.&lt;/div&gt;
+        &lt;div class="text-end small text-muted mt-1"&gt;&lt;span id="countChars"&gt;0&lt;/span&gt; / 500&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button type="submit" class="btn btn-primary w-100 py-2"&gt;
+        📨 Enviar missatge
+    &lt;/button&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+    // Actualitza el slider de valoració en temps real
+    document.getElementById('valoracio').addEventListener('input', function() {
+        document.getElementById('valorText').textContent = this.value + ' / 10';
+    });
+
+    // Comptador de caràcters del textarea
+    document.getElementById('missatge').addEventListener('input', function() {
+        document.getElementById('countChars').textContent = this.value.length;
+    });
+
+    // Validació HTML5 nativa quan s'envia
+    document.getElementById('formulari-contacte').addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (!this.checkValidity()) {
+            // Mostra els missatges d'error de Bootstrap
+            this.classList.add('was-validated');
+            return;
+        }
+        // Si tot és vàlid
+        this.innerHTML = `
+            &lt;div class="text-center py-5"&gt;
+                &lt;div style="font-size:3rem"&gt;✅&lt;/div&gt;
+                &lt;h4 class="mt-3 text-success"&gt;Missatge enviat!&lt;/h4&gt;
+                &lt;p class="text-muted"&gt;Gràcies! Et respondré aviat.&lt;/p&gt;
+            &lt;/div&gt;`;
+    });
+&lt;/script&gt;</pre>
+    </div>
+  </section>
+
+  <section class="bloc-exercicis">
+    <div class="bloc-exercicis-header">
+      <span class="icona-exercici">🎯</span>
+      <div>
+        <h3>Exercicis del Bloc VI: El formulari de Contacte del Portfoli</h3>
+        <span class="portfoli-objectiu">📂 Substitueix el formulari bàsic del Bloc VIII per aquest</span>
+      </div>
+    </div>
+    <ul class="exercici-llista">
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Copia l'estructura base:</strong> Afegeix el formulari complet a la secció <code>id="contacte"</code> del teu portfoli. Comprova que es veu correctament i que tots els camps apareixen.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>El select de motiu:</strong> Personalitza les opcions del <code>&lt;select&gt;</code> amb opcions que tinguin sentit per al teu portfoli (ex: "Treball", "Pràctiques", "Projecte escolar", "Simplement saludar").</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>El slider de valoració:</strong> Comprova que el número canvia en temps real en moure el slider. Modifica el rang per a que vagi de l'1 al 5 amb estrelles (🌟) en lloc de números.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Validació HTML5:</strong> Prova d'enviar el formulari buit — han d'aparèixer els missatges d'error en vermell de Bootstrap (classe <code>was-validated</code>). Comprova que el checkbox de privacitat també es valida.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Missatge de confirmació:</strong> Assegura't que en enviar correctament apareix el missatge de "✅ Missatge enviat!" en substitució del formulari. Personalitza el text amb el teu nom.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text">⭐ <strong>(Repte)</strong> Afegeix un camp <code>type="file"</code> per adjuntar un CV en PDF: <code>&lt;input type="file" accept=".pdf" class="form-control"&gt;</code>. Afegeix text d'ajuda amb <code>&lt;div class="form-text"&gt;</code> que digui "Només fitxers PDF, màxim 5MB".</span></label>
+      </li>
+    </ul>
+    <div class="nota-resultat">
+      <span>✅</span>
+      <div><strong>Estat del portfoli:</strong> Formulari de contacte professional amb tots els tipus de camps: text, email, telèfon, select, radios, checkbox, slider i textarea. Validació HTML5 nativa.</div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       BLOC VII — FLEXBOX (era Bloc VI)
+  ══════════════════════════════════════════ -->
+  <section class="bloc-lectura" id="bloc-7">
+    <span class="badge-seccio">Bloc VII</span>
+    <h2>L'Art d'Endreçar l'Espai (Flexbox)</h2>
+    <p>Com posem la foto de perfil a l'esquerra i el text a la dreta? Amb <code>display: flex</code> el contenidor distribueix els seus fills intel·ligentment. Les tres propietats clau: <code>justify-content</code> (horitzontal), <code>align-items</code> (vertical) i <code>flex-wrap</code> + <code>@media</code> per adaptar-se al mòbil.</p>
+    <div class="contenidor-codi">
+      <div class="capçalera-codi">
+        <span>📐 Bloc VII: Hero Flex i Graella d'Habilitats</span>
+        <div class="botons-grup">
+          <button class="boto-previsualitzar" onclick="previsualitzar(this)">👁️ Previsualitzar</button>
+          <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+        </div>
+      </div>
+      <pre contenteditable="true" class="editor-codi">
+&lt;!-- HERO: foto esquerra, text dreta --&gt;
+&lt;section class="hero-flex"&gt;
+    &lt;img src="https://i.pravatar.cc/160?img=5" class="hero-foto" alt="Foto de perfil"&gt;
+    &lt;div&gt;
+        &lt;h1&gt;Hola, soc [El teu Nom] 👋&lt;/h1&gt;
+        &lt;p style="color:#6c757d"&gt;Estudiant · Creador/a · Curiós/a digital&lt;/p&gt;
+        &lt;a href="#projectes" class="btn btn-primary"&gt;Veure els meus projectes&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;!-- HABILITATS en pastilles flex --&gt;
+&lt;section style="padding:40px"&gt;
+    &lt;h2 style="margin-bottom:20px"&gt;Les meves Habilitats&lt;/h2&gt;
+    &lt;div class="graella-hab"&gt;
+        &lt;div class="hab"&gt;🌐 HTML&lt;/div&gt;
+        &lt;div class="hab"&gt;🎨 CSS&lt;/div&gt;
+        &lt;div class="hab"&gt;⚡ JavaScript&lt;/div&gt;
+        &lt;div class="hab"&gt;📦 Bootstrap&lt;/div&gt;
+        &lt;div class="hab"&gt;🐍 Python&lt;/div&gt;
+        &lt;div class="hab"&gt;🗄️ SQL&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;style&gt;
+    .hero-flex {
+        display: flex; align-items: center; gap: 48px;
+        padding: 60px 40px;
+        background: linear-gradient(135deg, #f8faff, #e8f0fe);
+    }
+    .hero-foto {
+        border-radius: 50%; width: 160px; height: 160px;
+        object-fit: cover; flex-shrink: 0;
+        border: 5px solid white;
+        box-shadow: 0 8px 24px rgba(0,0,0,.15);
+    }
+    @media (max-width: 600px) {
+        .hero-flex { flex-direction: column; text-align: center; padding: 40px 20px; }
+    }
+    .graella-hab { display: flex; flex-wrap: wrap; gap: 10px; }
+    .hab {
+        background: white; border: 2px solid #e2e8f0;
+        border-radius: 40px; padding: 10px 22px;
+        font-weight: 600; font-size: .88rem;
+        transition: all .2s; cursor: default;
+    }
+    .hab:hover { background: #0d6efd; color: white; border-color: #0d6efd; transform: translateY(-3px); }
+&lt;/style&gt;</pre>
+    </div>
+  </section>
+
+  <section class="bloc-exercicis">
+    <div class="bloc-exercicis-header">
+      <span class="icona-exercici">🎯</span>
+      <div>
+        <h3>Exercicis del Bloc VII: Layout i Secció d'Habilitats</h3>
+        <span class="portfoli-objectiu">📂 Millora "Sobre mi" i afegeix la secció "Habilitats"</span>
+      </div>
+    </div>
+    <ul class="exercici-llista">
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Hero amb Flexbox:</strong> Substitueix la secció <code>id="sobre-mi"</code> pel layout flex: foto a l'esquerra, nom i descripció a la dreta. Comprova en mòbil (F12) que canvia a columna gràcies al <code>@media</code>.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Secció d'habilitats:</strong> Afegeix <code>&lt;section id="habilitats"&gt;</code> al portfoli amb les pastilles flex. Posa almenys 6 habilitats reals (tècniques, idiomes, eines...).</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Responsive:</strong> Redueix la finestra i comprova que les pastilles fan <code>flex-wrap</code> correctament. Cap element ha de desbordarse.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Espais coherents:</strong> Usa múltiples de 8px per a <code>gap</code>, <code>padding</code> i <code>margin</code> (8, 16, 24, 32, 48...) per a un ritme visual professional i consistent.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text">⭐ <strong>(Repte)</strong> Afegeix barres de nivell d'habilitat amb Bootstrap (<code>&lt;div class="progress"&gt;&lt;div class="progress-bar" style="width:80%"&gt;&lt;/div&gt;&lt;/div&gt;</code>) o crea les teves pròpies amb CSS pur.</span></label></li>
+    </ul>
+    <div class="nota-resultat">
+      <span>✅</span>
+      <div><strong>Estat del portfoli:</strong> Hero a dues columnes, secció d'habilitats responsive. Funciona perfectament en ordinador i en mòbil.</div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       BLOC VII
+  ══════════════════════════════════════════ -->
+  <section class="bloc-lectura" id="bloc-8">
+    <span class="badge-seccio">Bloc VIII</span>
+    <h2>El Cervell de la Web (Interactivitat amb JavaScript)</h2>
+    <p>JavaScript permet que la web <em>reaccioni</em> a l'usuari. El patró bàsic sempre és: <strong>(1) seleccionar</strong> l'element amb <code>getElementById</code>, <strong>(2) escoltar</strong> un event amb <code>addEventListener</code> i <strong>(3) actuar</strong> modificant el DOM o els estils.</p>
+    <div class="contenidor-codi">
+      <div class="capçalera-codi">
+        <span>🧠 Bloc VIII: Formulari Validat + Mode Fosc</span>
+        <div class="botons-grup">
+          <button class="boto-previsualitzar" onclick="previsualitzar(this)">👁️ Previsualitzar</button>
+          <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+        </div>
+      </div>
+      <pre contenteditable="true" class="editor-codi">
+&lt;div class="p-4 border rounded bg-light" style="max-width:520px"&gt;
+    &lt;h4 class="mb-3"&gt;Contacte&lt;/h4&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label for="nom" class="form-label fw-semibold"&gt;Nom&lt;/label&gt;
+        &lt;input type="text" class="form-control" id="nom" placeholder="Anna García"&gt;
+    &lt;/div&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label for="email" class="form-label fw-semibold"&gt;Correu electrònic&lt;/label&gt;
+        &lt;input type="email" class="form-control" id="email" placeholder="<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c6a8a9ab86a3b5a5a9aaa7e8a5a7b2">[email&#160;protected]</a>"&gt;
+        &lt;div id="errorEmail" class="text-danger small mt-1" style="display:none"&gt;
+            ⚠️ Format d'email no vàlid.
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label for="missatge" class="form-label fw-semibold"&gt;Missatge&lt;/label&gt;
+        &lt;textarea class="form-control" id="missatge" rows="4" placeholder="Hola!..."&gt;&lt;/textarea&gt;
+        &lt;div class="text-end small text-muted"&gt;&lt;span id="nChars"&gt;0&lt;/span&gt; / 500&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button id="botoEnviar" class="btn btn-primary w-100" disabled&gt;Enviar missatge&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;button id="botoTema" style="position:fixed;bottom:20px;right:20px;z-index:999"
+        class="btn btn-dark btn-sm"&gt;🌙 Mode fosc&lt;/button&gt;
+
+&lt;script&gt;
+    const nom      = document.getElementById('nom');
+    const email    = document.getElementById('email');
+    const missatge = document.getElementById('missatge');
+    const boto     = document.getElementById('botoEnviar');
+    const error    = document.getElementById('errorEmail');
+    const nChars   = document.getElementById('nChars');
+
+    function validar() {
+        const nomOk   = nom.value.trim().length &gt;= 2;
+        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+        const msgOk   = missatge.value.trim().length &gt;= 10;
+        if (email.value.length &gt; 0) {
+            email.classList.toggle('is-valid',   emailOk);
+            email.classList.toggle('is-invalid', !emailOk);
+            error.style.display = emailOk ? 'none' : 'block';
+        }
+        boto.disabled = !(nomOk &amp;&amp; emailOk &amp;&amp; msgOk);
+    }
+
+    missatge.addEventListener('input', () => {
+        nChars.textContent = missatge.value.length;
+        validar();
+    });
+    [nom, email].forEach(el =&gt; el.addEventListener('input', validar));
+
+    boto.addEventListener('click', () =&gt; {
+        boto.textContent = '✅ Enviat! Gràcies, ' + nom.value + '!';
+        boto.classList.replace('btn-primary', 'btn-success');
+        boto.disabled = true;
+    });
+
+    let fosc = false;
+    document.getElementById('botoTema').addEventListener('click', function() {
+        fosc = !fosc;
+        document.body.style.backgroundColor = fosc ? '#121212' : '';
+        document.body.style.color = fosc ? '#f0f0f0' : '';
+        this.textContent = fosc ? '☀️ Mode clar' : '🌙 Mode fosc';
+    });
+&lt;/script&gt;</pre>
+    </div>
+  </section>
+
+  <section class="bloc-exercicis">
+    <div class="bloc-exercicis-header">
+      <span class="icona-exercici">🎯</span>
+      <div>
+        <h3>Exercicis del Bloc VIII: Fes el portfoli interactiu</h3>
+        <span class="portfoli-objectiu">📂 Afegeix la secció "Contacte" i el botó de tema</span>
+      </div>
+    </div>
+    <ul class="exercici-llista">
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Secció de contacte:</strong> Afegeix la secció completa <code>id="contacte"</code> al final del <code>&lt;main&gt;</code>, just abans del footer. Ha de tenir nom, email, missatge i botó desactivat per defecte.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Validació:</strong> El botó "Enviar" s'ha d'activar únicament quan (1) nom ≥ 2 caràcters, (2) email té @ i punt, (3) missatge ≥ 10 caràcters. Prova tots els casos límit.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Confirmació:</strong> Modifica el missatge de confirmació perquè mostri el nom de la persona. Prova-ho amb el teu propi nom.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Mode fosc:</strong> Afegeix el botó flotant mode fosc/clar. Comprova que commuta. Millora-ho usant la classe <code>.tema-fosc</code> del Bloc V en comptes d'inline styles.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Link al nav:</strong> Afegeix "Contacte" al menú navbar apuntant a <code>#contacte</code>. Comprova que fa scroll fins al formulari.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text">⭐ <strong>(Repte)</strong> Afegeix un comptador de caràcters al camp de missatge que s'actualitzi en temps real. Canvia el color a vermell si supera 450 caràcters.</span></label></li>
+    </ul>
+    <div class="nota-resultat">
+      <span>✅</span>
+      <div><strong>Estat del portfoli:</strong> Formulari amb validació intel·ligent, mode fosc/clar i interactivitat real. El portfoli reacciona a l'usuari.</div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       BLOC VIII
+  ══════════════════════════════════════════ -->
+  <section class="bloc-lectura" id="bloc-9">
+    <span class="badge-seccio">Bloc IX</span>
+    <h2>Connexió Real (Projectes Dinàmics i Dades Externes)</h2>
+    <p>Una web professional genera contingut <strong>dinàmicament</strong> des de dades. Primer carregarem les targetes des d'un <strong>array JavaScript</strong> (fàcil de mantenir i filtrar), i com a repte connectarem amb una <strong>API externa</strong> amb <code>fetch()</code> i <code>async/await</code>.</p>
+    <div class="contenidor-codi">
+      <div class="capçalera-codi">
+        <span>🌐 Bloc IX: Targetes des d'un Array + Filtre</span>
+        <div class="botons-grup">
+          <button class="boto-previsualitzar" onclick="previsualitzar(this)">👁️ Previsualitzar</button>
+          <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+        </div>
+      </div>
+      <pre contenteditable="true" class="editor-codi">
+&lt;div class="container py-4"&gt;
+    &lt;h3 class="mb-3"&gt;Els meus Projectes&lt;/h3&gt;
+    &lt;div id="filtres" class="d-flex gap-2 mb-4"&gt;
+        &lt;button class="btn btn-primary btn-sm"    data-filtre="tots"&gt;Tots&lt;/button&gt;
+        &lt;button class="btn btn-outline-primary btn-sm" data-filtre="HTML/CSS"&gt;HTML/CSS&lt;/button&gt;
+        &lt;button class="btn btn-outline-primary btn-sm" data-filtre="JavaScript"&gt;JavaScript&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id="projectes" class="row g-4"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    const meusProjectes = [
+        { titol: "Portfoli Personal",  descripcio: "La web construïda durant el curs.",           imatge: "https://picsum.photos/seed/pf1/400/200", link: "#", etiquetes: ["HTML/CSS", "JavaScript"] },
+        { titol: "App de Tasques",      descripcio: "Gestió de tasques amb LocalStorage.",         imatge: "https://picsum.photos/seed/tk2/400/200", link: "#", etiquetes: ["JavaScript"] },
+        { titol: "Web Cafeteria",       descripcio: "Web per a un negoci local.",                  imatge: "https://picsum.photos/seed/cf3/400/200", link: "#", etiquetes: ["HTML/CSS"] },
+        { titol: "Wordle en Català",    descripcio: "Joc d'endevinar paraules en 6 intents.",     imatge: "https://picsum.photos/seed/wl4/400/200", link: "#", etiquetes: ["JavaScript"] }
+    ];
+
+    function crearTargeta(p) {
+        const tags = p.etiquetes.map(e =&gt;
+            `&lt;span class="badge bg-primary bg-opacity-10 text-primary me-1"&gt;${e}&lt;/span&gt;`
+        ).join('');
+        return `
+            &lt;div class="col-md-3"&gt;
+                &lt;div class="card h-100 shadow-sm"&gt;
+                    &lt;img src="${p.imatge}" class="card-img-top" style="height:150px;object-fit:cover" alt="${p.titol}"&gt;
+                    &lt;div class="card-body"&gt;
+                        &lt;h6 class="card-title"&gt;${p.titol}&lt;/h6&gt;
+                        &lt;div class="mb-2"&gt;${tags}&lt;/div&gt;
+                        &lt;p class="card-text small text-muted"&gt;${p.descripcio}&lt;/p&gt;
+                        &lt;a href="${p.link}" class="btn btn-primary btn-sm"&gt;Veure →&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;`;
+    }
+
+    function renderitzar(filtre) {
+        const llista = filtre === 'tots'
+            ? meusProjectes
+            : meusProjectes.filter(p =&gt; p.etiquetes.includes(filtre));
+        document.getElementById('projectes').innerHTML = llista.map(crearTargeta).join('');
+    }
+
+    document.getElementById('filtres').addEventListener('click', e =&gt; {
+        if (!e.target.dataset.filtre) return;
+        document.querySelectorAll('#filtres .btn').forEach(b =&gt; b.className = 'btn btn-outline-primary btn-sm');
+        e.target.className = 'btn btn-primary btn-sm';
+        renderitzar(e.target.dataset.filtre);
+    });
+
+    renderitzar('tots');
+&lt;/script&gt;</pre>
+    </div>
+  </section>
+
+  <section class="bloc-exercicis">
+    <div class="bloc-exercicis-header">
+      <span class="icona-exercici">🎯</span>
+      <div>
+        <h3>Exercicis del Bloc IX: Projectes Dinàmics al Portfoli</h3>
+        <span class="portfoli-objectiu">📂 Substitueix les targetes estàtiques del Bloc III</span>
+      </div>
+    </div>
+    <ul class="exercici-llista">
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Array de projectes:</strong> Crea l'array <code>meusProjectes</code> al teu portfoli amb els 6 projectes reals. Omple tots els camps: titol, descripcio, imatge, link i etiquetes.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Genera les targetes:</strong> Substitueix el HTML estàtic per un <code>div#contenidor-projectes</code> buit i la funció <code>crearTargeta()</code>. Verifica que les 6 targetes es veuen correctament.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Botons de filtre:</strong> Afegeix botons "Tots", "HTML/CSS" i "JavaScript". En clicar, filtra l'array i torna a generar. Pista: <code>.filter(p => p.etiquetes.includes('JavaScript'))</code></span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text"><strong>Etiquetes visuals:</strong> Comprova que els badges apareixen a cada targeta. Experimenta amb colors: <code>bg-success</code>, <code>bg-warning text-dark</code>, <code>bg-info</code>...</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text">⭐ <strong>(Repte 1)</strong> Connecta amb l'<strong>API de GitHub</strong>: <code>fetch('https://api.github.com/users/EL-TEU-USUARI/repos')</code> retorna els teus repositoris en JSON. Mapeja cada repo a una targeta.</span></label></li>
+      <li><label class="exercici-item"><input type="checkbox"><span class="exercici-text">⭐ <strong>(Repte 2)</strong> Afegeix un spinner de Bootstrap mentre es generen les targetes. Simula el retard amb <code>setTimeout(() => renderitzar('tots'), 800)</code>.</span></label></li>
+    </ul>
+    <div class="nota-resultat">
+      <span>✅</span>
+      <div><strong>PORTFOLI COMPLET! 🎉</strong> Les targetes es generen des de dades. Actualitzar el portfoli és tan fàcil com editar l'array. Web professional, responsive, interactiva i dinàmica.</div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       BLOC X — COOKIES I SEGURETAT
+  ══════════════════════════════════════════ -->
+  <section class="bloc-lectura" id="bloc-10">
+    <span class="badge-seccio">Bloc X</span>
+    <h2>Seguretat Bàsica (Cookies, Encriptació i Control d'Accés)</h2>
+    <p>
+      Una <strong>cookie</strong> és un petit fitxer de text que el navegador guarda al
+      dispositiu de l'usuari. Serveix per recordar l'inici de sessió, les preferències o,
+      com veurem aquí, <strong>protegir l'accés al portfoli amb contrasenya</strong>.
+      La contrasenya no es guarda en clar — es passa per un
+      <strong>hash SHA-256</strong> (funció criptogràfica que sempre dona el mateix
+      resultat però que és impossible d'invertir). Si la cookie existeix i és vàlida,
+      l'accés és directe sense tornar a demanar la contrasenya.
+    </p>
+    <div class="contenidor-codi">
+      <div class="capçalera-codi">
+        <span>🔐 Bloc X: Login amb Hash SHA-256 + Cookie de Sessió</span>
+        <div class="botons-grup">
+          <button class="boto-previsualitzar" onclick="previsualitzar(this)">👁️ Previsualitzar</button>
+          <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+        </div>
+      </div>
+      <pre contenteditable="true" class="editor-codi">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ca"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Portfoli Protegit&lt;/title&gt;
+    &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+    &lt;style&gt;
+        /* Pantalla de login — centrada, fons degradat */
+        #pantalla-login {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e3a5f);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .login-caixa {
+            background: white; border-radius: 16px;
+            padding: 40px; width: 100%; max-width: 400px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+        }
+        /* El contingut principal comença ocult */
+        #contingut-principal { display: none; }
+
+        .badge-acces {
+            background: #d1fae5; color: #065f46;
+            font-size: .78rem; padding: 4px 14px;
+            border-radius: 20px; font-weight: 600;
+            display: inline-block; margin-bottom: 20px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;!-- ══ PANTALLA DE LOGIN ══════════════════════════ --&gt;
+&lt;div id="pantalla-login"&gt;
+    &lt;div class="login-caixa text-center"&gt;
+        &lt;div style="font-size:2.5rem;margin-bottom:12px"&gt;🔐&lt;/div&gt;
+        &lt;h2 class="fw-bold mb-1"&gt;Portfoli Protegit&lt;/h2&gt;
+        &lt;p class="text-muted small mb-4"&gt;Introdueix la contrasenya per accedir&lt;/p&gt;
+
+        &lt;div class="mb-3 text-start"&gt;
+            &lt;input type="password" id="inputContrasenya"
+                   class="form-control form-control-lg text-center"
+                   placeholder="Contrasenya"
+                   autofocus&gt;
+            &lt;div id="errorLogin" class="text-danger small mt-2 text-center"
+                 style="display:none"&gt;
+                ❌ Contrasenya incorrecta.
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;button onclick="verificarContrasenya()"
+                class="btn btn-primary btn-lg w-100"&gt;
+            Entrar
+        &lt;/button&gt;
+        &lt;p class="text-muted mt-3" style="font-size:.75rem"&gt;
+            💡 Pista: la contrasenya és &lt;strong&gt;portfoli2026&lt;/strong&gt;
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- ══ CONTINGUT PRINCIPAL (ocult fins a login) ═══ --&gt;
+&lt;div id="contingut-principal"&gt;
+    &lt;nav class="navbar navbar-dark bg-dark px-4"&gt;
+        &lt;span class="navbar-brand fw-bold"&gt;👨‍💻 El meu Portfoli&lt;/span&gt;
+        &lt;button onclick="tancarSessio()" class="btn btn-outline-light btn-sm"&gt;
+            🚪 Tancar sessió
+        &lt;/button&gt;
+    &lt;/nav&gt;
+
+    &lt;div class="container py-5 text-center"&gt;
+        &lt;div id="badgeAcces" class="badge-acces"&gt;&lt;/div&gt;
+        &lt;h1 class="display-5 fw-bold"&gt;Hola! Benvingut/da 👋&lt;/h1&gt;
+        &lt;p class="lead text-muted"&gt;Has entrat correctament al portfoli protegit.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+// ══════════════════════════════════════════════
+//  CONFIGURACIÓ — canvia aquí la contrasenya
+// ══════════════════════════════════════════════
+
+// Hash SHA-256 de "portfoli2026"
+// Per generar el teu: https://emn178.github.io/online-tools/sha256.html
+const HASH_CORRECTE = 'a7b3c9e8f1d2456a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6';
+
+// Nom de la cookie i durada (en dies)
+const NOM_COOKIE    = 'portfoli_acces';
+const DIES_COOKIE   = 7;
+
+// ══════════════════════════════════════════════
+//  FUNCIONS DE COOKIE
+// ══════════════════════════════════════════════
+function setCookie(nom, valor, dies) {
+    const expira = new Date(Date.now() + dies * 864e5).toUTCString();
+    document.cookie = `${nom}=${encodeURIComponent(valor)};expires=${expira};path=/;SameSite=Strict`;
+}
+
+function getCookie(nom) {
+    return document.cookie.split('; ')
+        .find(c =&gt; c.startsWith(nom + '='))
+        ?.split('=')[1]
+        ? decodeURIComponent(document.cookie.split('; ').find(c =&gt; c.startsWith(nom + '='))?.split('=')[1])
+        : null;
+}
+
+function deleteCookie(nom) {
+    document.cookie = `${nom}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
+}
+
+// ══════════════════════════════════════════════
+//  HASH SHA-256 (Web Crypto API, nadiu al navegador)
+// ══════════════════════════════════════════════
+async function sha256(text) {
+    const buffer = await crypto.subtle.digest(
+        'SHA-256',
+        new TextEncoder().encode(text)
+    );
+    return Array.from(new Uint8Array(buffer))
+        .map(b =&gt; b.toString(16).padStart(2, '0'))
+        .join('');
+}
+
+// ══════════════════════════════════════════════
+//  LÒGICA DE LOGIN
+// ══════════════════════════════════════════════
+async function verificarContrasenya() {
+    const valor = document.getElementById('inputContrasenya').value;
+    const hash  = await sha256(valor);
+
+    if (hash === HASH_CORRECTE) {
+        // Guardem la data d'accés a la cookie
+        const ara = new Date().toLocaleString('ca-ES');
+        setCookie(NOM_COOKIE, ara, DIES_COOKIE);
+        mostrarContingut(ara, false);
+    } else {
+        document.getElementById('errorLogin').style.display = 'block';
+        document.getElementById('inputContrasenya').classList.add('is-invalid');
+        setTimeout(() =&gt; document.getElementById('inputContrasenya').classList.remove('is-invalid'), 1200);
+    }
+}
+
+function mostrarContingut(dataAcces, esCookie) {
+    document.getElementById('pantalla-login').style.display    = 'none';
+    document.getElementById('contingut-principal').style.display = 'block';
+
+    const missatge = esCookie
+        ? `✅ Sessió activa · Darrer accés: ${dataAcces}`
+        : `🎉 Primer accés · Benvingut/da!`;
+    document.getElementById('badgeAcces').textContent = missatge;
+}
+
+function tancarSessio() {
+    deleteCookie(NOM_COOKIE);
+    document.getElementById('contingut-principal').style.display = 'none';
+    document.getElementById('pantalla-login').style.display      = 'flex';
+    document.getElementById('inputContrasenya').value            = '';
+    document.getElementById('errorLogin').style.display          = 'none';
+}
+
+// Permet enviar amb Enter
+document.getElementById('inputContrasenya').addEventListener('keydown', e =&gt; {
+    if (e.key === 'Enter') verificarContrasenya();
+});
+
+// ══════════════════════════════════════════════
+//  EN CARREGAR: comprova si ja hi ha cookie
+// ══════════════════════════════════════════════
+window.addEventListener('load', () =&gt; {
+    const dataAnterior = getCookie(NOM_COOKIE);
+    if (dataAnterior) {
+        // Ja tenim cookie vàlida → accés directe
+        mostrarContingut(dataAnterior, true);
+        // Actualitzem la cookie amb la data d'ara
+        setCookie(NOM_COOKIE, new Date().toLocaleString('ca-ES'), DIES_COOKIE);
+    }
+});
+&lt;/script&gt;
+
+&lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+    </div>
+  </section>
+
+  <section class="bloc-exercicis">
+    <div class="bloc-exercicis-header">
+      <span class="icona-exercici">🎯</span>
+      <div>
+        <h3>Exercicis del Bloc X: Protegeix el teu Portfoli amb Contrasenya</h3>
+        <span class="portfoli-objectiu">📂 Afegeix al principi del &lt;body&gt; del teu index.html</span>
+      </div>
+    </div>
+    <ul class="exercici-llista">
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Entén el codi:</strong> Clica "👁️ Previsualitzar" i prova el formulari. La contrasenya de demostració és <code>portfoli2026</code>. Comprova que (1) amb contrasenya incorrecta surt l'error, (2) amb la correcta apareix el contingut, (3) si recarregues la pàgina no et torna a demanar.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Genera el teu hash personal:</strong> Visita <a href="https://emn178.github.io/online-tools/sha256.html" target="_blank">emn178.github.io/online-tools/sha256</a>, escriu la teva contrasenya secreta i copia el hash SHA-256. Substitueix el valor de <code>HASH_CORRECTE</code> al codi pel teu hash. Esborra la pista!</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Integra-ho al portfoli:</strong> Copia la pantalla de login (<code>div#pantalla-login</code>) i els scripts al teu <code>index.html</code>. Embolica el contingut actual dins de <code>div#contingut-principal</code>. Comprova que el login funciona amb la teva contrasenya.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Darrer accés visible:</strong> Comprova que quan entres per segon cop (amb cookie), apareix el badge "✅ Sessió activa · Darrer accés: [data i hora]". Tanca la sessió amb el botó i torna a entrar per veure el canvi entre primer accés i accés amb cookie.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text"><strong>Personalitza la durada:</strong> Canvia <code>DIES_COOKIE</code> de 7 a 1 (un dia). Obre les DevTools (F12 → Application → Cookies) i comprova que la cookie existeix amb la data d'expiració correcta.</span></label>
+      </li>
+      <li>
+        <label class="exercici-item"><input type="checkbox">
+        <span class="exercici-text">⭐ <strong>(Repte)</strong> Afegeix un <strong>comptador de intents fallits</strong>: si l'usuari s'equivoca 3 vegades, bloqueja el botó 30 segons i mostra un compte enrere. Pista: usa una variable <code>let intents = 0</code> i <code>setTimeout</code>.</span></label>
+      </li>
+    </ul>
+    <div class="nota-resultat">
+      <span>✅</span>
+      <div><strong>Estat del portfoli:</strong> Contrasenya encriptada amb SHA-256 (impossible de llegir al codi font), cookie de sessió amb durada configurable i data del darrer accés. Seguretat bàsica professional.</div>
+    </div>
+  </section>
+
+
+  <!-- Resum final: ocult fins que es completen tots els exercicis -->
+  <section id="resum-final" style="display:none;background:linear-gradient(135deg,#1a2332,#0d3460);color:white;padding:40px;border-radius:16px;text-align:center;margin-top:10px;animation:apareixerFinal .6s cubic-bezier(.34,1.56,.64,1);">
+    <h2 style="margin-top:0;font-size:1.5rem;">🎓 Has completat tots els blocs!</h2>
+    <p style="opacity:.8;max-width:540px;margin:0 auto 24px;font-size:.93rem;">El teu <code style="background:rgba(255,255,255,.15);padding:2px 7px;border-radius:4px;">index.html</code> conté estructura semàntica, Bootstrap, tipografia pròpia, formularis, layout responsive, efectes visuals, formulari validat, contingut dinàmic i seguretat bàsica.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;font-size:.8rem;">
+      <span style="background:rgba(255,255,255,.12);padding:5px 14px;border-radius:20px;">✅ HTML semàntic</span>
+      <span style="background:rgba(255,255,255,.12);padding:5px 14px;border-radius:20px;">✅ Bootstrap 5</span>
+      <span style="background:rgba(255,255,255,.12);padding:5px 14px;border-radius:20px;">✅ CSS personalitzat</span>
+      <span style="background:rgba(255,255,255,.12);padding:5px 14px;border-radius:20px;">✅ Google Fonts</span>
+      <span style="background:rgba(255,255,255,.12);padding:5px 14px;border-radius:20px;">✅ SEO + OpenGraph</span>
+      <span style="background:rgba(255,255,255,.12);padding:5px 14px;border-radius:20px;">✅ Formularis validats</span>
+      <span style="background:rgba(255,255,255,.12);padding:5px 14px;border-radius:20px;">✅ Flexbox responsive</span>
+      <span style="background:rgba(255,255,255,.12);padding:5px 14px;border-radius:20px;">✅ JavaScript / DOM</span>
+      <span style="background:rgba(255,255,255,.12);padding:5px 14px;border-radius:20px;">✅ fetch() / API</span>
+      <span style="background:rgba(255,255,255,.12);padding:5px 14px;border-radius:20px;">✅ Cookies &amp; Seguretat</span>
+    </div>
+  </section>
+
+</main>
+
+<!-- Toast de progrés guardat -->
+<div id="toastGuardat">💾 Progrés guardat!</div>
+
+<!-- Modal de previsualització -->
+<div id="modalPreview">
+  <div class="modal-contenidor">
+    <div class="modal-cap">
+      <div class="modal-cap-info">
+        <span class="modal-badge">👁️ Preview</span>
+        <span class="modal-titol" id="titolModal">Previsualització</span>
+      </div>
+      <div class="modal-botons">
+        <span
