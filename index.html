@@ -360,20 +360,26 @@
     }
 
     function previsualitzar(boto) {
-      try {
-        const contenidor = boto.closest('.contenidor-codi');
-        const editor     = contenidor.querySelector('.editor-codi');
+      // L'ID del <pre> és guardat com a data-attribute en el botó
+      // (assignat durant DOMContentLoaded — veure baix)
+      const editorId = boto.getAttribute('data-editor');
+      const titol    = boto.getAttribute('data-titol') || 'Previsualització';
 
-        // NOTA: evitem querySelector amb 'ç' perquè falla en alguns entorns.
-        // Busquem el primer <span> fill directe de la capçalera (que és el títol).
-        const capsalera  = contenidor.firstElementChild;   // div capçalera-codi
-        const labelSpan  = capsalera ? capsalera.querySelector('span') : null;
+      if (!editorId) {
+        alert('Error: botó sense data-editor. Recarrega la pàgina.');
+        return;
+      }
+      const editor = document.getElementById(editorId);
+      if (!editor) {
+        alert('Error: no s\'ha trobat l\'editor #' + editorId);
+        return;
+      }
 
-        const contingut  = editor.innerText.trim();
-        const esDocument = contingut.toLowerCase().includes('<!doctype')
-                        || contingut.toLowerCase().includes('<html');
+      const contingut  = editor.innerText.trim();
+      const esDocument = contingut.toLowerCase().includes('<!doctype')
+                      || contingut.toLowerCase().includes('<html');
 
-        const srcdoc = esDocument ? contingut : `<!DOCTYPE html>
+      const srcdoc = esDocument ? contingut : `<!DOCTYPE html>
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
@@ -381,24 +387,18 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>body { padding: 32px; font-family: 'Poppins', sans-serif; background: #f8fafc; } h1,h2,h3 { color: #1a2332; }</style>
+  <style>body{padding:32px;font-family:'Poppins',sans-serif;background:#f8fafc}h1,h2,h3{color:#1a2332}</style>
 </head>
 <body>
-  ${contingut}
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"><\/script>
+${contingut}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"><\/script>
 </body>
 </html>`;
 
-        document.getElementById('titolModal').textContent =
-          labelSpan ? labelSpan.textContent : 'Previsualització';
-        document.getElementById('iframePreview').srcdoc = srcdoc;
-        document.getElementById('modalPreview').style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-
-      } catch(err) {
-        console.error('Error en previsualitzar:', err);
-        alert('No s\'ha pogut obrir la previsualització. Consulta la consola (F12).');
-      }
+      document.getElementById('titolModal').textContent = titol;
+      document.getElementById('iframePreview').srcdoc   = srcdoc;
+      document.getElementById('modalPreview').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
     }
 
     function tancarModal() {
@@ -531,26 +531,56 @@
     // ═══════════════════════════════════════════════
     document.addEventListener('DOMContentLoaded', () => {
 
-      // Modal: tanca al clicar backdrop o Esc
-      document.getElementById('modalPreview').addEventListener('click', function(e) {
-        if (e.target === this) tancarModal();
-      });
-      document.addEventListener('keydown', e => { if (e.key === 'Escape') tancarModal(); });
+      // ── 1. Assigna data-editor i data-titol a cada botó de previsualització ──
+      // Cada <pre class="editor-codi"> rep un ID únic.
+      // Cada botó .boto-previsualitzar rep data-editor=<id> i data-titol=<text>.
+      document.querySelectorAll('.contenidor-codi').forEach((c, i) => {
+        const pre = c.querySelector('pre.editor-codi');
+        const btn = c.querySelector('.boto-previsualitzar');
+        if (!pre || !btn) return;
 
-      // ── Injecta el botó "↑ Tornar al mapa" a cada bloc-lectura ──
+        const preId = 'editor-bloc-' + i;
+        pre.id = preId;
+        btn.setAttribute('data-editor', preId);
+
+        // Títol: primer text node directe dins de la capçalera (el <span> de text)
+        // Busquem tots els spans del capçalera i agafem el primer que NO és buit
+        const spans = c.querySelectorAll('span');
+        let titol = 'Previsualització';
+        for (const s of spans) {
+          const t = s.textContent.trim();
+          if (t && !s.classList.contains('num')) { titol = t; break; }
+        }
+        btn.setAttribute('data-titol', titol);
+      });
+
+      // ── 2. Injecta "↑ Tornar al mapa" a cada bloc-lectura ──
+      // Inserim DESPRÉS del badge-seccio (primer element), no com a firstChild
+      // per evitar problemes amb nodes de text.
       document.querySelectorAll('.bloc-lectura').forEach(bloc => {
-        const btn = document.createElement('a');
-        btn.href      = '#contingut';           // salta al principi del <main>
+        const badge = bloc.querySelector('.badge-seccio');
+        const btn   = document.createElement('a');
+        btn.href      = '#';
         btn.className = 'btn-tornar-mapa';
-        btn.innerHTML = '↑ Tornar al mapa';
+        btn.textContent = '↑ Tornar al mapa';
         btn.addEventListener('click', e => {
           e.preventDefault();
           document.querySelector('.mapa-portfoli')
             .scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
-        // Inserim el botó just ABANS del badge de secció (primer fill)
-        bloc.insertBefore(btn, bloc.firstChild);
+        // Inserim el botó just ANTES del badge, com a primer element fill real
+        if (badge) {
+          bloc.insertBefore(btn, badge);
+        } else {
+          bloc.prepend(btn);
+        }
       });
+
+      // ── 3. Modal: tanca al clicar backdrop o Esc ──
+      document.getElementById('modalPreview').addEventListener('click', function(e) {
+        if (e.target === this) tancarModal();
+      });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') tancarModal(); });
       document.querySelectorAll('.bloc-exercicis').forEach((bloc, blocIdx) => {
 
         // IDs + listeners
@@ -1877,4 +1907,30 @@ window.addEventListener('load', () =&gt; {
 </main>
 
 <!-- Toast de progrés guardat -->
-<div id="toastGuardat">💾 Progrés guardat!</
+<div id="toastGuardat">💾 Progrés guardat!</div>
+
+<!-- ════ MODAL DE PREVISUALITZACIÓ ════════════════════ -->
+<div id="modalPreview">
+  <div class="modal-contenidor">
+    <div class="modal-cap">
+      <div class="modal-cap-info">
+        <span class="modal-badge">👁️ Preview</span>
+        <span class="modal-titol" id="titolModal">Previsualització</span>
+      </div>
+      <div class="modal-botons">
+        <span class="modal-url-bar">🔒 preview · localhost</span>
+        <button class="btn-tancar" onclick="tancarModal()" title="Tancar (Esc)">✕</button>
+      </div>
+    </div>
+    <div class="modal-toolbar">
+      <div class="semafors">
+        <span class="vermell"></span><span class="groc"></span><span class="verd-s"></span>
+      </div>
+      <span class="nota-tip">💡 Pots editar el codi i tornar a clicar 👁️ per veure els canvis · <kbd>Esc</kbd> per tancar</span>
+    </div>
+    <iframe id="iframePreview" title="Previsualització del codi"></iframe>
+  </div>
+</div>
+
+</body>
+</html>
