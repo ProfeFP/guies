@@ -1,0 +1,588 @@
+```html
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <title>📰 Lector de Notícies RSS amb Emojis</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 1.5rem 2rem;
+      background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    main {
+      flex: 1;
+      padding: 1.5rem 2rem 2rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.8fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    section {
+      background: #020617;
+      border-radius: 0.75rem;
+      border: 1px solid #1f2937;
+      padding: 1rem 1.25rem 1.25rem;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 0.25rem;
+      color: #9ca3af;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem 0.6rem;
+      border-radius: 0.5rem;
+      border: 1px solid #374151;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.9rem;
+      margin-bottom: 0.6rem;
+    }
+
+    input[type="text"]:focus {
+      outline: 2px solid #6366f1;
+      border-color: transparent;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+    }
+
+    button span.emoji {
+      font-size: 1rem;
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+      color: white;
+      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.5);
+    }
+
+    button.secondary {
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #374151;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .hint {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-top: 0.4rem;
+    }
+
+    .status {
+      font-size: 0.8rem;
+      margin-top: 0.4rem;
+      color: #a5b4fc;
+    }
+
+    /* Llista de notícies */
+    .news-list {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      max-height: 60vh;
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+
+    .news-card {
+      background: radial-gradient(circle at top left, #1d283a, #020617);
+      border-radius: 0.75rem;
+      border: 1px solid #1f2937;
+      padding: 0.7rem 0.8rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.6rem;
+      align-items: flex-start;
+    }
+
+    .news-emoji {
+      font-size: 1.4rem;
+      padding-top: 0.1rem;
+    }
+
+    .news-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .news-meta {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .news-link {
+      font-size: 0.8rem;
+      color: #a5b4fc;
+      text-decoration: none;
+    }
+
+    .news-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Gràfic SVG */
+    .chart-container {
+      margin-top: 0.75rem;
+      background: radial-gradient(circle at top, #1d283a, #020617);
+      border-radius: 0.75rem;
+      border: 1px solid #1f2937;
+      padding: 0.75rem;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #1f2937;
+    }
+
+    .legend-color {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+    }
+
+    svg {
+      width: 100%;
+      height: 160px;
+    }
+
+    footer {
+      padding: 0.6rem 1.5rem;
+      font-size: 0.75rem;
+      color: #6b7280;
+      text-align: right;
+      border-top: 1px solid #111827;
+      background: #020617;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>📰 RSS Mix · Lector de Notícies amb Emojis</h1>
+      <p>Barreja notícies de 3 canals RSS, guarda’ls i visualitza’ls amb un gràfic SVG.</p>
+    </div>
+    <div style="font-size:0.85rem; text-align:right;">
+      <div>👩‍💻 Pensat per a estudiants de secundària</div>
+      <div>💡 Exemple d’app feta amb IA + HTML + JS + SVG</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Configuració de canals -->
+    <section>
+      <h2>🌐 Configura els teus canals RSS</h2>
+      <!-- Inputs per als 3 canals RSS -->
+      <!-- Comentaris en català per a estudiants -->
+      <label for="feed1">Canal RSS 1</label>
+      <input id="feed1" type="text" placeholder="https://www.ara.cat/rss/latest/" />
+
+      <label for="feed2">Canal RSS 2</label>
+      <input id="feed2" type="text" placeholder="https://catalunyadiari.com/rss/last-posts" />
+
+      <label for="feed3">Canal RSS 3</label>
+      <input id="feed3" type="text" placeholder="https://www.elpuntavui.cat/esports.feed?type=rss" />
+
+      <div class="buttons">
+        <button id="saveFeeds" class="secondary">
+          <span class="emoji">💾</span> Desa canals
+        </button>
+        <button id="loadFeeds" class="secondary">
+          <span class="emoji">📂</span> Carrega desats
+        </button>
+        <button id="fetchNews" class="primary">
+          <span class="emoji">🚀</span> Carrega notícies
+        </button>
+      </div>
+
+      <div class="hint">
+        ℹ️ Els canals es guarden al navegador (localStorage). Cada matí pots obrir la pàgina i prémer
+        <strong>“Carrega notícies”</strong> per veure què hi ha de nou.
+      </div>
+      <div id="status" class="status"></div>
+
+      <div class="chart-container">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span>📊 Notícies per canal (gràfic SVG)</span>
+          <span style="font-size:0.75rem;color:#9ca3af;">Exemple simple de visualització de dades</span>
+        </div>
+        <!-- Gràfic SVG: barres per a cada canal -->
+        <svg id="rssChart" viewBox="0 0 300 120" aria-label="Gràfic de notícies per canal">
+          <!-- Fons -->
+          <defs>
+            <linearGradient id="bar1" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#4f46e5" />
+              <stop offset="100%" stop-color="#22c55e" />
+            </linearGradient>
+            <linearGradient id="bar2" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#ec4899" />
+              <stop offset="100%" stop-color="#f97316" />
+            </linearGradient>
+            <linearGradient id="bar3" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#06b6d4" />
+              <stop offset="100%" stop-color="#8b5cf6" />
+            </linearGradient>
+          </defs>
+
+          <!-- Eix X i línia base -->
+          <line x1="20" y1="100" x2="280" y2="100" stroke="#4b5563" stroke-width="1" />
+
+          <!-- Barres (es reescriuran amb JS) -->
+          <rect id="bar1" x="50" y="100" width="40" height="0" fill="url(#bar1)" rx="6" />
+          <rect id="bar2" x="130" y="100" width="40" height="0" fill="url(#bar2)" rx="6" />
+          <rect id="bar3" x="210" y="100" width="40" height="0" fill="url(#bar3)" rx="6" />
+
+          <!-- Etiquetes de canals -->
+          <text x="70" y="112" text-anchor="middle" fill="#9ca3af" font-size="9">Canal 1</text>
+          <text x="150" y="112" text-anchor="middle" fill="#9ca3af" font-size="9">Canal 2</text>
+          <text x="230" y="112" text-anchor="middle" fill="#9ca3af" font-size="9">Canal 3</text>
+        </svg>
+
+        <div class="chart-legend" id="chartLegend">
+          <!-- Llegenda generada per JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Llista de notícies -->
+    <section>
+      <h2>🧩 Notícies barrejades</h2>
+      <div class="hint">
+        Les notícies dels 3 canals es barregen en una sola llista. Pots fer clic al títol per obrir la notícia.
+      </div>
+      <div id="newsList" class="news-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    Exemple didàctic: HTML + CSS + JS + SVG · IA com a “parella de programació” 👥
+  </footer>
+
+  <script>
+    // Claus per al localStorage
+    const STORAGE_KEY = "rssFeedsDemo";
+
+    const feedInputs = [
+      document.getElementById("feed1"),
+      document.getElementById("feed2"),
+      document.getElementById("feed3"),
+    ];
+
+    const saveBtn = document.getElementById("saveFeeds");
+    const loadBtn = document.getElementById("loadFeeds");
+    const fetchBtn = document.getElementById("fetchNews");
+    const statusEl = document.getElementById("status");
+    const newsListEl = document.getElementById("newsList");
+
+    const barEls = [
+      document.getElementById("bar1"),
+      document.getElementById("bar2"),
+      document.getElementById("bar3"),
+    ];
+    const chartLegendEl = document.getElementById("chartLegend");
+
+    // Funció per mostrar missatges d’estat
+    function setStatus(msg, isError = false) {
+      statusEl.textContent = msg;
+      statusEl.style.color = isError ? "#fca5a5" : "#a5b4fc";
+    }
+
+    // Desa els canals al localStorage
+    function saveFeeds() {
+      const feeds = feedInputs.map((input) => input.value.trim());
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(feeds));
+      setStatus("✅ Canals desats al navegador.");
+    }
+
+    // Carrega els canals del localStorage
+    function loadFeeds() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) {
+        setStatus("ℹ️ Encara no hi ha canals desats.", true);
+        return;
+      }
+      const feeds = JSON.parse(saved);
+      feeds.forEach((url, i) => {
+        if (feedInputs[i]) feedInputs[i].value = url || "";
+      });
+      setStatus("📂 Canals carregats des del navegador.");
+    }
+
+    // Actualitza el gràfic SVG amb el nombre de notícies per canal
+    function updateChart(counts) {
+      const max = Math.max(1, ...counts); // Evitem dividir per 0
+      const maxHeight = 80; // alçada màxima de les barres
+      const colors = ["#4f46e5 → #22c55e", "#ec4899 → #f97316", "#06b6d4 → #8b5cf6"];
+
+      counts.forEach((count, i) => {
+        const bar = barEls[i];
+        const height = (count / max) * maxHeight;
+        const y = 100 - height;
+        bar.setAttribute("y", y);
+        bar.setAttribute("height", height);
+      });
+
+      // Llegenda
+      chartLegendEl.innerHTML = "";
+      counts.forEach((count, i) => {
+        const item = document.createElement("div");
+        item.className = "legend-item";
+        const colorDot = document.createElement("div");
+        colorDot.className = "legend-color";
+        colorDot.style.background = i === 0 ? "#4f46e5" : i === 1 ? "#ec4899" : "#06b6d4";
+        const text = document.createElement("span");
+        text.textContent = `Canal ${i + 1}: ${count} notícies`;
+        item.appendChild(colorDot);
+        item.appendChild(text);
+        chartLegendEl.appendChild(item);
+      });
+    }
+
+    // Crea una targeta de notícia
+    function createNewsCard(item) {
+      const card = document.createElement("article");
+      card.className = "news-card";
+
+      const emoji = document.createElement("div");
+      emoji.className = "news-emoji";
+      // Emoji simple segons el canal
+      const emojiSet = ["📰", "🌍", "🚀"];
+      emoji.textContent = emojiSet[item.feedIndex] || "📰";
+
+      const content = document.createElement("div");
+
+      const title = document.createElement("div");
+      title.className = "news-title";
+      const link = document.createElement("a");
+      link.href = item.link;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.className = "news-link";
+      link.textContent = item.title || "(Sense títol)";
+      title.appendChild(link);
+
+      const meta = document.createElement("div");
+      meta.className = "news-meta";
+
+      const source = document.createElement("span");
+      source.textContent = item.source || "Canal desconegut";
+
+      const dateSpan = document.createElement("span");
+      if (item.pubDate) {
+        const d = new Date(item.pubDate);
+        if (!isNaN(d.getTime())) {
+          dateSpan.textContent = d.toLocaleString("ca-ES");
+        }
+      }
+
+      meta.appendChild(source);
+      if (dateSpan.textContent) {
+        meta.appendChild(document.createTextNode("·"));
+        meta.appendChild(dateSpan);
+      }
+
+      content.appendChild(title);
+      content.appendChild(meta);
+
+      card.appendChild(emoji);
+      card.appendChild(content);
+
+      return card;
+    }
+
+    // Barreja un array (algoritme de Fisher–Yates)
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Llegeix RSS via un proxy (per evitar problemes de CORS)
+    // IMPORTANT: en un projecte real, el professor pot explicar què és CORS i per què cal un proxy.
+    async function fetchRSS(url) {
+      if (!url) return [];
+      try {
+        // Fem servir allorigins com a exemple de proxy públic
+        const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(url);
+        const res = await fetch(proxyUrl);
+        if (!res.ok) throw new Error("Error en la resposta");
+        const data = await res.json();
+        const xmlText = data.contents;
+
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(xmlText, "text/xml");
+        const items = Array.from(xml.querySelectorAll("item"));
+
+        return items.slice(0, 10).map((item) => ({
+          title: item.querySelector("title")?.textContent || "",
+          link: item.querySelector("link")?.textContent || "",
+          pubDate: item.querySelector("pubDate")?.textContent || "",
+          source: xml.querySelector("channel > title")?.textContent || "",
+        }));
+      } catch (err) {
+        console.error("Error llegint RSS:", url, err);
+        return [];
+      }
+    }
+
+    // Carrega notícies dels 3 canals, les barreja i actualitza el gràfic
+    async function fetchAllNews() {
+      const feeds = feedInputs.map((input) => input.value.trim());
+      if (feeds.every((f) => !f)) {
+        setStatus("⚠️ Escriu com a mínim un canal RSS abans de carregar notícies.", true);
+        return;
+      }
+
+      setStatus("⏳ Carregant notícies… Pot tardar uns segons.");
+      newsListEl.innerHTML = "";
+
+      const allNews = [];
+      const counts = [0, 0, 0];
+
+      // Per a cada canal, llegim les notícies
+      for (let i = 0; i < feeds.length; i++) {
+        const url = feeds[i];
+        if (!url) continue;
+        const items = await fetchRSS(url);
+        counts[i] = items.length;
+        items.forEach((item) => {
+          allNews.push({ ...item, feedIndex: i });
+        });
+      }
+
+      if (allNews.length === 0) {
+        setStatus("😕 No s’han pogut carregar notícies. Revisa els canals o prova uns altres.", true);
+        updateChart([0, 0, 0]);
+        return;
+      }
+
+      // Ordenem per data (si n’hi ha) i després barregem una mica
+      allNews.sort((a, b) => {
+        const da = new Date(a.pubDate || 0).getTime();
+        const db = new Date(b.pubDate || 0).getTime();
+        return db - da;
+      });
+
+      const mixed = shuffle(allNews);
+
+      // Pintem les targetes
+      mixed.forEach((item) => {
+        const card = createNewsCard(item);
+        newsListEl.appendChild(card);
+      });
+
+      updateChart(counts);
+      setStatus("✅ Notícies carregades i barrejades.");
+    }
+
+    // Esdeveniments
+    saveBtn.addEventListener("click", saveFeeds);
+    loadBtn.addEventListener("click", loadFeeds);
+    fetchBtn.addEventListener("click", fetchAllNews);
+
+    // En carregar la pàgina, intentem carregar canals desats
+    window.addEventListener("DOMContentLoaded", () => {
+      loadFeeds();
+      updateChart([0, 0, 0]);
+    });
+  </script>
+</body>
+</html>
+```
