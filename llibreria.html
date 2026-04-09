@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!-- ╔══════════════════════════════════════════════════════════════╗
+     ║  LLIBRERIA.HTML  ·  GAS Docents                            ║
+     ║  Fitxer de funcions compartides del projecte               ║
+     ║                                                            ║
+     ║  PROPÒSIT: Aquest fitxer NO és una pàgina visible.         ║
+     ║  Conté funcions JavaScript que qualsevol pàgina del        ║
+     ║  projecte pot carregar per obtenir automàticament          ║
+     ║  la capçalera (nav) i el peu de pàgina (footer).           ║
+     ║                                                            ║
+     ║  ÚS EN QUALSEVOL PÀGINA:                                   ║
+     ║                                                            ║
+     ║  Opció A (automàtica):                                     ║
+     ║    <body data-pagina="nom_fitxer.html">                    ║
+     ║    <script src="llibreria.html"></script>                  ║
+     ║                                                            ║
+     ║  Opció B (manual):                                         ║
+     ║    <script src="llibreria.html"></script>                  ║
+     ║    <script>iniciarPagina("nom_fitxer.html");</script>      ║
+     ╚══════════════════════════════════════════════════════════════╝ -->
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llibreria de Funcions · GAS Docents</title>
+    <link rel="stylesheet" href="gas-docents.css">
+</head>
+
+<!-- Si algú obre aquest fitxer directament, veu la documentació -->
+
+<body style="padding:40px; font-family:'DM Sans',sans-serif; background:#f5f4ff;">
+
+    <div style="max-width:720px; margin:0 auto; background:#fff;
+              border:2px dashed #6c5ce7; border-radius:14px; padding:36px;">
+
+        <h1 style="font-family:'Syne',sans-serif; color:#6c5ce7; margin-bottom:4px;">
+            📚 llibreria.html
+        </h1>
+        <p style="color:#8882b8; font-size:13px; margin-bottom:20px;">
+            Fitxer de funcions compartides · Projecte GAS Docents
+        </p>
+        <p style="color:#4a4470; line-height:1.7; margin-bottom:20px;">
+            Aquest fitxer conté les <strong>funcions JavaScript</strong> que injecten
+            la capçalera de navegació i el peu de pàgina a totes les pàgines
+            del projecte. Canviant les dades aquí, el canvi s'aplica a tot arreu.
+        </p>
+
+        <h3 style="font-family:'Syne',sans-serif; font-size:13px; text-transform:uppercase;
+               letter-spacing:.08em; color:#1a1640; margin-bottom:10px;">
+            Com s'inclou a cada pàgina:
+        </h3>
+        <pre style="background:#1a1640; color:#a29bfe; padding:18px;
+                border-radius:10px; font-size:13px; line-height:1.9;
+                overflow-x:auto; white-space:pre-wrap;">&lt;!DOCTYPE html&gt;
+&lt;html lang="ca"&gt;
+&lt;head&gt;
+  &lt;link rel="stylesheet" href="gas-docents.css"&gt;
+&lt;/head&gt;
+
+&lt;!-- Opció A: indicar la pàgina activa com a atribut --&gt;
+&lt;body data-pagina="nom_pagina.html"&gt;
+
+  &lt;!-- El contingut de la pàgina va aquí --&gt;
+  &lt;main&gt; ... &lt;/main&gt;
+
+  &lt;!-- Càrrega de la llibreria: injecta nav i footer automàticament --&gt;
+  &lt;script src="llibreria.html"&gt;&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+        <h3 style="font-family:'Syne',sans-serif; font-size:13px; text-transform:uppercase;
+               letter-spacing:.08em; color:#1a1640; margin:20px 0 10px;">
+            Funcions disponibles:
+        </h3>
+        <ul style="color:#4a4470; font-size:14px; line-height:2; padding-left:20px;">
+            <li><code style="background:#ede9ff;padding:2px 7px;border-radius:5px;">iniciarPagina("fitxer.html")</code>
+                — Nav + Footer d'una sola crida</li>
+            <li><code style="background:#ede9ff;padding:2px 7px;border-radius:5px;">injectarNav("fitxer.html")</code> —
+                Només la barra de navegació</li>
+            <li><code style="background:#ede9ff;padding:2px 7px;border-radius:5px;">injectarFooter()</code> — Només el
+                peu de pàgina</li>
+        </ul>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════════
+       JAVASCRIPT — Tot el codi de la llibreria és aquí.
+       Aquests scripts s'executen quan qualsevol pàgina
+       inclou aquest fitxer amb <script src="llibreria.html">.
+       ══════════════════════════════════════════════════════════════ -->
+    <script>
+
+        // ════════════════════════════════════════════════════════════
+        //  DADES DEL MENÚ DE NAVEGACIÓ
+        //
+        //  Array d'objectes. Cada objecte representa un ítem del menú.
+        //  Per afegir una nova pàgina al projecte:
+        //    1. Afegeix un objecte nou aquí
+        //    2. El canvi apareix automàticament a TOTES les pàgines
+        // ════════════════════════════════════════════════════════════
+        const MENU_ITEMS = [
+            { nom: "Inici", emoji: "🏠", fitxer: "index.html" },
+            { nom: "Història", emoji: "🕰️", fitxer: "historia.html" },
+            { nom: "Equip IA", emoji: "🤖", fitxer: "equip_IA.html" },
+            { nom: "Primera App", emoji: "📰", fitxer: "primera_app.html" },
+            { nom: "Guia GAS 1", emoji: "📘", fitxer: "guia1.html" },
+            { nom: "Guia GAS 3", emoji: "📙", fitxer: "guia3.html" },
+        ];
+
+
+        // ════════════════════════════════════════════════════════════
+        //  DADES DEL FOOTER — Columna "Guies del projecte"
+        // ════════════════════════════════════════════════════════════
+        const FOOTER_GUIES = [
+            { nom: "Història de la Programació", emoji: "🕰️", fitxer: "historia.html" },
+            { nom: "El Meu Equip d'IA", emoji: "🤖", fitxer: "equip_IA.html" },
+            { nom: "Primera App — Visor RSS", emoji: "📰", fitxer: "primera_app.html" },
+            { nom: "GAS — Bases i Spreadsheet", emoji: "📘", fitxer: "guia1.html" },
+            { nom: "GAS — Llenguatge complet", emoji: "📙", fitxer: "guia3.html" },
+        ];
+
+        // ════════════════════════════════════════════════════════════
+        //  DADES DEL FOOTER — Columna "Recursos externs"
+        // ════════════════════════════════════════════════════════════
+        const FOOTER_RECURSOS = [
+            { nom: "App Visor RSS (GitHub Pages)", emoji: "🌐", url: "https://profefp.github.io/guies/mostra/visor_RSS.html" },
+            { nom: "Conversa Copilot original", emoji: "🤖", url: "https://copilot.microsoft.com/conversations/join/F9D5SVK7AvM26mzFXEGrv" },
+            { nom: "Claude (Anthropic)", emoji: "🔷", url: "https://claude.ai" },
+            { nom: "ChatGPT (OpenAI)", emoji: "💬", url: "https://chat.openai.com" },
+            { nom: "Documentació oficial GAS", emoji: "📖", url: "https://developers.google.com/apps-script" },
+        ];
+
+
+        // ════════════════════════════════════════════════════════════
+        //  FUNCIÓ: injectarNav(pagActiva)
+        //
+        //  Genera el HTML de la barra de navegació i l'insereix
+        //  al principi del <body>.
+        //
+        //  Paràmetre:
+        //    pagActiva — string amb el nom del fitxer actual
+        //                per ressaltar l'element actiu al menú
+        //                Exemple: "primera_app.html"
+        // ════════════════════════════════════════════════════════════
+        function injectarNav(pagActiva) {
+
+            // Generem un <li> per cada element del menú
+            // Si és la pàgina actual, afegim class="active"
+            const linksHTML = MENU_ITEMS.map(item => {
+                const actiu = (item.fitxer === pagActiva) ? ' class="active"' : '';
+                return `<li><a href="${item.fitxer}"${actiu}>
+                  <span class="nav-icon">${item.emoji}</span> ${item.nom}
+                </a></li>`;
+            }).join('');
+
+            // Template literal: el HTML complet de la nav
+            const navHTML = `
+        <nav class="site-nav">
+          <a href="index.html" class="nav-logo">
+            <div class="nav-logo-icon">⚡</div>
+            <span class="nav-logo-text">GAS <span>Docents</span></span>
+          </a>
+          <div class="nav-divider"></div>
+          <ul class="nav-links" id="navLinks">${linksHTML}</ul>
+          <div class="nav-actions">
+            <span class="nav-badge">Jornades 2025</span>
+          </div>
+          <button class="nav-toggle" id="navToggle" aria-label="Menú">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="3" y1="6"  x2="19" y2="6"/>
+              <line x1="3" y1="11" x2="19" y2="11"/>
+              <line x1="3" y1="16" x2="19" y2="16"/>
+            </svg>
+          </button>
+        </nav>`;
+
+            // Inserim al PRINCIPI del body (afterbegin = just després de <body>)
+            document.body.insertAdjacentHTML('afterbegin', navHTML);
+
+            // Botó hamburguesa per a mòbil: toggle de la classe "open"
+            document.getElementById('navToggle').addEventListener('click', () => {
+                document.getElementById('navLinks').classList.toggle('open');
+            });
+        }
+
+
+        // ════════════════════════════════════════════════════════════
+        //  FUNCIÓ: injectarFooter()
+        //
+        //  Genera el HTML del peu de pàgina i l'insereix
+        //  al FINAL del <body>. No necessita paràmetres.
+        // ════════════════════════════════════════════════════════════
+        function injectarFooter() {
+
+            // Columna guies
+            const guiesHTML = FOOTER_GUIES.map(g =>
+                `<li><a href="${g.fitxer}">${g.emoji} ${g.nom}</a></li>`
+            ).join('');
+
+            // Columna recursos externs
+            const recursosHTML = FOOTER_RECURSOS.map(r =>
+                `<li><a href="${r.url}" target="_blank" rel="noopener">${r.emoji} ${r.nom}</a></li>`
+            ).join('');
+
+            const footerHTML = `
+        <footer class="site-footer">
+          <div class="footer-inner">
+            <div class="footer-brand">
+              <div class="footer-brand-logo">
+                <div class="footer-brand-icon">⚡</div>
+                <span class="footer-brand-name">GAS <span>Docents</span></span>
+              </div>
+              <p class="footer-desc">
+                Recursos pràctics sobre Google Apps Script,
+                Intel·ligència Artificial Generativa i automatització educativa.
+              </p>
+            </div>
+            <div>
+              <div class="footer-col-title">Guies del projecte</div>
+              <ul class="footer-links">${guiesHTML}</ul>
+            </div>
+            <div>
+              <div class="footer-col-title">Recursos externs</div>
+              <ul class="footer-links">${recursosHTML}</ul>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p class="footer-copy">
+              © 2025 <strong>GAS Docents</strong> · Jornades de Formació
+              · Creat amb IA generativa
+            </p>
+            <div class="footer-pills">
+              <span class="footer-pill">Google Apps Script</span>
+              <span class="footer-pill">IA Generativa</span>
+              <span class="footer-pill">Formació Docent</span>
+            </div>
+          </div>
+        </footer>`;
+
+            // Inserim al FINAL del body (beforeend = just abans de </body>)
+            document.body.insertAdjacentHTML('beforeend', footerHTML);
+        }
+
+
+        // ════════════════════════════════════════════════════════════
+        //  FUNCIÓ: iniciarPagina(pagActiva)
+        //
+        //  Drecera que crida injectarNav + injectarFooter d'una sola
+        //  vegada. És la que s'usa normalment a cada pàgina.
+        //
+        //  Exemple:
+        //    <script>iniciarPagina("primera_app.html");</script>
+    // ════════════════════════════════════════════════════════════
+    function iniciarPagina(pagActiva) {
+    injectarNav(pagActiva);
+    injectarFooter();
+    }
+
+
+    // ════════════════════════════════════════════════════════════
+    // EXECUCIÓ AUTOMÀTICA per l'Opció A
+    //
+    // Si el
+
+    <body> té l'atribut data-pagina, la llibreria
+        // s'inicialitza sola en carregar la pàgina:
+        //
+        //
+
+        <body data-pagina="primera_app.html">
+            //
+            <script src="llibreria.html"></script>
+            //
+            // Sense necessitat de cridar res manualment.
+            // ════════════════════════════════════════════════════════════
+            document.addEventListener('DOMContentLoaded', () => {
+            const pagina = document.body.getAttribute('data-pagina');
+            if (pagina) {
+            iniciarPagina(pagina);
+            }
+            });
+
+            </script><!-- /JAVASCRIPT de la llibreria -->
+
+        </body>
+
+</html>

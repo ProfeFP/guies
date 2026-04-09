@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<!-- ╔══════════════════════════════════════════════════════════════╗
+     ║  PRIMERA_APP.HTML  ·  GAS Docents                          ║
+     ║  La Primera App Sencera amb IA: el Visor RSS               ║
+     ║                                                            ║
+     ║  La capçalera i el peu de pàgina els injecta               ║
+     ║  la llibreria.html amb una sola línia:                     ║
+     ║    <script src="llibreria.html"></script>                  ║
+     ║  combinada amb l'atribut data-pagina al <body>.            ║
+     ╚══════════════════════════════════════════════════════════════╝ -->
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primera App Sencera amb IA · GAS Docents</title>
+
+    <!-- CSS compartit de tot el projecte -->
+    <link rel="stylesheet" href="gas-docents.css">
+
+    <!-- Estils específics d'aquesta pàgina -->
+    <style>
+        /* Hero: degradat verd/blau per diferenciar-se de les altres pàgines */
+        .hero {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f3e5f5 50%, #e3f2fd 100%);
+        }
+
+        .hero h1 em {
+            color: #1b7f4f;
+            font-style: normal;
+        }
+
+        .section-badge {
+            background: rgba(27, 127, 79, .12);
+            color: #1b7f4f;
+        }
+
+        /* ── Graella de targetes de conceptes ────────────────── */
+        .conceptes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 28px 0;
+        }
+
+        .concepte-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: box-shadow .2s, transform .2s;
+        }
+
+        .concepte-card:hover {
+            box-shadow: 0 6px 24px rgba(108, 92, 231, .1);
+            transform: translateY(-2px);
+        }
+
+        .concepte-icon {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .concepte-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .concepte-card p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        .concepte-card ul {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            padding-left: 16px;
+            margin-top: 8px;
+        }
+
+        .concepte-card ul li {
+            margin-bottom: 4px;
+        }
+
+        /* ── Taula comparativa plataformes IA ────────────────── */
+        .ia-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+            margin: 20px 0;
+        }
+
+        .ia-table th {
+            background: var(--bg-surface);
+            color: var(--text-main);
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 2px solid var(--border2);
+        }
+
+        .ia-table td {
+            padding: 9px 14px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .ia-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .ia-table tr:hover td {
+            background: var(--bg-card2);
+        }
+
+        .badge-si {
+            background: #d4edda;
+            color: #155724;
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+
+        .badge-no {
+            background: #f8d7da;
+            color: #721c24;
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+
+        .badge-par {
+            background: #fff3cd;
+            color: #856404;
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+
+        /* ── Passos del procés ───────────────────────────────── */
+        .pas {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            padding: 22px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            transition: box-shadow .2s;
+        }
+
+        .pas:hover {
+            box-shadow: 0 4px 16px rgba(108, 92, 231, .08);
+        }
+
+        .pas-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--accent), #a29bfe);
+            color: #fff;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pas-body h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .pas-body p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* ── Bloc del Prompt ─────────────────────────────────── */
+        .prompt-box {
+            background: #1a1640;
+            color: #e2dfff;
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13.5px;
+            line-height: 1.8;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .prompt-label {
+            position: absolute;
+            top: 16px;
+            left: 20px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: #a29bfe;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+        }
+
+        .prompt-box pre {
+            white-space: pre-wrap;
+            margin: 0;
+            padding-top: 12px;
+            color: #e2dfff;
+            font-family: inherit;
+        }
+
+        .prompt-box strong {
+            color: #a29bfe;
+        }
+
+        .prompt-copy {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: rgba(162, 155, 254, .15);
+            border: 1px solid rgba(162, 155, 254, .3);
+            color: #a29bfe;
+            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: background .18s;
+        }
+
+        .prompt-copy:hover {
+            background: rgba(162, 155, 254, .28);
+        }
+
+        /* ── Captures de pantalla ────────────────────────────── */
+        .captures-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        @media(max-width:640px) {
+            .captures-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .captura-wrap {
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+
+        .captura-wrap img {
+            width: 100%;
+            display: block;
+        }
+
+        .captura-label {
+            padding: 10px 14px;
+            font-size: 12.5px;
+            color: var(--text-muted);
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            background: var(--bg-card2);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        /* ── Bloc de codi amb syntax highlight ───────────────── */
+        .codi-wrap {
+            position: relative;
+            background: #0d1117;
+            border-radius: var(--radius);
+            margin: 20px 0;
+            border: 1px solid #30363d;
+            max-height: 520px;
+            overflow: hidden;
+        }
+
+        .codi-wrap.expanded {
+            max-height: none;
+        }
+
+        .codi-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 18px;
+            background: #161b22;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .codi-dots {
+            display: flex;
+            gap: 7px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-r {
+            background: #ff5f57;
+        }
+
+        .dot-y {
+            background: #febc2e;
+        }
+
+        .dot-g {
+            background: #28c840;
+        }
+
+        .codi-fname {
+            color: #8b949e;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .codi-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-codi {
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: background .18s;
+        }
+
+        .btn-codi:hover {
+            background: rgba(255, 255, 255, .15);
+        }
+
+        .codi-pre {
+            padding: 20px 24px;
+            overflow-x: auto;
+            font-size: 12px;
+            line-height: 1.7;
+            color: #e6edf3;
+            font-family: 'Courier New', Consolas, monospace;
+            margin: 0;
+        }
+
+        .codi-fade {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(transparent, #0d1117);
+            pointer-events: none;
+        }
+
+        .codi-wrap.expanded .codi-fade {
+            display: none;
+        }
+
+        .btn-expand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px;
+            background: #161b22;
+            border: none;
+            border-top: 1px solid #30363d;
+            color: #a29bfe;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: background .18s;
+        }
+
+        .btn-expand:hover {
+            background: #1f2937;
+        }
+
+        /* ── Nota pedagògica ─────────────────────────────────── */
+        .nota-docent {
+            background: linear-gradient(135deg, rgba(27, 127, 79, .07), rgba(108, 92, 231, .07));
+            border-left: 4px solid #1b7f4f;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            padding: 20px 24px;
+            margin: 24px 0;
+        }
+
+        .nota-docent .nota-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            color: #1b7f4f;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .nota-docent p,
+        .nota-docent ul {
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+
+        .nota-docent ul {
+            padding-left: 18px;
+            margin-top: 8px;
+        }
+
+        .nota-docent ul li {
+            margin-bottom: 5px;
+        }
+
+        /* ── Alerta limitacions IA ───────────────────────────── */
+        .alerta-ia {
+            background: linear-gradient(135deg, #fff8e1, #fff3e0);
+            border: 1px solid #ffb300;
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+
+        .alerta-ia .alerta-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            color: #e65100;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alerta-ia ul {
+            font-size: 13.5px;
+            color: #5d4037;
+            padding-left: 18px;
+        }
+
+        .alerta-ia ul li {
+            margin-bottom: 6px;
+        }
+
+        .alerta-ia strong {
+            color: #bf360c;
+        }
+
+        /* ── Enllaç extern inline ────────────────────────────── */
+        .link-extern {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--bg-card);
+            border: 1px solid var(--border2);
+            color: var(--accent);
+            text-decoration: none;
+            padding: 5px 13px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background .18s, box-shadow .18s;
+            margin: 0 3px;
+        }
+
+        .link-extern:hover {
+            background: var(--bg-surface);
+            box-shadow: 0 2px 12px rgba(108, 92, 231, .12);
+        }
+
+        @media(max-width:768px) {
+            .ia-table {
+                font-size: 12px;
+            }
+
+            .ia-table th,
+            .ia-table td {
+                padding: 7px 9px;
+            }
+
+            .conceptes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<!--
+  data-pagina: la llibreria.html llegeix aquest atribut i marca
+  "Primera App" com a actiu al menú automàticament.
+-->
+
+<body data-pagina="primera_app.html">
+
+    <!-- ═══════════════════════════════════════════════════════════
+       La <nav> la injecta la llibreria.html aquí dalt automàticament
+       ═══════════════════════════════════════════════════════════ -->
+
+    <!-- ══ HERO ═══════════════════════════════════════════════ -->
+    <header class="hero">
+        <div class="breadcrumb">
+            📚 <span>Jornades Docents</span> · Primera App Sencera amb IA
+        </div>
+        <h1>📰 La <em>Primera App</em> Sencera amb IA</h1>
+        <p>De la idea al producte desplegat: com construir un lector de notícies RSS
+            usant Copilot com a assistent de programació. Una primera experiència real
+            de <strong>vibe coding</strong> per a l'aula.</p>
+        <div class="hero-meta">
+            <div class="meta-pill">🤖 <strong>Copilot</strong> com a eina</div>
+            <div class="meta-pill">📡 <strong>RSS · XML · JSON</strong></div>
+            <div class="meta-pill">🐙 <strong>GitHub Pages</strong></div>
+            <div class="meta-pill">🎓 Per a docents de programació</div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ══ BLOC 1: CONCEPTES PREVIS ═══════════════════════════ -->
+        <section>
+            <div class="section-header">
+                <div class="section-badge">🧱 Bloc 1</div>
+                <div class="section-line"></div>
+            </div>
+            <h2>Conceptes previs abans de programar amb IA</h2>
+            <p class="section-desc">
+                Abans de demanar-li a la IA que fabriqui el producte, cal que els alumnes tinguin
+                una base mínima sobre tres àrees: <strong>formats de dades</strong>,
+                <strong>servidors i publicació</strong> i <strong>capacitats de les eines d'IA</strong>.
+            </p>
+
+            <div class="conceptes-grid">
+
+                <div class="concepte-card">
+                    <span class="concepte-icon">📦</span>
+                    <h3>Formats de dades: XML, RSS i JSON</h3>
+                    <p>Les aplicacions web s'intercanvien informació amb formats estructurats. Els dos grans estàndards
+                        oberts:</p>
+                    <ul>
+                        <li><strong>XML</strong> — eXtensible Markup Language. Estructura jeràrquica d'etiquetes,
+                            llegible per humans i màquines.</li>
+                        <li><strong>RSS</strong> — Really Simple Syndication. Dialecte XML per publicar llistes de
+                            notícies. Cada ítem té <code>&lt;title&gt;</code>, <code>&lt;link&gt;</code>,
+                            <code>&lt;pubDate&gt;</code>…</li>
+                        <li><strong>JSON</strong> — JavaScript Object Notation. Més lleuger que XML, el format dominant
+                            avui per APIs REST.</li>
+                    </ul>
+                    <p style="margin-top:10px;"><strong>Per a l'aula:</strong> mostra un fitxer RSS real al navegador i
+                        compara'l visualment amb un JSON equivalent. Mateixa idea, sintaxi diferent.</p>
+                </div>
+
+                <div class="concepte-card">
+                    <span class="concepte-icon">🐙</span>
+                    <h3>Servidors web i GitHub Pages</h3>
+                    <p>Un cop programada l'app cal <em>allotjar-la</em> en un servidor perquè sigui accessible des
+                        d'internet.</p>
+                    <ul>
+                        <li><strong>GitHub Pages</strong> — gratis, URL pública <code>usuari.github.io/projecte</code>.
+                            El fitxer <code>index.html</code> a la branca <code>main</code> es publica automàticament.
+                        </li>
+                        <li><strong>Netlify / Vercel</strong> — alternatives modernes amb desplegament continu.</li>
+                        <li><strong>Fitxer local</strong> — per a proves ràpides al navegador, suficient per a moltes
+                            activitats.</li>
+                    </ul>
+                    <p style="margin-top:10px;"><strong>Concepte clau:</strong> el repositori de GitHub guarda i
+                        versiona el codi. GitHub Pages és el servei que el publica com a web pública.</p>
+                </div>
+
+                <div class="concepte-card">
+                    <span class="concepte-icon">🤖</span>
+                    <h3>Capacitats de les IA per a codi</h3>
+                    <p>No totes les plataformes d'IA ofereixen el mateix per a programació. Avalua:</p>
+                    <ul>
+                        <li>Qualitat i correctesa del codi generat</li>
+                        <li>Longitud màxima de sortida (tokens)</li>
+                        <li>Previsualització del resultat (Canvas / Artifacts)</li>
+                        <li>Opció de descarregar o exportar el fitxer</li>
+                        <li>Integració amb repositoris (GitHub, Drive…)</li>
+                        <li>Memòria de context dins la conversa</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="nota-docent">
+                <div class="nota-title">🎓 Nota per al docent</div>
+                <p>Aquests tres blocs es poden treballar en una sessió de 50 min <em>abans</em> de la pràctica.
+                    El RSS és un exemple ideal: és visible al navegador, té estructura clara i l'alumnat pot
+                    relacionar-lo amb notícies que ja llegeix.</p>
+            </div>
+        </section>
+
+
+        <!-- ══ BLOC 2: COMPARATIVA PLATAFORMES ═══════════════════ -->
+        <section>
+            <div class="section-header">
+                <div class="section-badge">🤖 Bloc 2</div>
+                <div class="section-line"></div>
+            </div>
+            <h2>Comparativa de plataformes IA per a programació</h2>
+            <p class="section-desc">
+                A l'hora de triar l'eina per a l'aula, cal avaluar factors que van més
+                enllà de "qui fa millor codi".
+            </p>
+
+            <div style="overflow-x:auto;">
+                <table class="ia-table">
+                    <thead>
+                        <tr>
+                            <th>Plataforma</th>
+                            <th>Qualitat codi</th>
+                            <th>Previsualitza (Canvas)</th>
+                            <th>Descàrrega fitxer</th>
+                            <th>Envia a GitHub</th>
+                            <th>Memòria conversa</th>
+                            <th>Gratuït</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>🤖 Copilot</strong></td>
+                            <td><span class="badge-par">Bona</span></td>
+                            <td><span class="badge-no">No</span></td>
+                            <td><span class="badge-no">No</span></td>
+                            <td><span class="badge-no">No</span></td>
+                            <td><span class="badge-par">Limitada</span></td>
+                            <td><span class="badge-si">Sí</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>💬 ChatGPT</strong></td>
+                            <td><span class="badge-si">Molt bona</span></td>
+                            <td><span class="badge-si">Sí (Canvas)</span></td>
+                            <td><span class="badge-par">Parcial</span></td>
+                            <td><span class="badge-no">No</span></td>
+                            <td><span class="badge-si">Bona</span></td>
+                            <td><span class="badge-par">Limitada</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>🔷 Claude</strong></td>
+                            <td><span class="badge-si">Excel·lent</span></td>
+                            <td><span class="badge-si">Sí (Artifacts)</span></td>
+                            <td><span class="badge-si">Sí</span></td>
+                            <td><span class="badge-par">Via codi</span></td>
+                            <td><span class="badge-si">Excel·lent</span></td>
+                            <td><span class="badge-par">Limitada</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>✨ Gemini</strong></td>
+                            <td><span class="badge-par">Bona</span></td>
+                            <td><span class="badge-par">Parcial</span></td>
+                            <td><span class="badge-si">Sí (Drive)</span></td>
+                            <td><span class="badge-no">No</span></td>
+                            <td><span class="badge-si">Bona</span></td>
+                            <td><span class="badge-si">Sí</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alerta-ia">
+                <div class="alerta-title">⚠️ Limitacions de Copilot en aquesta activitat</div>
+                <ul>
+                    <li><strong>Sense previsualització:</strong> cal copiar el codi, guardar-lo i obrir-lo al navegador
+                        manualment.</li>
+                    <li><strong>Sense descàrrega directa:</strong> cal copiar el codi amb el botó de copiar o
+                        seleccionant-lo tot.</li>
+                    <li><strong>Sense Artifacts ni Skills:</strong> no pot enviar el fitxer a GitHub ni a cap servidor
+                        directament.</li>
+                    <li><strong>Tokens limitats:</strong> per a apps llargues pot tallar la resposta. Cal demanar-li que
+                        "continuï".</li>
+                    <li><strong>Memòria curta:</strong> en converses llargues pot "oblidar" decisions anteriors. Convé
+                        resumir l'estat.</li>
+                    <li>⭐ <strong>Punt pedagògic positiu:</strong> copiar el codi a mà obliga l'alumne a llegir-lo i
+                        entendre'n l'estructura.</li>
+                </ul>
+            </div>
+
+            <div class="nota-docent">
+                <div class="nota-title">🎓 L'evolució dels models és molt ràpida</div>
+                <p><strong>ChatGPT va liderar la generació de codi durant anys, però avui ha estat superat
+                        per eines com Claude (Anthropic)</strong> en benchmarks independents de programació.
+                    La recomanació és experimentar amb almenys 2 o 3 plataformes per al mateix prompt
+                    i comparar els resultats: és en si mateix una excel·lent activitat de pensament crític.</p>
+            </div>
+        </section>
+
+
+        <!-- ══ BLOC 3: EL PROCÉS ══════════════════════════════════ -->
+        <section>
+            <div class="section-header">
+                <div class="section-badge">🔄 Bloc 3</div>
+                <div class="section-line"></div>
+            </div>
+            <h2>El procés: de la idea al producte publicat</h2>
+            <p class="section-desc">Cinc passos des del disseny del prompt fins al desplegament a GitHub Pages.</p>
+
+            <div class="passos">
+                <div class="pas">
+                    <div class="pas-num">1</div>
+                    <div class="pas-body">
+                        <h4>🧠 Disseny del prompt (l'etapa més important)</h4>
+                        <p>Definim clarament el <strong>ROL</strong>, la <strong>TASCA</strong>, el
+                            <strong>CONTEXT</strong> i el <strong>FORMAT</strong>. Com més precís és el
+                            prompt, menys iteracions calen. Veieu el prompt complet al Bloc 4.
+                        </p>
+                    </div>
+                </div>
+                <div class="pas">
+                    <div class="pas-num">2</div>
+                    <div class="pas-body">
+                        <h4>💬 Conversa interactiva amb Copilot</h4>
+                        <p>S'inicia la conversa a Copilot.
+                            <a href="https://copilot.microsoft.com/conversations/join/F9D5SVK7AvM26mzFXEGrv"
+                                target="_blank" rel="noopener" class="link-extern">🤖 Veure conversa real →</a>
+                            La IA genera el codi HTML complet en un sol bloc.
+                        </p>
+                    </div>
+                </div>
+                <div class="pas">
+                    <div class="pas-num">3</div>
+                    <div class="pas-body">
+                        <h4>📋 Copiar el codi i guardar com a fitxer</h4>
+                        <p>Copiem el codi amb el botó de copiar (⚠️ Copilot no permet descarregar directament).
+                            Enganxem al <strong>Bloc de Notes</strong> o <strong>VS Code</strong> i guardem
+                            com a <code>visor_RSS.html</code>. Obrim al navegador per comprovar.</p>
+                    </div>
+                </div>
+                <div class="pas">
+                    <div class="pas-num">4</div>
+                    <div class="pas-body">
+                        <h4>🐙 Publicar a GitHub Pages</h4>
+                        <p>Creem un repositori a GitHub, pugem el fitxer i activem <strong>GitHub Pages</strong>
+                            des d'<em>Settings → Pages</em>. En pocs minuts l'app és pública.</p>
+                    </div>
+                </div>
+                <div class="pas">
+                    <div class="pas-num">5</div>
+                    <div class="pas-body">
+                        <h4>✅ Resultat final</h4>
+                        <p>L'app publicada és accessible a:
+                            <a href="https://profefp.github.io/guies/mostra/visor_RSS.html" target="_blank"
+                                rel="noopener" class="link-extern">🌐 Veure l'app en viu →</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ══ BLOC 4: EL PROMPT ══════════════════════════════════ -->
+        <section>
+            <div class="section-header">
+                <div class="section-badge">✍️ Bloc 4</div>
+                <div class="section-line"></div>
+            </div>
+            <h2>El prompt: estructura i sintaxi</h2>
+            <p class="section-desc">
+                Un bon prompt per a programació segueix quatre elements:
+                <strong>ROL · TASCA · CONTEXT · FORMAT</strong>.
+            </p>
+
+            <div class="prompt-box" id="promptBox">
+                <span class="prompt-label">PROMPT</span>
+                <button class="prompt-copy" onclick="copiarPrompt()">📋 Copiar</button>
+                <pre><strong>ROL:</strong> Ets un programador web expert en dissenys moderns i responsive.
+
+<strong>TASCA:</strong> Crear una petita aplicació web en un sol fitxer HTML que serveixi
+per llegir notícies RSS. L'app ha de guardar 3 canals RSS de notícies
+i barrejar les notícies en una sola llista. Ha d'utilitzar emojis
+com a icones i algun gràfic SVG senzill per fer-la visual.
+
+<strong>CONTEXT:</strong> L'app ha de servir per aprendre programació en HTML/CSS/Javascript.
+Ha de ser molt visual, amb colors vius i emojis. Ha d'incloure l'opció
+d'afegir nous RSS i guardar-los. Ha d'estar explicada amb comentaris
+perquè sigui fàcil d'entendre.
+
+<strong>FORMAT:</strong> Crea un únic fitxer index.html amb HTML + CSS + JavaScript.
+Estil modern i fàcil de llegir.
+
+<strong>CANALS RSS inicials:</strong>
+  • https://www.ara.cat/rss/latest/
+  • https://catalunyadiari.com/rss/last-posts
+  • https://www.elpuntavui.cat/esports.feed?type=rss
+
+<strong>DEMANAR:</strong> Demana les preguntes que t'ajudin a crear una millor app.</pre>
+            </div>
+
+            <div class="nota-docent">
+                <div class="nota-title">🎓 Anàlisi didàctica del prompt</div>
+                <ul>
+                    <li><strong>ROL clar:</strong> "programador web expert" orienta la IA cap a una resposta tècnica de
+                        qualitat.</li>
+                    <li><strong>Restricció de format:</strong> "un sol fitxer HTML" evita múltiples fitxers que l'alumne
+                        hauria de combinar.</li>
+                    <li><strong>Context pedagògic:</strong> "per aprendre programació" fa que la IA inclogui comentaris
+                        explicatius.</li>
+                    <li><strong>"Demanar":</strong> convidar la IA a fer preguntes millora el resultat final perquè
+                        obliga a aclarir ambigüitats.</li>
+                    <li><strong>URLs concretes:</strong> donar les URLs reals evita que la IA n'inventi de fictícies.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+
+        <!-- ══ BLOC 5: CAPTURES ═══════════════════════════════════ -->
+        <section>
+            <div class="section-header">
+                <div class="section-badge">📸 Bloc 5</div>
+                <div class="section-line"></div>
+            </div>
+            <h2>Resultat visual: mòbil i escriptori</h2>
+            <p class="section-desc">
+                L'app generada és completament <strong>responsive</strong>.
+                <a href="https://profefp.github.io/guies/mostra/visor_RSS.html" target="_blank" rel="noopener"
+                    class="link-extern">🌐 Veure en viu a GitHub Pages</a>
+            </p>
+
+            <div class="captures-grid">
+                <div class="captura-wrap">
+                    <img src="/imatges/captura_rss_mobil.jpg" alt="Visor RSS en mòbil"
+                        onerror="this.style.display='none'">
+                    <div class="captura-label">📱 Vista mòbil</div>
+                </div>
+                <div class="captura-wrap">
+                    <img src="/imatges/captura_rss_pc.jpg" alt="Visor RSS en PC" onerror="this.style.display='none'">
+                    <div class="captura-label">🖥️ Vista escriptori</div>
+                </div>
+            </div>
+
+            <div class="nota-docent">
+                <div class="nota-title">🎓 Activitat d'observació</div>
+                <p>Demaneu als alumnes: <em>Quins elements canvien entre la versió mòbil i la d'escriptori?
+                        Com ho aconsegueix el CSS?</em> Pista: cerqueu la regla <code>@media</code> al codi.</p>
+            </div>
+        </section>
+
+
+        <!-- ══ BLOC 6: EL CODI ════════════════════════════════════ -->
+        <section>
+            <div class="section-header">
+                <div class="section-badge">💻 Bloc 6</div>
+                <div class="section-line"></div>
+            </div>
+            <h2>El codi complet de l'app</h2>
+            <p class="section-desc">
+                El fitxer <code>visor_RSS.html</code> generat amb ajuda de la IA.
+                Podeu copiar-lo, guardar-lo i obrir-lo directament al navegador.
+            </p>
+
+            <div class="codi-wrap" id="codiWrap">
+                <div class="codi-header">
+                    <div class="codi-dots">
+                        <div class="dot dot-r"></div>
+                        <div class="dot dot-y"></div>
+                        <div class="dot dot-g"></div>
+                    </div>
+                    <span class="codi-fname">visor_RSS.html</span>
+                    <div class="codi-actions">
+                        <button class="btn-codi" id="btnCopiar" onclick="copiarCodi()">📋 Copiar codi</button>
+                        <button class="btn-codi" onclick="descarregarCodi()">⬇️ Descarregar</button>
+                    </div>
+                </div>
+                <pre class="codi-pre" id="codiPre">&lt;!DOCTYPE html&gt;
+&lt;!-- ╔══════════════════════════════════════════════════╗
+     ║  VISOR RSS CATALÀ  ·  Una pàgina, totes les     ║
+     ║  notícies  ·  Creat amb Copilot (IA generativa) ║
+     ╚══════════════════════════════════════════════════╝ --&gt;
+&lt;html lang="ca"&gt;
+&lt;head&gt;
+  &lt;!-- UTF-8 permet accents i ç. viewport per a mòbil. --&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;📰 Visor de Notícies RSS&lt;/title&gt;
+
+  &lt;style&gt;
+    /* Variables CSS: canviant aquí canvies tota l'app */
+    :root {
+      --fons:    #0f172a;
+      --targeta: #1e293b;
+      --accent:  #38bdf8;
+      --text:    #e2e8f0;
+      --muted:   #94a3b8;
+      --radius:  12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--fons); color: var(--text);
+      font-family: system-ui, sans-serif; padding: 20px;
+    }
+
+    /* ── CAPÇALERA ── */
+    header { text-align: center; padding: 40px 20px 30px; }
+    h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ── CONTROLS ── */
+    .controls {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      justify-content: center; margin: 20px 0;
+    }
+    button { padding: 10px 18px; border-radius: 8px; border: none; cursor: pointer; }
+    .btn-primari  { background: var(--accent); color: #0f172a; font-weight: 700; }
+    .btn-secundari { background: #334155; color: var(--text); }
+
+    /* ── FORMULARI AFEGIR RSS ── */
+    #formulari-rss {
+      display: none; /* visible/ocult amb JS */
+      background: var(--targeta); border: 1px solid #334155;
+      border-radius: var(--radius); padding: 20px;
+      margin: 0 auto 20px; max-width: 600px;
+    }
+    #formulari-rss input {
+      width: 100%; padding: 10px 14px; margin: 8px 0 12px;
+      background: #0f172a; border: 1px solid #334155;
+      border-radius: 8px; color: var(--text); font-size: 14px;
+    }
+
+    /* ── XIPS DE CANALS ── */
+    #llista-canals {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center; margin-bottom: 24px;
+    }
+    .canal-chip {
+      display: flex; align-items: center; gap: 6px;
+      background: #1e293b; border: 1px solid #334155;
+      border-radius: 999px; padding: 5px 12px; font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ── GRAELLA DE NOTÍCIES ──
+       CSS Grid: 1 columna en mòbil, 3 en escriptori */
+    #noticies {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px; max-width: 1200px; margin: 0 auto;
+    }
+    .noticia {
+      background: var(--targeta); border-radius: var(--radius);
+      padding: 18px; border: 1px solid #334155;
+      transition: border-color .2s, transform .2s; cursor: pointer;
+    }
+    .noticia:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .noticia-font  { font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+    .noticia-titol { font-size: 15px; font-weight: 700; line-height: 1.4; }
+    .noticia a { color: inherit; text-decoration: none; }
+    .noticia a:hover { color: var(--accent); }
+    .noticia-data  { font-size: 11px; color: var(--muted); margin-top: 10px; }
+
+    /* ── SPINNER DE CÀRREGA ── */
+    #estat { text-align: center; color: var(--muted); padding: 40px; }
+    .spinner {
+      display: inline-block; width: 24px; height: 24px;
+      border: 3px solid #334155; border-top-color: var(--accent);
+      border-radius: 50%; animation: girar .8s linear infinite;
+      vertical-align: middle; margin-right: 8px;
+    }
+    @keyframes girar { to { transform: rotate(360deg); } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .controls { flex-direction: column; align-items: stretch; }
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;!-- SVG decoratiu: antena de ràdio --&gt;
+  &lt;header&gt;
+    &lt;svg width="60" height="60" viewBox="0 0 60 60" fill="none" style="margin-bottom:16px"&gt;
+      &lt;circle cx="30" cy="30" r="28" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/&gt;
+      &lt;path d="M20 38 Q30 18 40 38" stroke="#38bdf8" stroke-width="2" fill="none" stroke-linecap="round"/&gt;
+      &lt;path d="M15 43 Q30 10 45 43" stroke="#818cf8" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".6"/&gt;
+      &lt;line x1="30" y1="38" x2="30" y2="48" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/&gt;
+      &lt;circle cx="30" cy="38" r="3" fill="#38bdf8"/&gt;
+    &lt;/svg&gt;
+    &lt;h1&gt;📰 Visor de Notícies RSS&lt;/h1&gt;
+    &lt;p style="color:#94a3b8; font-size:14px;"&gt;Notícies en català · en temps real&lt;/p&gt;
+  &lt;/header&gt;
+
+  &lt;!-- Controls principals --&gt;
+  &lt;div class="controls"&gt;
+    &lt;button class="btn-primari"  onclick="carregarTot()"&gt;🔄 Actualitzar&lt;/button&gt;
+    &lt;button class="btn-secundari" onclick="toggleFormulari()"&gt;➕ Afegir canal RSS&lt;/button&gt;
+    &lt;button class="btn-secundari" onclick="restablirCanals()"&gt;🔁 Restablir originals&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Formulari per afegir nous canals RSS --&gt;
+  &lt;div id="formulari-rss"&gt;
+    &lt;label&gt;🔗 URL del canal RSS:&lt;/label&gt;
+    &lt;input type="url" id="url-rss" placeholder="https://exemple.cat/rss"&gt;
+    &lt;button class="btn-primari" onclick="afegirCanal()"&gt;✅ Afegir&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div id="llista-canals"&gt;&lt;/div&gt;
+  &lt;div id="estat"&gt;&lt;span class="spinner"&gt;&lt;/span&gt; Carregant notícies…&lt;/div&gt;
+  &lt;div id="noticies"&gt;&lt;/div&gt;
+
+  &lt;script&gt;
+    // ── CANALS PER DEFECTE ─────────────────────────────────
+    const CANALS_DEFAULT = [
+      { nom:"Ara.cat",         emoji:"🗞️", url:"https://www.ara.cat/rss/latest/" },
+      { nom:"Catalunya Diari", emoji:"📋", url:"https://catalunyadiari.com/rss/last-posts" },
+      { nom:"El Punt Avui",    emoji:"⚽", url:"https://www.elpuntavui.cat/esports.feed?type=rss" }
+    ];
+
+    // API gratuïta que converteix RSS (XML) en JSON
+    // Necessitem intermediari per la política CORS dels navegadors
+    const API = "https://api.rss2json.com/v1/api.json?rss_url=";
+
+    // ── PERSISTÈNCIA (localStorage) ───────────────────────
+    // localStorage guarda dades al navegador entre sessions
+    function obtenirCanals() {
+      const g = localStorage.getItem("rss_canals");
+      return g ? JSON.parse(g) : [...CANALS_DEFAULT];
+    }
+    function guardarCanals(c) {
+      localStorage.setItem("rss_canals", JSON.stringify(c));
+    }
+    function restablirCanals() { guardarCanals([...CANALS_DEFAULT]); carregarTot(); }
+
+    // ── INTERFÍCIE ─────────────────────────────────────────
+    function toggleFormulari() {
+      const f = document.getElementById("formulari-rss");
+      f.style.display = f.style.display === "block" ? "none" : "block";
+    }
+
+    function afegirCanal() {
+      const url = document.getElementById("url-rss").value.trim();
+      if (!url.startsWith("http")) { alert("❌ URL incorrecta"); return; }
+      const canals = obtenirCanals();
+      if (canals.some(c =&gt; c.url === url)) { alert("⚠️ Canal ja existent"); return; }
+      canals.push({ nom:"Nou canal", emoji:"📡", url });
+      guardarCanals(canals);
+      document.getElementById("url-rss").value = "";
+      toggleFormulari(); carregarTot();
+    }
+
+    function mostrarXips(canals) {
+      document.getElementById("llista-canals").innerHTML = canals.map((c,i) =&gt;
+        `&lt;div class="canal-chip"&gt;${c.emoji} ${c.nom}
+          &lt;button onclick="eliminarCanal(${i})" style="background:none;border:none;
+            color:#ef4444;cursor:pointer;padding:0 2px;"&gt;✕&lt;/button&gt;
+        &lt;/div&gt;`
+      ).join("");
+    }
+
+    function eliminarCanal(i) {
+      const c = obtenirCanals(); c.splice(i, 1); guardarCanals(c); carregarTot();
+    }
+
+    // ── CÀRREGA ASÍNCRONA (async/await) ───────────────────
+    // async/await permet fer peticions sense bloquejar la pàgina
+    async function carregarCanal(canal) {
+      try {
+        const r = await fetch(API + encodeURIComponent(canal.url));
+        const d = await r.json();
+        if (d.status !== "ok") return [];
+        return d.items.map(i =&gt; ({ ...i, _canal: canal.nom, _emoji: canal.emoji }));
+      } catch(e) { return []; }
+    }
+
+    async function carregarTot() {
+      const canals = obtenirCanals();
+      mostrarXips(canals);
+      document.getElementById("estat").style.display = "block";
+      document.getElementById("noticies").innerHTML = "";
+
+      // Promise.all llança TOTES les peticions en paral·lel
+      const resultats = await Promise.all(canals.map(carregarCanal));
+      let totes = resultats.flat();
+      totes.sort((a,b) =&gt; new Date(b.pubDate) - new Date(a.pubDate));
+
+      document.getElementById("estat").style.display = "none";
+
+      document.getElementById("noticies").innerHTML = totes.length === 0
+        ? "&lt;p style='color:#94a3b8;text-align:center;padding:40px'&gt;😕 No s'han carregat notícies&lt;/p&gt;"
+        : totes.map(n =&gt; {
+            const data = n.pubDate
+              ? new Date(n.pubDate).toLocaleString("ca-ES",
+                  {day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})
+              : "";
+            return `&lt;article class="noticia" onclick="window.open('${n.link}','_blank')"&gt;
+              &lt;div class="noticia-font"&gt;${n._emoji} ${n._canal}&lt;/div&gt;
+              &lt;div class="noticia-titol"&gt;
+                &lt;a href="${n.link}" target="_blank"&gt;${n.title}&lt;/a&gt;
+              &lt;/div&gt;
+              ${data ? `&lt;div class="noticia-data"&gt;🕐 ${data}&lt;/div&gt;` : ""}
+            &lt;/article&gt;`;
+          }).join("");
+    }
+
+    // Quan la pàgina carrega, iniciem la càrrega de notícies
+    document.addEventListener("DOMContentLoaded", carregarTot);
+  &lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                <div class="codi-fade" id="codiFade"></div>
+            </div>
+            <button class="btn-expand" id="btnExpand" onclick="expandirCodi()">
+                <span id="expandText">👁️ Veure el codi complet</span>
+            </button>
+
+        </section>
+
+
+        <!-- ══ BLOC 7: ACTIVITATS ═════════════════════════════════ -->
+        <section>
+            <div class="section-header">
+                <div class="section-badge">🎯 Bloc 7</div>
+                <div class="section-line"></div>
+            </div>
+            <h2>Activitats per a l'alumnat</h2>
+
+            <div class="conceptes-grid">
+                <div class="concepte-card">
+                    <span class="concepte-icon">🎨</span>
+                    <h3>Activitat 1: Canvia els colors</h3>
+                    <p>Busca la secció <code>:root { }</code> al CSS. Canvia <code>--accent</code> per un altre
+                        hexadecimal (p. ex. <code>#ff6b35</code>). Observa com canvia tot el disseny d'un sol cop.</p>
+                </div>
+                <div class="concepte-card">
+                    <span class="concepte-icon">📡</span>
+                    <h3>Activitat 2: Afegeix un canal</h3>
+                    <p>Obre l'app i usa <strong>➕ Afegir canal RSS</strong>. Prova:
+                        <code>https://www.ccma.cat/rss/</code>. Les notícies noves apareixeran barrejades amb les
+                        altres.</p>
+                </div>
+                <div class="concepte-card">
+                    <span class="concepte-icon">🔍</span>
+                    <h3>Activitat 3: Inspecciona el RSS</h3>
+                    <p>Obre <code>https://www.ara.cat/rss/latest/</code> al navegador. Veuràs l'XML en cru. Identifica
+                        <code>&lt;item&gt;</code>, <code>&lt;title&gt;</code> i <code>&lt;pubDate&gt;</code>.</p>
+                </div>
+                <div class="concepte-card">
+                    <span class="concepte-icon">🤖</span>
+                    <h3>Activitat 4: Millora amb IA</h3>
+                    <p>Demana a Copilot, Claude o ChatGPT que afegeixi cerca de notícies o filtre per canal. Compara el
+                        resultat entre plataformes.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════
+       La <footer> la injecta la llibreria.html aquí baix
+       ═══════════════════════════════════════════════════════════ -->
+
+    <!-- ══ CARREGA LA LLIBRERIA (injecta nav + footer) ══════════
+       Ha d'anar al FINAL del body, quan tot el contingut ja
+       existeix al DOM. La llibreria llegeix data-pagina="primera_app.html"
+       del <body> i activa l'element "Primera App" al menú. -->
+    <script src="llibreria.html"></script>
+
+    <!-- ══ SCRIPTS DE LA PÀGINA ════════════════════════════════ -->
+    <script>
+
+        // Copia el text del prompt al porta-retalls
+        function copiarPrompt() {
+            const text = document.querySelector('#promptBox pre').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.querySelector('.prompt-copy');
+                btn.textContent = '✅ Copiat!';
+                setTimeout(() => btn.textContent = '📋 Copiar', 2000);
+            });
+        }
+
+        // Copia el codi de l'app al porta-retalls
+        // (descodificant les entitats HTML &lt; → < etc.)
+        function copiarCodi() {
+            const raw = document.getElementById('codiPre').textContent;
+            const tmp = document.createElement('textarea');
+            tmp.innerHTML = raw;
+            navigator.clipboard.writeText(tmp.value).then(() => {
+                const btn = document.getElementById('btnCopiar');
+                btn.textContent = '✅ Copiat!';
+                setTimeout(() => btn.textContent = '📋 Copiar codi', 2000);
+            });
+        }
+
+        // Crea un fitxer HTML i força la descàrrega al navegador
+        function descarregarCodi() {
+            const raw = document.getElementById('codiPre').textContent;
+            const tmp = document.createElement('textarea');
+            tmp.innerHTML = raw;
+            const blob = new Blob([tmp.value], { type: 'text/html' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'visor_RSS.html';
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }
+
+        // Expandeix o contrau el bloc de codi
+        function expandirCodi() {
+            const wrap = document.getElementById('codiWrap');
+            const text = document.getElementById('expandText');
+            wrap.classList.toggle('expanded');
+            text.textContent = wrap.classList.contains('expanded')
+                ? '🔼 Amagar' : '👁️ Veure el codi complet';
+        }
+
+    </script>
+
+</body>
+
+</html>
