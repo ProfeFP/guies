@@ -3,32 +3,66 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>📰 Lector de Notícies RSS amb Emojis</title>
+  <title>📡 Lector RSS Visual</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    /* ===========================
+       ESTILS GENERALS (CSS)
+       =========================== */
+
+    :root {
+      --bg: #f5f7fb;
+      --card-bg: #ffffff;
+      --accent: #ff7a3c;
+      --accent-soft: #ffe1cf;
+      --accent-2: #4c6fff;
+      --text-main: #222;
+      --text-soft: #555;
+      --border-soft: #e0e4f0;
+      --error: #e63946;
+      --success: #2a9d8f;
+      --shadow-soft: 0 10px 25px rgba(15, 23, 42, 0.08);
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --radius-pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
       margin: 0;
-      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #ffe9d6, #f5f7fb 40%, #e3f2ff);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1100px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      box-shadow: var(--shadow-soft);
+      padding: 1.5rem 1.5rem 2rem;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
+      gap: 1.5rem;
     }
 
     header {
-      padding: 1.5rem 2rem;
-      background: linear-gradient(90deg, #4f46e5, #8b5cf6);
-      color: white;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
     header h1 {
-      margin: 0;
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -36,465 +70,1207 @@
 
     header p {
       margin: 0;
-      font-size: 0.9rem;
-      opacity: 0.9;
+      color: var(--text-soft);
     }
 
-    main {
-      flex: 1;
-      padding: 1.5rem 2rem 2rem;
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: var(--radius-pill);
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* Layout principal: columna, però amb secció lateral en pantalles grans */
+    .layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.8fr);
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
       gap: 1.5rem;
     }
 
     @media (max-width: 900px) {
-      main {
+      .layout {
         grid-template-columns: 1fr;
       }
     }
 
-    section {
-      background: #020617;
-      border-radius: 0.75rem;
-      border: 1px solid #1f2937;
-      padding: 1rem 1.25rem 1.25rem;
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
+    /* ===========================
+       TARGETES / PANELS
+       =========================== */
+
+    .panel {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.1rem 1.2rem;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
     }
 
-    h2 {
-      margin-top: 0;
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .panel-title h2 {
       font-size: 1.1rem;
+      margin: 0;
       display: flex;
       align-items: center;
       gap: 0.4rem;
     }
 
-    label {
-      display: block;
-      font-size: 0.85rem;
-      margin-bottom: 0.25rem;
-      color: #9ca3af;
+    .panel-title small {
+      color: var(--text-soft);
+      font-size: 0.8rem;
     }
 
-    input[type="text"] {
+    /* Separador SVG decoratiu */
+    .svg-separator {
       width: 100%;
-      padding: 0.5rem 0.6rem;
-      border-radius: 0.5rem;
-      border: 1px solid #374151;
-      background: #020617;
-      color: #e5e7eb;
-      font-size: 0.9rem;
-      margin-bottom: 0.6rem;
+      margin: 0.5rem 0 0.75rem;
     }
 
-    input[type="text"]:focus {
-      outline: 2px solid #6366f1;
-      border-color: transparent;
-    }
+    /* ===========================
+       FORMULARI AFEGIR RSS
+       =========================== */
 
-    .buttons {
+    .rss-form {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 0.5rem;
       margin-top: 0.5rem;
     }
 
-    button {
+    .rss-form-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .rss-form input[type="url"],
+    .rss-form input[type="text"] {
+      flex: 1;
+      min-width: 0;
+      padding: 0.55rem 0.75rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .rss-form input:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 2px rgba(76, 111, 255, 0.15);
+    }
+
+    .btn {
       border: none;
-      border-radius: 999px;
-      padding: 0.45rem 0.9rem;
-      font-size: 0.85rem;
+      border-radius: var(--radius-pill);
+      padding: 0.55rem 0.9rem;
+      font-size: 0.9rem;
+      font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+      transition: transform 0.1s, box-shadow 0.1s, background 0.15s;
+      white-space: nowrap;
     }
 
-    button span.emoji {
-      font-size: 1rem;
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #ff9f5a);
+      color: #fff;
+      box-shadow: 0 6px 14px rgba(255, 122, 60, 0.4);
     }
 
-    button.primary {
-      background: linear-gradient(135deg, #4f46e5, #8b5cf6);
-      color: white;
-      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.5);
-    }
-
-    button.secondary {
-      background: #020617;
-      color: #e5e7eb;
-      border: 1px solid #374151;
-    }
-
-    button:hover {
+    .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
+      box-shadow: 0 8px 18px rgba(255, 122, 60, 0.45);
     }
 
-    button:active {
-      transform: translateY(0);
-      box-shadow: none;
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-soft);
     }
 
-    .hint {
+    .btn-ghost:hover {
+      background: #f3f4ff;
+    }
+
+    .helper-text {
       font-size: 0.8rem;
-      color: #9ca3af;
-      margin-top: 0.4rem;
+      color: var(--text-soft);
     }
 
-    .status {
-      font-size: 0.8rem;
-      margin-top: 0.4rem;
-      color: #a5b4fc;
-    }
+    /* ===========================
+       LLISTA DE CANALS
+       =========================== */
 
-    .news-list {
-      margin-top: 0.75rem;
+    .feed-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
-      max-height: 60vh;
-      overflow-y: auto;
-      padding-right: 0.25rem;
+      gap: 0.4rem;
+      max-height: 220px;
+      overflow: auto;
+    }
+
+    .feed-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.4rem 0.55rem;
+      border-radius: var(--radius-md);
+      background: #f8f9ff;
+      font-size: 0.85rem;
+    }
+
+    .feed-item-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .feed-item-title {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .feed-item-url {
+      color: var(--text-soft);
+      font-size: 0.78rem;
+      word-break: break-all;
+    }
+
+    .feed-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .pill {
+      border-radius: var(--radius-pill);
+      padding: 0.1rem 0.5rem;
+      font-size: 0.75rem;
+      background: #e5edff;
+      color: var(--accent-2);
+      font-weight: 600;
+    }
+
+    .btn-icon {
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0.15rem 0.35rem;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-soft);
+    }
+
+    .btn-icon:hover {
+      background: #e9edff;
+    }
+
+    /* ===========================
+       MISSATGES D'ESTAT
+       =========================== */
+
+    .status {
+      font-size: 0.85rem;
+      margin-top: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .status.error {
+      color: var(--error);
+    }
+
+    .status.success {
+      color: var(--success);
+    }
+
+    /* ===========================
+       SPINNER SVG DE CÀRREGA
+       =========================== */
+
+    .loading {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      margin: 0.4rem 0;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ===========================
+       LLISTA DE NOTÍCIES
+       =========================== */
+
+    .news-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-height: 70vh;
+      overflow: auto;
     }
 
     .news-card {
-      background: radial-gradient(circle at top left, #1d283a, #020617);
-      border-radius: 0.75rem;
-      border: 1px solid #1f2937;
-      padding: 0.7rem 0.8rem;
       display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.6rem;
-      align-items: flex-start;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 0.75rem;
+      padding: 0.7rem 0.8rem;
+      border-radius: var(--radius-lg);
+      background: #f9f9ff;
+      border: 1px solid #e2e6ff;
     }
 
-    .news-emoji {
-      font-size: 1.4rem;
-      padding-top: 0.1rem;
+    @media (max-width: 600px) {
+      .news-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .news-image-wrapper {
+      width: 100%;
+      height: 100%;
+      min-height: 80px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: #e5edff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .news-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .news-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
     }
 
     .news-title {
-      font-size: 0.9rem;
+      font-size: 0.98rem;
       font-weight: 600;
-      margin-bottom: 0.2rem;
+      margin: 0;
     }
 
-    .news-meta {
-      font-size: 0.75rem;
-      color: #9ca3af;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      align-items: center;
-    }
-
-    .news-link {
-      font-size: 0.8rem;
-      color: #a5b4fc;
+    .news-title a {
+      color: var(--accent-2);
       text-decoration: none;
     }
 
-    .news-link:hover {
+    .news-title a:hover {
       text-decoration: underline;
     }
 
-    .chart-container {
-      margin-top: 0.75rem;
-      background: radial-gradient(circle at top, #1d283a, #020617);
-      border-radius: 0.75rem;
-      border: 1px solid #1f2937;
-      padding: 0.75rem;
+    .news-meta {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      align-items: center;
+    }
+
+    .news-description {
+      font-size: 0.85rem;
+      color: var(--text-main);
+    }
+
+    .news-source-pill {
+      border-radius: var(--radius-pill);
+      padding: 0.1rem 0.5rem;
+      background: #fff;
+      border: 1px solid #dde3ff;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    /* ===========================
+       FILTRE DE CERCA
+       =========================== */
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .search-bar input {
+      flex: 1;
+      min-width: 0;
+      padding: 0.45rem 0.7rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-soft);
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .search-bar input:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 2px rgba(76, 111, 255, 0.15);
+    }
+
+    /* ===========================
+       MINI GRÀFIC DE BARRES (SVG)
+       =========================== */
+
+    .chart-wrapper {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      border-radius: var(--radius-md);
+      background: #f8f9ff;
+      border: 1px dashed #d4dcff;
+      font-size: 0.8rem;
+      color: var(--text-soft);
     }
 
     .chart-legend {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.4rem;
-      font-size: 0.75rem;
-      color: #9ca3af;
+      gap: 0.35rem;
+      margin-top: 0.35rem;
     }
 
-    .legend-item {
+    .chart-legend-item {
       display: inline-flex;
       align-items: center;
       gap: 0.25rem;
-      padding: 0.15rem 0.4rem;
-      border-radius: 999px;
-      background: #020617;
-      border: 1px solid #1f2937;
+      font-size: 0.78rem;
     }
 
     .legend-color {
       width: 10px;
       height: 10px;
-      border-radius: 999px;
+      border-radius: 3px;
     }
 
-    svg {
-      width: 100%;
-      height: 160px;
-    }
+    /* ===========================
+       PEU / NOTA DIDÀCTICA
+       =========================== */
 
     footer {
-      padding: 0.6rem 1.5rem;
-      font-size: 0.75rem;
-      color: #6b7280;
-      text-align: right;
-      border-top: 1px solid #111827;
-      background: #020617;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <div>
-      <h1>📰 RSS Mix · Lector de Notícies amb Emojis</h1>
-      <p>Barreja notícies de 3 canals RSS, guarda’ls i visualitza’ls amb un gràfic SVG.</p>
-    </div>
-    <div style="font-size:0.85rem; text-align:right;">
-      <div>👩‍💻 Pensat per a estudiants de secundària</div>
-      <div>💡 Exemple d’app feta amb IA + HTML + JS + SVG</div>
-    </div>
-  </header>
+  <div class="app">
+    <!-- ===========================
+         CAPÇALERA
+         =========================== -->
+    <header>
+      <div class="badge">🧪 Laboratori HTML · CSS · JS</div>
+      <h1>📡 Lector RSS Visual</h1>
+      <p>
+        Petit lector de notícies RSS per aprendre programació web:
+        <strong>HTML</strong>, <strong>CSS</strong> i <strong>JavaScript</strong> en un sol fitxer.
+      </p>
+    </header>
 
-  <main>
-    <section>
-      <h2>🌐 Configura els teus canals RSS</h2>
+    <!-- ===========================
+         LAYOUT PRINCIPAL
+         =========================== -->
+    <div class="layout">
+      <!-- ===========================
+           COLUMNA ESQUERRA: NOTÍCIES
+           =========================== -->
+      <section class="panel">
+        <div class="panel-title">
+          <h2>📰 Notícies barrejades</h2>
+          <small id="news-count-label">0 notícies</small>
+        </div>
 
-      <label for="feed1">Canal RSS 1</label>
-      <input id="feed1" type="text" />
-
-      <label for="feed2">Canal RSS 2</label>
-      <input id="feed2" type="text" />
-
-      <label for="feed3">Canal RSS 3</label>
-      <input id="feed3" type="text" />
-
-      <div class="buttons">
-        <button id="saveFeeds" class="secondary">
-          <span class="emoji">💾</span> Desa canals
-        </button>
-        <button id="loadFeeds" class="secondary">
-          <span class="emoji">📂</span> Carrega desats
-        </button>
-        <button id="fetchNews" class="primary">
-          <span class="emoji">🚀</span> Carrega notícies
-        </button>
-      </div>
-
-      <div class="hint">
-        ℹ️ Els canals es guarden al navegador (localStorage).
-      </div>
-      <div id="status" class="status"></div>
-
-      <div class="chart-container">
-        <span>📊 Notícies per canal (gràfic SVG)</span>
-
-        <svg id="rssChart" viewBox="0 0 300 120">
-          <defs>
-            <linearGradient id="bar1" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stop-color="#4f46e5" />
-              <stop offset="100%" stop-color="#22c55e" />
-            </linearGradient>
-            <linearGradient id="bar2" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stop-color="#ec4899" />
-              <stop offset="100%" stop-color="#f97316" />
-            </linearGradient>
-            <linearGradient id="bar3" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stop-color="#06b6d4" />
-              <stop offset="100%" stop-color="#8b5cf6" />
-            </linearGradient>
-          </defs>
-
-          <line x1="20" y1="100" x2="280" y2="100" stroke="#4b5563" stroke-width="1" />
-
-          <rect id="bar1" x="50" y="100" width="40" height="0" fill="url(#bar1)" rx="6" />
-          <rect id="bar2" x="130" y="100" width="40" height="0" fill="url(#bar2)" rx="6" />
-          <rect id="bar3" x="210" y="100" width="40" height="0" fill="url(#bar3)" rx="6" />
-
-          <text x="70" y="112" text-anchor="middle" fill="#9ca3af" font-size="9">Canal 1</text>
-          <text x="150" y="112" text-anchor="middle" fill="#9ca3af" font-size="9">Canal 2</text>
-          <text x="230" y="112" text-anchor="middle" fill="#9ca3af" font-size="9">Canal 3</text>
+        <!-- Separador SVG decoratiu (ona suau) -->
+        <svg class="svg-separator" viewBox="0 0 400 30" preserveAspectRatio="none">
+          <path d="M0,20 C80,40 160,0 240,20 C320,40 360,10 400,25 L400,30 L0,30 Z" fill="#ffe1cf" opacity="0.7"></path>
         </svg>
 
-        <div class="chart-legend" id="chartLegend"></div>
-      </div>
-    </section>
+        <!-- Barra de cerca per filtrar notícies -->
+        <div class="search-bar">
+          <span>🔍</span>
+          <input type="text" id="search-input" placeholder="Filtra notícies per paraula clau (títol o descripció)..." />
+        </div>
 
-    <section>
-      <h2>🧩 Notícies barrejades</h2>
-      <div class="hint">Fes clic al títol per obrir la notícia.</div>
-      <div id="newsList" class="news-list"></div>
-    </section>
-  </main>
+        <!-- Estat de càrrega -->
+        <div id="loading-indicator" class="loading" style="display:none;">
+          <!-- Spinner SVG -->
+          <svg class="spinner" viewBox="0 0 50 50">
+            <circle cx="25" cy="25" r="20" fill="none" stroke="#ff7a3c" stroke-width="4" stroke-linecap="round"
+              stroke-dasharray="31.4 188.4"></circle>
+          </svg>
+          <span>Carregant notícies RSS...</span>
+        </div>
 
-  <footer>
-    Exemple didàctic: HTML + CSS + JS + SVG · IA com a “parella de programació” 👥
-  </footer>
+        <!-- Llista de notícies -->
+        <ul id="news-list" class="news-list"></ul>
 
+        <!-- Missatge d'error general per a notícies -->
+        <div id="news-error" class="status error" style="display:none;"></div>
+      </section>
+
+      <!-- ===========================
+           COLUMNA DRETA: CANALS + GRÀFIC
+           =========================== -->
+      <aside class="panel">
+        <div class="panel-title">
+          <h2>📚 Canals RSS</h2>
+          <small>Gestiona i afegeix nous canals</small>
+        </div>
+
+        <!-- Formulari per afegir un nou canal RSS -->
+        <form id="rss-form" class="rss-form">
+          <div class="rss-form-row">
+            <input type="text" id="rss-name" placeholder="Nom del canal (ex: Diari ARA)" required />
+          </div>
+          <div class="rss-form-row">
+            <input type="url" id="rss-url" placeholder="URL del canal RSS (ha de ser un feed RSS vàlid)" required />
+          </div>
+          <div class="rss-form-row">
+            <button type="submit" class="btn btn-primary">
+              ➕ Afegir canal RSS
+            </button>
+            <button type="button" id="reset-feeds" class="btn btn-ghost">
+              ♻️ Restablir canals per defecte
+            </button>
+          </div>
+          <div class="helper-text">
+            L’app <strong>valida</strong> el canal abans de guardar-lo. Si no és un RSS vàlid, mostrarà un error.
+          </div>
+          <div id="feed-status" class="status" style="display:none;"></div>
+        </form>
+
+        <!-- Llista de canals RSS actuals -->
+        <ul id="feed-list" class="feed-list"></ul>
+
+        <!-- Mini gràfic de barres SVG amb el nombre de notícies per canal -->
+        <div class="chart-wrapper">
+          <strong>📊 Notícies per canal</strong>
+          <svg id="feed-chart" viewBox="0 0 200 80" width="100%" height="80">
+            <!-- Les barres es generaran amb JavaScript -->
+          </svg>
+          <div id="chart-legend" class="chart-legend"></div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- ===========================
+         PEU / NOTA DIDÀCTICA
+         =========================== -->
+    <footer>
+      <span>💡 Exemple pensat per practicar: <strong>fetch</strong>, <strong>DOM</strong>, <strong>localStorage</strong>
+        i <strong>SVG</strong>.</span>
+      <span>Fet amb HTML + CSS + JS en un sol fitxer.</span>
+    </footer>
+  </div>
+
+  <!-- ===========================
+       JAVASCRIPT
+       =========================== -->
   <script>
-    const STORAGE_KEY = "rssFeedsDemo";
+    // ============================================================
+    // CONFIGURACIÓ BÀSICA I DADES INICIALS
+    // ============================================================
 
-    const feedInputs = [
-      document.getElementById("feed1"),
-      document.getElementById("feed2"),
-      document.getElementById("feed3"),
-    ];
-
-    const saveBtn = document.getElementById("saveFeeds");
-    const loadBtn = document.getElementById("loadFeeds");
-    const fetchBtn = document.getElementById("fetchNews");
-    const statusEl = document.getElementById("status");
-    const newsListEl = document.getElementById("newsList");
-
-    const barEls = [
-      document.getElementById("bar1"),
-      document.getElementById("bar2"),
-      document.getElementById("bar3"),
-    ];
-    const chartLegendEl = document.getElementById("chartLegend");
-
-    function setStatus(msg, isError = false) {
-      statusEl.textContent = msg;
-      statusEl.style.color = isError ? "#fca5a5" : "#a5b4fc";
-    }
-
-    function saveFeeds() {
-      const feeds = feedInputs.map((input) => input.value.trim());
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(feeds));
-      setStatus("✅ Canals desats.");
-    }
-
-    function loadFeeds() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (!saved) {
-        setStatus("ℹ️ No hi ha canals desats.", true);
-        return;
+    // Canals RSS per defecte (els que has proposat)
+    const DEFAULT_FEEDS = [
+      {
+        id: "ara",
+        name: "Diari ARA - Última hora",
+        url: "https://www.ara.cat/rss/latest/",
+        color: "#ff7a3c"
+      },
+      {
+        id: "catalunyadiari",
+        name: "CatalunyaDiari - Últims posts",
+        url: "https://catalunyadiari.com/rss/last-posts",
+        color: "#4c6fff"
+      },
+      {
+        id: "elpuntavui-esports",
+        name: "El Punt Avui - Esports",
+        url: "https://www.elpuntavui.cat/esports.feed?type=rss",
+        color: "#2a9d8f"
       }
-      const feeds = JSON.parse(saved);
-      feeds.forEach((url, i) => {
-        if (feedInputs[i]) feedInputs[i].value = url || "";
-      });
-      setStatus("📂 Canals carregats.");
+    ];
+
+    // Clau per guardar els canals a localStorage
+    const STORAGE_KEY = "rss_visual_feeds";
+
+    // Estat en memòria (no es guarda a localStorage)
+    let feeds = [];       // canals RSS actuals
+    let allNews = [];     // totes les notícies barrejades
+    let filteredNews = []; // notícies filtrades per la barra de cerca
+
+    // Referències a elements del DOM
+    const feedListEl = document.getElementById("feed-list");
+    const newsListEl = document.getElementById("news-list");
+    const feedStatusEl = document.getElementById("feed-status");
+    const newsErrorEl = document.getElementById("news-error");
+    const loadingIndicatorEl = document.getElementById("loading-indicator");
+    const newsCountLabelEl = document.getElementById("news-count-label");
+    const searchInputEl = document.getElementById("search-input");
+    const feedChartEl = document.getElementById("feed-chart");
+    const chartLegendEl = document.getElementById("chart-legend");
+
+    const rssFormEl = document.getElementById("rss-form");
+    const rssNameInput = document.getElementById("rss-name");
+    const rssUrlInput = document.getElementById("rss-url");
+    const resetFeedsBtn = document.getElementById("reset-feeds");
+
+    // ============================================================
+    // FUNCIONS D'UTILITAT
+    // ============================================================
+
+    /**
+     * Mostra un missatge d'estat al formulari de canals.
+     * @param {string} message - Text a mostrar
+     * @param {"error"|"success"} type - Tipus de missatge
+     */
+    function showFeedStatus(message, type = "success") {
+      feedStatusEl.textContent = message;
+      feedStatusEl.className = "status " + type;
+      feedStatusEl.style.display = "flex";
+      // Amaguem el missatge al cap d'uns segons
+      setTimeout(() => {
+        feedStatusEl.style.display = "none";
+      }, 3500);
     }
 
-    function updateChart(counts) {
-      const max = Math.max(1, ...counts);
-      const maxHeight = 80;
+    /**
+     * Mostra un missatge d'error general per a notícies.
+     */
+    function showNewsError(message) {
+      newsErrorEl.textContent = message;
+      newsErrorEl.style.display = "flex";
+    }
 
-      counts.forEach((count, i) => {
-        const bar = barEls[i];
-        const height = (count / max) * maxHeight;
-        const y = 100 - height;
-        bar.setAttribute("y", y);
-        bar.setAttribute("height", height);
-      });
+    /**
+     * Amaga el missatge d'error de notícies.
+     */
+    function hideNewsError() {
+      newsErrorEl.style.display = "none";
+    }
 
-      chartLegendEl.innerHTML = "";
-      counts.forEach((count, i) => {
-        const item = document.createElement("div");
-        item.className = "legend-item";
-        const colorDot = document.createElement("div");
-        colorDot.className = "legend-color";
-        colorDot.style.background = ["#4f46e5", "#ec4899", "#06b6d4"][i];
-        const text = document.createElement("span");
-        text.textContent = `Canal ${i + 1}: ${count} notícies`;
-        item.appendChild(colorDot);
-        item.appendChild(text);
-        chartLegendEl.appendChild(item);
+    /**
+     * Mostra o amaga l'indicador de càrrega.
+     */
+    function setLoading(isLoading) {
+      loadingIndicatorEl.style.display = isLoading ? "inline-flex" : "none";
+    }
+
+    /**
+     * Guarda els canals RSS a localStorage.
+     */
+    function saveFeedsToStorage() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(feeds));
+    }
+
+    /**
+     * Carrega els canals RSS de localStorage o, si no n'hi ha, els per defecte.
+     */
+    function loadFeedsFromStorage() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          feeds = JSON.parse(stored);
+        } catch (e) {
+          console.error("Error parsejant feeds de localStorage:", e);
+          feeds = [...DEFAULT_FEEDS];
+        }
+      } else {
+        feeds = [...DEFAULT_FEEDS];
+      }
+    }
+
+    /**
+     * Converteix una data RSS a un format més llegible.
+     */
+    function formatDate(dateString) {
+      if (!dateString) return "Data desconeguda";
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return dateString;
+      return date.toLocaleString("ca-ES", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
       });
     }
 
-    function createNewsCard(item) {
-      const card = document.createElement("article");
-      card.className = "news-card";
+    /**
+     * Extreu una possible imatge d'un item RSS.
+     * - Mira media:content, enclosure, o una etiqueta <img> dins la descripció.
+     */
+    function extractImageFromItem(item) {
+      // media:content
+      const mediaContent = item.querySelector("media\\:content, content");
+      if (mediaContent && mediaContent.getAttribute("url")) {
+        return mediaContent.getAttribute("url");
+      }
 
-      const emoji = document.createElement("div");
-      emoji.className = "news-emoji";
-      emoji.textContent = ["📰", "🌍", "🚀"][item.feedIndex] || "📰";
+      // enclosure
+      const enclosure = item.querySelector("enclosure");
+      if (enclosure && enclosure.getAttribute("url")) {
+        return enclosure.getAttribute("url");
+      }
 
-      const content = document.createElement("div");
-
-      const title = document.createElement("div");
-      title.className = "news-title";
-      const link = document.createElement("a");
-      link.href = item.link;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.className = "news-link";
-      link.textContent = item.title || "(Sense títol)";
-      title.appendChild(link);
-
-      const meta = document.createElement("div");
-      meta.className = "news-meta";
-
-      const source = document.createElement("span");
-      source.textContent = item.source || "Canal desconegut";
-
-      const dateSpan = document.createElement("span");
-      if (item.pubDate) {
-        const d = new Date(item.pubDate);
-        if (!isNaN(d.getTime())) {
-          dateSpan.textContent = d.toLocaleString("ca-ES");
+      // <img> dins la descripció
+      const description = item.querySelector("description");
+      if (description) {
+        const html = description.textContent;
+        const match = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+        if (match && match[1]) {
+          return match[1];
         }
       }
 
-      meta.appendChild(source);
-      if (dateSpan.textContent) {
-        meta.appendChild(document.createTextNode("·"));
-        meta.appendChild(dateSpan);
-      }
-
-      content.appendChild(title);
-      content.appendChild(meta);
-
-      card.appendChild(emoji);
-      card.appendChild(content);
-
-      return card;
+      // Si no trobem res, retornem null (farem servir SVG)
+      return null;
     }
 
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
+    /**
+     * Crea un SVG de logo RSS neutre (quan no hi ha imatge).
+     * Retorna un element <svg> que podem inserir al DOM.
+     */
+    function createRssPlaceholderSvg() {
+      const svgNS = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("viewBox", "0 0 64 64");
+      svg.setAttribute("width", "64");
+      svg.setAttribute("height", "64");
+
+      // Fons rodó
+      const circle = document.createElementNS(svgNS, "circle");
+      circle.setAttribute("cx", "32");
+      circle.setAttribute("cy", "32");
+      circle.setAttribute("r", "30");
+      circle.setAttribute("fill", "#ff7a3c");
+      svg.appendChild(circle);
+
+      // Arc gran
+      const path1 = document.createElementNS(svgNS, "path");
+      path1.setAttribute(
+        "d",
+        "M22 22 A20 20 0 0 1 42 42"
+      );
+      path1.setAttribute("stroke", "#fff");
+      path1.setAttribute("stroke-width", "5");
+      path1.setAttribute("fill", "none");
+      path1.setAttribute("stroke-linecap", "round");
+      svg.appendChild(path1);
+
+      // Arc petit
+      const path2 = document.createElementNS(svgNS, "path");
+      path2.setAttribute(
+        "d",
+        "M22 30 A12 12 0 0 1 34 42"
+      );
+      path2.setAttribute("stroke", "#fff");
+      path2.setAttribute("stroke-width", "5");
+      path2.setAttribute("fill", "none");
+      path2.setAttribute("stroke-linecap", "round");
+      svg.appendChild(path2);
+
+      // Punt
+      const dot = document.createElementNS(svgNS, "circle");
+      dot.setAttribute("cx", "24");
+      dot.setAttribute("cy", "44");
+      dot.setAttribute("r", "4");
+      dot.setAttribute("fill", "#fff");
+      svg.appendChild(dot);
+
+      return svg;
     }
 
-    async function fetchRSS(url) {
-      if (!url) return [];
-      try {
-        const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(url);
-        const res = await fetch(proxyUrl);
-        if (!res.ok) throw new Error("Error en la resposta");
-        const data = await res.json();
-        const xmlText = data.contents;
+    // ============================================================
+    // RENDERITZACIÓ DELS CANALS I NOTÍCIES
+    // ============================================================
 
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(xmlText, "text/xml");
-        const items = Array.from(xml.querySelectorAll("item"));
+    /**
+     * Dibuixa la llista de canals RSS a la interfície.
+     */
+    function renderFeedList() {
+      feedListEl.innerHTML = "";
+      feeds.forEach((feed) => {
+        const li = document.createElement("li");
+        li.className = "feed-item";
 
-        return items.slice(0, 10).map((item) => ({
-          title: item.querySelector("title")?.textContent || "",
-          link: item.querySelector("link")?.textContent || "",
-          pubDate: item.querySelector("pubDate")?.textContent || "",
-          source: xml.querySelector("channel > title")?.textContent || "",
-        }));
-      } catch (err) {
-        console.error("Error llegint RSS:", url, err);
-        return [];
-      }
+        const main = document.createElement("div");
+        main.className = "feed-item-main";
+
+        const title = document.createElement("div");
+        title.className = "feed-item-title";
+        title.innerHTML = `<span>📡</span><span>${feed.name}</span>`;
+
+        const url = document.createElement("div");
+        url.className = "feed-item-url";
+        url.textContent = feed.url;
+
+        main.appendChild(title);
+        main.appendChild(url);
+
+        const actions = document.createElement("div");
+        actions.className = "feed-item-actions";
+
+        const colorPill = document.createElement("span");
+        colorPill.className = "pill";
+        colorPill.textContent = "Canal actiu";
+
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "btn-icon";
+        removeBtn.title = "Eliminar canal";
+        removeBtn.innerHTML = "🗑️";
+        removeBtn.addEventListener("click", () => {
+          removeFeed(feed.id);
+        });
+
+        actions.appendChild(colorPill);
+        actions.appendChild(removeBtn);
+
+        li.appendChild(main);
+        li.appendChild(actions);
+
+        feedListEl.appendChild(li);
+      });
     }
 
-    async function fetchAllNews() {
-      const feeds = feedInputs.map((input) => input.value.trim());
-      if (feeds.every((f) => !f)) {
-        setStatus("⚠️ Escriu com a mínim un canal RSS.", true);
+    /**
+     * Dibuixa la llista de notícies (a partir de filteredNews).
+     */
+    function renderNewsList() {
+      newsListEl.innerHTML = "";
+
+      if (filteredNews.length === 0) {
+        const li = document.createElement("li");
+        li.textContent = "No hi ha notícies per mostrar. Prova de carregar els canals o canvia el filtre.";
+        newsListEl.appendChild(li);
+        newsCountLabelEl.textContent = "0 notícies";
         return;
       }
+
+      filteredNews.forEach((news) => {
+        const li = document.createElement("li");
+        li.className = "news-card";
+
+        // Columna imatge
+        const imageWrapper = document.createElement("div");
+        imageWrapper.className = "news-image-wrapper";
+
+        if (news.imageUrl) {
+          const img = document.createElement("img");
+          img.src = news.imageUrl;
+          img.alt = news.title || "Imatge de la notícia";
+          imageWrapper.appendChild(img);
+        } else {
+          // Si no hi ha imatge, afegim el nostre SVG de logo RSS
+          const svg = createRssPlaceholderSvg();
+          imageWrapper.appendChild(svg);
+        }
+
+        // Columna contingut
+        const content = document.createElement("div");
+        content.className = "news-content";
+
+        const title = document.createElement("h3");
+        title.className = "news-title";
+        const link = document.createElement("a");
+        link.href = news.link;
+        link.target = "_blank"; // Obrim en una pestanya nova
+        link.rel = "noopener noreferrer";
+        link.textContent = news.title || "(Sense títol)";
+        title.appendChild(link);
+
+        const meta = document.createElement("div");
+        meta.className = "news-meta";
+
+        const dateSpan = document.createElement("span");
+        dateSpan.textContent = "📅 " + formatDate(news.pubDate);
+
+        const sourcePill = document.createElement("span");
+        sourcePill.className = "news-source-pill";
+        sourcePill.innerHTML = `<span>📡</span><span>${news.feedName}</span>`;
+
+        meta.appendChild(dateSpan);
+        meta.appendChild(sourcePill);
+
+        const description = document.createElement("div");
+        description.className = "news-description";
+        description.innerHTML = news.description || "<em>Sense descripció</em>";
+
+        content.appendChild(title);
+        content.appendChild(meta);
+        content.appendChild(description);
+
+        li.appendChild(imageWrapper);
+        li.appendChild(content);
+
+        newsListEl.appendChild(li);
+      });
+
+      newsCountLabelEl.textContent = `${filteredNews.length} notícies`;
+    }
+
+    /**
+     * Actualitza la llista filtrada segons el text de cerca.
+     */
+    function applySearchFilter() {
+      const query = searchInputEl.value.toLowerCase().trim();
+      if (!query) {
+        filteredNews = [...allNews];
+      } else {
+        filteredNews = allNews.filter((news) => {
+          const title = (news.title || "").toLowerCase();
+          const description = (news.description || "").toLowerCase();
+          return title.includes(query) || description.includes(query);
+        });
+      }
+      renderNewsList();
+    }
+
+    // ============================================================
+    // MINI GRÀFIC DE BARRES SVG
+    // ============================================================
+
+    /**
+     * Dibuixa un petit gràfic de barres amb el nombre de notícies per canal.
+     */
+    function renderFeedChart() {
+      // Comptem quantes notícies té cada canal
+      const countsByFeedId = {};
+      feeds.forEach((feed) => {
+        countsByFeedId[feed.id] = 0;
+      });
+      allNews.forEach((news) => {
+        countsByFeedId[news.feedId] = (countsByFeedId[news.feedId] || 0) + 1;
+      });
+
+      // Esborrem contingut anterior
+      while (feedChartEl.firstChild) {
+        feedChartEl.removeChild(feedChartEl.firstChild);
+      }
+      chartLegendEl.innerHTML = "";
+
+      const maxCount = Math.max(...Object.values(countsByFeedId), 1);
+      const barWidth = 40;
+      const gap = 15;
+      const startX = 10;
+      const baseY = 70;
+      const maxHeight = 50;
+
+      feeds.forEach((feed, index) => {
+        const count = countsByFeedId[feed.id] || 0;
+        const height = (count / maxCount) * maxHeight;
+        const x = startX + index * (barWidth + gap);
+        const y = baseY - height;
+
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        rect.setAttribute("x", x);
+        rect.setAttribute("y", y);
+        rect.setAttribute("width", barWidth);
+        rect.setAttribute("height", height);
+        rect.setAttribute("fill", feed.color || "#4c6fff");
+        rect.setAttribute("rx", "4");
+        feedChartEl.appendChild(rect);
+
+        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.setAttribute("x", x + barWidth / 2);
+        text.setAttribute("y", y - 3);
+        text.setAttribute("text-anchor", "middle");
+        text.setAttribute("font-size", "10");
+        text.setAttribute("fill", "#555");
+        text.textContent = count;
+        feedChartEl.appendChild(text);
+
+        const legendItem = document.createElement("div");
+        legendItem.className = "chart-legend-item";
+        const colorBox = document.createElement("span");
+        colorBox.className = "legend-color";
+        colorBox.style.backgroundColor = feed.color || "#4c6fff";
+        const label = document.createElement("span");
+        label.textContent = feed.name;
+        legendItem.appendChild(colorBox);
+        legendItem.appendChild(label);
+        chartLegendEl.appendChild(legendItem);
+      });
+    }
+
+    // ============================================================
+    // CÀRREGA I VALIDACIÓ DE RSS (FETCH + DOMParser)
+    // ============================================================
+
+    /**
+     * Carrega un canal RSS concret i retorna les notícies com a array d'objectes.
+     * Si hi ha un error (CORS, xarxa, etc.), llença una excepció.
+     */
+    async function fetchFeedItems(feed) {
+      const response = await fetch(feed.url);
+      if (!response.ok) {
+        throw new Error("Error HTTP: " + response.status);
+      }
+      const text = await response.text();
+
+      // Parsegem el text XML amb DOMParser
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(text, "application/xml");
+
+      // Comprovem si hi ha errors de parseig
+      const parserError = xml.querySelector("parsererror");
+      if (parserError) {
+        throw new Error("El contingut no sembla un RSS/XML vàlid.");
+      }
+
+      // Intentem trobar els items (RSS 2.0: <item>, Atom: <entry>)
+      const items = Array.from(xml.querySelectorAll("item, entry"));
+      if (items.length === 0) {
+        throw new Error("No s'han trobat elements <item> o <entry> al feed.");
+      }
+
+      // Convertim cada item a un objecte JavaScript
+      const newsItems = items.map((item) => {
+        const titleEl = item.querySelector("title");
+        const linkEl = item.querySelector("link");
+        const descEl = item.querySelector("description, summary, content");
+        const dateEl = item.querySelector("pubDate, updated, published");
+
+        let link = "";
+        if (linkEl) {
+          // En RSS normalment és text; en Atom pot ser atribut href
+          link = linkEl.getAttribute("href") || linkEl.textContent || "";
+        }
+
+        const imageUrl = extractImageFromItem(item);
+
+        return {
+          feedId: feed.id,
+          feedName: feed.name,
+          title: titleEl ? titleEl.textContent.trim() : "",
+          link: link.trim(),
+          description: descEl ? descEl.textContent.trim() : "",
+          pubDate: dateEl ? dateEl.textContent.trim() : "",
+          imageUrl
+        };
+      });
+
+      return newsItems;
+    }
+
+    /**
+     * Carrega totes les notícies de tots els canals actuals.
+     * - Barreja les notícies en una sola llista.
+     * - Actualitza la interfície.
+     */
+    async function loadAllNews() {
+      setLoading(true);
+      hideNewsError();
+      allNews = [];
+
+      const errors = [];
+
+      // Fem un fetch per a cada canal
+      for (const feed of feeds) {
+        try {
+          const items = await fetchFeedItems(feed);
+          allNews = allNews.concat(items);
+        } catch (error) {
+          console.error("Error carregant feed:", feed.url, error);
+          errors.push(`❌ Error amb "${feed.name}": ${error.message}`);
+        }
+      }
+
+      // Ordenem les notícies per data (si és possible)
+      allNews.sort((a, b) => {
+        const da = new Date(a.pubDate).getTime();
+        const db = new Date(b.pubDate).getTime();
+        if (isNaN(da) || isNaN(db)) return 0;
+        return db - da;
+      });
+
+      filteredNews = [...allNews];
+      renderNewsList();
+      renderFeedChart();
+
+      if (errors.length > 0) {
+        showNewsError(errors.join(" · "));
+      }
+
+      setLoading(false);
+    }
+
+    /**
+     * Valida un nou canal RSS abans de guardar-lo.
+     * - Fa un fetch i comprova que hi ha items.
+     */
+    async function validateAndAddFeed(name, url) {
+      const tempFeed = {
+        id: "feed-" + Date.now(),
+        name,
+        url,
+        color: getRandomColor()
+      };
+
+      try {
+        setLoading(true);
+        hideNewsError();
+        showFeedStatus("Validant el canal RSS...", "success");
+
+        const items = await fetchFeedItems(tempFeed);
+        if (!items || items.length === 0) {
+          throw new Error("El feed no conté notícies.");
+        }
+
+        feeds.push(tempFeed);
+        saveFeedsToStorage();
+        renderFeedList();
+
+        // Afegim les notícies d'aquest nou canal a la llista general
+        allNews = allNews.concat(items);
+        filteredNews = [...allNews];
+        renderNewsList();
+        renderFeedChart();
+
+        showFeedStatus("Canal RSS afegit correctament ✅", "success");
+      } catch (error) {
+        console.error("Error validant nou feed:", error);
+        showFeedStatus("No s'ha pogut validar el canal RSS: " + error.message, "error");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    /**
+     * Elimina un canal RSS i recarrega les notícies.
+     */
+    async function removeFeed(feedId) {
+      feeds = feeds.filter((f) => f.id !== feedId);
+      saveFeedsToStorage();
+      renderFeedList();
+      await loadAllNews();
+    }
+
+    /**
+     * Genera un color aleatori suau per als canals nous.
+     */
+    function getRandomColor() {
+      const colors = ["#ff7a3c", "#4c6fff", "#2a9d8f", "#f4a261", "#e76f51", "#8d99ff"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // ============================================================
+    // ESDEVENIMENTS (EVENT LISTENERS)
+    // ============================================================
+
+    // Quan s'envia el formulari per afegir un nou canal
+    rssFormEl.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const name = rssNameInput.value.trim();
+      const url = rssUrlInput.value.trim();
+
+      if (!name || !url) {
+        showFeedStatus("Cal omplir el nom i la URL del canal.", "error");
+        return;
+      }
+
+      // Comprovem si ja existeix un canal amb la mateixa URL
+      const exists = feeds.some((f) => f.url === url);
+      if (exists) {
+        showFeedStatus("Aquest canal ja està afegit.", "error");
+        return;
+      }
+
+      await validateAndAddFeed(name, url);
+
+      // Netegem el formulari
+      rssNameInput.value = "";
+      rssUrlInput.value = "";
+    });
+
+    // Botó per restablir els canals per defecte
+    resetFeedsBtn.addEventListener("click", async () => {
+      if (!confirm("Vols restablir els canals per defecte? Això substituirà la llista actual.")) {
+        return;
+      }
+      feeds = [...DEFAULT_FEEDS];
+      saveFeedsToStorage();
+      renderFeedList();
+      await loadAllNews();
+      showFeedStatus("Canals per defecte restablerts.", "success");
+    });
+
+    // Filtre de cerca
+    searchInputEl.addEventListener("input", () => {
+      applySearchFilter();
+    });
+
+    // ============================================================
+    // INICIALITZACIÓ DE L'APP
+    // ============================================================
+
+    (async function init() {
+      // 1. Carreguem canals de localStorage o per defecte
+      loadFeedsFromStorage();
+
+      // 2. Dibuixem la llista de canals
+      renderFeedList();
+
+      // 3. Carreguem totes les notícies
+      await loadAllNews();
+
+      // Nota: si algun feed falla per CORS o altres motius,
+      // es mostrarà un missatge d'error però l'app seguirà funcionant.
+    })();
+  </script>
+</body>
+
+</html>
