@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia 1 · Base de Dades – Jornades Docents</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --navy:#0f1b2d; --navy-mid:#162032; --navy-card:#1a2840; --navy-border:#243450;
+            --accent:#3b9ede; --accent2:#2fb8c4; --gold:#f0a830; --gold-dim:#c97d10;
+            --green:#22c55e;
+            --primary-dark:#1b3a5c; --primary-mid:#1e6fa6; --primary-light:#2fb8c4;
+            --tip-bg:#e8f4fd; --warn-bg:#fff7ed; --warn-color:#d97706;
+            --ok-bg:#f0fdf4; --ok-color:#16a34a;
+            --purple-bg:#faf5ff; --purple-border:#d8b4fe; --purple-color:#7c3aed;
+            --code-bg:#0d1117; --code-head:#161b22; --code-border:#30363d;
+            --text:#374151; --border:#e5e7eb; --bg:#f3f6fa;
+        }
+        body { font-family:'DM Sans','Segoe UI',sans-serif; line-height:1.72; color:var(--text); background:var(--bg); }
+
+        /* HERO */
+        .hero { background:linear-gradient(160deg,var(--navy) 0%,#0d2240 60%,#0a2d4a 100%); color:#fff; padding:44px 40px 36px; text-align:center; position:relative; overflow:hidden; }
+        .hero::before { content:''; position:absolute; top:-80px; right:-80px; width:320px; height:320px; background:radial-gradient(circle,rgba(59,158,222,.15) 0%,transparent 70%); }
+        .hero::after  { content:''; position:absolute; bottom:-60px; left:-40px; width:260px; height:260px; background:radial-gradient(circle,rgba(47,184,196,.1) 0%,transparent 70%); }
+        .hero-badge { display:inline-block; background:rgba(59,158,222,.18); border:1px solid rgba(59,158,222,.4); color:rgba(255,255,255,.9); padding:4px 18px; border-radius:20px; font-size:.78em; letter-spacing:.1em; text-transform:uppercase; margin-bottom:14px; font-weight:600; }
+        .hero h1 { font-family:'Source Serif 4',Georgia,serif; font-size:2.5em; font-weight:700; margin-bottom:10px; line-height:1.2; }
+        .hero h1 span { color:var(--accent2); }
+        .hero p { color:rgba(255,255,255,.72); font-size:1.05em; max-width:640px; margin:0 auto; }
+
+        /* MAPA */
+        .mapa-section { background:linear-gradient(180deg,var(--navy) 0%,var(--navy-mid) 100%); padding:30px 40px 36px; }
+        .mapa-title { text-align:center; color:rgba(255,255,255,.85); font-size:.82em; font-weight:700; letter-spacing:.12em; text-transform:uppercase; margin-bottom:22px; }
+        .mapa-title span { color:var(--gold); margin-right:8px; }
+        .bloc-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; max-width:900px; margin:0 auto 24px; }
+        .bloc-card { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:12px; padding:18px 14px 14px; text-align:center; cursor:pointer; transition:all .25s; text-decoration:none; display:block; }
+        .bloc-card:hover { background:#1f3356; border-color:var(--accent); transform:translateY(-3px); box-shadow:0 8px 24px rgba(59,158,222,.2); }
+        .bloc-card.done { border-color:rgba(34,197,94,.35); background:#172a1e; }
+        .bloc-card.done:hover { border-color:var(--green); }
+        .bloc-card-icon { font-size:1.9em; margin-bottom:8px; display:block; }
+        .bloc-card-num { color:rgba(255,255,255,.55); font-size:.72em; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:4px; }
+        .bloc-card-name { color:#e2e8f0; font-size:.88em; font-weight:600; margin-bottom:8px; line-height:1.25; }
+        .bloc-card-progress { font-size:.78em; font-weight:700; padding:3px 10px; border-radius:10px; display:inline-block; }
+        .progress-none { background:rgba(255,255,255,.08); color:rgba(255,255,255,.4); }
+        .progress-part { background:rgba(240,168,48,.15); color:var(--gold); }
+        .progress-done { background:rgba(34,197,94,.15); color:var(--green); }
+        .progress-bar-wrap { max-width:900px; margin:0 auto; }
+        .progress-meta { display:flex; justify-content:space-between; align-items:center; color:rgba(255,255,255,.65); font-size:.86em; margin-bottom:8px; }
+        .progress-meta strong { color:#fff; }
+        .btn-reset { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); color:rgba(255,255,255,.7); padding:5px 14px; border-radius:14px; font-size:.8em; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:600; transition:all .2s; }
+        .btn-reset:hover { background:rgba(255,255,255,.15); color:#fff; }
+        .progress-track { background:rgba(255,255,255,.1); border-radius:6px; height:8px; overflow:hidden; }
+        .progress-fill { background:linear-gradient(90deg,var(--accent),var(--accent2)); height:100%; border-radius:6px; transition:width .5s ease; }
+
+        /* NAV GUIES */
+        .guies-nav { display:flex; justify-content:center; gap:10px; padding:14px 40px; background:#f8fafc; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+        .guia-btn { padding:6px 18px; border-radius:20px; font-size:.86em; font-weight:600; text-decoration:none; border:2px solid transparent; transition:all .22s; font-family:'DM Sans',sans-serif; cursor:pointer; }
+        .guia-btn.active { background:var(--primary-mid); color:#fff; border-color:var(--primary-mid); }
+        .guia-btn.inactive { background:#fff; color:var(--primary-mid); border-color:var(--primary-mid); }
+        .guia-btn.inactive:hover { background:var(--primary-mid); color:#fff; }
+
+        /* CONTENT */
+        .content { padding:44px 44px 60px; max-width:1060px; margin:0 auto; }
+
+        /* BLOC TOPBAR */
+        .bloc-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; flex-wrap:wrap; gap:8px; }
+        .btn-back-map { display:inline-flex; align-items:center; gap:6px; background:#f1f5f9; color:var(--primary-dark); border:1px solid #cbd5e1; padding:6px 16px; border-radius:20px; font-size:.83em; font-weight:600; text-decoration:none; cursor:pointer; transition:all .2s; font-family:'DM Sans',sans-serif; }
+        .btn-back-map:hover { background:#e2e8f0; }
+        .bloc-pill { display:inline-flex; align-items:center; gap:5px; background:var(--primary-mid); color:#fff; padding:6px 16px; border-radius:20px; font-size:.83em; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+        .bloc-nav { display:flex; justify-content:space-between; align-items:center; padding:12px 0; margin-top:28px; border-top:1px solid var(--border); flex-wrap:wrap; gap:8px; }
+        .btn-nav { display:inline-flex; align-items:center; gap:6px; padding:7px 18px; border-radius:20px; font-size:.85em; font-weight:600; text-decoration:none; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .22s; }
+        .btn-prev { background:#f1f5f9; color:var(--primary-dark); border:1px solid #cbd5e1; }
+        .btn-prev:hover { background:#e2e8f0; }
+        .btn-next { background:var(--primary-mid); color:#fff; }
+        .btn-next:hover { background:var(--primary-dark); transform:translateX(2px); }
+        .bloc-label { font-size:.8em; color:#94a3b8; font-weight:500; text-transform:uppercase; letter-spacing:.06em; }
+
+        /* EXERCICI CHECKBOXES */
+        .ex-item { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; cursor:pointer; }
+        .ex-check { width:20px; height:20px; min-width:20px; border:2px solid var(--purple-color); border-radius:5px; display:flex; align-items:center; justify-content:center; margin-top:2px; transition:all .2s; background:#fff; }
+        .ex-check.checked { background:var(--purple-color); border-color:var(--purple-color); }
+        .ex-check.checked::after { content:'✓'; color:#fff; font-size:.85em; font-weight:700; }
+        .ex-text { color:var(--text); font-size:1em; line-height:1.5; }
+        .ex-text.done { text-decoration:line-through; color:#9ca3af; }
+        .ex-num { display:inline-flex; align-items:center; justify-content:center; background:var(--purple-color); color:#fff; border-radius:50%; width:22px; height:22px; min-width:22px; font-size:.78em; font-weight:700; margin-right:4px; }
+
+        /* TOC */
+        .toc { background:linear-gradient(135deg,#f8fafc,#eef2f8); padding:24px 28px; border-radius:10px; margin-bottom:36px; border:1px solid #d1dae8; }
+        .toc h2 { color:var(--primary-dark); margin-bottom:14px; font-family:'Source Serif 4',serif; font-size:1.2em; }
+        .toc ul { list-style:none; margin:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:7px; }
+        .toc li { margin:0; }
+        .toc a { color:var(--primary-mid); text-decoration:none; font-weight:500; font-size:.95em; display:flex; align-items:center; gap:5px; transition:color .2s; }
+        .toc a:hover { color:var(--primary-dark); text-decoration:underline; }
+
+        /* CHAPTERS */
+        .chapter { margin-bottom:50px; border-bottom:2px solid var(--border); padding-bottom:30px; }
+        .chapter:last-child { border-bottom:none; }
+        .chapter-title { font-family:'Source Serif 4',Georgia,serif; font-size:1.75em; color:var(--primary-dark); margin-bottom:18px; padding-bottom:10px; border-bottom:3px solid var(--primary-light); display:inline-block; font-weight:700; }
+        .chapter-subtitle { font-size:1.18em; color:var(--primary-mid); margin:24px 0 12px; font-weight:600; }
+        p { margin-bottom:12px; color:var(--text); font-size:1.01em; }
+        ul,ol { margin:12px 0 16px 26px; color:var(--text); }
+        li { margin-bottom:6px; }
+        strong { color:var(--primary-dark); }
+        code { font-family:'JetBrains Mono','Consolas',monospace; background:#f1f5f9; color:#7c3aed; padding:1px 6px; border-radius:4px; font-size:.89em; }
+
+        /* CODE BLOCKS */
+        .code-container { background:var(--code-bg); border-radius:10px; margin:18px 0; box-shadow:0 4px 18px rgba(0,0,0,.22); overflow:hidden; border:1px solid var(--code-border); }
+        .code-header { background:var(--code-head); padding:9px 16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--code-border); }
+        .code-language { color:#8b949e; font-size:.83em; font-family:'JetBrains Mono',monospace; }
+        .copy-button { background:#238636; color:#fff; border:none; padding:4px 14px; border-radius:6px; cursor:pointer; font-size:.83em; font-weight:600; transition:all .22s; font-family:'DM Sans',sans-serif; }
+        .copy-button:hover { background:#2ea043; transform:translateY(-1px); }
+        .copy-button.copied { background:#1f6feb; }
+        pre { margin:0; padding:20px 22px; overflow-x:auto; }
+        pre code { background:none; color:#e6edf3; padding:0; font-size:.9em; line-height:1.65; border-radius:0; }
+        .kw{color:#ff7b72;} .fn{color:#d2a8ff;} .str{color:#a5d6ff;} .cm{color:#8b949e;font-style:italic;} .nb{color:#79c0ff;} .prop{color:#ffa657;}
+
+        /* BOXES */
+        .tip-box { background:var(--tip-bg); border-left:4px solid var(--primary-mid); padding:14px 18px; margin:16px 0; border-radius:0 8px 8px 0; }
+        .warning-box { background:var(--warn-bg); border-left:4px solid var(--warn-color); padding:14px 18px; margin:16px 0; border-radius:0 8px 8px 0; }
+        .analogy-box { background:var(--ok-bg); border-left:4px solid var(--ok-color); padding:14px 18px; margin:16px 0; border-radius:0 8px 8px 0; font-style:italic; }
+        .docent-box { background:#fff8ec; border:1px solid #f0a830; border-radius:10px; padding:15px 19px; margin:16px 0; }
+        .docent-box-title { color:var(--gold-dim); font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:7px; font-size:.99em; font-style:normal; }
+        .docent-box-title::before { content:"🎓"; font-size:1.1em; }
+        .exercise-box { background:var(--purple-bg); border:1px solid var(--purple-border); border-radius:10px; padding:18px 20px; margin:18px 0; }
+        .exercise-title { color:var(--purple-color); font-weight:700; font-size:.99em; margin-bottom:10px; display:flex; align-items:center; gap:7px; }
+        .exercise-title::before { content:"✏️"; }
+
+        /* TABLES */
+        .data-table { width:100%; border-collapse:collapse; margin:12px 0 18px; font-size:.91em; border-radius:8px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,.07); }
+        .data-table thead tr { background:var(--primary-dark); color:#fff; }
+        .data-table thead th { padding:10px 13px; text-align:left; font-weight:600; font-size:.87em; letter-spacing:.03em; }
+        .data-table tbody tr:nth-child(even) { background:#f5f8fc; }
+        .data-table tbody tr:hover { background:#e8f0fa; }
+        .data-table tbody td { padding:9px 13px; border-bottom:1px solid #e5e7eb; color:var(--text); }
+        .col-type { font-family:'JetBrains Mono',monospace; font-size:.81em; color:#7c3aed; font-weight:500; }
+        .col-gas  { background:#fef3c7; color:#92400e; padding:2px 7px; border-radius:4px; font-size:.77em; font-weight:700; font-family:monospace; white-space:nowrap; }
+        .col-form { background:#dbeafe; color:#1e40af; padding:2px 7px; border-radius:4px; font-size:.77em; font-weight:700; font-family:monospace; white-space:nowrap; }
+        td.disp { background:#f0fdf4; color:#16a34a; font-weight:700; }
+        td.res  { background:#fef2f2; color:#dc2626; font-weight:700; }
+
+        /* STEPS */
+        .step-box { margin:13px 0; }
+        .step { display:flex; align-items:flex-start; gap:12px; margin-bottom:10px; }
+        .step-num { background:var(--primary-mid); color:#fff; border-radius:50%; width:27px; height:27px; min-width:27px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.86em; }
+        .step-content { padding-top:3px; }
+
+        /* FRANJA CARDS */
+        .franja-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:13px; margin:14px 0; }
+        .franja-card { border:1px solid var(--border); border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+        .franja-head { padding:10px 14px; color:#fff; font-weight:700; font-size:.95em; }
+        .f-m1 .franja-head{background:#0369a1;} .f-m2 .franja-head{background:#0e7490;} .f-t .franja-head{background:#7c3aed;}
+        .franja-body { padding:11px 15px; }
+        .franja-body ul { margin:4px 0 0 15px; }
+        .franja-body li { font-size:.91em; margin-bottom:4px; }
+
+        /* ARCH */
+        .arch-diagram { background:#f8fafc; border:1px solid #d1dae8; border-radius:10px; padding:20px; margin:16px 0; text-align:center; }
+        .arch-row { display:flex; justify-content:center; align-items:center; gap:8px; margin:5px 0; flex-wrap:wrap; }
+        .arch-box { background:#fff; border:2px solid var(--primary-mid); border-radius:8px; padding:8px 15px; font-weight:700; font-size:.88em; color:var(--primary-dark); box-shadow:0 2px 6px rgba(0,0,0,.07); }
+        .arch-arrow { color:var(--primary-mid); font-size:1.3em; font-weight:700; }
+        .arch-label { font-size:.76em; color:#64748b; margin-top:2px; font-style:italic; }
+
+        /* RESPONSIVE */
+        @media(max-width:900px){ .bloc-grid{grid-template-columns:repeat(2,1fr);} }
+        @media(max-width:600px){ .content{padding:20px 16px;} .mapa-section{padding:20px 16px 24px;} .hero{padding:32px 18px 26px;} .hero h1{font-size:1.75em;} .bloc-grid{grid-template-columns:repeat(2,1fr);} .toc ul{grid-template-columns:1fr;} .franja-grid{grid-template-columns:1fr;} }
+
+        /* FOOTER */
+        .footer { background:var(--primary-dark); color:rgba(255,255,255,.7); text-align:center; padding:20px; font-size:.87em; }
+        .footer a { color:var(--accent2); }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-badge">Guia 1 de 3 · Jornades Docents</div>
+    <h1>📊 Base de Dades<br>amb <span>Google Sheets</span></h1>
+    <p>Dissenya l'estructura de dades abans d'escriure una sola línia de codi</p>
+</div>
+
+<!-- MAPA DE BLOCS -->
+<div class="mapa-section" id="mapa">
+    <div class="mapa-title"><span>📋</span>EL TEU OBJECTIU FINAL — CLICA UN BLOC PER ANAR-HI DIRECTAMENT</div>
+    <div class="bloc-grid">
+        <a class="bloc-card" href="#b01"><span class="bloc-card-icon">🏛️</span><div class="bloc-card-num">Bloc I</div><div class="bloc-card-name">Arquitectura general</div><span class="bloc-card-progress progress-none" id="prog-b01">0/3</span></a>
+        <a class="bloc-card" href="#b02"><span class="bloc-card-icon">📋</span><div class="bloc-card-num">Bloc II</div><div class="bloc-card-name">Formulari d'inscripcions</div><span class="bloc-card-progress progress-none" id="prog-b02">0/3</span></a>
+        <a class="bloc-card" href="#b03"><span class="bloc-card-icon">👥</span><div class="bloc-card-num">Bloc III</div><div class="bloc-card-name">Fulla INSCRITS</div><span class="bloc-card-progress progress-none" id="prog-b03">0/3</span></a>
+        <a class="bloc-card" href="#b04"><span class="bloc-card-icon">🗓️</span><div class="bloc-card-num">Bloc IV</div><div class="bloc-card-name">Fulla ACTIVITATS</div><span class="bloc-card-progress progress-none" id="prog-b04">0/3</span></a>
+        <a class="bloc-card" href="#b05"><span class="bloc-card-icon">🚪</span><div class="bloc-card-num">Bloc V</div><div class="bloc-card-name">Fulla SALA_ESPECIAL</div><span class="bloc-card-progress progress-none" id="prog-b05">0/3</span></a>
+        <a class="bloc-card" href="#b06"><span class="bloc-card-icon">⚙️</span><div class="bloc-card-num">Bloc VI</div><div class="bloc-card-name">Fulla CONFIG</div><span class="bloc-card-progress progress-none" id="prog-b06">0/3</span></a>
+        <a class="bloc-card" href="#b07"><span class="bloc-card-icon">✅</span><div class="bloc-card-num">Bloc VII</div><div class="bloc-card-name">Posada a punt</div><span class="bloc-card-progress progress-none" id="prog-b07">0/3</span></a>
+        <a class="bloc-card" href="#b08"><span class="bloc-card-icon">📈</span><div class="bloc-card-num">Bloc VIII</div><div class="bloc-card-name">Fulla RESUM</div><span class="bloc-card-progress progress-none" id="prog-b08">0/2</span></a>
+    </div>
+    <div class="progress-bar-wrap">
+        <div class="progress-meta">
+            <span><strong id="prog-done">0</strong> / <strong id="prog-total">23</strong> exercicis completats · <strong id="prog-pct">0%</strong></span>
+            <button class="btn-reset" onclick="resetProgress()">🔄 Reiniciar progrés</button>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+</div>
+
+<!-- NAV GUIES -->
+<div class="guies-nav">
+    <a class="guia-btn active" href="#">📊 Guia 1 · Base de Dades</a>
+    <a class="guia-btn inactive" href="#">🛠️ Guia 2 · IDE i GAS</a>
+    <a class="guia-btn inactive" href="#">📘 Guia 3 · Llenguatge GAS</a>
+</div>
+
+<div class="content">
+    <!-- TOC -->
+    <div class="toc">
+        <h2>📚 Continguts d'aquesta guia</h2>
+        <ul>
+            <li><a href="#b01">🏛️ Bloc I · Arquitectura general</a></li>
+            <li><a href="#b02">📋 Bloc II · Formulari d'inscripcions</a></li>
+            <li><a href="#b03">👥 Bloc III · Fulla INSCRITS</a></li>
+            <li><a href="#b04">🗓️ Bloc IV · Fulla ACTIVITATS</a></li>
+            <li><a href="#b05">🚪 Bloc V · Fulla SALA_ESPECIAL</a></li>
+            <li><a href="#b06">⚙️ Bloc VI · Fulla CONFIG</a></li>
+            <li><a href="#b07">✅ Bloc VII · Posada a punt</a></li>
+            <li><a href="#b08">📈 Bloc VIII · Fulla RESUM</a></li>
+        </ul>
+    </div>
+
+    <!-- intro -->
+    <div style="margin-bottom:32px;">
+        <p>Quan programem amb Google Apps Script, és tentador llançar-se directament a escriure codi. Però igual que un arquitecte no construeix sense plànols, no hauríem de codificar sense haver dissenyat primer <strong>on i com es guardaran les dades</strong>. Aquesta guia és el punt de partida de tot el sistema.</p>
+        <div class="analogy-box"><strong>🧠 Analogia:</strong> Imagina un gran arxivador físic per a les Jornades. Necessites carpetes separades: una per als inscrits, una per al programa, una per a les reserves de sala... A Google Sheets cada carpeta és una <strong>pestanya (fulla)</strong> del Spreadsheet.</div>
+    </div>
+
+    <!-- ═══ BLOC I ═══ -->
+    <div class="chapter" id="b01">
+        <div class="bloc-topbar">
+            <button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button>
+            <span class="bloc-pill">BLOC I</span>
+        </div>
+        <h2 class="chapter-title">Bloc I — Arquitectura General del Sistema</h2>
+        <p>El nostre sistema gira al voltant d'un sol <strong>Google Spreadsheet</strong> que actua com a base de dades central. Google Forms l'alimenta automàticament i GAS llegirà i escriurà sobre ell per automatitzar totes les tasques.</p>
+
+        <h3 class="chapter-subtitle">1.1 Visió global</h3>
+        <div class="arch-diagram">
+            <div class="arch-row">
+                <div class="arch-box">📋 Google Forms<br><span class="arch-label">Porta d'entrada</span></div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-box">📊 Google Sheets<br><span class="arch-label">Base de dades central</span></div>
+                <div class="arch-arrow">↔</div>
+                <div class="arch-box">⚙️ Apps Script<br><span class="arch-label">Cervell del sistema</span></div>
+            </div>
+            <div class="arch-row" style="margin:8px 0 2px;">
+                <div style="width:126px"></div><div class="arch-arrow" style="transform:rotate(90deg)">→</div>
+                <div style="width:26px"></div><div class="arch-arrow" style="transform:rotate(90deg)">→</div>
+            </div>
+            <div class="arch-row">
+                <div style="width:126px"></div>
+                <div class="arch-box">📧 Gmail<br><span class="arch-label">Confirmacions</span></div>
+                <div style="width:26px"></div>
+                <div class="arch-box">🌐 Web App<br><span class="arch-label">API pública</span></div>
+            </div>
+        </div>
+
+        <h3 class="chapter-subtitle">1.2 Les 5 fulles del Spreadsheet</h3>
+        <div class="franja-grid" style="grid-template-columns:repeat(auto-fit,minmax(175px,1fr))">
+            <div class="franja-card f-m1"><div class="franja-head">👥 INSCRITS</div><div class="franja-body"><p style="font-size:.9em;margin:0">Registre de participants. S'omple des del Formulari automàticament.</p></div></div>
+            <div class="franja-card f-m2"><div class="franja-head">📅 ACTIVITATS</div><div class="franja-body"><p style="font-size:.9em;margin:0">Catàleg d'activitats per franja. GAS hi escriu els aforaments.</p></div></div>
+            <div class="franja-card f-t"><div class="franja-head">🚪 SALA_ESPECIAL</div><div class="franja-body"><p style="font-size:.9em;margin:0">Agenda de 30 min. Generada per GAS automàticament.</p></div></div>
+            <div class="franja-card"><div class="franja-head" style="background:#059669;">📈 RESUM</div><div class="franja-body"><p style="font-size:.9em;margin:0">Estadístiques globals calculades per GAS.</p></div></div>
+            <div class="franja-card"><div class="franja-head" style="background:#6b7280;">⚙️ CONFIG</div><div class="franja-body"><p style="font-size:.9em;margin:0">Paràmetres generals: nom, data, lloc, emails.</p></div></div>
+        </div>
+
+        <h3 class="chapter-subtitle">1.3 Crea el Spreadsheet</h3>
+        <div class="step-box">
+            <div class="step"><span class="step-num">1</span><div class="step-content">Ves a <strong>drive.google.com</strong> → <em>+ Nou → Full de càlcul de Google</em>.</div></div>
+            <div class="step"><span class="step-num">2</span><div class="step-content">Posa-li el nom: <strong>"Gestió Jornades Docents 2025"</strong>.</div></div>
+            <div class="step"><span class="step-num">3</span><div class="step-content">Reanomena la primera pestanya <code>INSCRITS</code> (clic dret → Canvia el nom).</div></div>
+            <div class="step"><span class="step-num">4</span><div class="step-content">Crea les 4 pestanyes restants: <code>ACTIVITATS</code>, <code>SALA_ESPECIAL</code>, <code>RESUM</code>, <code>CONFIG</code>.</div></div>
+            <div class="step"><span class="step-num">5</span><div class="step-content">Opcional: assigna un color diferent a cada pestanya per identificar-les ràpidament.</div></div>
+        </div>
+        <div class="tip-box"><strong>💡 Conveni de noms:</strong> Usa sempre <strong>MAJÚSCULES sense espais</strong> per a les pestanyes. GAS distingeix entre majúscules i minúscules: <code>getSheetByName("INSCRITS")</code> no trobarà "Inscrits".</div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc I</div>
+            <div class="ex-item" onclick="toggleEx(this,'b01',0)"><div class="ex-check" id="chk-b01-0"></div><div class="ex-text"><span class="ex-num">1</span> Crea el Spreadsheet amb el nom correcte i les 5 pestanyes en MAJÚSCULES.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b01',1)"><div class="ex-check" id="chk-b01-1"></div><div class="ex-text"><span class="ex-num">2</span> Assigna un color diferent a cada pestanya i congela la fila 1 en totes (Vista → Congela → 1 fila).</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b01',2)"><div class="ex-check" id="chk-b01-2"></div><div class="ex-text"><span class="ex-num">3</span> Dibuixa el diagrama del sistema (Forms → Sheets → GAS → Gmail/WebApp). Identifica quines connexions seran automàtiques i quines requeriran codi.</div></div>
+        </div>
+        <div class="bloc-nav">
+            <a class="btn-nav btn-prev" href="#mapa">↑ Mapa de blocs</a>
+            <span class="bloc-label">Bloc 1 de 8</span>
+            <a class="btn-nav btn-next" href="#b02">Bloc II · Formulari →</a>
+        </div>
+    </div>
+
+    <!-- ═══ BLOC II ═══ -->
+    <div class="chapter" id="b02">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC II</span></div>
+        <h2 class="chapter-title">Bloc II — El Formulari d'Inscripcions</h2>
+        <p>El <strong>Google Form</strong> és el punt d'entrada dels participants. Cada enviament crea automàticament una nova fila a <code>INSCRITS</code>, eliminant la introducció manual de dades i els errors de transcripció.</p>
+
+        <h3 class="chapter-subtitle">2.1 Crea el formulari des del Spreadsheet</h3>
+        <div class="step-box">
+            <div class="step"><span class="step-num">1</span><div class="step-content">Des del Spreadsheet: menú <strong>Insereix → Formulari</strong>. Crea un Forms directament vinculat.</div></div>
+            <div class="step"><span class="step-num">2</span><div class="step-content">Títol: <strong>"Inscripció Jornades Docents 2025"</strong>. Afegeix data i lloc a la descripció.</div></div>
+            <div class="step"><span class="step-num">3</span><div class="step-content">Afegeix els 9 camps de la taula de sota. Activa <em>Obligatori</em> als essencials.</div></div>
+            <div class="step"><span class="step-num">4</span><div class="step-content">A <em>Respostes</em> del formulari comprova que apareix la icona verda del Sheets (vincle actiu).</div></div>
+        </div>
+
+        <h3 class="chapter-subtitle">2.2 Camps del formulari</h3>
+        <table class="data-table">
+            <thead><tr><th>#</th><th>Camp</th><th>Tipus</th><th>Oblig.</th><th>Notes</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td><strong>Nom i Cognoms</strong></td><td>Resposta curta</td><td>✅</td><td>Nom complet</td></tr>
+                <tr><td>2</td><td><strong>Centre Educatiu</strong></td><td>Resposta curta</td><td>✅</td><td>Institut o centre</td></tr>
+                <tr><td>3</td><td><strong>Correu electrònic</strong></td><td>Resposta curta</td><td>✅</td><td>Activa «Validació → Email»</td></tr>
+                <tr><td>4</td><td><strong>Telèfon de contacte</strong></td><td>Resposta curta</td><td>❌</td><td>Per a emergències el dia de les jornades</td></tr>
+                <tr><td>5</td><td><strong>Activitat Franja M1 (9:30–11:30)</strong></td><td>Opció múltiple</td><td>✅</td><td>Opcions: A, B, C, D</td></tr>
+                <tr><td>6</td><td><strong>Activitat Franja M2 (12:00–14:00)</strong></td><td>Opció múltiple</td><td>✅</td><td>Opcions: A, B, C, D</td></tr>
+                <tr><td>7</td><td><strong>Activitat Franja T (16:00–18:00)</strong></td><td>Opció múltiple</td><td>✅</td><td>Opcions: A, B, C, D</td></tr>
+                <tr><td>8</td><td><strong>Vols reservar la Sala Especial?</strong></td><td>Opció múltiple</td><td>✅</td><td>Sí / No</td></tr>
+                <tr><td>9</td><td><strong>Comentaris o necessitats especials</strong></td><td>Resposta llarga</td><td>❌</td><td>Accessibilitat, dietes...</td></tr>
+            </tbody>
+        </table>
+        <div class="warning-box"><strong>⚠️ Les opcions A, B, C, D</strong> han de coincidir <em>exactament</em> amb els valors de la fulla ACTIVITATS. Recomanació: posa el codi i el títol: <em>"A – Robòtica educativa"</em>. GAS fa la comparació caràcter per caràcter.</div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc II</div>
+            <div class="ex-item" onclick="toggleEx(this,'b02',0)"><div class="ex-check" id="chk-b02-0"></div><div class="ex-text"><span class="ex-num">1</span> Crea el formulari complet amb els 9 camps. Envia'l 3 vegades amb dades fictícies i comprova que apareixen files a <code>INSCRITS</code>.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b02',1)"><div class="ex-check" id="chk-b02-1"></div><div class="ex-text"><span class="ex-num">2</span> Activa la validació d'email al camp 3 i intenta enviar amb un email invàlid. Comprova que el formulari no ho permet.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b02',2)"><div class="ex-check" id="chk-b02-2"></div><div class="ex-text"><span class="ex-num">3</span> Afegeix una pàgina de confirmació final: <em>"Gràcies! Rebràs un correu de confirmació en les properes hores."</em></div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b01">← Bloc I</a><span class="bloc-label">Bloc 2 de 8</span><a class="btn-nav btn-next" href="#b03">Bloc III · INSCRITS →</a></div>
+    </div>
+
+    <!-- ═══ BLOC III ═══ -->
+    <div class="chapter" id="b03">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC III</span></div>
+        <h2 class="chapter-title">Bloc III — Fulla «INSCRITS»</h2>
+        <p>La fulla <code>INSCRITS</code> és el registre central de participants. Les columnes A–J les omple el formulari. La columna K la gestiona GAS per evitar enviar el correu de confirmació dues vegades.</p>
+
+        <h3 class="chapter-subtitle">3.1 Estructura de columnes</h3>
+        <table class="data-table">
+            <thead><tr><th>Col.</th><th>Nom del camp</th><th>Tipus</th><th>Origen</th><th>Descripció</th></tr></thead>
+            <tbody>
+                <tr><td><strong>A</strong></td><td>Marca_Temporal</td><td class="col-type">DateTime</td><td><span class="col-form">FORMS</span></td><td>Data i hora de l'enviament (automàtic)</td></tr>
+                <tr><td><strong>B</strong></td><td>Nom_Cognoms</td><td class="col-type">String</td><td><span class="col-form">FORMS</span></td><td>Nom complet del participant</td></tr>
+                <tr><td><strong>C</strong></td><td>Centre_Educatiu</td><td class="col-type">String</td><td><span class="col-form">FORMS</span></td><td>Institut o centre d'on prové</td></tr>
+                <tr><td><strong>D</strong></td><td>Email</td><td class="col-type">String</td><td><span class="col-form">FORMS</span></td><td>Correu electrònic — clau per a notificacions</td></tr>
+                <tr><td><strong>E</strong></td><td>Telefon</td><td class="col-type">String</td><td><span class="col-form">FORMS</span></td><td>Telèfon (opcional)</td></tr>
+                <tr><td><strong>F</strong></td><td>Activitat_M1</td><td class="col-type">String</td><td><span class="col-form">FORMS</span></td><td>Opció triada 9:30–11:30 (A/B/C/D)</td></tr>
+                <tr><td><strong>G</strong></td><td>Activitat_M2</td><td class="col-type">String</td><td><span class="col-form">FORMS</span></td><td>Opció triada 12:00–14:00 (A/B/C/D)</td></tr>
+                <tr><td><strong>H</strong></td><td>Activitat_T</td><td class="col-type">String</td><td><span class="col-form">FORMS</span></td><td>Opció triada 16:00–18:00 (A/B/C/D)</td></tr>
+                <tr><td><strong>I</strong></td><td>Vol_Sala_Especial</td><td class="col-type">String</td><td><span class="col-form">FORMS</span></td><td>«Sí» o «No»</td></tr>
+                <tr><td><strong>J</strong></td><td>Comentaris</td><td class="col-type">String</td><td><span class="col-form">FORMS</span></td><td>Observacions lliures (pot estar buit)</td></tr>
+                <tr><td><strong>K</strong></td><td>Confirmacio_Enviada</td><td class="col-type">Boolean</td><td><span class="col-gas">GAS</span></td><td>TRUE quan GAS ha enviat el correu</td></tr>
+            </tbody>
+        </table>
+        <div class="warning-box"><strong>⚠️ No modifiquis les columnes A–J manualment.</strong> Qualsevol canvi pot trencar la sincronització amb el Formulari. Afegeix camps nous a partir de la columna L.</div>
+
+        <h3 class="chapter-subtitle">3.2 Constants de columna per a GAS</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — índexs de columna per a INSCRITS</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="cm">// Base 0: getValues() retorna A=0, B=1, C=2...</span>
+<span class="kw">const</span> COL_TIMESTAMP  = <span class="nb">0</span>;  <span class="cm">// A</span>
+<span class="kw">const</span> COL_NOM        = <span class="nb">1</span>;  <span class="cm">// B</span>
+<span class="kw">const</span> COL_CENTRE     = <span class="nb">2</span>;  <span class="cm">// C</span>
+<span class="kw">const</span> COL_EMAIL      = <span class="nb">3</span>;  <span class="cm">// D — clau per a notificacions</span>
+<span class="kw">const</span> COL_TELEFON    = <span class="nb">4</span>;  <span class="cm">// E</span>
+<span class="kw">const</span> COL_ACTIV_M1   = <span class="nb">5</span>;  <span class="cm">// F</span>
+<span class="kw">const</span> COL_ACTIV_M2   = <span class="nb">6</span>;  <span class="cm">// G</span>
+<span class="kw">const</span> COL_ACTIV_T    = <span class="nb">7</span>;  <span class="cm">// H</span>
+<span class="kw">const</span> COL_VOL_SALA   = <span class="nb">8</span>;  <span class="cm">// I</span>
+<span class="kw">const</span> COL_COMENTARIS = <span class="nb">9</span>;  <span class="cm">// J</span>
+<span class="kw">const</span> COL_CONFIRMADA = <span class="nb">10</span>; <span class="cm">// K — gestionat per GAS</span>
+
+<span class="cm">// Molt més llegible: dades[i][COL_EMAIL]  que  dades[i][3]</span></code></pre>
+        </div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc III</div>
+            <div class="ex-item" onclick="toggleEx(this,'b03',0)"><div class="ex-check" id="chk-b03-0"></div><div class="ex-text"><span class="ex-num">1</span> Prepara la capçalera completa (A–K). Aplica negreta i congela la fila 1.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b03',1)"><div class="ex-check" id="chk-b03-1"></div><div class="ex-text"><span class="ex-num">2</span> Envia 5 respostes fictícies al formulari. Comprova que les columnes A–J s'omplen bé. Deixa K buida.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b03',2)"><div class="ex-check" id="chk-b03-2"></div><div class="ex-text"><span class="ex-num">3</span> Afegeix validació de dades a la columna K: només TRUE o FALSE (Dades → Validació de dades → Llista d'elements).</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b02">← Bloc II</a><span class="bloc-label">Bloc 3 de 8</span><a class="btn-nav btn-next" href="#b04">Bloc IV · ACTIVITATS →</a></div>
+    </div>
+
+    <!-- ═══ BLOC IV ═══ -->
+    <div class="chapter" id="b04">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC IV</span></div>
+        <h2 class="chapter-title">Bloc IV — Fulla «ACTIVITATS»</h2>
+        <p>La fulla <code>ACTIVITATS</code> és el catàleg oficial del programa. Defineix les 12 activitats (3 franges × 4 opcions), els ponents, les aules i els aforaments. GAS actualitzarà les columnes d'ocupació en temps real.</p>
+
+        <h3 class="chapter-subtitle">4.1 Les tres franges horàries</h3>
+        <div class="franja-grid">
+            <div class="franja-card f-m1"><div class="franja-head">🌅 Franja M1 · 9:30–11:30</div><div class="franja-body"><ul><li><strong>M1-A</strong> – [Activitat A]</li><li><strong>M1-B</strong> – [Activitat B]</li><li><strong>M1-C</strong> – [Activitat C]</li><li><strong>M1-D</strong> – [Activitat D]</li></ul></div></div>
+            <div class="franja-card f-m2"><div class="franja-head">☀️ Franja M2 · 12:00–14:00</div><div class="franja-body"><ul><li><strong>M2-A</strong> – [Activitat A]</li><li><strong>M2-B</strong> – [Activitat B]</li><li><strong>M2-C</strong> – [Activitat C]</li><li><strong>M2-D</strong> – [Activitat D]</li></ul></div></div>
+            <div class="franja-card f-t"><div class="franja-head">🌆 Franja T · 16:00–18:00</div><div class="franja-body"><ul><li><strong>T-A</strong> – [Activitat A]</li><li><strong>T-B</strong> – [Activitat B]</li><li><strong>T-C</strong> – [Activitat C]</li><li><strong>T-D</strong> – [Activitat D]</li></ul></div></div>
+        </div>
+
+        <h3 class="chapter-subtitle">4.2 Estructura de columnes</h3>
+        <table class="data-table">
+            <thead><tr><th>Col.</th><th>Nom</th><th>Tipus</th><th>Origen</th><th>Exemple</th></tr></thead>
+            <tbody>
+                <tr><td><strong>A</strong></td><td>ID_Activitat</td><td class="col-type">String</td><td>Manual</td><td><code>M1-A</code>, <code>T-D</code></td></tr>
+                <tr><td><strong>B</strong></td><td>Franja</td><td class="col-type">String</td><td>Manual</td><td><code>M1</code>, <code>M2</code>, <code>T</code></td></tr>
+                <tr><td><strong>C</strong></td><td>Opcio</td><td class="col-type">String</td><td>Manual</td><td><code>A</code>, <code>B</code>, <code>C</code>, <code>D</code></td></tr>
+                <tr><td><strong>D</strong></td><td>Titol</td><td class="col-type">String</td><td>Manual</td><td>Títol complet de l'activitat</td></tr>
+                <tr><td><strong>E</strong></td><td>Ponent</td><td class="col-type">String</td><td>Manual</td><td>Nom del ponent o facilitador/a</td></tr>
+                <tr><td><strong>F</strong></td><td>Aula</td><td class="col-type">String</td><td>Manual</td><td>Aula 201, Laboratori TIC...</td></tr>
+                <tr><td><strong>G</strong></td><td>Aforament_Max</td><td class="col-type">Number</td><td>Manual</td><td>25, 30, 50</td></tr>
+                <tr><td><strong>H</strong></td><td>Inscrits</td><td class="col-type">Number</td><td><span class="col-gas">GAS</span></td><td>Calculat automàticament</td></tr>
+                <tr><td><strong>I</strong></td><td>Places_Disponibles</td><td class="col-type">Number</td><td><span class="col-gas">GAS</span></td><td>Aforament_Max − Inscrits</td></tr>
+                <tr><td><strong>J</strong></td><td>Estat</td><td class="col-type">String</td><td><span class="col-gas">GAS</span></td><td>Oberta / Completa / Cancel·lada</td></tr>
+            </tbody>
+        </table>
+        <div class="tip-box"><strong>💡 Omple A–G ara, deixa H–J per a GAS.</strong> La fulla tindrà 12 files de dades + capçalera. Les columnes H, I, J les escriurà <code>actualitzarAforaments()</code> a la Guia 2.</div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc IV</div>
+            <div class="ex-item" onclick="toggleEx(this,'b04',0)"><div class="ex-check" id="chk-b04-0"></div><div class="ex-text"><span class="ex-num">1</span> Omple les 12 activitats (columnes A–G). Pots inventar títols o usar les de les teves jornades reals.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b04',1)"><div class="ex-check" id="chk-b04-1"></div><div class="ex-text"><span class="ex-num">2</span> Aplica format condicional a la columna J: vermell per «Completa», verd per «Oberta» (Format → Format condicional).</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b04',2)"><div class="ex-check" id="chk-b04-2"></div><div class="ex-text"><span class="ex-num">3</span> [Repte] Afegeix una columna K manual amb la fórmula Sheets <code>=H2/G2*100</code> per veure el % d'ocupació sense GAS.</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b03">← Bloc III</a><span class="bloc-label">Bloc 4 de 8</span><a class="btn-nav btn-next" href="#b05">Bloc V · SALA_ESPECIAL →</a></div>
+    </div>
+
+    <!-- ═══ BLOC V ═══ -->
+    <div class="chapter" id="b05">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC V</span></div>
+        <h2 class="chapter-title">Bloc V — Fulla «SALA_ESPECIAL»</h2>
+        <p>La Sala Especial es pot reservar en intervals de <strong>30 minuts</strong> de les 9:00 a les 18:30 (19 intervals). La fulla és una agenda que GAS generarà automàticament, amb totes les franges i el seu estat.</p>
+
+        <h3 class="chapter-subtitle">5.1 Estructura de columnes</h3>
+        <table class="data-table">
+            <thead><tr><th>Col.</th><th>Nom</th><th>Tipus</th><th>Origen</th><th>Descripció</th></tr></thead>
+            <tbody>
+                <tr><td><strong>A</strong></td><td>Hora_Inici</td><td class="col-type">String</td><td><span class="col-gas">GAS</span></td><td>Inici de l'interval (ex: «09:00»)</td></tr>
+                <tr><td><strong>B</strong></td><td>Hora_Fi</td><td class="col-type">String</td><td><span class="col-gas">GAS</span></td><td>Fi de l'interval (ex: «09:30»)</td></tr>
+                <tr><td><strong>C</strong></td><td>Responsable</td><td class="col-type">String</td><td>Manual</td><td>Nom de la persona que reserva</td></tr>
+                <tr><td><strong>D</strong></td><td>Grup_Activitat</td><td class="col-type">String</td><td>Manual</td><td>Descripció de l'ús de la sala</td></tr>
+                <tr><td><strong>E</strong></td><td>Email_Contacte</td><td class="col-type">String</td><td>Manual</td><td>Correu del responsable</td></tr>
+                <tr><td><strong>F</strong></td><td>Estat</td><td class="col-type">String</td><td>Manual/GAS</td><td><code>DISPONIBLE</code> o <code>RESERVAT</code></td></tr>
+            </tbody>
+        </table>
+
+        <h3 class="chapter-subtitle">5.2 Exemple visual</h3>
+        <div style="overflow-x:auto;margin:14px 0;">
+        <table class="data-table" style="font-size:.87em;">
+            <thead><tr><th>Hora_Inici</th><th>Hora_Fi</th><th>Responsable</th><th>Grup / Activitat</th><th>Email</th><th>Estat</th></tr></thead>
+            <tbody>
+                <tr><td>09:00</td><td>09:30</td><td></td><td></td><td></td><td class="disp">DISPONIBLE</td></tr>
+                <tr><td>09:30</td><td>10:00</td><td>M. Gómez</td><td>Coordinació TIC</td><td>mgomez@edu.cat</td><td class="res">RESERVAT</td></tr>
+                <tr><td>10:00</td><td>10:30</td><td>M. Gómez</td><td>Coordinació TIC</td><td>mgomez@edu.cat</td><td class="res">RESERVAT</td></tr>
+                <tr><td>10:30</td><td>11:00</td><td></td><td></td><td></td><td class="disp">DISPONIBLE</td></tr>
+                <tr><td colspan="5" style="text-align:center;color:#94a3b8;font-style:italic;">... (fins les 18:30) ...</td><td class="disp">DISPONIBLE</td></tr>
+            </tbody>
+        </table>
+        </div>
+
+        <h3 class="chapter-subtitle">5.3 Avanç: GAS generarà les 19 files automàticament</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — generarAgendaSala() · Avanç Guia 2</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="kw">function</span> <span class="fn">generarAgendaSala</span>() {
+  <span class="kw">const</span> fulla = SpreadsheetApp.<span class="fn">getActiveSpreadsheet</span>()
+    .<span class="fn">getSheetByName</span>(<span class="str">"SALA_ESPECIAL"</span>);
+  <span class="kw">if</span> (fulla.<span class="fn">getLastRow</span>() > <span class="nb">1</span>)
+    fulla.<span class="fn">getRange</span>(<span class="nb">2</span>,<span class="nb">1</span>,fulla.<span class="fn">getLastRow</span>()-<span class="nb">1</span>,<span class="nb">6</span>).<span class="fn">clearContent</span>();
+
+  <span class="kw">let</span> min=<span class="nb">9</span>*<span class="nb">60</span>, fi=<span class="nb">18</span>*<span class="nb">60</span>+<span class="nb">30</span>, fila=<span class="nb">2</span>;
+  <span class="kw">while</span>(min < fi) {
+    fulla.<span class="fn">getRange</span>(fila,<span class="nb">1</span>).<span class="fn">setValue</span>(<span class="fn">minAHora</span>(min));
+    fulla.<span class="fn">getRange</span>(fila,<span class="nb">2</span>).<span class="fn">setValue</span>(<span class="fn">minAHora</span>(min+<span class="nb">30</span>));
+    fulla.<span class="fn">getRange</span>(fila,<span class="nb">6</span>).<span class="fn">setValue</span>(<span class="str">"DISPONIBLE"</span>);
+    min+=<span class="nb">30</span>; fila++;
+  }
+  Logger.<span class="fn">log</span>(<span class="str">"Agenda generada: "</span>+(fila-<span class="nb">2</span>)+<span class="str">" intervals"</span>);
+}
+<span class="kw">function</span> <span class="fn">minAHora</span>(m) {
+  <span class="kw">return</span> <span class="str">`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`</span>;
+}</code></pre>
+        </div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc V</div>
+            <div class="ex-item" onclick="toggleEx(this,'b05',0)"><div class="ex-check" id="chk-b05-0"></div><div class="ex-text"><span class="ex-num">1</span> Crea la capçalera de la fulla <code>SALA_ESPECIAL</code> (6 columnes). Omple 3–4 reserves fictícies per veure com quedaria.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b05',1)"><div class="ex-check" id="chk-b05-1"></div><div class="ex-text"><span class="ex-num">2</span> Aplica format condicional a la columna F: verd per «DISPONIBLE», vermell per «RESERVAT».</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b05',2)"><div class="ex-check" id="chk-b05-2"></div><div class="ex-text"><span class="ex-num">3</span> [Reflexió] Quants intervals de 30 min hi ha de les 9:00 a les 18:30? Calcula-ho i anota la resposta. La verificaràs quan executis <code>generarAgendaSala()</code> a la Guia 2.</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b04">← Bloc IV</a><span class="bloc-label">Bloc 5 de 8</span><a class="btn-nav btn-next" href="#b06">Bloc VI · CONFIG →</a></div>
+    </div>
+
+    <!-- ═══ BLOC VI ═══ -->
+    <div class="chapter" id="b06">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VI</span></div>
+        <h2 class="chapter-title">Bloc VI — Fulla «CONFIG»</h2>
+        <p>La fulla <code>CONFIG</code> centralitza tots els paràmetres generals. GAS els llegirà d'aquí, mai del codi directament. Canviar la data o l'email de les properes jornades serà tan senzill com actualitzar un valor en aquesta fulla.</p>
+        <div class="analogy-box"><strong>🧠 Analogia:</strong> CONFIG és el tauler de control de l'edifici. No cal trucar un electricista per canviar la temperatura: n'hi ha prou de girar un botó al tauler.</div>
+
+        <table class="data-table">
+            <thead><tr><th>Paràmetre (col. A)</th><th>Valor (col. B)</th><th>Descripció (col. C)</th></tr></thead>
+            <tbody>
+                <tr><td><code>NOM_JORNADES</code></td><td>Jornades Docents 2025</td><td>Nom oficial de l'event</td></tr>
+                <tr><td><code>DATA_JORNADES</code></td><td>15/11/2025</td><td>Data de celebració</td></tr>
+                <tr><td><code>LLOC</code></td><td>Institut XYZ · Sala d'Actes</td><td>Ubicació</td></tr>
+                <tr><td><code>EMAIL_ORGANITZACIO</code></td><td>jornades@edu.cat</td><td>Email oficial de les Jornades</td></tr>
+                <tr><td><code>EMAIL_NOTIFICACIONS</code></td><td>coordinacio@edu.cat</td><td>Rep els informes automàtics</td></tr>
+                <tr><td><code>AFORAMENT_DEFAULT</code></td><td>25</td><td>Places per defecte per activitat</td></tr>
+                <tr><td><code>HORA_INICI_SALA</code></td><td>09:00</td><td>Primera franja de la Sala</td></tr>
+                <tr><td><code>HORA_FI_SALA</code></td><td>18:30</td><td>Última franja de la Sala</td></tr>
+                <tr><td><code>INTERVAL_SALA_MIN</code></td><td>30</td><td>Durada de cada franja (minuts)</td></tr>
+                <tr><td><code>ACTIU</code></td><td>TRUE</td><td>FALSE suspèn totes les automatitzacions</td></tr>
+            </tbody>
+        </table>
+
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — llegirConfig() · Avanç Guia 2</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="kw">function</span> <span class="fn">llegirConfig</span>() {
+  <span class="kw">const</span> dades = SpreadsheetApp.<span class="fn">getActiveSpreadsheet</span>()
+    .<span class="fn">getSheetByName</span>(<span class="str">"CONFIG"</span>).<span class="fn">getDataRange</span>().<span class="fn">getValues</span>();
+  <span class="kw">const</span> cfg = {};
+  <span class="kw">for</span> (<span class="kw">let</span> i=<span class="nb">1</span>; i&lt;dades.<span class="prop">length</span>; i++)
+    <span class="kw">if</span> (dades[i][<span class="nb">0</span>]) cfg[dades[i][<span class="nb">0</span>]] = dades[i][<span class="nb">1</span>];
+  <span class="kw">return</span> cfg;
+}
+<span class="cm">// Ús: const cfg = llegirConfig();
+//     Logger.log(cfg["NOM_JORNADES"]);
+//     if (!cfg["ACTIU"]) return; // atura tot el sistema</span></code></pre>
+        </div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc VI</div>
+            <div class="ex-item" onclick="toggleEx(this,'b06',0)"><div class="ex-check" id="chk-b06-0"></div><div class="ex-text"><span class="ex-num">1</span> Crea la fulla <code>CONFIG</code> amb els 10 paràmetres de la taula. Omple la columna B amb les dades reals de les teves Jornades.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b06',1)"><div class="ex-check" id="chk-b06-1"></div><div class="ex-text"><span class="ex-num">2</span> Afegeix 2 paràmetres propis útils per a les teves jornades (ex: <code>HASHTAG</code>, <code>URL_PROGRAMA</code>, <code>NOM_DIRECTOR</code>...).</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b06',2)"><div class="ex-check" id="chk-b06-2"></div><div class="ex-text"><span class="ex-num">3</span> Canvia <code>ACTIU</code> a <code>FALSE</code>. A la Guia 2 veurem com GAS llegeix aquest valor i atura tot el sistema amb un sol canvi aquí.</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b05">← Bloc V</a><span class="bloc-label">Bloc 6 de 8</span><a class="btn-nav btn-next" href="#b07">Bloc VII · Posada a punt →</a></div>
+    </div>
+
+    <!-- ═══ BLOC VII ═══ -->
+    <div class="chapter" id="b07">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VII</span></div>
+        <h2 class="chapter-title">Bloc VII — Posada a Punt i Validació</h2>
+        <p>Abans de passar a la Guia 2, verifica que tota la base de dades és coherent. Aquesta llista t'assegura que no et quedaràs encallat per errors evitables.</p>
+
+        <h3 class="chapter-subtitle">7.1 Llista de comprovació final</h3>
+        <table class="data-table">
+            <thead><tr><th>✔</th><th>Comprovació</th><th>On ho verifiques</th></tr></thead>
+            <tbody>
+                <tr><td>☐</td><td>5 pestanyes en MAJÚSCULES: INSCRITS, ACTIVITATS, SALA_ESPECIAL, RESUM, CONFIG</td><td>Pestanyes inferiors</td></tr>
+                <tr><td>☐</td><td>El formulari envia respostes a INSCRITS correctament</td><td>Envia una prova</td></tr>
+                <tr><td>☐</td><td>La fila 1 de totes les fulles té capçalera i està congelada</td><td>Vista → Congela</td></tr>
+                <tr><td>☐</td><td>La columna K d'INSCRITS té títol i validació de dades</td><td>Cel·la K1</td></tr>
+                <tr><td>☐</td><td>La fulla ACTIVITATS té les 12 files de dades (A–G)</td><td>Compta les files</td></tr>
+                <tr><td>☐</td><td>La fulla CONFIG té tots els paràmetres amb valors reals</td><td>Columna B de CONFIG</td></tr>
+                <tr><td>☐</td><td>La fulla SALA_ESPECIAL té la capçalera a la fila 1</td><td>Fila 1 de SALA_ESPECIAL</td></tr>
+            </tbody>
+        </table>
+        <div class="tip-box"><strong>💡 Regles d'or:</strong> Una sola fila de capçalera · Sense files buides al mig · Sense espais invisibles als valors clau · No barregis tipus de dades en una mateixa columna.</div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc VII</div>
+            <div class="ex-item" onclick="toggleEx(this,'b07',0)"><div class="ex-check" id="chk-b07-0"></div><div class="ex-text"><span class="ex-num">1</span> Passa per tota la llista de comprovació del punt 7.1. No continuïs a la Guia 2 fins que tot estigui llest.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b07',1)"><div class="ex-check" id="chk-b07-1"></div><div class="ex-text"><span class="ex-num">2</span> Envia 5 respostes fictícies variades al formulari. Comprova que no hi ha valors estranys a INSCRITS.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b07',2)"><div class="ex-check" id="chk-b07-2"></div><div class="ex-text"><span class="ex-num">3</span> [Reflexió] Escriu en paper: quines tasques repetitives t'agradaria que GAS fes automàticament? Aquesta llista serà el punt de partida de la Guia 2.</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b06">← Bloc VI</a><span class="bloc-label">Bloc 7 de 8</span><a class="btn-nav btn-next" href="#b08">Bloc VIII · RESUM →</a></div>
+    </div>
+
+    <!-- ═══ BLOC VIII ═══ -->
+    <div class="chapter" id="b08">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VIII</span></div>
+        <h2 class="chapter-title">Bloc VIII — Fulla «RESUM»</h2>
+        <p>La fulla <code>RESUM</code> és la <strong>vista de control de l'organitzador</strong>. No la omplim a mà: GAS la generarà cada cop que s'executi el script de resum. Aquí la preparem estructuralment.</p>
+
+        <h3 class="chapter-subtitle">8.1 Estructura prevista</h3>
+        <table class="data-table">
+            <thead><tr><th>Zona</th><th>Contingut</th><th>Qui ho omple</th></tr></thead>
+            <tbody>
+                <tr><td><strong>A1:B1</strong></td><td>Títol del resum i data de l'última actualització</td><td><span class="col-gas">GAS</span></td></tr>
+                <tr><td><strong>A3:C3</strong></td><td>Capçalera: Total inscrits / Places totals / % ocupació global</td><td>Manual (títols)</td></tr>
+                <tr><td><strong>A4:C4</strong></td><td>Xifres globals calculades</td><td><span class="col-gas">GAS</span></td></tr>
+                <tr><td><strong>A6:E18</strong></td><td>Taula d'activitats: ID, Titol, Inscrits, Places lliures, Estat</td><td><span class="col-gas">GAS</span></td></tr>
+                <tr><td><strong>A20:B25</strong></td><td>Top 5 centres educatius amb més participants</td><td><span class="col-gas">GAS</span></td></tr>
+            </tbody>
+        </table>
+
+        <div class="docent-box">
+            <div class="docent-box-title">Ara ja estàs a punt per a la Guia 2</div>
+            <p style="margin:0">Amb la base de dades completa, a la <strong>Guia 2</strong> obrirem l'IDE de Google Apps Script i escriurem les primeres funcions reals: un <code>onOpen()</code> per afegir un menú personalitzat al Sheets, funcions CRUD per llegir i escriure dades, i un <code>doGet()</code> per exposar les activitats com a API pública.</p>
+        </div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc VIII</div>
+            <div class="ex-item" onclick="toggleEx(this,'b08',0)"><div class="ex-check" id="chk-b08-0"></div><div class="ex-text"><span class="ex-num">1</span> Crea la fulla RESUM amb els títols manuals de les zones A3:C3. Deixa-la buida, GAS l'omplirà a la Guia 2.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b08',1)"><div class="ex-check" id="chk-b08-1"></div><div class="ex-text"><span class="ex-num">2</span> [Repte] Anota 3 preguntes que voldries que el RESUM respongués d'un cop d'ull (ex: «Quantes places queden a M1-A?»). Les programaràs a la Guia 2.</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b07">← Bloc VII</a><span class="bloc-label">Bloc 8 de 8</span><a class="btn-nav btn-next" href="#">🛠️ Continua a la Guia 2 →</a></div>
+    </div>
+
+</div><!-- fi content -->
+
+<div class="footer">
+    Guia 1 de 3 · Base de Dades amb Google Sheets · Jornades Docents &nbsp;|&nbsp;
+    <a href="#mapa">↑ Tornar al mapa</a> &nbsp;|&nbsp; <a href="#">Guia 2 · IDE de GAS →</a>
+</div>
+
+<script>
+const state = { b01:[false,false,false], b02:[false,false,false], b03:[false,false,false], b04:[false,false,false], b05:[false,false,false], b06:[false,false,false], b07:[false,false,false], b08:[false,false] };
+const totals = { b01:3,b02:3,b03:3,b04:3,b05:3,b06:3,b07:3,b08:2 };
+
+function toggleEx(item, bloc, idx) {
+    state[bloc][idx] = !state[bloc][idx];
+    document.getElementById('chk-'+bloc+'-'+idx).classList.toggle('checked', state[bloc][idx]);
+    item.querySelector('.ex-text').classList.toggle('done', state[bloc][idx]);
+    updateProgress();
+}
+
+function updateProgress() {
+    let done=0, total=0;
+    Object.keys(state).forEach(bloc => {
+        const d = state[bloc].filter(Boolean).length;
+        const t = totals[bloc];
+        done+=d; total+=t;
+        const p = document.getElementById('prog-'+bloc);
+        if (!p) return;
+        p.textContent = d+'/'+t;
+        p.className = 'bloc-card-progress '+(d===0?'progress-none':d===t?'progress-done':'progress-part');
+        p.closest('.bloc-card').classList.toggle('done', d===t);
+    });
+    const pct = total>0 ? Math.round(done/total*100) : 0;
+    document.getElementById('prog-done').textContent = done;
+    document.getElementById('prog-total').textContent = total;
+    document.getElementById('prog-pct').textContent = pct+'%';
+    document.getElementById('progress-fill').style.width = pct+'%';
+}
+
+function resetProgress() {
+    Object.keys(state).forEach(b => state[b].fill(false));
+    document.querySelectorAll('.ex-check').forEach(e => e.classList.remove('checked'));
+    document.querySelectorAll('.ex-text').forEach(e => e.classList.remove('done'));
+    updateProgress();
+}
+
+function copyCode(btn) {
+    const text = btn.closest('.code-container').querySelector('pre').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        const o = btn.textContent; btn.textContent='✓ Copiat!'; btn.classList.add('copied');
+        setTimeout(() => { btn.textContent=o; btn.classList.remove('copied'); }, 2200);
+    });
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+        const id = this.getAttribute('href').slice(1);
+        const t = document.getElementById(id);
+        if (t) { e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); }
+    });
+});
+
+const seccions = document.querySelectorAll('.chapter[id]');
+const tocLinks = document.querySelectorAll('.toc a');
+window.addEventListener('scroll', () => {
+    let actual='';
+    seccions.forEach(s => { if(pageYOffset >= s.offsetTop-120) actual=s.id; });
+    tocLinks.forEach(l => {
+        const ok = l.getAttribute('href')==='#'+actual;
+        l.style.fontWeight = ok?'700':'500';
+        l.style.color = ok?'var(--primary-dark)':'';
+    });
+});
+
+updateProgress();
+</script>
+</body>
+</html>

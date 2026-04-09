@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia 3 · Llenguatge GAS – Jornades Docents</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        :root{
+            --navy:#0f1b2d;--navy-mid:#1a1f2e;--navy-card:#1e2235;--navy-border:#2a3050;
+            --accent:#a78bfa;--accent2:#c4b5fd;--gold:#f0a830;--gold-dim:#c97d10;--green:#22c55e;
+            --primary-dark:#1b3a5c;--primary-mid:#1e6fa6;--primary-light:#2fb8c4;
+            --tip-bg:#e8f4fd;--warn-bg:#fff7ed;--warn-color:#d97706;
+            --ok-bg:#f0fdf4;--ok-color:#16a34a;
+            --purple-bg:#faf5ff;--purple-border:#d8b4fe;--purple-color:#7c3aed;
+            --code-bg:#0d1117;--code-head:#161b22;--code-border:#30363d;
+            --text:#374151;--border:#e5e7eb;--bg:#f3f6fa;
+        }
+        body{font-family:'DM Sans','Segoe UI',sans-serif;line-height:1.72;color:var(--text);background:var(--bg);}
+
+        /* HERO */
+        .hero{background:linear-gradient(150deg,#1a0533 0%,#2d1060 45%,#1b3a5c 100%);color:#fff;padding:44px 40px 36px;text-align:center;position:relative;overflow:hidden;}
+        .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(167,139,250,.18) 0%,transparent 70%);}
+        .hero::after{content:'';position:absolute;bottom:-60px;left:-40px;width:260px;height:260px;background:radial-gradient(circle,rgba(196,181,253,.12) 0%,transparent 70%);}
+        .hero-badge{display:inline-block;background:rgba(167,139,250,.2);border:1px solid rgba(167,139,250,.45);color:rgba(255,255,255,.92);padding:4px 18px;border-radius:20px;font-size:.78em;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;font-weight:600;}
+        .hero h1{font-family:'Source Serif 4',Georgia,serif;font-size:2.5em;font-weight:700;margin-bottom:10px;line-height:1.2;}
+        .hero h1 span{color:var(--accent2);}
+        .hero p{color:rgba(255,255,255,.72);font-size:1.05em;max-width:640px;margin:0 auto;}
+
+        /* MAPA */
+        .mapa-section{background:linear-gradient(180deg,#1a0533 0%,var(--navy-mid) 100%);padding:30px 40px 36px;}
+        .mapa-title{text-align:center;color:rgba(255,255,255,.85);font-size:.82em;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:22px;}
+        .mapa-title span{color:var(--gold);margin-right:8px;}
+        .bloc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:960px;margin:0 auto 24px;}
+        .bloc-card{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:12px;padding:18px 14px 14px;text-align:center;cursor:pointer;transition:all .25s;text-decoration:none;display:block;}
+        .bloc-card:hover{background:#2a1a4a;border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 24px rgba(167,139,250,.2);}
+        .bloc-card.done{border-color:rgba(34,197,94,.35);background:#172a1e;}
+        .bloc-card.done:hover{border-color:var(--green);}
+        .bloc-card-icon{font-size:1.9em;margin-bottom:8px;display:block;}
+        .bloc-card-num{color:rgba(255,255,255,.55);font-size:.72em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+        .bloc-card-name{color:#e2e8f0;font-size:.88em;font-weight:600;margin-bottom:8px;line-height:1.25;}
+        .bloc-card-progress{font-size:.78em;font-weight:700;padding:3px 10px;border-radius:10px;display:inline-block;}
+        .progress-none{background:rgba(255,255,255,.08);color:rgba(255,255,255,.4);}
+        .progress-part{background:rgba(240,168,48,.15);color:var(--gold);}
+        .progress-done{background:rgba(34,197,94,.15);color:var(--green);}
+        .progress-bar-wrap{max-width:960px;margin:0 auto;}
+        .progress-meta{display:flex;justify-content:space-between;align-items:center;color:rgba(255,255,255,.65);font-size:.86em;margin-bottom:8px;}
+        .progress-meta strong{color:#fff;}
+        .btn-reset{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.7);padding:5px 14px;border-radius:14px;font-size:.8em;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:all .2s;}
+        .btn-reset:hover{background:rgba(255,255,255,.15);color:#fff;}
+        .progress-track{background:rgba(255,255,255,.1);border-radius:6px;height:8px;overflow:hidden;}
+        .progress-fill{background:linear-gradient(90deg,var(--accent),var(--accent2));height:100%;border-radius:6px;transition:width .5s ease;}
+
+        /* NAV GUIES */
+        .guies-nav{display:flex;justify-content:center;gap:10px;padding:14px 40px;background:#f8fafc;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+        .guia-btn{padding:6px 18px;border-radius:20px;font-size:.86em;font-weight:600;text-decoration:none;border:2px solid transparent;transition:all .22s;font-family:'DM Sans',sans-serif;cursor:pointer;}
+        .guia-btn.active{background:var(--primary-mid);color:#fff;border-color:var(--primary-mid);}
+        .guia-btn.inactive{background:#fff;color:var(--primary-mid);border-color:var(--primary-mid);}
+        .guia-btn.inactive:hover{background:var(--primary-mid);color:#fff;}
+
+        /* CONTENT */
+        .content{padding:44px 44px 60px;max-width:1060px;margin:0 auto;}
+
+        /* BLOC UI */
+        .bloc-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px;}
+        .btn-back-map{display:inline-flex;align-items:center;gap:6px;background:#f1f5f9;color:var(--primary-dark);border:1px solid #cbd5e1;padding:6px 16px;border-radius:20px;font-size:.83em;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+        .btn-back-map:hover{background:#e2e8f0;}
+        .bloc-pill{display:inline-flex;align-items:center;background:var(--purple-color);color:#fff;padding:6px 16px;border-radius:20px;font-size:.83em;font-weight:700;letter-spacing:.04em;text-transform:uppercase;}
+        .bloc-nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0;margin-top:28px;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;}
+        .btn-nav{display:inline-flex;align-items:center;gap:6px;padding:7px 18px;border-radius:20px;font-size:.85em;font-weight:600;text-decoration:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .22s;}
+        .btn-prev{background:#f1f5f9;color:var(--primary-dark);border:1px solid #cbd5e1;}
+        .btn-prev:hover{background:#e2e8f0;}
+        .btn-next{background:var(--purple-color);color:#fff;}
+        .btn-next:hover{background:#6d28d9;transform:translateX(2px);}
+        .bloc-label{font-size:.8em;color:#94a3b8;font-weight:500;text-transform:uppercase;letter-spacing:.06em;}
+
+        /* EXERCICI */
+        .ex-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;cursor:pointer;}
+        .ex-check{width:20px;height:20px;min-width:20px;border:2px solid var(--purple-color);border-radius:5px;display:flex;align-items:center;justify-content:center;margin-top:2px;transition:all .2s;background:#fff;}
+        .ex-check.checked{background:var(--purple-color);border-color:var(--purple-color);}
+        .ex-check.checked::after{content:'✓';color:#fff;font-size:.85em;font-weight:700;}
+        .ex-text{color:var(--text);font-size:1em;line-height:1.5;}
+        .ex-text.done{text-decoration:line-through;color:#9ca3af;}
+        .ex-num{display:inline-flex;align-items:center;justify-content:center;background:var(--purple-color);color:#fff;border-radius:50%;width:22px;height:22px;min-width:22px;font-size:.78em;font-weight:700;margin-right:4px;}
+
+        /* TOC */
+        .toc{background:linear-gradient(135deg,#f8fafc,#eef2f8);padding:24px 28px;border-radius:10px;margin-bottom:36px;border:1px solid #d1dae8;}
+        .toc h2{color:var(--primary-dark);margin-bottom:14px;font-family:'Source Serif 4',serif;font-size:1.2em;}
+        .toc ul{list-style:none;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:7px;}
+        .toc li{margin:0;}
+        .toc a{color:var(--primary-mid);text-decoration:none;font-weight:500;font-size:.95em;display:flex;align-items:center;gap:5px;transition:color .2s;}
+        .toc a:hover{color:var(--primary-dark);text-decoration:underline;}
+
+        /* CHAPTERS */
+        .chapter{margin-bottom:50px;border-bottom:2px solid var(--border);padding-bottom:30px;}
+        .chapter:last-child{border-bottom:none;}
+        .chapter-title{font-family:'Source Serif 4',Georgia,serif;font-size:1.75em;color:var(--primary-dark);margin-bottom:18px;padding-bottom:10px;border-bottom:3px solid var(--accent);display:inline-block;font-weight:700;}
+        .chapter-subtitle{font-size:1.18em;color:var(--purple-color);margin:24px 0 12px;font-weight:600;}
+        p{margin-bottom:12px;color:var(--text);font-size:1.01em;}
+        ul,ol{margin:12px 0 16px 26px;color:var(--text);}
+        li{margin-bottom:6px;}
+        strong{color:var(--primary-dark);}
+        code{font-family:'JetBrains Mono','Consolas',monospace;background:#f1f5f9;color:#7c3aed;padding:1px 6px;border-radius:4px;font-size:.89em;}
+
+        /* CODE BLOCKS */
+        .code-container{background:var(--code-bg);border-radius:10px;margin:18px 0;box-shadow:0 4px 18px rgba(0,0,0,.22);overflow:hidden;border:1px solid var(--code-border);}
+        .code-header{background:var(--code-head);padding:9px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--code-border);}
+        .code-language{color:#8b949e;font-size:.83em;font-family:'JetBrains Mono',monospace;}
+        .copy-button{background:#238636;color:#fff;border:none;padding:4px 14px;border-radius:6px;cursor:pointer;font-size:.83em;font-weight:600;transition:all .22s;font-family:'DM Sans',sans-serif;}
+        .copy-button:hover{background:#2ea043;transform:translateY(-1px);}
+        .copy-button.copied{background:#1f6feb;}
+        pre{margin:0;padding:20px 22px;overflow-x:auto;}
+        pre code{background:none;color:#e6edf3;padding:0;font-size:.9em;line-height:1.65;border-radius:0;}
+        .kw{color:#ff7b72;}.fn{color:#d2a8ff;}.str{color:#a5d6ff;}.cm{color:#8b949e;font-style:italic;}.nb{color:#79c0ff;}.prop{color:#ffa657;}.op{color:#ff7b72;}
+
+        /* BOXES */
+        .tip-box{background:var(--tip-bg);border-left:4px solid var(--primary-mid);padding:14px 18px;margin:16px 0;border-radius:0 8px 8px 0;}
+        .warning-box{background:var(--warn-bg);border-left:4px solid var(--warn-color);padding:14px 18px;margin:16px 0;border-radius:0 8px 8px 0;}
+        .analogy-box{background:var(--ok-bg);border-left:4px solid var(--ok-color);padding:14px 18px;margin:16px 0;border-radius:0 8px 8px 0;font-style:italic;}
+        .docent-box{background:#fff8ec;border:1px solid #f0a830;border-radius:10px;padding:15px 19px;margin:16px 0;}
+        .docent-box-title{color:var(--gold-dim);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:7px;font-size:.99em;font-style:normal;}
+        .docent-box-title::before{content:"🎓";font-size:1.1em;}
+        .exercise-box{background:var(--purple-bg);border:1px solid var(--purple-border);border-radius:10px;padding:18px 20px;margin:18px 0;}
+        .exercise-title{color:var(--purple-color);font-weight:700;font-size:.99em;margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+        .exercise-title::before{content:"✏️";}
+        .best-box{background:#fff1f2;border:1px solid #fecdd3;border-radius:10px;padding:15px 19px;margin:16px 0;}
+        .best-box-title{color:#be123c;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:7px;}
+        .best-box-title::before{content:"⭐";}
+
+        /* TABLES */
+        .data-table{width:100%;border-collapse:collapse;margin:12px 0 18px;font-size:.91em;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);}
+        .data-table thead tr{background:var(--primary-dark);color:#fff;}
+        .data-table thead th{padding:10px 13px;text-align:left;font-weight:600;font-size:.87em;letter-spacing:.03em;}
+        .data-table tbody tr:nth-child(even){background:#f5f8fc;}
+        .data-table tbody tr:hover{background:#e8f0fa;}
+        .data-table tbody td{padding:9px 13px;border-bottom:1px solid #e5e7eb;color:var(--text);}
+        .mono{font-family:'JetBrains Mono',monospace;font-size:.85em;color:#7c3aed;font-weight:500;}
+
+        /* COMPARE BOX */
+        .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+        .compare-card{border-radius:8px;overflow:hidden;}
+        .compare-head{padding:8px 14px;font-weight:700;font-size:.87em;}
+        .compare-bad .compare-head{background:#fecaca;color:#991b1b;}
+        .compare-good .compare-head{background:#bbf7d0;color:#166534;}
+        .compare-body{background:var(--code-bg);padding:12px 16px;}
+        .compare-body code{font-family:'JetBrains Mono',monospace;font-size:.84em;color:#e6edf3;display:block;line-height:1.6;}
+
+        /* RESPONSIVE */
+        @media(max-width:900px){.bloc-grid{grid-template-columns:repeat(2,1fr);}.compare{grid-template-columns:1fr;}}
+        @media(max-width:600px){.content{padding:20px 16px;}.mapa-section{padding:20px 16px 24px;}.hero{padding:32px 18px 26px;}.hero h1{font-size:1.75em;}.bloc-grid{grid-template-columns:repeat(2,1fr);}.toc ul{grid-template-columns:1fr;}}
+
+        .footer{background:var(--primary-dark);color:rgba(255,255,255,.7);text-align:center;padding:20px;font-size:.87em;}
+        .footer a{color:var(--accent2);}
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-badge">Guia 3 de 3 · Jornades Docents</div>
+    <h1>📘 El <span>Llenguatge GAS</span></h1>
+    <p>Domina els fonaments de la programació amb JavaScript aplicat a Google Apps Script</p>
+</div>
+
+<!-- MAPA DE BLOCS -->
+<div class="mapa-section" id="mapa">
+    <div class="mapa-title"><span>🧩</span>EL TEU OBJECTIU FINAL — CLICA UN BLOC PER ANAR-HI DIRECTAMENT</div>
+    <div class="bloc-grid">
+        <a class="bloc-card" href="#b01"><span class="bloc-card-icon">📦</span><div class="bloc-card-num">Bloc I</div><div class="bloc-card-name">Variables i constants</div><span class="bloc-card-progress progress-none" id="prog-b01">0/3</span></a>
+        <a class="bloc-card" href="#b02"><span class="bloc-card-icon">🔢</span><div class="bloc-card-num">Bloc II</div><div class="bloc-card-name">Tipus de dades</div><span class="bloc-card-progress progress-none" id="prog-b02">0/3</span></a>
+        <a class="bloc-card" href="#b03"><span class="bloc-card-icon">🔀</span><div class="bloc-card-num">Bloc III</div><div class="bloc-card-name">Estructures de control</div><span class="bloc-card-progress progress-none" id="prog-b03">0/3</span></a>
+        <a class="bloc-card" href="#b04"><span class="bloc-card-icon">🔁</span><div class="bloc-card-num">Bloc IV</div><div class="bloc-card-name">Bucles i iteració</div><span class="bloc-card-progress progress-none" id="prog-b04">0/3</span></a>
+        <a class="bloc-card" href="#b05"><span class="bloc-card-icon">⚙️</span><div class="bloc-card-num">Bloc V</div><div class="bloc-card-name">Funcions</div><span class="bloc-card-progress progress-none" id="prog-b05">0/3</span></a>
+        <a class="bloc-card" href="#b06"><span class="bloc-card-icon">📋</span><div class="bloc-card-num">Bloc VI</div><div class="bloc-card-name">Arrays i mètodes</div><span class="bloc-card-progress progress-none" id="prog-b06">0/3</span></a>
+        <a class="bloc-card" href="#b07"><span class="bloc-card-icon">🗂️</span><div class="bloc-card-num">Bloc VII</div><div class="bloc-card-name">Objectes i JSON</div><span class="bloc-card-progress progress-none" id="prog-b07">0/3</span></a>
+        <a class="bloc-card" href="#b08"><span class="bloc-card-icon">🛡️</span><div class="bloc-card-num">Bloc VIII</div><div class="bloc-card-name">Errors i bones pràctiques</div><span class="bloc-card-progress progress-none" id="prog-b08">0/3</span></a>
+    </div>
+    <div class="progress-bar-wrap">
+        <div class="progress-meta">
+            <span><strong id="prog-done">0</strong> / <strong id="prog-total">24</strong> exercicis completats · <strong id="prog-pct">0%</strong></span>
+            <button class="btn-reset" onclick="resetProgress()">🔄 Reiniciar progrés</button>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+</div>
+
+<!-- NAV GUIES -->
+<div class="guies-nav">
+    <a class="guia-btn inactive" href="#">📊 Guia 1 · Base de Dades</a>
+    <a class="guia-btn inactive" href="#">🛠️ Guia 2 · IDE i GAS</a>
+    <a class="guia-btn active"   href="#">📘 Guia 3 · Llenguatge GAS</a>
+</div>
+
+<div class="content">
+
+    <div class="toc">
+        <h2>📚 Continguts d'aquesta guia</h2>
+        <ul>
+            <li><a href="#b01">📦 Bloc I · Variables i constants</a></li>
+            <li><a href="#b02">🔢 Bloc II · Tipus de dades</a></li>
+            <li><a href="#b03">🔀 Bloc III · Estructures de control</a></li>
+            <li><a href="#b04">🔁 Bloc IV · Bucles i iteració</a></li>
+            <li><a href="#b05">⚙️ Bloc V · Funcions</a></li>
+            <li><a href="#b06">📋 Bloc VI · Arrays i mètodes</a></li>
+            <li><a href="#b07">🗂️ Bloc VII · Objectes i JSON</a></li>
+            <li><a href="#b08">🛡️ Bloc VIII · Errors i bones pràctiques</a></li>
+        </ul>
+    </div>
+
+    <div style="margin-bottom:32px;">
+        <p>Aquesta guia cobreix els <strong>fonaments del llenguatge JavaScript</strong> aplicats directament a Google Apps Script. Tots els exemples utilitzen dades reals del nostre sistema de Jornades Docents: participants, activitats, aforaments i la Sala Especial. Aprendràs programació construint coses que ja coneixes i que saps per a què serveixen.</p>
+        <div class="analogy-box"><strong>🧠 Com fer servir aquesta guia:</strong> Cada bloc té teoria concisa, exemples del context de les Jornades i exercicis pràctics. No cal memoritzar: entén els patrons i practica copiant i modificant els exemples. El codi es compren millor fent-lo que llegint-lo.</div>
+    </div>
+
+    <!-- ═══ BLOC I ═══ -->
+    <div class="chapter" id="b01">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC I</span></div>
+        <h2 class="chapter-title">Bloc I — Variables i Constants</h2>
+        <p>Les variables i les constants són els <strong>contenidors d'informació</strong> del nostre programa. Cada vegada que el script necessita recordar alguna cosa —un nom, un número, un estat— ho guarda en una variable o constant.</p>
+
+        <h3 class="chapter-subtitle">1.1 let — valors que canvien</h3>
+        <div class="analogy-box"><strong>🧠 Analogia docent:</strong> <code>let</code> és com el comptador de places disponibles d'una activitat: comença amb un valor i va decreixent a mesura que s'apunten participants. Canvia constantment.</div>
+
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — let: valors variables</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="kw">let</span> placesDisponibles = <span class="nb">25</span>;
+<span class="kw">let</span> nomParticipant    = <span class="str">"Anna Ferrer Bosch"</span>;
+<span class="kw">let</span> confirmacioEnviada = <span class="nb">false</span>;
+
+<span class="cm">// El valor pot canviar durant l'execució</span>
+placesDisponibles = placesDisponibles - <span class="nb">1</span>;  <span class="cm">// S'ha inscrit algú</span>
+confirmacioEnviada = <span class="nb">true</span>;               <span class="cm">// Ja hem enviat el correu</span>
+
+Logger.<span class="fn">log</span>(<span class="str">"Places restants: "</span> + placesDisponibles);  <span class="cm">// 24</span>
+Logger.<span class="fn">log</span>(<span class="str">"Confirmació enviada: "</span> + confirmacioEnviada); <span class="cm">// true</span></code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">1.2 const — valors que no canvien</h3>
+        <div class="analogy-box"><strong>🧠 Analogia docent:</strong> <code>const</code> és com el nom de les Jornades o la data de celebració: es defineixen una vegada i no s'han de tornar a tocar. Per convenció, els noms de constants s'escriuen en MAJÚSCULES.</div>
+
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — const: valors fixos</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="kw">const</span> NOM_JORNADES    = <span class="str">"Jornades Docents 2025"</span>;
+<span class="kw">const</span> DATA_JORNADES   = <span class="str">"15/11/2025"</span>;
+<span class="kw">const</span> AFORAMENT_MAX   = <span class="nb">25</span>;
+<span class="kw">const</span> EMAIL_ORG       = <span class="str">"jornades@edu.cat"</span>;
+
+Logger.<span class="fn">log</span>(<span class="str">"Benvinguts a "</span> + NOM_JORNADES);
+
+<span class="cm">// AFORAMENT_MAX = 30; → ❌ Error! No es pot reasignar una const</span>
+
+<span class="cm">// Constants per als índexs de columna (bon ús habitual en GAS)</span>
+<span class="kw">const</span> COL_NOM   = <span class="nb">1</span>;   <span class="cm">// Columna B d'INSCRITS</span>
+<span class="kw">const</span> COL_EMAIL = <span class="nb">3</span>;   <span class="cm">// Columna D d'INSCRITS</span></code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">1.3 Àmbit (scope): on viu una variable</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — àmbit global vs local</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="cm">// Variables GLOBALS: definides fora de qualsevol funció.
+// Disponibles per a tots els scripts del projecte.</span>
+<span class="kw">const</span> FULL_INSCRITS = <span class="str">"INSCRITS"</span>;   <span class="cm">// ← global: totes les funcions la veuen</span>
+
+<span class="kw">function</span> <span class="fn">comptarInscrits</span>() {
+  <span class="cm">// Variable LOCAL: només existeix dins d'aquesta funció</span>
+  <span class="kw">let</span> total = <span class="nb">0</span>;
+
+  <span class="kw">const</span> fulla = SpreadsheetApp.<span class="fn">getActiveSpreadsheet</span>()
+    .<span class="fn">getSheetByName</span>(FULL_INSCRITS); <span class="cm">// ← usa la global</span>
+  total = fulla.<span class="fn">getLastRow</span>() - <span class="nb">1</span>; <span class="cm">// -1 per saltar la capçalera</span>
+
+  Logger.<span class="fn">log</span>(<span class="str">"Total inscrits: "</span> + total);
+  <span class="kw">return</span> total;
+}
+<span class="cm">// Logger.log(total); → ❌ Error! 'total' no existeix fora de la funció</span></code></pre>
+        </div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc I</div>
+            <div class="ex-item" onclick="toggleEx(this,'b01',0)"><div class="ex-check" id="chk-b01-0"></div><div class="ex-text"><span class="ex-num">1</span> Crea un script que defineixi com a <code>const</code> les dades bàsiques de les teves Jornades (nom, data, lloc, aforament) i les mostri totes amb <code>Logger.log()</code>.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b01',1)"><div class="ex-check" id="chk-b01-1"></div><div class="ex-text"><span class="ex-num">2</span> Simula la inscripció de 5 participants: comença amb <code>let places = 25</code> i usa un bucle (o 5 línies) per anar decrementant. Mostra el valor de places restants a cada pas.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b01',2)"><div class="ex-check" id="chk-b01-2"></div><div class="ex-text"><span class="ex-num">3</span> Intenta reasignar una <code>const</code> i observa l'error a l'IDE. Explica en un comentari al codi per quin motiu és un error i quan hauries d'usar <code>let</code> en lloc de <code>const</code>.</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#mapa">↑ Mapa</a><span class="bloc-label">Bloc 1 de 8</span><a class="btn-nav btn-next" href="#b02">Bloc II · Tipus →</a></div>
+    </div>
+
+    <!-- ═══ BLOC II ═══ -->
+    <div class="chapter" id="b02">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC II</span></div>
+        <h2 class="chapter-title">Bloc II — Tipus de Dades</h2>
+        <p>Cada valor que guardem en una variable té un <strong>tipus</strong>. JavaScript els gestiona automàticament, però conèixer-los evita molts errors quan llegim dades d'un Google Sheets.</p>
+
+        <h3 class="chapter-subtitle">2.1 Els tipus principals</h3>
+        <table class="data-table">
+            <thead><tr><th>Tipus</th><th>Exemple</th><th>En el context de les Jornades</th></tr></thead>
+            <tbody>
+                <tr><td><span class="mono">Number</span></td><td><code>25</code>, <code>92.5</code></td><td>Aforament, places lliures, percentatge d'ocupació</td></tr>
+                <tr><td><span class="mono">String</span></td><td><code>"Anna Ferrer"</code></td><td>Nom, email, centre educatiu, ID d'activitat</td></tr>
+                <tr><td><span class="mono">Boolean</span></td><td><code>true</code>, <code>false</code></td><td>Confirmació enviada, vol Sala Especial</td></tr>
+                <tr><td><span class="mono">Date</span></td><td><code>new Date()</code></td><td>Marca temporal d'inscripció, data de les jornades</td></tr>
+                <tr><td><span class="mono">Array</span></td><td><code>["A","B","C"]</code></td><td>Llista d'inscrits, opcions d'activitat</td></tr>
+                <tr><td><span class="mono">Object</span></td><td><code>{ nom: "Anna" }</code></td><td>Un participant amb totes les seves dades</td></tr>
+                <tr><td><span class="mono">null / undefined</span></td><td><code>null</code></td><td>Camp de comentaris buit, email no informat</td></tr>
+            </tbody>
+        </table>
+
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — tipus de dades a les Jornades</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="cm">// ── Number ────────────────────────────────────────────────────</span>
+<span class="kw">let</span> aforamentMax    = <span class="nb">25</span>;
+<span class="kw">let</span> inscritsActuals = <span class="nb">18</span>;
+<span class="kw">let</span> ocupacio        = (inscritsActuals / aforamentMax) * <span class="nb">100</span>;  <span class="cm">// 72.0</span>
+Logger.<span class="fn">log</span>(<span class="str">"Ocupació: "</span> + ocupacio.<span class="fn">toFixed</span>(<span class="nb">1</span>) + <span class="str">"%"</span>);          <span class="cm">// "72.0%"</span>
+
+<span class="cm">// ── String ────────────────────────────────────────────────────</span>
+<span class="kw">let</span> nomParticipant = <span class="str">"Jordi Puig Mas"</span>;
+<span class="kw">let</span> email          = <span class="str">"jordi.puig@edu.cat"</span>;
+<span class="kw">let</span> activitatM1    = <span class="str">"B"</span>;   <span class="cm">// l'opció escollida al formulari</span>
+Logger.<span class="fn">log</span>(nomParticipant.<span class="fn">toUpperCase</span>());  <span class="cm">// "JORDI PUIG MAS"</span>
+Logger.<span class="fn">log</span>(nomParticipant.<span class="fn">split</span>(<span class="str">" "</span>)[<span class="nb">0</span>]);  <span class="cm">// "Jordi" (primer nom)</span>
+
+<span class="cm">// ── Boolean ───────────────────────────────────────────────────</span>
+<span class="kw">let</span> confirmacioEnviada = <span class="nb">false</span>;
+<span class="kw">let</span> volSalaEspecial    = <span class="nb">true</span>;
+<span class="kw">let</span> activitatCompleta  = inscritsActuals >= aforamentMax;  <span class="cm">// false</span>
+
+<span class="cm">// ── Date ──────────────────────────────────────────────────────</span>
+<span class="kw">let</span> ara          = <span class="kw">new</span> <span class="fn">Date</span>();
+<span class="kw">let</span> dataJornades = <span class="kw">new</span> <span class="fn">Date</span>(<span class="str">"2025-11-15"</span>);
+<span class="kw">let</span> diesFalten   = <span class="fn">Math</span>.<span class="fn">ceil</span>((dataJornades - ara) / (<span class="nb">1000</span>*<span class="nb">60</span>*<span class="nb">60</span>*<span class="nb">24</span>));
+Logger.<span class="fn">log</span>(<span class="str">"Dies fins a les Jornades: "</span> + diesFalten);
+Logger.<span class="fn">log</span>(<span class="str">"Data d'avui: "</span> + ara.<span class="fn">toLocaleDateString</span>(<span class="str">"ca-ES"</span>));
+
+<span class="cm">// ── typeof: saber el tipus d'una variable ─────────────────────</span>
+Logger.<span class="fn">log</span>(<span class="kw">typeof</span> aforamentMax);     <span class="cm">// "number"</span>
+Logger.<span class="fn">log</span>(<span class="kw">typeof</span> nomParticipant);   <span class="cm">// "string"</span>
+Logger.<span class="fn">log</span>(<span class="kw">typeof</span> confirmacioEnviada); <span class="cm">// "boolean"</span></code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">2.2 Conversió de tipus: el problema del Sheets</h3>
+        <div class="warning-box"><strong>⚠️ Quan GAS llegeix un Sheets, tots els valors arriben com a String!</strong> Hauràs de convertir-los si vols operar numèricament. Aquesta és una de les causes d'error més freqüents.</div>
+
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — conversió de tipus (molt comú a GAS)</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="cm">// Problema: la cel·la G2 d'ACTIVITATS conté "25" (string, no number!)</span>
+<span class="kw">let</span> aforamentCrua = <span class="str">"25"</span>;               <span class="cm">// ve del Sheets</span>
+Logger.<span class="fn">log</span>(<span class="kw">typeof</span> aforamentCrua);       <span class="cm">// "string" ← problema!</span>
+Logger.<span class="fn">log</span>(aforamentCrua + <span class="nb">5</span>);         <span class="cm">// "255" ← concatena, no suma!</span>
+
+<span class="cm">// Solució: convertir a número</span>
+<span class="kw">let</span> aforament = <span class="fn">Number</span>(aforamentCrua);  <span class="cm">// o parseInt(), parseFloat()</span>
+Logger.<span class="fn">log</span>(<span class="kw">typeof</span> aforament);           <span class="cm">// "number" ✓</span>
+Logger.<span class="fn">log</span>(aforament + <span class="nb">5</span>);             <span class="cm">// 30 ✓</span>
+
+<span class="cm">// Conversió de Boolean: "TRUE" del Sheets ≠ true de JavaScript</span>
+<span class="kw">let</span> confirmatCru = <span class="str">"TRUE"</span>;             <span class="cm">// ve del Sheets com a string</span>
+<span class="kw">let</span> confirmat    = confirmatCru === <span class="str">"TRUE"</span> || confirmatCru === <span class="kw">true</span>;
+Logger.<span class="fn">log</span>(confirmat);                  <span class="cm">// true ✓</span>
+
+<span class="cm">// Template literals: la forma moderna de construir strings</span>
+<span class="kw">let</span> nom = <span class="str">"Laura"</span>, places = <span class="nb">7</span>;
+Logger.<span class="fn">log</span>(<span class="str">`Hola ${nom}, queden ${places} places!`</span>);</code></pre>
+        </div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc II</div>
+            <div class="ex-item" onclick="toggleEx(this,'b02',0)"><div class="ex-check" id="chk-b02-0"></div><div class="ex-text"><span class="ex-num">1</span> Llegeix la cel·la G2 de la fulla ACTIVITATS (l'aforament). Usa <code>typeof</code> per veure el tipus que retorna el Sheets, converteix-lo a número i verifica que el tipus ha canviat.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b02',1)"><div class="ex-check" id="chk-b02-1"></div><div class="ex-text"><span class="ex-num">2</span> Crea una funció que calculi dies fins a les Jornades i els mostri en format: <em>"Falten 127 dies per a les Jornades Docents 2025 (15/11/2025)"</em> usant template literals.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b02',2)"><div class="ex-check" id="chk-b02-2"></div><div class="ex-text"><span class="ex-num">3</span> A partir del nom complet "Anna Ferrer Bosch", usa mètodes de String per extreure: el primer nom, els cognoms, les inicials (A.F.B.) i l'email probable (anna.ferrer@edu.cat).</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b01">← Bloc I</a><span class="bloc-label">Bloc 2 de 8</span><a class="btn-nav btn-next" href="#b03">Bloc III · Control →</a></div>
+    </div>
+
+    <!-- ═══ BLOC III ═══ -->
+    <div class="chapter" id="b03">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC III</span></div>
+        <h2 class="chapter-title">Bloc III — Estructures de Control</h2>
+        <p>Les estructures de control permeten al programa <strong>prendre decisions</strong> i executar codi diferent segons les condicions. Sense elles, tots els scripts farien sempre el mateix.</p>
+
+        <h3 class="chapter-subtitle">3.1 if / else if / else</h3>
+        <div class="docent-box">
+            <div class="docent-box-title">Cas pràctic: classificar l'ocupació d'una activitat</div>
+            <p style="margin:0">Quan el script actualitza els aforaments, ha de decidir quins missatges enviar als organitzadors: avís si una activitat es queda sense places, informació si està a bon ritme, etc.</p>
+        </div>
+
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — if/else: classificar ocupació</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="kw">function</span> <span class="fn">classificarOcupacio</span>(inscrits, aforamentMax) {
+  <span class="kw">const</span> pct = (inscrits / aforamentMax) * <span class="nb">100</span>;
+  <span class="kw">let</span> estat, missatge;
+
+  <span class="kw">if</span> (inscrits >= aforamentMax) {
+    estat    = <span class="str">"Completa"</span>;
+    missatge = <span class="str">"🔴 COMPLETA — llista d'espera disponible"</span>;
+  } <span class="kw">else if</span> (pct >= <span class="nb">80</span>) {
+    estat    = <span class="str">"Quasi plena"</span>;
+    missatge = <span class="str">"🟠 Quasi plena — queden poques places"</span>;
+  } <span class="kw">else if</span> (pct >= <span class="nb">50</span>) {
+    estat    = <span class="str">"Oberta"</span>;
+    missatge = <span class="str">"🟡 A bon ritme"</span>;
+  } <span class="kw">else</span> {
+    estat    = <span class="str">"Oberta"</span>;
+    missatge = <span class="str">"🟢 Moltes places disponibles"</span>;
+  }
+
+  Logger.<span class="fn">log</span>(<span class="str">`${inscrits}/${aforamentMax} (${pct.toFixed(0)}%) → ${missatge}`</span>);
+  <span class="kw">return</span> estat;
+}
+
+<span class="cm">// Proves</span>
+<span class="fn">classificarOcupacio</span>(<span class="nb">25</span>, <span class="nb">25</span>);  <span class="cm">// 🔴 COMPLETA</span>
+<span class="fn">classificarOcupacio</span>(<span class="nb">21</span>, <span class="nb">25</span>);  <span class="cm">// 🟠 Quasi plena</span>
+<span class="fn">classificarOcupacio</span>(<span class="nb">14</span>, <span class="nb">25</span>);  <span class="cm">// 🟡 A bon ritme</span>
+<span class="fn">classificarOcupacio</span>(<span class="nb">5</span>,  <span class="nb">25</span>);  <span class="cm">// 🟢 Moltes places</span></code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">3.2 Operadors lògics i de comparació</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — operadors: AND, OR, NOT, ternari</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="cm">// ── Comparació ────────────────────────────────────────────────</span>
+<span class="kw">let</span> places = <span class="nb">5</span>;
+Logger.<span class="fn">log</span>(places === <span class="nb">5</span>);   <span class="cm">// true  (igual en valor I tipus)</span>
+Logger.<span class="fn">log</span>(places !== <span class="nb">10</span>);  <span class="cm">// true  (diferent)</span>
+Logger.<span class="fn">log</span>(places &lt; <span class="nb">10</span>);    <span class="cm">// true  (menor que)</span>
+Logger.<span class="fn">log</span>(places >= <span class="nb">5</span>);    <span class="cm">// true  (major o igual)</span>
+
+<span class="cm">// ── AND (&&): les dues condicions han de ser certes ───────────</span>
+<span class="kw">let</span> estaDisponible = places > <span class="nb">0</span> &amp;&amp; !confirmacioEnviada;
+
+<span class="cm">// ── OR (||): n'hi ha prou amb una ────────────────────────────</span>
+<span class="kw">let</span> necessitaAvis = places === <span class="nb">0</span> || places === <span class="nb">1</span>;
+
+<span class="cm">// ── NOT (!): inverteix ────────────────────────────────────────</span>
+<span class="kw">let</span> noPotEntrar = !estaDisponible;
+
+<span class="cm">// ── Operador ternari: if/else en una línia ────────────────────</span>
+<span class="kw">const</span> etiqueta = places > <span class="nb">0</span> ? <span class="str">"Oberta"</span> : <span class="str">"Completa"</span>;
+<span class="cm">//               condició       si cert    si fals</span>
+
+<span class="cm">// Molt útil per construir missatges ràpids:</span>
+<span class="kw">const</span> icon = places === <span class="nb">0</span> ? <span class="str">"🔴"</span> : places &lt; <span class="nb">5</span> ? <span class="str">"🟠"</span> : <span class="str">"🟢"</span>;
+Logger.<span class="fn">log</span>(icon + <span class="str">" "</span> + etiqueta);</code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">3.3 switch: múltiples casos exactes</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — switch: missatge per franja horària</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="kw">function</span> <span class="fn">descriureFranja</span>(franja) {
+  <span class="kw">switch</span> (franja) {
+    <span class="kw">case</span> <span class="str">"M1"</span>:
+      <span class="kw">return</span> <span class="str">"🌅 Matí 1 · 9:30 – 11:30"</span>;
+    <span class="kw">case</span> <span class="str">"M2"</span>:
+      <span class="kw">return</span> <span class="str">"☀️ Matí 2 · 12:00 – 14:00"</span>;
+    <span class="kw">case</span> <span class="str">"T"</span>:
+      <span class="kw">return</span> <span class="str">"🌆 Tarda · 16:00 – 18:00"</span>;
+    <span class="kw">default</span>:
+      <span class="kw">return</span> <span class="str">"❓ Franja desconeguda: "</span> + franja;
+  }
+}
+
+Logger.<span class="fn">log</span>(<span class="fn">descriureFranja</span>(<span class="str">"M1"</span>));  <span class="cm">// 🌅 Matí 1 · 9:30 – 11:30</span>
+Logger.<span class="fn">log</span>(<span class="fn">descriureFranja</span>(<span class="str">"T"</span>));   <span class="cm">// 🌆 Tarda · 16:00 – 18:00</span>
+Logger.<span class="fn">log</span>(<span class="fn">descriureFranja</span>(<span class="str">"X"</span>));   <span class="cm">// ❓ Franja desconeguda: X</span></code></pre>
+        </div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc III</div>
+            <div class="ex-item" onclick="toggleEx(this,'b03',0)"><div class="ex-check" id="chk-b03-0"></div><div class="ex-text"><span class="ex-num">1</span> Copia <code>classificarOcupacio()</code> i prova-la amb dades reals llegides de la fulla ACTIVITATS. Mostra l'estat de totes les activitats.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b03',1)"><div class="ex-check" id="chk-b03-1"></div><div class="ex-text"><span class="ex-num">2</span> Escriu una funció <code>potReservarSala(hora)</code> que retorni <code>true</code> si l'hora passada com a paràmetre (format "HH:MM") és dins l'horari de la Sala Especial (09:00 a 18:30) i <code>false</code> si no.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b03',2)"><div class="ex-check" id="chk-b03-2"></div><div class="ex-text"><span class="ex-num">3</span> Usa l'operador ternari per escriure en una sola línia: si un participant vol Sala Especial i hi ha places disponibles, mostra "✅ Reserva confirmada", si no "❌ No disponible".</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b02">← Bloc II</a><span class="bloc-label">Bloc 3 de 8</span><a class="btn-nav btn-next" href="#b04">Bloc IV · Bucles →</a></div>
+    </div>
+
+    <!-- ═══ BLOC IV ═══ -->
+    <div class="chapter" id="b04">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC IV</span></div>
+        <h2 class="chapter-title">Bloc IV — Bucles i Iteració</h2>
+        <p>Els bucles permeten <strong>repetir una acció</strong> per a cada element d'una llista. Quan GAS llegeix les 20 files d'inscrits d'un Sheets i processa cadascuna, ho fa gràcies a un bucle.</p>
+
+        <div class="analogy-box"><strong>🧠 Analogia docent:</strong> Un bucle és com un professor que corregeix exàmens un per un: agafa el primer, el corregeix, el deixa; agafa el segon, el corregeix, el deixa... fins que no en queda cap.</div>
+
+        <h3 class="chapter-subtitle">4.1 for clàssic — quan saps quantes iteracions</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — for: processar files d'inscrits</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="kw">function</span> <span class="fn">comptarPerActivitat</span>() {
+  <span class="kw">const</span> fulla  = SpreadsheetApp.<span class="fn">getActiveSpreadsheet</span>().<span class="fn">getSheetByName</span>(<span class="str">"INSCRITS"</span>);
+  <span class="kw">const</span> dades  = fulla.<span class="fn">getDataRange</span>().<span class="fn">getValues</span>();
+  <span class="kw">let</span> comptador = { M1:{A:<span class="nb">0</span>,B:<span class="nb">0</span>,C:<span class="nb">0</span>,D:<span class="nb">0</span>}, M2:{A:<span class="nb">0</span>,B:<span class="nb">0</span>,C:<span class="nb">0</span>,D:<span class="nb">0</span>}, T:{A:<span class="nb">0</span>,B:<span class="nb">0</span>,C:<span class="nb">0</span>,D:<span class="nb">0</span>} };
+
+  <span class="cm">// Comença a i=1 per saltar la fila de capçalera</span>
+  <span class="kw">for</span> (<span class="kw">let</span> i = <span class="nb">1</span>; i &lt; dades.<span class="prop">length</span>; i++) {
+    <span class="kw">const</span> fila = dades[i];
+    <span class="kw">if</span> (!fila[<span class="nb">1</span>]) <span class="kw">continue</span>;  <span class="cm">// salta files buides</span>
+
+    <span class="kw">const</span> opcM1 = fila[<span class="nb">5</span>];  <span class="cm">// col F: activitat Matí 1</span>
+    <span class="kw">const</span> opcM2 = fila[<span class="nb">6</span>];  <span class="cm">// col G: activitat Matí 2</span>
+    <span class="kw">const</span> opcT  = fila[<span class="nb">7</span>];  <span class="cm">// col H: activitat Tarda</span>
+
+    <span class="kw">if</span> (comptador.M1[opcM1] !== <span class="kw">undefined</span>) comptador.M1[opcM1]++;
+    <span class="kw">if</span> (comptador.M2[opcM2] !== <span class="kw">undefined</span>) comptador.M2[opcM2]++;
+    <span class="kw">if</span> (comptador.T[opcT]   !== <span class="kw">undefined</span>) comptador.T[opcT]++;
+  }
+
+  Logger.<span class="fn">log</span>(<span class="str">"Matí 1:  "</span> + JSON.<span class="fn">stringify</span>(comptador.M1));
+  Logger.<span class="fn">log</span>(<span class="str">"Matí 2:  "</span> + JSON.<span class="fn">stringify</span>(comptador.M2));
+  Logger.<span class="fn">log</span>(<span class="str">"Tarda:   "</span> + JSON.<span class="fn">stringify</span>(comptador.T));
+  <span class="kw">return</span> comptador;
+}</code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">4.2 for...of — recórrer una llista directament</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — for...of: enviar correu a cada inscrit</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="cm">// for...of és ideal quan ja tens un array d'objectes</span>
+<span class="kw">const</span> inscrits = <span class="fn">llegirInscrits</span>();  <span class="cm">// array d'objectes (Guia 2)</span>
+
+<span class="kw">for</span> (<span class="kw">const</span> p <span class="kw">of</span> inscrits) {
+  <span class="kw">if</span> (p.confirmat) <span class="kw">continue</span>;  <span class="cm">// salta els ja confirmats</span>
+  Logger.<span class="fn">log</span>(<span class="str">`📧 Enviant a ${p.nom} (${p.email})...`</span>);
+  <span class="cm">// GmailApp.sendEmail(...) ← veure Guia 2</span>
+}</code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">4.3 while — quan no saps d'entrada quantes iteracions</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — while: generar franges de 30 min</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="kw">function</span> <span class="fn">generarFranges</span>() {
+  <span class="kw">let</span> minuts = <span class="nb">9</span> * <span class="nb">60</span>;        <span class="cm">// Comença a les 9:00 (en minuts)</span>
+  <span class="kw">const</span> fi  = <span class="nb">18</span> * <span class="nb">60</span> + <span class="nb">30</span>; <span class="cm">// Acaba a les 18:30</span>
+  <span class="kw">const</span> franges = [];
+
+  <span class="kw">while</span> (minuts &lt; fi) {
+    <span class="kw">const</span> h   = <span class="fn">Math</span>.<span class="fn">floor</span>(minuts / <span class="nb">60</span>);
+    <span class="kw">const</span> min = minuts % <span class="nb">60</span>;
+    <span class="kw">const</span> hLabel = <span class="str">`${String(h).padStart(2,'0')}:${String(min).padStart(2,'0')}`</span>;
+    franges.<span class="fn">push</span>(hLabel);
+    minuts += <span class="nb">30</span>;  <span class="cm">// avança 30 minuts</span>
+  }
+
+  Logger.<span class="fn">log</span>(<span class="str">"Total de franges: "</span> + franges.<span class="prop">length</span>);  <span class="cm">// 19</span>
+  Logger.<span class="fn">log</span>(<span class="str">"Primera: "</span> + franges[<span class="nb">0</span>]);              <span class="cm">// "09:00"</span>
+  Logger.<span class="fn">log</span>(<span class="str">"Última:  "</span> + franges[franges.<span class="prop">length</span>-<span class="nb">1</span>]); <span class="cm">// "18:00"</span>
+  <span class="kw">return</span> franges;
+}</code></pre>
+        </div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc IV</div>
+            <div class="ex-item" onclick="toggleEx(this,'b04',0)"><div class="ex-check" id="chk-b04-0"></div><div class="ex-text"><span class="ex-num">1</span> Executa <code>comptarPerActivitat()</code> amb les dades reals del teu Sheets. Mostra els resultats en format llegible: "M1-A: 5 inscrits · M1-B: 3 inscrits..."</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b04',1)"><div class="ex-check" id="chk-b04-1"></div><div class="ex-text"><span class="ex-num">2</span> Usa un <code>for...of</code> per recórrer els inscrits i construir una llista de tots els que volen la Sala Especial. Mostra nom, email i centre educatiu de cada un.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b04',2)"><div class="ex-check" id="chk-b04-2"></div><div class="ex-text"><span class="ex-num">3</span> Executa <code>generarFranges()</code> i verifica que retorna exactament 19 franges. Modifica-la perquè accepti hora d'inici i hora de fi com a paràmetres (en format "HH:MM").</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b03">← Bloc III</a><span class="bloc-label">Bloc 4 de 8</span><a class="btn-nav btn-next" href="#b05">Bloc V · Funcions →</a></div>
+    </div>
+
+    <!-- ═══ BLOC V ═══ -->
+    <div class="chapter" id="b05">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC V</span></div>
+        <h2 class="chapter-title">Bloc V — Funcions</h2>
+        <p>Les funcions són <strong>blocs de codi reutilitzables</strong> amb un nom propi. Un bon script de GAS és una col·lecció de funcions petites, cadascuna amb una responsabilitat clara. Si una funció fa massa coses, cal dividir-la.</p>
+
+        <div class="analogy-box"><strong>🧠 Analogia docent:</strong> Les funcions són com les unitats didàctiques: cadascuna té un objectiu concret, uns materials d'entrada (paràmetres) i uns resultats de sortida (return). Si una unitat intenta cobrir-ho tot, els alumnes s'hi perden.</div>
+
+        <h3 class="chapter-subtitle">5.1 Anatomia d'una funció</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — parts d'una funció ben construïda</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="cm">// ┌─ paraula clau
+// │     ┌─ nom descriptiu (camelCase)
+// │     │              ┌─ paràmetres d'entrada
+// ↓     ↓              ↓                          </span>
+<span class="kw">function</span> <span class="fn">calcularPlacesLliures</span>(aforamentMax, inscrits) {
+  <span class="cm">// Cos: la lògica de la funció</span>
+  <span class="kw">const</span> places = aforamentMax - inscrits;
+  <span class="kw">if</span> (places &lt; <span class="nb">0</span>) <span class="kw">return</span> <span class="nb">0</span>;  <span class="cm">// cas excepcional</span>
+  <span class="kw">return</span> places;               <span class="cm">// ← valor de retorn</span>
+}
+
+<span class="cm">// Crida de la funció: passem els arguments</span>
+<span class="kw">let</span> lliures = <span class="fn">calcularPlacesLliures</span>(<span class="nb">25</span>, <span class="nb">18</span>);
+Logger.<span class="fn">log</span>(<span class="str">"Places lliures: "</span> + lliures);  <span class="cm">// 7</span>
+
+<span class="cm">// Valors per defecte als paràmetres</span>
+<span class="kw">function</span> <span class="fn">construirIdActivitat</span>(franja, opcio = <span class="str">"A"</span>) {
+  <span class="kw">return</span> franja + <span class="str">"-"</span> + opcio;   <span class="cm">// "M1-A", "T-B"...</span>
+}
+Logger.<span class="fn">log</span>(<span class="fn">construirIdActivitat</span>(<span class="str">"M1"</span>));      <span class="cm">// "M1-A" (opcio = "A" per defecte)</span>
+Logger.<span class="fn">log</span>(<span class="fn">construirIdActivitat</span>(<span class="str">"T"</span>, <span class="str">"C"</span>));  <span class="cm">// "T-C"</span></code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">5.2 Funcions que retornen objectes</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — retornar un objecte d'estadístiques</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="kw">function</span> <span class="fn">estadistiquesJornades</span>() {
+  <span class="kw">const</span> inscrits   = <span class="fn">llegirInscrits</span>();
+  <span class="kw">const</span> activitats = <span class="fn">llegirActivitats</span>();
+
+  <span class="kw">const</span> totalPlaces = activitats.<span class="fn">reduce</span>((s, a) => s + a.aforamentMax, <span class="nb">0</span>);
+  <span class="kw">const</span> volSala     = inscrits.<span class="fn">filter</span>(p => p.volSala === <span class="str">"Sí"</span>).<span class="prop">length</span>;
+
+  <span class="kw">return</span> {
+    totalInscrits:  inscrits.<span class="prop">length</span>,
+    totalPlaces,
+    pctOcupacio:    <span class="fn">Math</span>.<span class="fn">round</span>(inscrits.<span class="prop">length</span> / totalPlaces * <span class="nb">100</span>),
+    volSalaEspecial: volSala,
+    actualitzat:    <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toLocaleString</span>(<span class="str">"ca-ES"</span>)
+  };
+}
+
+<span class="cm">// Ús: desestructurem el resultat</span>
+<span class="kw">const</span> stats = <span class="fn">estadistiquesJornades</span>();
+Logger.<span class="fn">log</span>(<span class="str">`Inscrits: ${stats.totalInscrits} / ${stats.totalPlaces} places`</span>);
+Logger.<span class="fn">log</span>(<span class="str">`Ocupació: ${stats.pctOcupacio}%`</span>);
+Logger.<span class="fn">log</span>(<span class="str">`Volen sala: ${stats.volSalaEspecial} persones`</span>);</code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">5.3 Arrow functions (funcions fletxa)</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — arrow functions: sintaxi compacta</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="cm">// Funció clàssica</span>
+<span class="kw">function</span> <span class="fn">estaComplet</span>(inscrits, max) { <span class="kw">return</span> inscrits >= max; }
+
+<span class="cm">// Arrow function equivalent — més compacta</span>
+<span class="kw">const</span> <span class="fn">estaComplet</span> = (inscrits, max) => inscrits >= max;
+
+<span class="cm">// Molt usades amb mètodes d'array (map, filter, find...)</span>
+<span class="kw">const</span> inscrits   = <span class="fn">llegirInscrits</span>();
+<span class="kw">const</span> pendents   = inscrits.<span class="fn">filter</span>(p => !p.confirmat);
+<span class="kw">const</span> emails     = inscrits.<span class="fn">map</span>(p => p.email);
+<span class="kw">const</span> anna       = inscrits.<span class="fn">find</span>(p => p.nom.<span class="fn">startsWith</span>(<span class="str">"Anna"</span>));
+
+Logger.<span class="fn">log</span>(<span class="str">"Confirmacions pendents: "</span> + pendents.<span class="prop">length</span>);
+Logger.<span class="fn">log</span>(<span class="str">"Tots els emails: "</span>        + emails.<span class="fn">join</span>(<span class="str">", "</span>));
+Logger.<span class="fn">log</span>(<span class="str">"Anna trobada: "</span>           + anna?.nom);</code></pre>
+        </div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc V</div>
+            <div class="ex-item" onclick="toggleEx(this,'b05',0)"><div class="ex-check" id="chk-b05-0"></div><div class="ex-text"><span class="ex-num">1</span> Crea una funció <code>percentatgeOcupacio(inscrits, max)</code> que retorni el percentatge amb 1 decimal i el text "X% (Y/Z places)". Prova-la amb diverses activitats.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b05',1)"><div class="ex-check" id="chk-b05-1"></div><div class="ex-text"><span class="ex-num">2</span> Escriu la funció <code>estadistiquesJornades()</code> i executa-la. Mostra els resultats en un <code>Logger.log</code> formatat com un mini-informe de text.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b05',2)"><div class="ex-check" id="chk-b05-2"></div><div class="ex-text"><span class="ex-num">3</span> Reescriu les funcions <code>estaComplet</code> i <code>classificarOcupacio</code> del Bloc III com a arrow functions d'una línia. Comprova que funcionen igual.</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b04">← Bloc IV</a><span class="bloc-label">Bloc 5 de 8</span><a class="btn-nav btn-next" href="#b06">Bloc VI · Arrays →</a></div>
+    </div>
+
+    <!-- ═══ BLOC VI ═══ -->
+    <div class="chapter" id="b06">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VI</span></div>
+        <h2 class="chapter-title">Bloc VI — Arrays i els seus Mètodes</h2>
+        <p>Un <strong>array</strong> és una llista ordenada de valors. Quan GAS llegeix les files d'un Sheets, obté un array d'arrays. Dominar els mètodes d'array és la clau per escriure scripts nets i potents.</p>
+
+        <h3 class="chapter-subtitle">6.1 Creació i accés</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — arrays: creació i accés bàsic</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="cm">// Arrays simples</span>
+<span class="kw">const</span> opcions  = [<span class="str">"A"</span>, <span class="str">"B"</span>, <span class="str">"C"</span>, <span class="str">"D"</span>];
+<span class="kw">const</span> franges  = [<span class="str">"M1"</span>, <span class="str">"M2"</span>, <span class="str">"T"</span>];
+<span class="kw">const</span> places   = [<span class="nb">50</span>, <span class="nb">25</span>, <span class="nb">30</span>, <span class="nb">20</span>];
+
+Logger.<span class="fn">log</span>(opcions[<span class="nb">0</span>]);        <span class="cm">// "A" (índex 0 = primer element)</span>
+Logger.<span class="fn">log</span>(opcions.<span class="prop">length</span>);    <span class="cm">// 4</span>
+Logger.<span class="fn">log</span>(opcions.<span class="fn">includes</span>(<span class="str">"C"</span>)); <span class="cm">// true</span>
+
+<span class="cm">// Afegir i treure elements</span>
+<span class="kw">let</span> inscritsAvui = [<span class="str">"Anna"</span>, <span class="str">"Jordi"</span>];
+inscritsAvui.<span class="fn">push</span>(<span class="str">"Maria"</span>);    <span class="cm">// afegeix al final → ["Anna","Jordi","Maria"]</span>
+inscritsAvui.<span class="fn">unshift</span>(<span class="str">"Pere"</span>); <span class="cm">// afegeix al principi</span>
+inscritsAvui.<span class="fn">pop</span>();            <span class="cm">// treu l'últim</span>
+
+<span class="cm">// Array 2D: el que retorna getValues() del Sheets</span>
+<span class="kw">const</span> dades = [
+  [<span class="str">"Nom"</span>,   <span class="str">"Email"</span>,          <span class="str">"Activitat"</span>],  <span class="cm">// fila 0 = capçalera</span>
+  [<span class="str">"Anna"</span>,  <span class="str">"anna@edu.cat"</span>,   <span class="str">"A"</span>],           <span class="cm">// fila 1</span>
+  [<span class="str">"Jordi"</span>, <span class="str">"jordi@edu.cat"</span>,  <span class="str">"B"</span>]            <span class="cm">// fila 2</span>
+];
+Logger.<span class="fn">log</span>(dades[<span class="nb">1</span>][<span class="nb">0</span>]);  <span class="cm">// "Anna"  (fila 1, col 0)</span>
+Logger.<span class="fn">log</span>(dades[<span class="nb">2</span>][<span class="nb">2</span>]);  <span class="cm">// "B"     (fila 2, col 2)</span></code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">6.2 Els 5 mètodes essencials</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — map, filter, find, reduce, some</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="kw">const</span> inscrits = <span class="fn">llegirInscrits</span>();  <span class="cm">// array d'objectes participant</span>
+
+<span class="cm">// ── map: transforma cada element → nou array ──────────────────</span>
+<span class="kw">const</span> emails = inscrits.<span class="fn">map</span>(p => p.email);
+<span class="cm">// ["anna@edu.cat", "jordi@edu.cat", ...]</span>
+
+<span class="kw">const</span> noms = inscrits.<span class="fn">map</span>(p => p.nom.<span class="fn">split</span>(<span class="str">" "</span>)[<span class="nb">0</span>]);
+<span class="cm">// ["Anna", "Jordi", "Maria", ...]  ← primer nom</span>
+
+<span class="cm">// ── filter: filtra elements → subconjunt ──────────────────────</span>
+<span class="kw">const</span> pendents   = inscrits.<span class="fn">filter</span>(p => !p.confirmat);
+<span class="kw">const</span> volSala    = inscrits.<span class="fn">filter</span>(p => p.volSala === <span class="str">"Sí"</span>);
+<span class="kw">const</span> deM1A      = inscrits.<span class="fn">filter</span>(p => p.activM1 === <span class="str">"A"</span>);
+Logger.<span class="fn">log</span>(<span class="str">"Inscrits a M1-A: "</span> + deM1A.<span class="prop">length</span>);
+
+<span class="cm">// ── find: retorna el PRIMER que compleix la condició ──────────</span>
+<span class="kw">const</span> anna = inscrits.<span class="fn">find</span>(p => p.nom.<span class="fn">includes</span>(<span class="str">"Anna"</span>));
+Logger.<span class="fn">log</span>(anna?.centre);  <span class="cm">// "INS Can Puig - Badalona"</span>
+
+<span class="cm">// ── reduce: acumula un resultat ───────────────────────────────</span>
+<span class="kw">const</span> activitats = <span class="fn">llegirActivitats</span>();
+<span class="kw">const</span> totalPlaces = activitats.<span class="fn">reduce</span>((suma, a) => suma + a.aforamentMax, <span class="nb">0</span>);
+Logger.<span class="fn">log</span>(<span class="str">"Total places: "</span> + totalPlaces);  <span class="cm">// 130 (suma tots els aforaments)</span>
+
+<span class="cm">// ── some: retorna true si ALGUN element compleix ──────────────</span>
+<span class="kw">const</span> hiHaComplet = activitats.<span class="fn">some</span>(a => a.inscrits >= a.aforamentMax);
+Logger.<span class="fn">log</span>(<span class="str">"Alguna activitat completa? "</span> + hiHaComplet);</code></pre>
+        </div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc VI</div>
+            <div class="ex-item" onclick="toggleEx(this,'b06',0)"><div class="ex-check" id="chk-b06-0"></div><div class="ex-text"><span class="ex-num">1</span> Usa <code>filter</code> i <code>map</code> encadenats per obtenir la llista d'emails de tots els inscrits que volen la Sala Especial i enviar-los un correu d'avís per reservar la seva franja.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b06',1)"><div class="ex-check" id="chk-b06-1"></div><div class="ex-text"><span class="ex-num">2</span> Usa <code>reduce</code> per comptar quants inscrits ha enviat cada centre educatiu. El resultat ha de ser un objecte com: <code>{"INS Can Puig": 3, "Escola Pia": 2 ...}</code></div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b06',2)"><div class="ex-check" id="chk-b06-2"></div><div class="ex-text"><span class="ex-num">3</span> Usa <code>sort</code> per ordenar les activitats de major a menor nombre d'inscrits. Mostra el rànquing final al Logger.</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b05">← Bloc V</a><span class="bloc-label">Bloc 6 de 8</span><a class="btn-nav btn-next" href="#b07">Bloc VII · Objectes →</a></div>
+    </div>
+
+    <!-- ═══ BLOC VII ═══ -->
+    <div class="chapter" id="b07">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VII</span></div>
+        <h2 class="chapter-title">Bloc VII — Objectes i JSON</h2>
+        <p>Un <strong>objecte</strong> agrupa dades relacionades sota un mateix nom. En el nostre sistema, cada participant, cada activitat i cada franja de la Sala Especial és un objecte. El format <strong>JSON</strong> és la manera estàndard d'intercanviar objectes entre sistemes (és el que retorna la nostra Web App).</p>
+
+        <h3 class="chapter-subtitle">7.1 Objectes literals</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — objecte participant i activitat</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="cm">// ── Objecte participant ───────────────────────────────────────</span>
+<span class="kw">const</span> participant = {
+  nom:       <span class="str">"Anna Ferrer Bosch"</span>,
+  centre:    <span class="str">"INS Can Puig - Badalona"</span>,
+  email:     <span class="str">"anna.ferrer@insedu.cat"</span>,
+  activitats: { m1: <span class="str">"A"</span>, m2: <span class="str">"C"</span>, tarda: <span class="str">"B"</span> },  <span class="cm">// objecte niuat</span>
+  volSala:   <span class="kw">true</span>,
+  confirmat: <span class="kw">false</span>
+};
+
+<span class="cm">// Accés a propietats: punt (.) o claudàtors ([])</span>
+Logger.<span class="fn">log</span>(participant.nom);                 <span class="cm">// "Anna Ferrer Bosch"</span>
+Logger.<span class="fn">log</span>(participant.activitats.m1);       <span class="cm">// "A"</span>
+Logger.<span class="fn">log</span>(participant[<span class="str">"email"</span>]);           <span class="cm">// útil quan el nom és dinàmic</span>
+
+<span class="cm">// Afegir o modificar propietats</span>
+participant.confirmat = <span class="kw">true</span>;
+participant.datConfirmacio = <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toISOString</span>();
+
+<span class="cm">// Objecte activitat</span>
+<span class="kw">const</span> activitat = {
+  id:          <span class="str">"M1-A"</span>,
+  titol:       <span class="str">"Intel·ligència Artificial a l'aula"</span>,
+  ponent:      <span class="str">"Anna Ferrer"</span>,
+  aula:        <span class="str">"Sala d'Actes"</span>,
+  aforamentMax: <span class="nb">50</span>,
+  inscrits:    <span class="nb">6</span>,
+  <span class="fn">disponibles</span>() { <span class="kw">return</span> <span class="kw">this</span>.aforamentMax - <span class="kw">this</span>.inscrits; } <span class="cm">// mètode</span>
+};
+Logger.<span class="fn">log</span>(<span class="str">"Places lliures: "</span> + activitat.<span class="fn">disponibles</span>()); <span class="cm">// 44</span></code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">7.2 Array d'objectes: la base de dades en memòria</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — treballar amb arrays d'objectes</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="kw">const</span> activitats = [
+  { id:<span class="str">"M1-A"</span>, franja:<span class="str">"M1"</span>, titol:<span class="str">"IA a l'aula"</span>,        aforamentMax:<span class="nb">50</span>, inscrits:<span class="nb">6</span>  },
+  { id:<span class="str">"M1-B"</span>, franja:<span class="str">"M1"</span>, titol:<span class="str">"Robòtica educativa"</span>, aforamentMax:<span class="nb">20</span>, inscrits:<span class="nb">18</span> },
+  { id:<span class="str">"M1-C"</span>, franja:<span class="str">"M1"</span>, titol:<span class="str">"ABP pas a pas"</span>,      aforamentMax:<span class="nb">30</span>, inscrits:<span class="nb">9</span>  },
+  { id:<span class="str">"T-A"</span>,  franja:<span class="str">"T"</span>,  titol:<span class="str">"Ed. emocional"</span>,      aforamentMax:<span class="nb">50</span>, inscrits:<span class="nb">22</span> }
+];
+
+<span class="cm">// Cercar per ID</span>
+<span class="kw">const</span> robòtica = activitats.<span class="fn">find</span>(a => a.id === <span class="str">"M1-B"</span>);
+Logger.<span class="fn">log</span>(<span class="str">`${robòtica.id}: ${robòtica.inscrits}/${robòtica.aforamentMax} places`</span>);
+
+<span class="cm">// Les quasi plenes (>=80% d'ocupació)</span>
+<span class="kw">const</span> avis = activitats.<span class="fn">filter</span>(a => a.inscrits / a.aforamentMax >= <span class="nb">0.8</span>);
+avis.<span class="fn">forEach</span>(a => Logger.<span class="fn">log</span>(<span class="str">`⚠️ ${a.id} quasi plena!`</span>));
+
+<span class="cm">// Ordenar per % d'ocupació (descendent)</span>
+<span class="kw">const</span> ranquing = [...activitats].<span class="fn">sort</span>((a, b) =>
+  (b.inscrits/b.aforamentMax) - (a.inscrits/a.aforamentMax)
+);
+ranquing.<span class="fn">forEach</span>((a, i) =>
+  Logger.<span class="fn">log</span>(<span class="str">`${i+1}. ${a.id} – ${Math.round(a.inscrits/a.aforamentMax*100)}%`</span>)
+);</code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">7.3 JSON: intercanvi de dades amb la Web App</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — JSON.stringify i JSON.parse</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="cm">// JSON.stringify: objecte → text (per enviar a la Web App)</span>
+<span class="kw">const</span> resposta = {
+  ok:       <span class="kw">true</span>,
+  jornades: <span class="str">"Jornades Docents 2025"</span>,
+  inscrits: <span class="nb">20</span>,
+  activitats: activitats.<span class="fn">map</span>(a => ({
+    id:         a.id,
+    titol:      a.titol,
+    disponibles: a.aforamentMax - a.inscrits
+  }))
+};
+
+<span class="kw">const</span> json = JSON.<span class="fn">stringify</span>(resposta, <span class="kw">null</span>, <span class="nb">2</span>);  <span class="cm">// null,2 = format llegible</span>
+Logger.<span class="fn">log</span>(json);
+
+<span class="cm">// JSON.parse: text → objecte (per rebre dades d'una API externa)</span>
+<span class="kw">const</span> jsonRebut = <span class="str">'{"ok":true,"inscrits":20}'</span>;
+<span class="kw">const</span> objecte   = JSON.<span class="fn">parse</span>(jsonRebut);
+Logger.<span class="fn">log</span>(objecte.inscrits);  <span class="cm">// 20</span>
+
+<span class="cm">// A la Web App (Guia 2), sempre retornem amb:</span>
+<span class="cm">// return ContentService.createTextOutput(JSON.stringify(resposta))</span>
+<span class="cm">//   .setMimeType(ContentService.MimeType.JSON);</span></code></pre>
+        </div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis del Bloc VII</div>
+            <div class="ex-item" onclick="toggleEx(this,'b07',0)"><div class="ex-check" id="chk-b07-0"></div><div class="ex-text"><span class="ex-num">1</span> Crea un objecte <code>jornadesInfo</code> amb totes les dades generals llegides de CONFIG. Afegeix un mètode <code>diesFalten()</code> que calculi i retorni els dies fins a la data de les jornades.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b07',1)"><div class="ex-check" id="chk-b07-1"></div><div class="ex-text"><span class="ex-num">2</span> A partir dels inscrits reals, construeix l'array d'objectes i usa <code>JSON.stringify</code> per veure com quedarien les dades si les exposéssim via la Web App del Bloc VII de la Guia 2.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b07',2)"><div class="ex-check" id="chk-b07-2"></div><div class="ex-text"><span class="ex-num">3</span> Crea una funció <code>agrupaDarCentre(inscrits)</code> que retorni un objecte on cada clau sigui un centre educatiu i el valor sigui un array amb els noms dels seus participants.</div></div>
+        </div>
+        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b06">← Bloc VI</a><span class="bloc-label">Bloc 7 de 8</span><a class="btn-nav btn-next" href="#b08">Bloc VIII · Errors →</a></div>
+    </div>
+
+    <!-- ═══ BLOC VIII ═══ -->
+    <div class="chapter" id="b08">
+        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VIII</span></div>
+        <h2 class="chapter-title">Bloc VIII — Gestió d'Errors i Bones Pràctiques</h2>
+        <p>Un bon script no és només el que funciona quan tot va bé: és el que <strong>gestiona els errors amb elegància</strong> i és fàcil de llegir i mantenir mesos després d'haver-lo escrit.</p>
+
+        <h3 class="chapter-subtitle">8.1 try / catch / finally</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — try/catch: gestió robusta d'errors</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="kw">function</span> <span class="fn">enviarConfirmacioSegura</span>(participant) {
+  <span class="kw">const</span> cfg = <span class="fn">llegirConfig</span>();
+
+  <span class="kw">try</span> {
+    <span class="cm">// Validem dades abans d'enviar</span>
+    <span class="kw">if</span> (!participant.email) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"Email buit per a: "</span> + participant.nom);
+    <span class="kw">if</span> (!participant.nom)   <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"Participant sense nom a fila "</span> + participant.fila);
+
+    <span class="kw">const</span> assumpte = <span class="str">`✅ Confirmació – ${cfg["NOM_JORNADES"]}`</span>;
+    GmailApp.<span class="fn">sendEmail</span>(participant.email, assumpte, <span class="str">"..."</span>);
+    Logger.<span class="fn">log</span>(<span class="str">"✉️ Enviat a: "</span> + participant.email);
+    <span class="kw">return</span> <span class="kw">true</span>;
+
+  } <span class="kw">catch</span> (error) {
+    <span class="cm">// Capturem l'error: el loguegem però NO parem tot el script</span>
+    Logger.<span class="fn">log</span>(<span class="str">"⚠️ ERROR: "</span> + error.<span class="prop">message</span>);
+    GmailApp.<span class="fn">sendEmail</span>(cfg[<span class="str">"EMAIL_NOTIFICACIONS"</span>],
+      <span class="str">"⚠️ Error al sistema Jornades"</span>, error.<span class="prop">message</span>);
+    <span class="kw">return</span> <span class="kw">false</span>;
+
+  } <span class="kw">finally</span> {
+    <span class="cm">// S'executa SEMPRE, hagi hagut error o no</span>
+    SpreadsheetApp.<span class="fn">flush</span>(); <span class="cm">// força l'escriptura al Sheets</span>
+  }
+}</code></pre>
+        </div>
+
+        <h3 class="chapter-subtitle">8.2 Les 7 bones pràctiques del GAS professional</h3>
+
+        <div class="compare">
+            <div class="compare-card compare-bad">
+                <div class="compare-head">❌ Codi difícil de mantenir</div>
+                <div class="compare-body"><code><span class="kw">function</span> <span class="fn">f1</span>() {<br>&nbsp;&nbsp;<span class="kw">let</span> x = ss.<span class="fn">getSheetByName</span>(<span class="str">"INSCRITS"</span>).<span class="fn">getDataRange</span>().<span class="fn">getValues</span>();<br>&nbsp;&nbsp;<span class="kw">for</span>(<span class="kw">let</span> i=<span class="nb">1</span>;i&lt;x.<span class="prop">length</span>;i++){<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span>(x[i][<span class="nb">10</span>]!=<span class="kw">true</span>){GmailApp.<span class="fn">sendEmail</span>(x[i][<span class="nb">3</span>],<span class="str">"conf"</span>,<span class="str">"ok"</span>);x[i][<span class="nb">10</span>]=<span class="kw">true</span>;}<br>&nbsp;&nbsp;}<br>}</code></div>
+            </div>
+            <div class="compare-card compare-good">
+                <div class="compare-head">✅ Codi net i llegible</div>
+                <div class="compare-body"><code><span class="kw">function</span> <span class="fn">enviarConfirmacionsPendents</span>() {<br>&nbsp;&nbsp;<span class="kw">const</span> inscrits = <span class="fn">llegirInscrits</span>();<br>&nbsp;&nbsp;<span class="kw">const</span> pendents = inscrits.<span class="fn">filter</span>(p => !p.confirmat);<br>&nbsp;&nbsp;pendents.<span class="fn">forEach</span>(p => <span class="fn">enviarConfirmacioSegura</span>(p));<br>&nbsp;&nbsp;Logger.<span class="fn">log</span>(<span class="str">`Enviats: ${pendents.length}`</span>);<br>}</code></div>
+            </div>
+        </div>
+
+        <div class="best-box">
+            <div class="best-box-title">Les 7 regles del codi GAS professional</div>
+            <ol style="margin:0 0 0 20px; color:var(--text);">
+                <li style="margin-bottom:8px"><strong>Noms descriptius:</strong> <code>enviarConfirmacionsPendents()</code> en lloc de <code>f1()</code>. El nom ha d'explicar el que fa.</li>
+                <li style="margin-bottom:8px"><strong>Una funció, una responsabilitat:</strong> si una funció fa massa coses, divideix-la. Màxim 20-30 línies per funció.</li>
+                <li style="margin-bottom:8px"><strong>Constants per a tot el que és fix:</strong> mai escriguis <code>dades[i][3]</code> — usa <code>dades[i][COL_EMAIL]</code>.</li>
+                <li style="margin-bottom:8px"><strong>try/catch a tot el que toca serveis externs:</strong> GmailApp, SpreadsheetApp, UrlFetchApp... sempre poden fallar.</li>
+                <li style="margin-bottom:8px"><strong>Comprova CONFIG[ACTIU] al principi de cada funció crítica:</strong> permet apagar el sistema sense tocar el codi.</li>
+                <li style="margin-bottom:8px"><strong>SpreadsheetApp.flush() per forçar escriptures:</strong> especialment en funcions llargues que escriuen moltes cel·les.</li>
+                <li style="margin-bottom:8px"><strong>Historial de versions:</strong> abans de fer canvis importants, crea una versió nova (Projecte → Historial de versions → Desa versió).</li>
+            </ol>
+        </div>
+
+        <h3 class="chapter-subtitle">8.3 Logger.log vs console.log vs alert</h3>
+        <div class="code-container">
+            <div class="code-header"><span class="code-language">JavaScript — quan usar cada mètode de sortida</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+            <pre><code><span class="cm">// ── Logger.log(): per al/la DESENVOLUPADOR/A durant el codi ──</span>
+Logger.<span class="fn">log</span>(<span class="str">"Debug: processant fila "</span> + i);
+Logger.<span class="fn">log</span>(<span class="str">"Valor rebut: "</span> + JSON.<span class="fn">stringify</span>(objecte));
+<span class="cm">// → Visible a: Vista → Registres d'execució de l'IDE</span>
+
+<span class="cm">// ── console.log(): equivalent modern, visible a la consola ───</span>
+console.<span class="fn">log</span>(<span class="str">"Igual que Logger.log en GAS modern"</span>);
+
+<span class="cm">// ── SpreadsheetApp.getUi().alert(): per a l'USUARI FINAL ─────</span>
+SpreadsheetApp.<span class="fn">getUi</span>().<span class="fn">alert</span>(<span class="str">"✅ Confirmacions enviades correctament!"</span>);
+<span class="cm">// → Apareix com a finestra emergent al Spreadsheet</span>
+
+<span class="cm">// ── toast(): missatge breu no intrusiu (recomanat) ────────────</span>
+SpreadsheetApp.<span class="fn">getActiveSpreadsheet</span>()
+  .<span class="fn">toast</span>(<span class="str">"Aforaments actualitzats"</span>, <span class="str">"✅ Jornades"</span>, <span class="nb">5</span>);
+<span class="cm">// → Apareix com a notificació breu a la cantonada (5 segons)</span></code></pre>
+        </div>
+
+        <div class="docent-box">
+            <div class="docent-box-title">Enhorabona — has completat les 3 guies!</div>
+            <p style="margin:0 0 10px">Ara tens les eines per entendre i escriure Google Apps Script de forma professional. El proper pas natural és el <strong>PROMPT Professional</strong>: redactar un prompt detallat perquè una IA generi automàticament un sistema complet de gestió per a qualsevol futura jornada, seminari o activitat educativa.</p>
+            <p style="margin:0"><strong>Recursos per continuar:</strong> <a href="https://developers.google.com/apps-script" target="_blank" style="color:var(--primary-mid)">developers.google.com/apps-script</a> · <a href="https://www.youtube.com/@JuanSGuzman" target="_blank" style="color:var(--primary-mid)">Canal Juan S. Guzman</a> · <a href="https://stackoverflow.com/questions/tagged/google-apps-script" target="_blank" style="color:var(--primary-mid)">Stack Overflow #gas</a></p>
+        </div>
+
+        <div class="exercise-box">
+            <div class="exercise-title">Exercicis Finals del Bloc VIII</div>
+            <div class="ex-item" onclick="toggleEx(this,'b08',0)"><div class="ex-check" id="chk-b08-0"></div><div class="ex-text"><span class="ex-num">1</span> Revisa les funcions que has escrit en blocs anteriors i afegeix <code>try/catch</code> a totes les que accedeixen al Sheets o envien correus. Comprova que els errors es mostren al Logger sense aturar la resta del script.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b08',1)"><div class="ex-check" id="chk-b08-1"></div><div class="ex-text"><span class="ex-num">2</span> Aplica les 7 regles de bones pràctiques al codi de la Guia 2: afegeix constants de columna, divideix funcions llargues, afegeix <code>toast()</code> en lloc d'<code>alert()</code> on sigui adequat.</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b08',2)"><div class="ex-check" id="chk-b08-2"></div><div class="ex-text"><span class="ex-num">3</span> [Repte final] Escriu el <strong>PROMPT professional</strong>: un text de 300–500 paraules que descrigui el sistema complet de gestió de jornades (BD, menú, triggers, API) amb prou detall perquè una IA pugui generar-lo des de zero.</div></div>
+        </div>
+
+        <div class="bloc-nav">
+            <a class="btn-nav btn-prev" href="#b07">← Bloc VII</a>
+            <span class="bloc-label">Bloc 8 de 8 · Fi de la Guia 3</span>
+            <a class="btn-nav btn-next" href="#">🎓 Guia completada!</a>
+        </div>
+    </div>
+
+</div><!-- fi content -->
+
+<div class="footer">
+    Guia 3 de 3 · Llenguatge GAS · Jornades Docents &nbsp;|&nbsp;
+    <a href="#mapa">↑ Tornar al mapa</a> &nbsp;|&nbsp;
+    <a href="#">← Guia 2 · IDE de GAS</a>
+</div>
+
+<script>
+const state={b01:[false,false,false],b02:[false,false,false],b03:[false,false,false],b04:[false,false,false],b05:[false,false,false],b06:[false,false,false],b07:[false,false,false],b08:[false,false,false]};
+const totals={b01:3,b02:3,b03:3,b04:3,b05:3,b06:3,b07:3,b08:3};
+function toggleEx(item,bloc,idx){
+    state[bloc][idx]=!state[bloc][idx];
+    document.getElementById('chk-'+bloc+'-'+idx).classList.toggle('checked',state[bloc][idx]);
+    item.querySelector('.ex-text').classList.toggle('done',state[bloc][idx]);
+    updateProgress();
+}
+function updateProgress(){
+    let done=0,total=0;
+    Object.keys(state).forEach(bloc=>{
+        const d=state[bloc].filter(Boolean).length,t=totals[bloc];
+        done+=d;total+=t;
+        const p=document.getElementById('prog-'+bloc);
+        if(!p)return;
+        p.textContent=d+'/'+t;
+        p.className='bloc-card-progress '+(d===0?'progress-none':d===t?'progress-done':'progress-part');
+        p.closest('.bloc-card').classList.toggle('done',d===t);
+    });
+    const pct=total>0?Math.round(done/total*100):0;
+    document.getElementById('prog-done').textContent=done;
+    document.getElementById('prog-total').textContent=total;
+    document.getElementById('prog-pct').textContent=pct+'%';
+    document.getElementById('progress-fill').style.width=pct+'%';
+}
+function resetProgress(){
+    Object.keys(state).forEach(b=>state[b].fill(false));
+    document.querySelectorAll('.ex-check').forEach(e=>e.classList.remove('checked'));
+    document.querySelectorAll('.ex-text').forEach(e=>e.classList.remove('done'));
+    updateProgress();
+}
+function copyCode(btn){
+    const text=btn.closest('.code-container').querySelector('pre').textContent;
+    navigator.clipboard.writeText(text).then(()=>{
+        const o=btn.textContent;btn.textContent='✓ Copiat!';btn.classList.add('copied');
+        setTimeout(()=>{btn.textContent=o;btn.classList.remove('copied');},2200);
+    });
+}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',function(e){
+        const id=this.getAttribute('href').slice(1);
+        const t=document.getElementById(id);
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+    });
+});
+const seccions=document.querySelectorAll('.chapter[id]');
+const tocLinks=document.querySelectorAll('.toc a');
+window.addEventListener('scroll',()=>{
+    let actual='';
+    seccions.forEach(s=>{if(pageYOffset>=s.offsetTop-120)actual=s.id;});
+    tocLinks.forEach(l=>{
+        const ok=l.getAttribute('href')==='#'+actual;
+        l.style.fontWeight=ok?'700':'500';
+        l.style.color=ok?'var(--primary-dark)':'';
+    });
+});
+updateProgress();
+</script>
+</body>
+</html>

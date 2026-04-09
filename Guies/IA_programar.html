@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 10 Plataformes IA per Programar · GAS Docents</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep:    #0d0b1a;
+    --bg-surface: #13102a;
+    --bg-card:    #1c1838;
+    --bg-card2:   #221e40;
+    --accent:     #7c6af7;
+    --accent2:    #a693ff;
+    --accent3:    #4fd1c5;
+    --accent4:    #f687b3;
+    --text-main:  #eae8ff;
+    --text-muted: #8b87b8;
+    --text-dim:   #5a5680;
+    --border:     rgba(124,106,247,0.18);
+    --border2:    rgba(124,106,247,0.35);
+    --gold:       #f6c90e;
+    --silver:     #b0b8c8;
+    --bronze:     #e8956d;
+    --green:      #68d391;
+    --teal:       #4fd1c5;
+    --radius:     14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text-main);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #1a1240 0%, #0d0b1a 60%);
+    border-bottom: 1px solid var(--border2);
+    padding: 56px 40px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(ellipse, rgba(124,106,247,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(124,106,247,0.12);
+    border: 1px solid var(--border2);
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-size: 11px;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: .12em;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .breadcrumb span { color: var(--text-dim); }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(90deg, var(--gold), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    max-width: 640px;
+    margin: 0 auto;
+    color: var(--text-muted);
+    font-size: 16px;
+    font-weight: 300;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .meta-pill strong { color: var(--accent2); font-weight: 500; }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ── SECTION TITLES ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .section-badge {
+    background: rgba(124,106,247,0.15);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: var(--accent2);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border2), transparent);
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .section-desc {
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    font-size: 14px;
+    max-width: 680px;
+  }
+
+  /* ── METHODOLOGY BOX ── */
+  .method-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .method-box h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent2);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .ia-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .ia-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+  }
+  .ia-chip.done { border-color: rgba(104,211,145,0.3); color: var(--green); }
+  .ia-chip.pend { border-color: rgba(246,201,14,0.3); color: var(--gold); }
+  .ia-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .ia-dot.done { background: var(--green); }
+  .ia-dot.pend { background: var(--gold); }
+
+  /* ── PODIUM ── */
+  .podium-section { margin-bottom: 56px; }
+  .podium {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .podium-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 20px 20px;
+    text-align: center;
+    position: relative;
+    transition: border-color .25s, transform .25s;
+  }
+  .podium-card:hover { transform: translateY(-3px); }
+  .podium-card.gold {
+    border-color: rgba(246,201,14,0.4);
+    background: linear-gradient(160deg, #1f1a08 0%, var(--bg-card) 60%);
+  }
+  .podium-card.silver {
+    border-color: rgba(176,184,200,0.35);
+    background: linear-gradient(160deg, #141720 0%, var(--bg-card) 60%);
+  }
+  .podium-card.bronze {
+    border-color: rgba(232,149,109,0.35);
+    background: linear-gradient(160deg, #1f1208 0%, var(--bg-card) 60%);
+  }
+  .podium-medal {
+    font-size: 32px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .podium-rank {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .gold .podium-rank { color: var(--gold); }
+  .silver .podium-rank { color: var(--silver); }
+  .bronze .podium-rank { color: var(--bronze); }
+  .podium-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .podium-ai-name {
+    font-size: 12.5px;
+    color: var(--teal);
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .podium-mentions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(124,106,247,0.12);
+    border: 1px solid var(--border2);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 12px;
+    color: var(--accent2);
+    margin-bottom: 12px;
+  }
+  .podium-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .level-badge {
+    display: inline-block;
+    background: rgba(79,209,197,0.1);
+    border: 1px solid rgba(79,209,197,0.2);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 11px;
+    color: var(--teal);
+    margin-top: 8px;
+  }
+
+  /* ── FULL TABLE ── */
+  .table-section { margin-bottom: 56px; }
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead {
+    background: var(--bg-card2);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  th {
+    padding: 14px 16px;
+    text-align: left;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    border-bottom: 1px solid var(--border2);
+    white-space: nowrap;
+  }
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(124,106,247,0.08);
+    vertical-align: middle;
+    color: var(--text-main);
+    line-height: 1.5;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(124,106,247,0.05); }
+
+  /* Rank cell */
+  .rank-cell {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+    min-width: 40px;
+  }
+  .rank-gold   { color: var(--gold); }
+  .rank-silver { color: var(--silver); }
+  .rank-bronze { color: var(--bronze); }
+  .rank-other  { color: var(--text-dim); }
+
+  .platform-name {
+    font-weight: 500;
+    color: #fff;
+    font-size: 14px;
+  }
+  .platform-url {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  /* Mentions bar */
+  .mentions-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 100px;
+  }
+  .mentions-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: rgba(124,106,247,0.12);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .mentions-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    transition: width .5s ease;
+  }
+  .mentions-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    color: var(--accent2);
+    white-space: nowrap;
+    min-width: 28px;
+  }
+
+  /* Languages */
+  .lang-list { display: flex; flex-wrap: wrap; gap: 4px; }
+  .lang-pill {
+    background: rgba(79,209,197,0.1);
+    border: 1px solid rgba(79,209,197,0.2);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: var(--teal);
+    white-space: nowrap;
+  }
+  .lang-more {
+    background: rgba(124,106,247,0.1);
+    border: 1px solid rgba(124,106,247,0.2);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+
+  /* Level */
+  .level-cell {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* AI feature */
+  .ai-feature {
+    font-size: 12.5px;
+    color: #c4b5fd;
+    max-width: 260px;
+  }
+  .ai-feature strong {
+    color: var(--accent2);
+    font-weight: 500;
+  }
+
+  /* ── DETAIL CARDS ── */
+  .cards-section { margin-bottom: 56px; }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .detail-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: border-color .25s, transform .2s;
+  }
+  .detail-card:hover {
+    border-color: var(--border2);
+    transform: translateY(-2px);
+  }
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .card-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    padding-top: 2px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .card-ai-tag {
+    background: rgba(246,135,179,0.1);
+    border: 1px solid rgba(246,135,179,0.25);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 11.5px;
+    color: var(--accent4);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+  .card-footer {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .card-mentions-badge {
+    background: rgba(124,106,247,0.12);
+    border: 1px solid var(--border2);
+    border-radius: 999px;
+    padding: 3px 12px;
+    font-size: 11.5px;
+    color: var(--accent2);
+  }
+  .card-level {
+    font-size: 11.5px;
+    color: var(--text-dim);
+  }
+
+  /* ── SCROLL HINT ── */
+  .scroll-hint {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-align: right;
+    margin-bottom: 8px;
+    display: none;
+  }
+
+  /* ── FOOTER NOTE ── */
+  .doc-note {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-top: 48px;
+  }
+  .note-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .doc-note h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+  .doc-note p {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .doc-note p + p { margin-top: 8px; }
+
+  @media (max-width: 700px) {
+    .podium { grid-template-columns: 1fr; }
+    .hero { padding: 40px 20px 36px; }
+    main { padding: 32px 16px 60px; }
+    .scroll-hint { display: block; }
+    .ai-feature { max-width: 160px; }
+  }
+  @media (max-width: 900px) {
+    .podium { grid-template-columns: 1fr 1fr; }
+    .podium-card.gold { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="breadcrumb">
+    📚 <span>Jornades Docents</span> · Guia de Referència
+  </div>
+  <h1>🤖 Top 10 Plataformes <em>IA</em> per Programar</h1>
+  <p>Rànquing elaborat per consens de 9 de les 10 principals IA del mercat. Totes les plataformes són gratuïtes i integren assistents d'intel·ligència artificial per a l'aprenentatge.</p>
+  <div class="hero-meta">
+    <div class="meta-pill">🗳️ <strong>9 IAs</strong> consultades</div>
+    <div class="meta-pill">🆓 Totes <strong>gratuïtes</strong></div>
+    <div class="meta-pill">🎯 <strong>10</strong> plataformes seleccionades</div>
+    <div class="meta-pill">🔧 Per a docents de GAS</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- METHODOLOGY -->
+  <section style="margin-bottom:56px;">
+    <div class="section-header">
+      <div class="section-badge">🔬 Metodologia</div>
+      <div class="section-line"></div>
+    </div>
+    <h2>Com s'ha elaborat el rànquing</h2>
+    <p class="section-desc">El rànquing és fruit d'un procés de consulta sistemàtica a les principals IA del mercat, recollint i consolidant les seves recomanacions per consens de mencions.</p>
+
+    <div class="method-box">
+      <h3>IAs consultades — Estat de les respostes</h3>
+      <div class="ia-chips">
+        <div class="ia-chip done"><div class="ia-dot done"></div>Google Gemini</div>
+        <div class="ia-chip done"><div class="ia-dot done"></div>ChatGPT</div>
+        <div class="ia-chip done"><div class="ia-dot done"></div>Grok (cerca web)</div>
+        <div class="ia-chip done"><div class="ia-dot done"></div>Perplexity (amb fonts)</div>
+        <div class="ia-chip done"><div class="ia-dot done"></div>Qwen</div>
+        <div class="ia-chip done"><div class="ia-dot done"></div>DeepSeek</div>
+        <div class="ia-chip done"><div class="ia-dot done"></div>Le Chat (Mistral)</div>
+        <div class="ia-chip done"><div class="ia-dot done"></div>Meta AI</div>
+        <div class="ia-chip done"><div class="ia-dot done"></div>Claude (consolidació)</div>
+        <div class="ia-chip pend"><div class="ia-dot pend"></div>Copilot (pendent)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PODIUM TOP 3 -->
+  <section class="podium-section">
+    <div class="section-header">
+      <div class="section-badge">🏆 Podi</div>
+      <div class="section-line"></div>
+    </div>
+    <h2>Les 3 plataformes amb més consens</h2>
+    <p class="section-desc">Les plataformes amb major nombre de mencions entre les 9 IAs consultades.</p>
+
+    <div class="podium">
+      <div class="podium-card gold">
+        <span class="podium-medal">🥇</span>
+        <div class="podium-rank">1r lloc</div>
+        <div class="podium-name">SoloLearn</div>
+        <div class="podium-ai-name">IA: «Kodie»</div>
+        <div class="podium-mentions">⭐ 7 / 9 IAs</div>
+        <div class="podium-desc">Explica codi, corregeix errors, genera qüestionaris personalitzats i ofereix tutoria interactiva 24/7. Més de 20 llenguatges disponibles.</div>
+        <div class="level-badge">Principiant · Intermedi</div>
+      </div>
+
+      <div class="podium-card silver">
+        <span class="podium-medal">🥈</span>
+        <div class="podium-rank">2n lloc</div>
+        <div class="podium-name">Replit</div>
+        <div class="podium-ai-name">IA: «Ghostwriter AI»</div>
+        <div class="podium-mentions">⭐ 7 / 9 IAs</div>
+        <div class="podium-desc">Explica blocs de codi, depuració pas a pas i entorn cloud sense instal·lació. Suporta 50+ llenguatges de programació.</div>
+        <div class="level-badge">Principiant · Intermedi</div>
+      </div>
+
+      <div class="podium-card bronze">
+        <span class="podium-medal">🥉</span>
+        <div class="podium-rank">3r lloc</div>
+        <div class="podium-name">Codecademy</div>
+        <div class="podium-ai-name">IA: Assistent adaptatiu</div>
+        <div class="podium-mentions">⭐ 6 / 9 IAs</div>
+        <div class="podium-desc">Guia errors, suggereix pràctiques personalitzades i genera camins d'aprenentatge adaptatius. Cobreix Python, JS, SQL i Java.</div>
+        <div class="level-badge">Principiant · Intermedi</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FULL TABLE -->
+  <section class="table-section">
+    <div class="section-header">
+      <div class="section-badge">📋 Taula completa</div>
+      <div class="section-line"></div>
+    </div>
+    <h2>Rànquing complet de les 10 plataformes</h2>
+    <p class="section-desc">Ordenades per nombre de mencions entre les 9 IAs consultades. La barra de consens indica el pes relatiu de cada plataforma.</p>
+
+    <p class="scroll-hint">← Desplaça per veure tota la taula →</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:center;">#</th>
+            <th>Plataforma</th>
+            <th>Consens IA</th>
+            <th>Llenguatges</th>
+            <th>Nivell</th>
+            <th>Característica IA clau</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rank-cell rank-gold">🥇</td>
+            <td>
+              <div class="platform-name">SoloLearn</div>
+              <div class="platform-url">sololearn.com</div>
+            </td>
+            <td>
+              <div class="mentions-wrap">
+                <div class="mentions-bar-bg"><div class="mentions-bar-fill" style="width:77.7%"></div></div>
+                <span class="mentions-num">7 / 9</span>
+              </div>
+            </td>
+            <td><div class="lang-list"><span class="lang-pill">Python</span><span class="lang-pill">JS</span><span class="lang-pill">Java</span><span class="lang-pill">C++</span><span class="lang-pill">SQL</span><span class="lang-more">+20</span></div></td>
+            <td class="level-cell">Principiant<br>Intermedi</td>
+            <td class="ai-feature"><strong>Kodie:</strong> tutoria 24/7, correcció d'errors i qüestionaris personalitzats</td>
+          </tr>
+          <tr>
+            <td class="rank-cell rank-silver">🥈</td>
+            <td>
+              <div class="platform-name">Replit</div>
+              <div class="platform-url">replit.com</div>
+            </td>
+            <td>
+              <div class="mentions-wrap">
+                <div class="mentions-bar-bg"><div class="mentions-bar-fill" style="width:77.7%"></div></div>
+                <span class="mentions-num">7 / 9</span>
+              </div>
+            </td>
+            <td><div class="lang-list"><span class="lang-pill">Python</span><span class="lang-pill">JS</span><span class="lang-pill">HTML/CSS</span><span class="lang-pill">Java</span><span class="lang-more">+50</span></div></td>
+            <td class="level-cell">Principiant<br>Intermedi</td>
+            <td class="ai-feature"><strong>Ghostwriter:</strong> depuració pas a pas, entorn cloud sense instal·lació</td>
+          </tr>
+          <tr>
+            <td class="rank-cell rank-bronze">🥉</td>
+            <td>
+              <div class="platform-name">Codecademy</div>
+              <div class="platform-url">codecademy.com</div>
+            </td>
+            <td>
+              <div class="mentions-wrap">
+                <div class="mentions-bar-bg"><div class="mentions-bar-fill" style="width:66.6%"></div></div>
+                <span class="mentions-num">6 / 9</span>
+              </div>
+            </td>
+            <td><div class="lang-list"><span class="lang-pill">Python</span><span class="lang-pill">JS</span><span class="lang-pill">HTML/CSS</span><span class="lang-pill">SQL</span></div></td>
+            <td class="level-cell">Principiant<br>Intermedi</td>
+            <td class="ai-feature"><strong>Assistent IA:</strong> camins d'aprenentatge adaptatius i guia d'errors</td>
+          </tr>
+          <tr>
+            <td class="rank-cell rank-other">4</td>
+            <td>
+              <div class="platform-name">freeCodeCamp</div>
+              <div class="platform-url">freecodecamp.org</div>
+            </td>
+            <td>
+              <div class="mentions-wrap">
+                <div class="mentions-bar-bg"><div class="mentions-bar-fill" style="width:55.5%"></div></div>
+                <span class="mentions-num">5 / 9</span>
+              </div>
+            </td>
+            <td><div class="lang-list"><span class="lang-pill">JS</span><span class="lang-pill">Python</span><span class="lang-pill">HTML/CSS</span><span class="lang-pill">SQL</span></div></td>
+            <td class="level-cell">Principiant</td>
+            <td class="ai-feature"><strong>IA als cursos:</strong> ajuda en projectes, 40.000+ tutorials, certificacions gratuïtes</td>
+          </tr>
+          <tr>
+            <td class="rank-cell rank-other">5</td>
+            <td>
+              <div class="platform-name">Scrimba</div>
+              <div class="platform-url">scrimba.com</div>
+            </td>
+            <td>
+              <div class="mentions-wrap">
+                <div class="mentions-bar-bg"><div class="mentions-bar-fill" style="width:55.5%"></div></div>
+                <span class="mentions-num">5 / 9</span>
+              </div>
+            </td>
+            <td><div class="lang-list"><span class="lang-pill">JS</span><span class="lang-pill">React</span><span class="lang-pill">TypeScript</span><span class="lang-pill">Python</span></div></td>
+            <td class="level-cell">Principiant<br>Intermedi</td>
+            <td class="ai-feature"><strong>Screencasts IA:</strong> exercicis personalitzats i revisió de projectes</td>
+          </tr>
+          <tr>
+            <td class="rank-cell rank-other">6</td>
+            <td>
+              <div class="platform-name">Exercism</div>
+              <div class="platform-url">exercism.org</div>
+            </td>
+            <td>
+              <div class="mentions-wrap">
+                <div class="mentions-bar-bg"><div class="mentions-bar-fill" style="width:44.4%"></div></div>
+                <span class="mentions-num">4 / 9</span>
+              </div>
+            </td>
+            <td><div class="lang-list"><span class="lang-pill">Python</span><span class="lang-pill">Rust</span><span class="lang-pill">Go</span><span class="lang-more">+60</span></div></td>
+            <td class="level-cell">Intermedi<br>Avançat</td>
+            <td class="ai-feature"><strong>Mentorat IA:</strong> revisa solucions i suggereix millores idiomàtiques sense revelar respostes</td>
+          </tr>
+          <tr>
+            <td class="rank-cell rank-other">7</td>
+            <td>
+              <div class="platform-name">Coddy</div>
+              <div class="platform-url">coddy.tech</div>
+            </td>
+            <td>
+              <div class="mentions-wrap">
+                <div class="mentions-bar-bg"><div class="mentions-bar-fill" style="width:44.4%"></div></div>
+                <span class="mentions-num">4 / 9</span>
+              </div>
+            </td>
+            <td><div class="lang-list"><span class="lang-pill">Python</span><span class="lang-pill">JS</span><span class="lang-pill">C++</span><span class="lang-pill">Java</span><span class="lang-pill">SQL</span></div></td>
+            <td class="level-cell">Principiant</td>
+            <td class="ai-feature"><strong>Tutor IA 24/7:</strong> micro-tasques, hints contextuals i compilador integrat</td>
+          </tr>
+          <tr>
+            <td class="rank-cell rank-other">8</td>
+            <td>
+              <div class="platform-name">Khan Academy</div>
+              <div class="platform-url">khanacademy.org · Khanmigo</div>
+            </td>
+            <td>
+              <div class="mentions-wrap">
+                <div class="mentions-bar-bg"><div class="mentions-bar-fill" style="width:33.3%"></div></div>
+                <span class="mentions-num">3 / 9</span>
+              </div>
+            </td>
+            <td><div class="lang-list"><span class="lang-pill">Python</span><span class="lang-pill">JS</span><span class="lang-pill">HTML/CSS</span><span class="lang-pill">SQL</span></div></td>
+            <td class="level-cell">Principiant</td>
+            <td class="ai-feature"><strong>Khanmigo (socràtic):</strong> dóna pistes sense revelar respostes, adapta dificultat</td>
+          </tr>
+          <tr>
+            <td class="rank-cell rank-other">9</td>
+            <td>
+              <div class="platform-name">W3Schools AI</div>
+              <div class="platform-url">w3schools.com</div>
+            </td>
+            <td>
+              <div class="mentions-wrap">
+                <div class="mentions-bar-bg"><div class="mentions-bar-fill" style="width:33.3%"></div></div>
+                <span class="mentions-num">3 / 9</span>
+              </div>
+            </td>
+            <td><div class="lang-list"><span class="lang-pill">HTML</span><span class="lang-pill">CSS</span><span class="lang-pill">JS</span><span class="lang-pill">Python</span><span class="lang-pill">SQL</span></div></td>
+            <td class="level-cell">Principiant</td>
+            <td class="ai-feature"><strong>IA contextual:</strong> explica sintaxi línia a línia i genera exercicis</td>
+          </tr>
+          <tr>
+            <td class="rank-cell rank-other">10</td>
+            <td>
+              <div class="platform-name">Code.org</div>
+              <div class="platform-url">code.org</div>
+            </td>
+            <td>
+              <div class="mentions-wrap">
+                <div class="mentions-bar-bg"><div class="mentions-bar-fill" style="width:33.3%"></div></div>
+                <span class="mentions-num">3 / 9</span>
+              </div>
+            </td>
+            <td><div class="lang-list"><span class="lang-pill">Blocs</span><span class="lang-pill">Python</span><span class="lang-pill">JS</span></div></td>
+            <td class="level-cell">Principiant<br>(K-12)</td>
+            <td class="ai-feature"><strong>Tutor IA K-12:</strong> preguntes, pistes i exemples per a joves aprenents</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- DETAIL CARDS -->
+  <section class="cards-section">
+    <div class="section-header">
+      <div class="section-badge">🤖 Fitxes detallades</div>
+      <div class="section-line"></div>
+    </div>
+    <h2>Característiques IA per plataforma</h2>
+    <p class="section-desc">Descripció detallada de l'assistent d'IA integrat a cada plataforma i la seva proposta pedagògica diferencial.</p>
+
+    <div class="cards-grid">
+
+      <div class="detail-card">
+        <div class="card-header">
+          <div>
+            <div class="card-num">Plataforma 1</div>
+            <div class="card-title">SoloLearn</div>
+          </div>
+          <div class="card-ai-tag">Kodie IA</div>
+        </div>
+        <div class="card-desc">Explica codi, corregeix errors i genera qüestionaris personalitzats. La tutoria interactiva 24/7 de Kodie adapta el contingut al ritme de l'alumne, proposant reptes progressius i detectant patrons d'error recurrents.</div>
+        <div class="card-footer">
+          <span class="card-mentions-badge">7 / 9 mencions</span>
+          <span class="card-level">Principiant · Intermedi</span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="card-header">
+          <div>
+            <div class="card-num">Plataforma 2</div>
+            <div class="card-title">Replit</div>
+          </div>
+          <div class="card-ai-tag">Ghostwriter AI</div>
+        </div>
+        <div class="card-desc">Entorn de programació cloud sense instal·lació amb IA integrada. Ghostwriter explica blocs de codi i acompanya la depuració pas a pas. Ideal per treballar des de qualsevol dispositiu sense configurar res.</div>
+        <div class="card-footer">
+          <span class="card-mentions-badge">7 / 9 mencions</span>
+          <span class="card-level">Principiant · Intermedi</span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="card-header">
+          <div>
+            <div class="card-num">Plataforma 3</div>
+            <div class="card-title">Codecademy</div>
+          </div>
+          <div class="card-ai-tag">Assistent adaptatiu</div>
+        </div>
+        <div class="card-desc">L'assistent IA guia els errors en temps real, suggereix pràctiques personalitzades i crea camins d'aprenentatge adaptatius. La interfície és molt accessible per a persones sense experiència prèvia en programació.</div>
+        <div class="card-footer">
+          <span class="card-mentions-badge">6 / 9 mencions</span>
+          <span class="card-level">Principiant · Intermedi</span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="card-header">
+          <div>
+            <div class="card-num">Plataforma 4</div>
+            <div class="card-title">freeCodeCamp</div>
+          </div>
+          <div class="card-ai-tag">IA als cursos</div>
+        </div>
+        <div class="card-desc">La IA s'integra als cursos per ajudar en projectes pràctics. Ofereix 40.000+ tutorials i certificacions oficials completament gratuïtes. Excel·lent per a persones que volen aprendre de manera autodidacta amb recursos estructurats.</div>
+        <div class="card-footer">
+          <span class="card-mentions-badge">5 / 9 mencions</span>
+          <span class="card-level">Principiant</span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="card-header">
+          <div>
+            <div class="card-num">Plataforma 5</div>
+            <div class="card-title">Scrimba</div>
+          </div>
+          <div class="card-ai-tag">IA interactiva</div>
+        </div>
+        <div class="card-desc">Innovadora pels seus screencasts interactius on l'alumne pot editar el codi del vídeo directament. La IA genera mini-exercicis personalitzats i revisa projectes. Especialment enfocada en JavaScript modern i React.</div>
+        <div class="card-footer">
+          <span class="card-mentions-badge">5 / 9 mencions</span>
+          <span class="card-level">Principiant · Intermedi</span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="card-header">
+          <div>
+            <div class="card-num">Plataforma 6</div>
+            <div class="card-title">Exercism</div>
+          </div>
+          <div class="card-ai-tag">Mentorat IA</div>
+        </div>
+        <div class="card-desc">Enfocada en la qualitat del codi, no en completar exercicis. El mentorat IA revisa les solucions i suggereix millores idiomàtiques sense revelar mai la resposta directa. Adient per a programadors que ja coneixen les bases i volen millorar.</div>
+        <div class="card-footer">
+          <span class="card-mentions-badge">4 / 9 mencions</span>
+          <span class="card-level">Intermedi · Avançat</span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="card-header">
+          <div>
+            <div class="card-num">Plataforma 7</div>
+            <div class="card-title">Coddy</div>
+          </div>
+          <div class="card-ai-tag">Tutor 24/7</div>
+        </div>
+        <div class="card-desc">El tutor IA descompon els problemes en micro-tasques assolibles i ofereix hints contextuals progressius sense donar la solució directament. Compilador integrat al navegador sense necessitat de configuració prèvia.</div>
+        <div class="card-footer">
+          <span class="card-mentions-badge">4 / 9 mencions</span>
+          <span class="card-level">Principiant</span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="card-header">
+          <div>
+            <div class="card-num">Plataforma 8</div>
+            <div class="card-title">Khan Academy</div>
+          </div>
+          <div class="card-ai-tag">Khanmigo</div>
+        </div>
+        <div class="card-desc">Khanmigo utilitza el mètode socràtic: mai dóna la resposta directa, sinó que guia l'alumne amb preguntes i pistes. Adapta la dificultat dinàmicament. Especialment indicat per a estudiants de secundària i context K-12.</div>
+        <div class="card-footer">
+          <span class="card-mentions-badge">3 / 9 mencions</span>
+          <span class="card-level">Principiant</span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="card-header">
+          <div>
+            <div class="card-num">Plataforma 9</div>
+            <div class="card-title">W3Schools AI</div>
+          </div>
+          <div class="card-ai-tag">IA contextual</div>
+        </div>
+        <div class="card-desc">La IA contextual s'integra directament als tutorials existents de W3Schools, explicant la sintaxi línia a línia i generant exercicis relacionats amb el contingut que s'està estudiant en aquell moment. Molt pràctic com a referència ràpida.</div>
+        <div class="card-footer">
+          <span class="card-mentions-badge">3 / 9 mencions</span>
+          <span class="card-level">Principiant</span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="card-header">
+          <div>
+            <div class="card-num">Plataforma 10</div>
+            <div class="card-title">Code.org</div>
+          </div>
+          <div class="card-ai-tag">Tutor K-12</div>
+        </div>
+        <div class="card-desc">Dissenyat específicament per a joves aprenents i context escolar. El tutor IA formula preguntes, dóna pistes i posa exemples adaptats a l'edat. Comença amb programació per blocs visuals abans d'introduir codi textual real.</div>
+        <div class="card-footer">
+          <span class="card-mentions-badge">3 / 9 mencions</span>
+          <span class="card-level">Principiant (K-12)</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DOCENT NOTE -->
+  <div class="doc-note">
+    <div class="note-icon">💡</div>
+    <div>
+      <h3>Nota pedagògica per al docent</h3>
+      <p>Totes aquestes plataformes són compatibles amb l'ús de <strong style="color:var(--accent2)">Google Apps Script</strong> com a complement: mentre l'alumne practica la sintaxi JavaScript a SoloLearn o Codecademy, pot aplicar immediatament el que aprèn en un entorn real de GAS. La combinació recomanada per a les Jornades seria <strong style="color:var(--accent2)">Replit</strong> (per experimentar sense instal·lació) + <strong style="color:var(--accent2)">SoloLearn</strong> (per consolidar conceptes).</p>
+      <p>Cal remarcar que el consens no mesura qualitat absoluta, sinó visibilitat i popularitat entre les IA consultades. Plataformes com <strong style="color:var(--accent2)">Exercism</strong> poden ser més adequades per a perfils avançats tot i tenir menys mencions totals.</p>
+    </div>
+  </div>
+
+</main>
+
+</body>
+</html>
