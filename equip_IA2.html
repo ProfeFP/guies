@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Meu Equip d'IA Generativa · GAS Docents</title>
+    <link rel="stylesheet" href="gas-docents.css">
+</head>
+
+<body>
+
+    <!-- ══ NAVEGACIÓ ══════════════════════════════════════════ -->
+    <nav class="site-nav">
+        <a href="index.html" class="nav-logo">
+            <div class="nav-logo-icon">⚡</div>
+            <span class="nav-logo-text">GAS <span>Docents</span></span>
+        </a>
+        <div class="nav-divider"></div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html"><span class="nav-icon">🏠</span> Inici</a></li>
+            <li><a href="historia.html"><span class="nav-icon">🕰️</span> Història</a></li>
+            <li><a href="equip_IA.html" class="active"><span class="nav-icon">🤖</span> Equip IA</a></li>
+            <li><a href="guia1.html"><span class="nav-icon">📘</span> Guia GAS 1</a></li>
+            <li><a href="guia2.html"><span class="nav-icon">📗</span> Guia GAS 2</a></li>
+            <li><a href="guia3.html"><span class="nav-icon">📙</span> Guia GAS 3</a></li>
+        </ul>
+        <div class="nav-actions">
+            <span class="nav-badge">Jornades 2025</span>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Menú">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round">
+                <line x1="3" y1="6" x2="19" y2="6" />
+                <line x1="3" y1="11" x2="19" y2="11" />
+                <line x1="3" y1="16" x2="19" y2="16" />
+            </svg>
+        </button>
+    </nav>
+
+    <!-- ══ HERO ═══════════════════════════════════════════════ -->
+    <header class="hero">
+        <div class="breadcrumb">
+            📚 <span>Jornades Docents</span> · Guia de Referència
+        </div>
+        <h1>🤖 El Meu Equip d'<em>IA Generativa</em></h1>
+        <p>Les plataformes d'intel·ligència artificial generativa «Omni» que faig servir habitualment: eines de
+            conversa, recerca, codi i creació multimodal.</p>
+        <div class="hero-meta">
+            <div class="meta-pill">🧩 <strong>11</strong> plataformes</div>
+            <div class="meta-pill">🆓 Totes amb pla <strong>gratuït</strong></div>
+            <div class="meta-pill">🌐 Accés via <strong>web</strong></div>
+            <div class="meta-pill">🔧 Per a docents de GAS</div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- FILTER BAR + CARDS -->
+        <section style="margin-bottom:56px;">
+            <div class="section-header">
+                <div class="section-badge">🧩 Plataformes</div>
+                <div class="section-line"></div>
+            </div>
+            <h2>Les 11 plataformes del meu equip</h2>
+            <p class="section-desc">Cada plataforma té un perfil diferent: les hi ha especialitzades en conversa, en
+                cerca amb fonts, en codi, o en múltiples modalitats (text, imatge, àudio).</p>
+
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterCards('all',this)">Totes</button>
+                <button class="filter-btn" onclick="filterCards('free',this)">🆓 Gratuïtes</button>
+                <button class="filter-btn" onclick="filterCards('code',this)">⚙️ Codi</button>
+                <button class="filter-btn" onclick="filterCards('search',this)">🔍 Cerca web</button>
+                <button class="filter-btn" onclick="filterCards('opensrc',this)">🔓 Open Source</button>
+                <button class="filter-btn" onclick="filterCards('multimodal',this)">🎨 Multimodal</button>
+            </div>
+
+            <div class="ai-grid">
+
+                <!-- 1. ChatGPT -->
+                <div class="ai-card" data-tags="freemium multimodal code web">
+                    <div class="ai-card-bar" style="background:linear-gradient(90deg,#10a37f,#1a7f64);"></div>
+                    <div class="ai-card-header">
+                        <div class="ai-logo-wrap">
+                            <img src="https://www.google.com/s2/favicons?domain=chat.openai.com&sz=64" alt="ChatGPT"
+                                onerror="this.style.display='none'">
+                        </div>
+                        <div class="ai-title-block">
+                            <div class="ai-name">ChatGPT</div>
+                            <div class="ai-company">OpenAI · chat.openai.com</div>
+                        </div>
+                    </div>
+                    <div class="ai-tags">
+                        <span class="ai-tag tag-freemium">Freemium</span>
+                        <span class="ai-tag tag-web">Web + App</span>
+                        <span class="ai-tag tag-multimodal">Multimodal</span>
+                        <span class="ai-tag tag-code">Codi</span>
+                    </div>
+                    <div class="ai-desc">La plataforma d'IA conversacional més coneguda al món. Basada en GPT-4o, permet
+                        converses de text, anàlisi d'imatges, generació de codi, plugins i integració amb eines
+                        externes. La versió gratuïta és molt potent per a ús docent quotidià.</div>
+                    <div class="ai-card-footer">
+                        <a href="https://chat.openai.com" target="_blank" rel="noopener" class="ai-url-btn">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" />
+                            </svg>
+                            chat.openai.com
+                        </a>
+                        <span class="ai-lang-note">CA · ES · EN</span>
+                    </div>
+                </div>
+
+                <!-- 2. Perplexity -->
+                <div class="ai-card" data-tags="freemium search web">
+                    <div class="ai-card-bar" style="background:linear-gradient(90deg,#20b2aa,#17a896);"></div>
+                    <div class="ai-card-header">
+                        <div class="ai-logo-wrap">
+                            <img src="https://www.google.com/s2/favicons?domain=perplexity.ai&sz=64" alt="Perplexity"
+                                onerror="this.style.display='none'">
+                        </div>
+                        <div class="ai-title-block">
+                            <div class="ai-name">Perplexity</div>
+                            <div class="ai-company">Perplexity AI · perplexity.ai</div>
+                        </div>
+                    </div>
+                    <div class="ai-tags">
+                        <span class="ai-tag tag-freemium">Freemium</span>
+                        <span class="ai-tag tag-search">Cerca web</span>
+                        <span class="ai-tag tag-web">Web + App</span>
+                    </div>
+                    <div class="ai-desc">Especialitzada en cerca intel·ligent amb fonts citades en temps real. Ideal per
+                        a recerca docent, verificació de dades i explorar temes nous. Cada resposta inclou les fonts
+                        consultades, cosa que facilita la verificació de la informació.</div>
+                    <div class="ai-card-footer">
+                        <a href="https://perplexity.ai" target="_blank" rel="noopener" class="ai-url-btn">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" />
+                            </svg>
+                            perplexity.ai
+                        </a>
+                        <span class="ai-lang-note">CA · ES · EN</span>
+                    </div>
+                </div>
+
+                <!-- 3. DeepSeek -->
+                <div class="ai-card" data-tags="free code opensrc">
+                    <div class="ai-card-bar" style="background:linear-gradient(90deg,#4c8df5,#1a5fd4);"></div>
+                    <div class="ai-card-header">
+                        <div class="ai-logo-wrap">
+                            <img src="https://www.google.com/s2/favicons?domain=chat.deepseek.com&sz=64" alt="DeepSeek"
+                                onerror="this.style.display='none'">
+                        </div>
+                        <div class="ai-title-block">
+                            <div class="ai-name">DeepSeek</div>
+                            <div class="ai-company">DeepSeek AI · chat.deepseek.com</div>
+                        </div>
+                    </div>
+                    <div class="ai-tags">
+                        <span class="ai-tag tag-free">Gratuït</span>
+                        <span class="ai-tag tag-code">Codi</span>
+                        <span class="ai-tag tag-opensrc">Open Source</span>
+                    </div>
+                    <div class="ai-desc">Model xinès d'alt rendiment, especialment potent en raonament matemàtic i
+                        generació de codi. Competeix directament amb GPT-4 en benchmarks de codi. Pla gratuït molt
+                        generós, sense límits estrictes de missatges. El mode «Pensament» (R1) és excel·lent per a
+                        problemes complexos.</div>
+                    <div class="ai-card-footer">
+                        <a href="https://chat.deepseek.com" target="_blank" rel="noopener" class="ai-url-btn">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" />
+                            </svg>
+                            chat.deepseek.com
+                        </a>
+                        <span class="ai-lang-note">ES · EN · ZH</span>
+                    </div>
+                </div>
+
+                <!-- 4. Qwen -->
+                <div class="ai-card" data-tags="free multimodal opensrc code">
+                    <div class="ai-card-bar" style="background:linear-gradient(90deg,#6c5ce7,#a29bfe);"></div>
+                    <div class="ai-card-header">
+                        <div class="ai-logo-wrap">
+                            <img src="https://www.google.com/s2/favicons?domain=chat.qwenlm.ai&sz=64" alt="Qwen"
+                                onerror="this.style.display='none'">
+                        </div>
+                        <div class="ai-title-block">
+                            <div class="ai-name">Qwen Chat</div>
+                            <div class="ai-company">Alibaba Cloud · chat.qwenlm.ai</div>
+                        </div>
+                    </div>
+                    <div class="ai-tags">
+                        <span class="ai-tag tag-free">Gratuït</span>
+                        <span class="ai-tag tag-multimodal">Multimodal</span>
+                        <span class="ai-tag tag-opensrc">Open Source</span>
+                    </div>
+                    <div class="ai-desc">Model multimodal d'Alibaba Cloud amb capacitats de text, imatge i àudio.
+                        Qwen2.5 ofereix un context molt llarg (fins 128K tokens) i excel·leix en tasques de programació
+                        i anàlisi de dades. Gratuït amb límits generosos. Bona alternativa a ChatGPT per a ús intensiu.
+                    </div>
+                    <div class="ai-card-footer">
+                        <a href="https://chat.qwenlm.ai" target="_blank" rel="noopener" class="ai-url-btn">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" />
+                            </svg>
+                            chat.qwenlm.ai
+                        </a>
+                        <span class="ai-lang-note">ES · EN · ZH</span>
+                    </div>
+                </div>
+
+                <!-- 5. Grok -->
+                <div class="ai-card" data-tags="freemium search multimodal opensrc code">
+                    <div class="ai-card-bar" style="background:linear-gradient(90deg,#555,#888);"></div>
+                    <div class="ai-card-header">
+                        <div class="ai-logo-wrap" style="background:#f0f0f0;">
+                            <img src="https://www.google.com/s2/favicons?domain=grok.com&sz=64" alt="Grok"
+                                onerror="this.style.display='none'">
+                        </div>
+                        <div class="ai-title-block">
+                            <div class="ai-name">Grok</div>
+                            <div class="ai-company">xAI (Elon Musk) · grok.com</div>
+                        </div>
+                    </div>
+                    <div class="ai-tags">
+                        <span class="ai-tag tag-freemium">Freemium</span>
+                        <span class="ai-tag tag-search">Cerca X/web</span>
+                        <span class="ai-tag tag-multimodal">Multimodal</span>
+                    </div>
+                    <div class="ai-desc">IA de xAI amb accés en temps real a X (Twitter) i a la web. Destaca per tenir
+                        accés a informació molt recent i per un estil directe. Grok 3 inclou mode «Pensament profund»
+                        per a raonament complex. Integrat a la plataforma X per als usuaris verificats.</div>
+                    <div class="ai-card-footer">
+                        <a href="https://grok.com" target="_blank" rel="noopener" class="ai-url-btn">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" />
+                            </svg>
+                            grok.com
+                        </a>
+                        <span class="ai-lang-note">CA · ES · EN</span>
+                    </div>
+                </div>
+
+                <!-- 6. Copilot -->
+                <div class="ai-card" data-tags="free multimodal search code">
+                    <div class="ai-card-bar" style="background:linear-gradient(90deg,#7b5ea7,#4fa3e0);"></div>
+                    <div class="ai-card-header">
+                        <div class="ai-logo-wrap">
+                            <img src="https://www.google.com/s2/favicons?domain=copilot.microsoft.com&sz=64"
+                                alt="Copilot" onerror="this.style.display='none'">
+                        </div>
+                        <div class="ai-title-block">
+                            <div class="ai-name">Copilot</div>
+                            <div class="ai-company">Microsoft · copilot.microsoft.com</div>
+                        </div>
+                    </div>
+                    <div class="ai-tags">
+                        <span class="ai-tag tag-free">Gratuït</span>
+                        <span class="ai-tag tag-multimodal">Multimodal</span>
+                        <span class="ai-tag tag-search">Cerca web</span>
+                        <span class="ai-tag tag-code">Codi</span>
+                    </div>
+                    <div class="ai-desc">Basat en GPT-4o de Microsoft, integrat a tots els productes Office 365. La
+                        versió web gratuïta dóna accés a cerca Bing en temps real, generació d'imatges (DALL-E 3) i
+                        converses multimodals. Especialment útil si ja s'utilitza l'entorn Microsoft a l'escola.</div>
+                    <div class="ai-card-footer">
+                        <a href="https://copilot.microsoft.com" target="_blank" rel="noopener" class="ai-url-btn">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" />
+                            </svg>
+                            copilot.microsoft.com
+                        </a>
+                        <span class="ai-lang-note">CA · ES · EN</span>
+                    </div>
+                </div>
+
+                <!-- 7. Gemini -->
+                <div class="ai-card" data-tags="freemium multimodal search code">
+                    <div class="ai-card-bar" style="background:linear-gradient(90deg,#4285f4,#ea4335,#fbbc04,#34a853);">
+                    </div>
+                    <div class="ai-card-header">
+                        <div class="ai-logo-wrap">
+                            <img src="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=64" alt="Gemini"
+                                onerror="this.style.display='none'">
+                        </div>
+                        <div class="ai-title-block">
+                            <div class="ai-name">Gemini</div>
+                            <div class="ai-company">Google · gemini.google.com</div>
+                        </div>
+                    </div>
+                    <div class="ai-tags">
+                        <span class="ai-tag tag-freemium">Freemium</span>
+                        <span class="ai-tag tag-multimodal">Multimodal</span>
+                        <span class="ai-tag tag-search">Google Search</span>
+                        <span class="ai-tag tag-code">Codi</span>
+                    </div>
+                    <div class="ai-desc">IA de Google integrada amb tot l'ecosistema Google Workspace (Docs, Sheets,
+                        Drive, Gmail). Destaca per la seva integració amb Google Search i per poder analitzar documents
+                        de Drive directament. Molt recomanable per a centres que fan servir Google for Education.
+                        Context de fins 2M tokens.</div>
+                    <div class="ai-card-footer">
+                        <a href="https://gemini.google.com" target="_blank" rel="noopener" class="ai-url-btn">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" />
+                            </svg>
+                            gemini.google.com
+                        </a>
+                        <span class="ai-lang-note">CA · ES · EN</span>
+                    </div>
+                </div>
+
+                <!-- 8. Claude -->
+                <div class="ai-card" data-tags="freemium code multimodal search">
+                    <div class="ai-card-bar" style="background:linear-gradient(90deg,#cc785c,#d4956a);"></div>
+                    <div class="ai-card-header">
+                        <div class="ai-logo-wrap" style="background:#fdf5f0;">
+                            <img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64" alt="Claude"
+                                onerror="this.style.display='none'">
+                        </div>
+                        <div class="ai-title-block">
+                            <div class="ai-name">Claude</div>
+                            <div class="ai-company">Anthropic · claude.ai</div>
+                        </div>
+                    </div>
+                    <div class="ai-tags">
+                        <span class="ai-tag tag-freemium">Freemium</span>
+                        <span class="ai-tag tag-code">Codi</span>
+                        <span class="ai-tag tag-multimodal">Multimodal</span>
+                    </div>
+                    <div class="ai-desc">Dissenyat per ser segur, honest i útil. Destaca per les seves respostes
+                        llargues i ben estructurades, la capacitat d'analitzar documents extensos i la qualitat en la
+                        generació de codi. Especialment valuós per a tasques docents com crear materials, rúbriques i
+                        explicacions detallades. Aquesta mateixa guia s'ha creat amb Claude!</div>
+                    <div class="ai-card-footer">
+                        <a href="https://claude.ai" target="_blank" rel="noopener" class="ai-url-btn">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" />
+                            </svg>
+                            claude.ai
+                        </a>
+                        <span class="ai-lang-note">CA · ES · EN</span>
+                    </div>
+                </div>
+
+                <!-- 9. Le Chat -->
+                <div class="ai-card" data-tags="freemium opensrc code search">
+                    <div class="ai-card-bar" style="background:linear-gradient(90deg,#f06a00,#ff9a3c);"></div>
+                    <div class="ai-card-header">
+                        <div class="ai-logo-wrap">
+                            <img src="https://www.google.com/s2/favicons?domain=chat.mistral.ai&sz=64" alt="Mistral"
+                                onerror="this.style.display='none'">
+                        </div>
+                        <div class="ai-title-block">
+                            <div class="ai-name">Le Chat (Mistral)</div>
+                            <div class="ai-company">Mistral AI · chat.mistral.ai</div>
+                        </div>
+                    </div>
+                    <div class="ai-tags">
+                        <span class="ai-tag tag-freemium">Freemium</span>
+                        <span class="ai-tag tag-opensrc">Open Source</span>
+                        <span class="ai-tag tag-code">Codi</span>
+                        <span class="ai-tag tag-web">Europeu 🇫🇷</span>
+                    </div>
+                    <div class="ai-desc">IA europea (francesa) amb fort compromís amb el codi obert. Le Chat és la
+                        interfície de conversa de Mistral AI. Destaca per la velocitat de resposta, el respecte a la
+                        privacitat (RGPD europeu) i models especialitzats en codi com Codestral. Bona opció si la
+                        privacitat de dades és prioritat.</div>
+                    <div class="ai-card-footer">
+                        <a href="https://chat.mistral.ai" target="_blank" rel="noopener" class="ai-url-btn">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" />
+                            </svg>
+                            chat.mistral.ai
+                        </a>
+                        <span class="ai-lang-note">CA · ES · EN · FR</span>
+                    </div>
+                </div>
+
+                <!-- 10. Meta AI -->
+                <div class="ai-card" data-tags="free opensrc multimodal code">
+                    <div class="ai-card-bar" style="background:linear-gradient(90deg,#0668e1,#a78bfa);"></div>
+                    <div class="ai-card-header">
+                        <div class="ai-logo-wrap">
+                            <img src="https://www.google.com/s2/favicons?domain=meta.ai&sz=64" alt="Meta AI"
+                                onerror="this.style.display='none'">
+                        </div>
+                        <div class="ai-title-block">
+                            <div class="ai-name">Meta AI</div>
+                            <div class="ai-company">Meta · meta.ai</div>
+                        </div>
+                    </div>
+                    <div class="ai-tags">
+                        <span class="ai-tag tag-free">Gratuït</span>
+                        <span class="ai-tag tag-opensrc">Open Source</span>
+                        <span class="ai-tag tag-multimodal">Multimodal</span>
+                    </div>
+                    <div class="ai-desc">Basat en Llama (el model open source més descarregat del món), integrat a
+                        WhatsApp, Instagram i Facebook. La versió web meta.ai és gratuïta sense límits. Llama 3.2 és
+                        multimodal i té context llarg. La seva naturalesa open source permet instal·lació local per a
+                        centres amb requisits de privacitat estrictes.</div>
+                    <div class="ai-card-footer">
+                        <a href="https://meta.ai" target="_blank" rel="noopener" class="ai-url-btn">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" />
+                            </svg>
+                            meta.ai
+                        </a>
+                        <span class="ai-lang-note">ES · EN</span>
+                    </div>
+                </div>
+
+                <!-- 11. Hugging Chat -->
+                <div class="ai-card" data-tags="free opensrc code search">
+                    <div class="ai-card-bar" style="background:linear-gradient(90deg,#ff9500,#ffcc02);"></div>
+                    <div class="ai-card-header">
+                        <div class="ai-logo-wrap">
+                            <img src="https://www.google.com/s2/favicons?domain=huggingface.co&sz=64" alt="HuggingFace"
+                                onerror="this.style.display='none'">
+                        </div>
+                        <div class="ai-title-block">
+                            <div class="ai-name">Hugging Chat</div>
+                            <div class="ai-company">Hugging Face · huggingface.co/chat</div>
+                        </div>
+                    </div>
+                    <div class="ai-tags">
+                        <span class="ai-tag tag-free">Gratuït</span>
+                        <span class="ai-tag tag-opensrc">Open Source</span>
+                        <span class="ai-tag tag-code">Multi-model</span>
+                    </div>
+                    <div class="ai-desc">Porta d'accés a desenes de models open source (Llama, Mistral, Qwen, Gemma...)
+                        des d'una sola interfície gratuïta. Permet comparar models, crear assistents personalitzats i
+                        accedir als darrers models de la comunitat abans que arribin a plataformes comercials.
+                        Referència de la comunitat IA oberta.</div>
+                    <div class="ai-card-footer">
+                        <a href="https://huggingface.co/chat" target="_blank" rel="noopener" class="ai-url-btn">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" />
+                            </svg>
+                            huggingface.co/chat
+                        </a>
+                        <span class="ai-lang-note">ES · EN</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- COMPARISON TABLE -->
+        <section class="table-section">
+            <div class="section-header">
+                <div class="section-badge">📊 Comparativa</div>
+                <div class="section-line"></div>
+            </div>
+            <h2>Taula comparativa de les 11 plataformes</h2>
+            <p class="section-desc">Comparació ràpida de les característiques principals per ajudar a triar la
+                plataforma més adequada per a cada cas d'ús docent.</p>
+
+            <p class="table-scroll-hint">← Desplaça per veure tota la taula →</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Plataforma</th>
+                            <th>Pla gratuït</th>
+                            <th>Cerca web</th>
+                            <th>Imatges</th>
+                            <th>Codi</th>
+                            <th>Open Source</th>
+                            <th>Privacitat RGPD</th>
+                            <th>Idioma CA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="tbl-name">
+                                    <div class="tbl-dot" style="background:#10a37f;"></div>ChatGPT
+                                </div>
+                            </td>
+                            <td><span class="partial">⚡ Limitat</span></td>
+                            <td><span class="partial">⚡ Plus</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="partial">⚡ Parcial</span></td>
+                            <td><span class="check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="tbl-name">
+                                    <div class="tbl-dot" style="background:#20b2aa;"></div>Perplexity
+                                </div>
+                            </td>
+                            <td><span class="partial">⚡ Limitat</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="partial">⚡ Plus</span></td>
+                            <td><span class="partial">⚡ Bàsic</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="partial">⚡ Parcial</span></td>
+                            <td><span class="check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="tbl-name">
+                                    <div class="tbl-dot" style="background:#4c8df5;"></div>DeepSeek
+                                </div>
+                            </td>
+                            <td><span class="check">✓ Generós</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="check">✓ Excel·lent</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="cross">✗ Xina</span></td>
+                            <td><span class="partial">⚡ Parcial</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="tbl-name">
+                                    <div class="tbl-dot" style="background:#6c5ce7;"></div>Qwen Chat
+                                </div>
+                            </td>
+                            <td><span class="check">✓ Generós</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="cross">✗ Xina</span></td>
+                            <td><span class="partial">⚡ Parcial</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="tbl-name">
+                                    <div class="tbl-dot" style="background:#888;"></div>Grok
+                                </div>
+                            </td>
+                            <td><span class="partial">⚡ Limitat</span></td>
+                            <td><span class="check">✓ X + web</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="partial">⚡ Parcial</span></td>
+                            <td><span class="check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="tbl-name">
+                                    <div class="tbl-dot" style="background:#7b5ea7;"></div>Copilot
+                                </div>
+                            </td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓ Bing</span></td>
+                            <td><span class="check">✓ DALL-E</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="partial">⚡ Parcial</span></td>
+                            <td><span class="check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="tbl-name">
+                                    <div class="tbl-dot" style="background:#4285f4;"></div>Gemini
+                                </div>
+                            </td>
+                            <td><span class="partial">⚡ Limitat</span></td>
+                            <td><span class="check">✓ Google</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="partial">⚡ Parcial</span></td>
+                            <td><span class="check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="tbl-name">
+                                    <div class="tbl-dot" style="background:#cc785c;"></div>Claude
+                                </div>
+                            </td>
+                            <td><span class="partial">⚡ Limitat</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓ Excel·lent</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="partial">⚡ Parcial</span></td>
+                            <td><span class="check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="tbl-name">
+                                    <div class="tbl-dot" style="background:#f06a00;"></div>Le Chat (Mistral)
+                                </div>
+                            </td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="partial">⚡ Limitat</span></td>
+                            <td><span class="check">✓ Codestral</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓ RGPD EU</span></td>
+                            <td><span class="check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="tbl-name">
+                                    <div class="tbl-dot" style="background:#0668e1;"></div>Meta AI
+                                </div>
+                            </td>
+                            <td><span class="check">✓ Sense límits</span></td>
+                            <td><span class="partial">⚡ Limitat</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓ Llama</span></td>
+                            <td><span class="partial">⚡ Parcial</span></td>
+                            <td><span class="partial">⚡ Parcial</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="tbl-name">
+                                    <div class="tbl-dot" style="background:#ff9500;"></div>Hugging Chat
+                                </div>
+                            </td>
+                            <td><span class="check">✓ Sense límits</span></td>
+                            <td><span class="partial">⚡ Alguns models</span></td>
+                            <td><span class="partial">⚡ Alguns models</span></td>
+                            <td><span class="check">✓ Multi-model</span></td>
+                            <td><span class="check">✓ 100%</span></td>
+                            <td><span class="check">✓ RGPD EU</span></td>
+                            <td><span class="partial">⚡ Parcial</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- DOCENT NOTE -->
+        <div class="doc-note">
+            <div class="note-icon">💡</div>
+            <div style="flex:1;">
+                <h3>Nota pedagògica per al docent</h3>
+                <p>Cap plataforma és millor en tots els aspectes: <strong style="color:var(--accent2)">Gemini</strong>
+                    és l'opció natural si el centre ja fa servir Google Workspace; <strong
+                        style="color:var(--accent2)">Copilot</strong> si es treballa amb Microsoft 365; <strong
+                        style="color:var(--accent2)">Le Chat (Mistral)</strong> si la privacitat i el compliment del
+                    RGPD europeu és prioritat. Per a codi i tasques complexes, <strong
+                        style="color:var(--accent2)">Claude</strong> i <strong
+                        style="color:var(--accent2)">DeepSeek</strong> solen donar els millors resultats.</p>
+                <p>La recomanació per a les Jornades és experimentar amb <strong style="color:var(--accent2)">almenys 2
+                        o 3 plataformes</strong> per al mateix prompt i comparar els resultats: aquest exercici en si
+                    mateix és una excel·lent activitat didàctica sobre pensament crític i alfabetització en IA.</p>
+
+                <div class="eval-section-title">🔍 Criteris clau per avaluar una plataforma com a docent</div>
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Quan compareu plataformes, aneu
+                    més enllà de la qualitat del text: valoreu el seu potencial per al treball real d'aula i de
+                    projecte.</p>
+
+                <div class="eval-grid">
+                    <div class="eval-item">
+                        <div class="eval-icon">⚙️</div>
+                        <div class="eval-text">
+                            <div class="eval-label">Qualitat del codi</div>
+                            <div class="eval-desc">Comproveu si genera codi funcional, ben estructurat i comentat.
+                                Testeu amb scripts reals del vostre context (GAS, Python, HTML...).</div>
+                        </div>
+                    </div>
+                    <div class="eval-item">
+                        <div class="eval-icon">🪙</div>
+                        <div class="eval-text">
+                            <div class="eval-label">Finestra de context (tokens)</div>
+                            <div class="eval-desc">Quant text pot processar en una sola conversa? Un context llarg és
+                                clau per analitzar documents extensos o mantenir projectes actius.</div>
+                        </div>
+                    </div>
+                    <div class="eval-item">
+                        <div class="eval-icon">🔗</div>
+                        <div class="eval-text">
+                            <div class="eval-label">Facilitat de compartir</div>
+                            <div class="eval-desc">Permet compartir converses o resultats amb un sol clic? Facilita la
+                                col·laboració i la difusió de bones pràctiques entre docents.</div>
+                        </div>
+                    </div>
+                    <div class="eval-item">
+                        <div class="eval-icon">🗂️</div>
+                        <div class="eval-text">
+                            <div class="eval-label">Desenvolupament de projectes</div>
+                            <div class="eval-desc">Permet organitzar converses en projectes o fils temàtics persistents?
+                                (Claude Projects, ChatGPT Custom GPTs...)</div>
+                        </div>
+                    </div>
+                    <div class="eval-item">
+                        <div class="eval-icon">🎨</div>
+                        <div class="eval-text">
+                            <div class="eval-label">Canvas / editor integrat</div>
+                            <div class="eval-desc">Té un espai de treball per editar documents o codi en paral·lel a la
+                                conversa? (ChatGPT Canvas, Claude Artifacts...)</div>
+                        </div>
+                    </div>
+                    <div class="eval-item">
+                        <div class="eval-icon">📁</div>
+                        <div class="eval-text">
+                            <div class="eval-label">Exportació a fitxer</div>
+                            <div class="eval-desc">Permet descarregar respostes en formats .docx, .pdf, .html o .md?
+                                Evita haver de copiar manualment continguts llargs.</div>
+                        </div>
+                    </div>
+                    <div class="eval-item">
+                        <div class="eval-icon">🐙</div>
+                        <div class="eval-text">
+                            <div class="eval-label">Integració amb repositoris</div>
+                            <div class="eval-desc">Pot enviar codi directament a GitHub, desar fitxers a Google Drive o
+                                sincronitzar amb eines de productivitat?</div>
+                        </div>
+                    </div>
+                    <div class="eval-item">
+                        <div class="eval-icon">🔌</div>
+                        <div class="eval-text">
+                            <div class="eval-label">Extensions i integracions</div>
+                            <div class="eval-desc">Disposa d'API, connectors amb altres serveis o extensions de
+                                navegador que amplien les possibilitats educatives?</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="evolution-alert">
+                    <div class="alert-label">⚡ Atenció — Evolució ràpida dels models</div>
+                    <p><strong>Els models d'IA evolucionen a una velocitat sense precedents: el que era l'estàndard fa 6
+                            mesos pot haver quedat superat avui.</strong> Un exemple clar: durant anys, <strong>ChatGPT
+                            va liderar la generació de codi amb IA</strong>, i era la referència indiscutible per a
+                        qualsevol tasca de programació. Avui, <strong style="color:#944e2c;">Claude (Anthropic)</strong>
+                        ha superat ChatGPT en múltiples benchmarks independents de generació i qualitat de codi, i
+                        altres models com DeepSeek o Gemini 2.5 Pro disputen activament aquest lideratge. Per tant,
+                        qualsevol rànquing és provisional: <strong>el criteri més important no és quin model és millor
+                            avui, sinó tenir l'hàbit d'experimentar i comparar regularment.</strong></p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ══ FOOTER ═══════════════════════════════════════════════ -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-brand-logo">
+                    <div class="footer-brand-icon">⚡</div>
+                    <span class="footer-brand-name">GAS <span>Docents</span></span>
+                </div>
+                <p class="footer-desc">Materials de formació per a les Jornades de Docents. Recursos pràctics sobre
+                    Google Apps Script, Intel·ligència Artificial Generativa i automatització educativa.</p>
+            </div>
+            <div>
+                <div class="footer-col-title">Guies del projecte</div>
+                <ul class="footer-links">
+                    <li><a href="historia.html">🕰️ Història de la Programació</a></li>
+                    <li><a href="equip_IA.html">🤖 El Meu Equip d'IA</a></li>
+                    <li><a href="guia1.html">📘 GAS — Bases i Spreadsheet</a></li>
+                    <li><a href="guia2.html">📗 GAS — Gmail i Drive</a></li>
+                    <li><a href="guia3.html">📙 GAS — Llenguatge complet</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">Recursos externs</div>
+                <ul class="footer-links">
+                    <li><a href="https://developers.google.com/apps-script" target="_blank" rel="noopener">📖
+                            Documentació oficial GAS</a></li>
+                    <li><a href="https://claude.ai" target="_blank" rel="noopener">🤖 Claude (Anthropic)</a></li>
+                    <li><a href="https://chat.openai.com" target="_blank" rel="noopener">💬 ChatGPT</a></li>
+                    <li><a href="https://gemini.google.com" target="_blank" rel="noopener">✨ Gemini</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">© 2025 <strong>GAS Docents</strong> · Jornades de Formació · Creat amb IA generativa
+            </p>
+            <div class="footer-pills">
+                <span class="footer-pill">Google Apps Script</span>
+                <span class="footer-pill">IA Generativa</span>
+                <span class="footer-pill">Formació Docent</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const toggle = document.getElementById('navToggle');
+        const links = document.getElementById('navLinks');
+        toggle.addEventListener('click', () => links.classList.toggle('open'));
+
+        function filterCards(tag, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.ai-card').forEach(card => {
+                const tags = card.dataset.tags || '';
+                card.style.display = (tag === 'all' || tags.includes(tag)) ? '' : 'none';
+            });
+        }
+    </script>
+
+</body>
+
+</html>
