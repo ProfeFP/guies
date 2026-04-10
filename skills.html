@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,11 +15,12 @@
       padding: 64px 32px 52px;
       text-align: center;
     }
+
     .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(108,92,231,0.12);
+      background: rgba(108, 92, 231, 0.12);
       color: var(--accent);
       font-family: 'Syne', sans-serif;
       font-size: 11.5px;
@@ -29,6 +31,7 @@
       border-radius: 999px;
       margin-bottom: 18px;
     }
+
     .hero h1 {
       font-family: 'Syne', sans-serif;
       font-size: clamp(26px, 4vw, 42px);
@@ -37,7 +40,11 @@
       line-height: 1.18;
       margin-bottom: 16px;
     }
-    .hero h1 span { color: var(--accent); }
+
+    .hero h1 span {
+      color: var(--accent);
+    }
+
     .hero-sub {
       max-width: 680px;
       margin: 0 auto;
@@ -54,18 +61,22 @@
     }
 
     /* ── Seccions ─────────────────────────────────────────── */
-    .section { margin-bottom: 64px; }
+    .section {
+      margin-bottom: 64px;
+    }
+
     .section-header {
       display: flex;
       align-items: center;
       gap: 14px;
       margin-bottom: 28px;
     }
+
     .section-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(108,92,231,0.10);
+      background: rgba(108, 92, 231, 0.10);
       color: var(--accent);
       font-family: 'Syne', sans-serif;
       font-size: 11px;
@@ -76,11 +87,13 @@
       border-radius: 999px;
       white-space: nowrap;
     }
+
     .section-line {
       flex: 1;
       height: 1px;
       background: var(--border2);
     }
+
     .section h2 {
       font-family: 'Syne', sans-serif;
       font-size: 22px;
@@ -88,6 +101,7 @@
       color: var(--text-main);
       margin-bottom: 10px;
     }
+
     .section-desc {
       color: var(--text-muted);
       font-size: 15px;
@@ -107,6 +121,7 @@
       position: relative;
       overflow: hidden;
     }
+
     .reflexio-bloc::before {
       content: '💬';
       position: absolute;
@@ -115,6 +130,7 @@
       font-size: 48px;
       opacity: .12;
     }
+
     .reflexio-bloc h2 {
       font-family: 'Syne', sans-serif;
       font-size: 20px;
@@ -122,14 +138,21 @@
       color: var(--text-main);
       margin-bottom: 14px;
     }
+
     .reflexio-bloc p {
       color: var(--text-muted);
       font-size: 15px;
       line-height: 1.75;
       margin-bottom: 10px;
     }
-    .reflexio-bloc p:last-child { margin-bottom: 0; }
-    .reflexio-bloc strong { color: var(--accent); }
+
+    .reflexio-bloc p:last-child {
+      margin-bottom: 0;
+    }
+
+    .reflexio-bloc strong {
+      color: var(--accent);
+    }
 
     /* ── Cards de plataformes ─────────────────────────────── */
     .platforms-grid {
@@ -138,6 +161,7 @@
       gap: 20px;
       margin-bottom: 36px;
     }
+
     .platform-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -145,20 +169,27 @@
       overflow: hidden;
       transition: transform .2s, box-shadow .2s;
     }
+
     .platform-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 28px rgba(108,92,231,0.13);
+      box-shadow: 0 8px 28px rgba(108, 92, 231, 0.13);
     }
+
     .platform-card-top {
       height: 6px;
     }
-    .platform-card-body { padding: 20px 22px 22px; }
+
+    .platform-card-body {
+      padding: 20px 22px 22px;
+    }
+
     .platform-card-header {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 12px;
     }
+
     .platform-logo {
       width: 40px;
       height: 40px;
@@ -169,34 +200,39 @@
       font-size: 22px;
       flex-shrink: 0;
     }
+
     .platform-card h3 {
       font-family: 'Syne', sans-serif;
       font-size: 16px;
       font-weight: 700;
       color: var(--text-main);
     }
+
     .platform-card .skill-name {
       font-size: 12.5px;
       color: var(--text-dim);
       font-weight: 500;
     }
+
     .platform-card p {
       font-size: 14px;
       color: var(--text-muted);
       line-height: 1.65;
       margin-bottom: 14px;
     }
+
     .platform-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
     }
+
     .tag {
       font-size: 11.5px;
       font-weight: 500;
       padding: 3px 10px;
       border-radius: 999px;
-      background: rgba(108,92,231,0.08);
+      background: rgba(108, 92, 231, 0.08);
       color: var(--accent);
     }
 
@@ -206,15 +242,18 @@
       border-radius: var(--radius);
       border: 1px solid var(--border2);
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
       background: var(--bg-card);
       font-size: 14px;
     }
+
     thead tr {
       background: linear-gradient(135deg, var(--accent), #a29bfe);
     }
+
     thead th {
       padding: 13px 16px;
       color: #fff;
@@ -225,20 +264,40 @@
       text-transform: uppercase;
       text-align: left;
     }
-    tbody tr:nth-child(even) { background: var(--bg-deep); }
+
+    tbody tr:nth-child(even) {
+      background: var(--bg-deep);
+    }
+
     tbody td {
       padding: 12px 16px;
       color: var(--text-muted);
       border-bottom: 1px solid var(--border);
     }
-    tbody tr:last-child td { border-bottom: none; }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
     tbody td:first-child {
       font-weight: 600;
       color: var(--text-main);
     }
-    .check-ok  { color: var(--green); font-weight: 700; }
-    .check-no  { color: var(--red);   font-weight: 700; }
-    .check-mid { color: #e67e22;      font-weight: 700; }
+
+    .check-ok {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .check-no {
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .check-mid {
+      color: #e67e22;
+      font-weight: 700;
+    }
 
     /* ── Bloc descàrrega skill ────────────────────────────── */
     .download-bloc {
@@ -251,7 +310,12 @@
       align-items: flex-start;
       gap: 24px;
     }
-    .download-bloc-info { flex: 1; min-width: 260px; }
+
+    .download-bloc-info {
+      flex: 1;
+      min-width: 260px;
+    }
+
     .download-bloc-info h3 {
       font-family: 'Syne', sans-serif;
       font-size: 17px;
@@ -259,17 +323,20 @@
       color: var(--text-main);
       margin-bottom: 8px;
     }
+
     .download-bloc-info p {
       font-size: 14px;
       color: var(--text-muted);
       line-height: 1.65;
     }
+
     .download-btns {
       display: flex;
       flex-direction: column;
       gap: 10px;
       flex-shrink: 0;
     }
+
     .btn-download {
       display: inline-flex;
       align-items: center;
@@ -283,13 +350,19 @@
       transition: opacity .18s, transform .18s;
       white-space: nowrap;
     }
-    .btn-download:hover { opacity: .85; transform: translateY(-1px); }
+
+    .btn-download:hover {
+      opacity: .85;
+      transform: translateY(-1px);
+    }
+
     .btn-primary {
       background: linear-gradient(135deg, var(--accent), #a29bfe);
       color: #fff;
     }
+
     .btn-secondary {
-      background: rgba(108,92,231,0.10);
+      background: rgba(108, 92, 231, 0.10);
       color: var(--accent);
       border: 1px solid var(--border2);
     }
@@ -301,6 +374,7 @@
       border-radius: var(--radius);
       padding: 32px;
     }
+
     .video-section h2 {
       font-family: 'Syne', sans-serif;
       font-size: 20px;
@@ -308,7 +382,11 @@
       color: var(--text-main);
       margin-bottom: 8px;
     }
-    .video-wrapper { margin-top: 20px; }
+
+    .video-wrapper {
+      margin-top: 20px;
+    }
+
     .video-embed {
       position: relative;
       padding-bottom: 56.25%;
@@ -317,12 +395,16 @@
       border-radius: 10px;
       background: #000;
     }
+
     .video-embed iframe {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       border: none;
     }
+
     .video-meta {
       display: flex;
       align-items: center;
@@ -330,6 +412,7 @@
       margin-top: 14px;
       flex-wrap: wrap;
     }
+
     .video-label {
       font-size: 12.5px;
       color: var(--text-dim);
@@ -338,6 +421,7 @@
       text-transform: uppercase;
       letter-spacing: .07em;
     }
+
     .video-link {
       display: inline-flex;
       align-items: center;
@@ -350,10 +434,13 @@
       padding: 6px 14px;
       border: 1px solid var(--border2);
       border-radius: 8px;
-      background: rgba(108,92,231,0.06);
+      background: rgba(108, 92, 231, 0.06);
       transition: background .18s;
     }
-    .video-link:hover { background: rgba(108,92,231,0.14); }
+
+    .video-link:hover {
+      background: rgba(108, 92, 231, 0.14);
+    }
 
     /* ── Nota docent ──────────────────────────────────────── */
     .nota-docent {
@@ -364,6 +451,7 @@
       padding: 22px 26px;
       margin-top: 48px;
     }
+
     .nota-docent-header {
       display: flex;
       align-items: center;
@@ -376,6 +464,7 @@
       color: var(--accent3);
       margin-bottom: 10px;
     }
+
     .nota-docent p {
       font-size: 14px;
       color: #2e7d32;
@@ -384,511 +473,532 @@
 
     /* ── Responsive ───────────────────────────────────────── */
     @media (max-width: 700px) {
-      .hero { padding: 40px 20px 36px; }
-      .page-main { padding: 36px 18px 60px; }
-      .reflexio-bloc { padding: 22px 20px; }
-      .download-bloc { flex-direction: column; }
-      .download-btns { flex-direction: row; flex-wrap: wrap; }
-      thead th, tbody td { padding: 10px 12px; font-size: 13px; }
+      .hero {
+        padding: 40px 20px 36px;
+      }
+
+      .page-main {
+        padding: 36px 18px 60px;
+      }
+
+      .reflexio-bloc {
+        padding: 22px 20px;
+      }
+
+      .download-bloc {
+        flex-direction: column;
+      }
+
+      .download-btns {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      thead th,
+      tbody td {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<!-- ══ NAVEGACIÓ ══════════════════════════════════════════ -->
-<nav class="site-nav">
-  <a href="index.html" class="nav-logo">
-    <div class="nav-logo-icon">⚡</div>
-    <span class="nav-logo-text">GAS <span>Docents</span></span>
-  </a>
-  <div class="nav-divider"></div>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="index.html"><span class="nav-icon">🏠</span> Inici</a></li>
-    <li><a href="historia.html"><span class="nav-icon">🕰️</span> Història</a></li>
-    <li><a href="equip_IA.html"><span class="nav-icon">🤖</span> Equip IA</a></li>
-    <li><a href="skills.html" class="active"><span class="nav-icon">🧩</span> Skills</a></li>
-    <li><a href="guia1.html"><span class="nav-icon">📘</span> Guia GAS 1</a></li>
-    <li><a href="guia2.html"><span class="nav-icon">📗</span> Guia GAS 2</a></li>
-  </ul>
-  <div class="nav-actions">
-    <span class="nav-badge">Jornades 2025</span>
-  </div>
-  <button class="nav-toggle" id="navToggle" aria-label="Menú">
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-      <line x1="3" y1="6" x2="19" y2="6"/>
-      <line x1="3" y1="11" x2="19" y2="11"/>
-      <line x1="3" y1="16" x2="19" y2="16"/>
-    </svg>
-  </button>
-</nav>
-
-<!-- ══ HERO ═══════════════════════════════════════════════ -->
-<header class="hero">
-  <div class="hero-badge">🧩 Personalització avançada</div>
-  <h1>Skills · <span>Instruccions Personalitzades</span><br>per a la IA a l'aula</h1>
-  <p class="hero-sub">
-    Com donar memòria, context i personalitat a qualsevol model d'IA.
-    Cada plataforma té el seu nom per a aquesta funció —  Skills, GPTs, Gems, Instruccions de sistema —
-    però totes fan el mateix: <strong>convertir una IA genèrica en un assistent a mida</strong>.
-  </p>
-</header>
-
-<!-- ══ CONTINGUT PRINCIPAL ════════════════════════════════ -->
-<main class="page-main">
-
-  <!-- ── BLOC REFLEXIU ──────────────────────────────────── -->
-  <div class="reflexio-bloc">
-    <h2>🤔 Programar sense escriure codi… és programar?</h2>
-    <p>
-      Durant dècades, <strong>programar significava dominar una sintaxi</strong>: saber on va el punt i coma,
-      com funcionen els bucles, per què una variable de tipus string no es pot sumar directament a un enter.
-      L'habilitat tècnica era la porta d'entrada — i moltes vegades, la barrera.
-    </p>
-    <p>
-      Avui, un docent que escriu un skill per a Claude, un GPT personalitzat per a Copilot o un Gem a Gemini
-      <strong>està programant lògica, definint comportament, establint restriccions i dissenyant fluxos</strong>
-      — tot en llenguatge natural. Sense codi. Però amb la mateixa intenció que sempre ha tingut un programador:
-      fer que una màquina es comporti exactament com vols.
-    </p>
-    <p>
-      Aquesta nova realitat ens obliga com a docents a reformular preguntes fonamentals:
-      <strong>Quines competències importa ara ensenyar?</strong>
-      El pensament lògic, la capacitat de descompondre un problema, saber definir l'abast d'una tasca
-      i comunicar-la amb precisió — tot allò que sempre ha estat el nucli de la programació — segueix sent
-      imprescindible. El que canvia és l'eina. I el que no canvia és <strong>la necessitat de pensar bé
-      abans de comunicar</strong>.
-    </p>
-    <p>
-      Els skills d'IA no simplifiquen la programació: la <strong>democratitzen</strong>.
-      I obren la porta perquè més persones puguin construir, automatitzar i crear — amb o sense experiència
-      tècnica prèvia. Per als docents, això no és una amenaça. És una oportunitat de recentrar l'ensenyament
-      en allò que realment importa.
-    </p>
-  </div>
-
-  <!-- ── QUÈ ÉS UN SKILL ────────────────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-badge">📖 Concepte</span>
-      <div class="section-line"></div>
+  <!-- ══ NAVEGACIÓ ══════════════════════════════════════════ -->
+  <nav class="site-nav">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">⚡</div>
+      <span class="nav-logo-text">GAS <span>Docents</span></span>
+    </a>
+    <div class="nav-divider"></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html"><span class="nav-icon">🏠</span> Inici</a></li>
+      <li><a href="historia.html"><span class="nav-icon">🕰️</span> Història</a></li>
+      <li><a href="equip_IA.html"><span class="nav-icon">🤖</span> Equip IA</a></li>
+      <li><a href="skills.html" class="active"><span class="nav-icon">🧩</span> Skills</a></li>
+      <li><a href="guia1.html"><span class="nav-icon">📘</span> Guia GAS 1</a></li>
+      <li><a href="guia2.html"><span class="nav-icon">📗</span> Guia GAS 2</a></li>
+    </ul>
+    <div class="nav-actions">
+      <span class="nav-badge">Jornades 2025</span>
     </div>
-    <h2>Què és un Skill (o instrucció personalitzada)?</h2>
-    <p class="section-desc">
-      Un <strong>skill</strong> és un fitxer de text — normalment en format Markdown — que conté instruccions
-      detallades sobre com ha de comportar-se un model d'IA en un context concret. Defineix el rol, el to,
-      les restriccions, el format de les respostes i fins i tot exemples de bones pràctiques.
-      És, en essència, el codi font d'un assistent especialitzat.
+    <button class="nav-toggle" id="navToggle" aria-label="Menú">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round">
+        <line x1="3" y1="6" x2="19" y2="6" />
+        <line x1="3" y1="11" x2="19" y2="11" />
+        <line x1="3" y1="16" x2="19" y2="16" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- ══ HERO ═══════════════════════════════════════════════ -->
+  <header class="hero">
+    <div class="hero-badge">🧩 Personalització avançada</div>
+    <h1>Skills · <span>Instruccions Personalitzades</span><br>per a la IA a l'aula</h1>
+    <p class="hero-sub">
+      Com donar memòria, context i personalitat a qualsevol model d'IA.
+      Cada plataforma té el seu nom per a aquesta funció — Skills, GPTs, Gems, Instruccions de sistema —
+      però totes fan el mateix: <strong>convertir una IA genèrica en un assistent a mida</strong>.
     </p>
-    <p class="section-desc">
-      Cada plataforma ha batejat aquesta funcionalitat d'una manera diferent, però el principi és idèntic:
-      <strong>capes de context persistent</strong> que s'injecten automàticament a cada conversa
-      sense que l'usuari hagi de repetir les instruccions cada vegada.
-    </p>
-  </div>
+  </header>
 
-  <!-- ── PLATAFORMES ─────────────────────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-badge">🌐 Plataformes</span>
-      <div class="section-line"></div>
-    </div>
-    <h2>El nom canvia, la idea és la mateixa</h2>
-    <p class="section-desc">
-      Totes les grans plataformes d'IA ofereixen alguna forma de personalització persistent.
-      Aquí tens les més rellevants en context educatiu:
-    </p>
+  <!-- ══ CONTINGUT PRINCIPAL ════════════════════════════════ -->
+  <main class="page-main">
 
-    <div class="platforms-grid">
-
-      <!-- Claude -->
-      <div class="platform-card">
-        <div class="platform-card-top" style="background: linear-gradient(90deg, #6c5ce7, #a29bfe);"></div>
-        <div class="platform-card-body">
-          <div class="platform-card-header">
-            <div class="platform-logo" style="background: rgba(108,92,231,0.12);">🟣</div>
-            <div>
-              <h3>Claude · Anthropic</h3>
-              <div class="skill-name">🧩 Skills &amp; System Prompts</div>
-            </div>
-          </div>
-          <p>
-            Claude utilitza <strong>skills</strong> com a fitxers Markdown estructurats que es carreguen
-            automàticament en un projecte. Permeten definir comportament, to, límits de contingut i
-            fins i tot workflows multiestep. El sistema de projectes de Claude.ai integra els skills
-            directament sense necessitat de codi.
-          </p>
-          <div class="platform-tags">
-            <span class="tag">Fitxer Markdown</span>
-            <span class="tag">Per projectes</span>
-            <span class="tag">Multiestep</span>
-            <span class="tag">Claude.ai / API</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ChatGPT / Copilot -->
-      <div class="platform-card">
-        <div class="platform-card-top" style="background: linear-gradient(90deg, #00a67e, #34d399);"></div>
-        <div class="platform-card-body">
-          <div class="platform-card-header">
-            <div class="platform-logo" style="background: rgba(0,166,126,0.12);">🟢</div>
-            <div>
-              <h3>ChatGPT · OpenAI</h3>
-              <div class="skill-name">🤖 GPTs Personalitzats</div>
-            </div>
-          </div>
-          <p>
-            Els <strong>GPTs</strong> permeten crear assistents amb nom, avatar, instruccions pròpies
-            i fins i tot eines externes (Browsing, DALL·E, Code Interpreter). Es publiquen a la
-            GPT Store i es poden compartir amb altres usuaris. La versió de Microsoft és
-            <strong>Copilot Studio</strong>, que afegeix integració empresarial.
-          </p>
-          <div class="platform-tags">
-            <span class="tag">GPT Store</span>
-            <span class="tag">Eines integrades</span>
-            <span class="tag">Copilot Studio</span>
-            <span class="tag">Compartible</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Gemini -->
-      <div class="platform-card">
-        <div class="platform-card-top" style="background: linear-gradient(90deg, #4285f4, #fbbc04);"></div>
-        <div class="platform-card-body">
-          <div class="platform-card-header">
-            <div class="platform-logo" style="background: rgba(66,133,244,0.12);">💎</div>
-            <div>
-              <h3>Gemini · Google</h3>
-              <div class="skill-name">💎 Gems</div>
-            </div>
-          </div>
-          <p>
-            Els <strong>Gems</strong> de Gemini Advanced permeten definir un assistent personalitzat
-            amb nom, descripció i instruccions detallades. S'integren directament a l'espai de treball
-            de Google (Docs, Drive, Gmail) i permeten accedir a informació dels documents personals
-            com a context.
-          </p>
-          <div class="platform-tags">
-            <span class="tag">Gems</span>
-            <span class="tag">Google Workspace</span>
-            <span class="tag">Integració Drive</span>
-            <span class="tag">Gemini Advanced</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Copilot -->
-      <div class="platform-card">
-        <div class="platform-card-top" style="background: linear-gradient(90deg, #0078d4, #50e6ff);"></div>
-        <div class="platform-card-body">
-          <div class="platform-card-header">
-            <div class="platform-logo" style="background: rgba(0,120,212,0.12);">🔵</div>
-            <div>
-              <h3>Microsoft Copilot</h3>
-              <div class="skill-name">⚙️ Copilot Studio / Agents</div>
-            </div>
-          </div>
-          <p>
-            <strong>Copilot Studio</strong> permet crear agents empresarials amb instruccions,
-            connectors a dades corporatives i fluxos automatitzats. Per a docents en entorns Microsoft
-            365 és una eina poderosa: es pot crear un "Copilot de l'aula" amb accés als documents
-            compartits del curs.
-          </p>
-          <div class="platform-tags">
-            <span class="tag">Microsoft 365</span>
-            <span class="tag">Agents</span>
-            <span class="tag">Power Platform</span>
-            <span class="tag">Empresarial</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Perplexity -->
-      <div class="platform-card">
-        <div class="platform-card-top" style="background: linear-gradient(90deg, #20b2aa, #48cae4);"></div>
-        <div class="platform-card-body">
-          <div class="platform-card-header">
-            <div class="platform-logo" style="background: rgba(32,178,170,0.12);">🔍</div>
-            <div>
-              <h3>Perplexity</h3>
-              <div class="skill-name">📋 Instruccions del perfil</div>
-            </div>
-          </div>
-          <p>
-            Perplexity permet afegir <strong>instruccions personalitzades al perfil</strong> que
-            s'apliquen a totes les cerques. Menys avançat que els altres sistemes, però útil per
-            definir el nivell de detall, l'idioma preferit i l'estil de les respostes.
-            Especialment interessant per la seva capacitat de cerca web en temps real.
-          </p>
-          <div class="platform-tags">
-            <span class="tag">Cerca web</span>
-            <span class="tag">Instruccions de perfil</span>
-            <span class="tag">Freemium</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Llms locals -->
-      <div class="platform-card">
-        <div class="platform-card-top" style="background: linear-gradient(90deg, #e67e22, #f39c12);"></div>
-        <div class="platform-card-body">
-          <div class="platform-card-header">
-            <div class="platform-logo" style="background: rgba(230,126,34,0.12);">🖥️</div>
-            <div>
-              <h3>LLMs locals (Ollama)</h3>
-              <div class="skill-name">📝 Modelfile / System Prompt</div>
-            </div>
-          </div>
-          <p>
-            En models locals com <strong>Ollama</strong> (Llama, Mistral, Phi…) la personalització
-            es fa via <em>Modelfile</em> o passant un <em>system prompt</em> directament.
-            Màxima privacitat i control: les instruccions queden al propi ordinador i cap dada
-            surt a internet. Ideal per a entorns amb restriccions de privacitat de dades d'alumnes.
-          </p>
-          <div class="platform-tags">
-            <span class="tag">100% local</span>
-            <span class="tag">Sense núvol</span>
-            <span class="tag">Open source</span>
-            <span class="tag">RGPD ✓</span>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /platforms-grid -->
-  </div>
-
-  <!-- ── TAULA COMPARATIVA ───────────────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-badge">📊 Comparativa</span>
-      <div class="section-line"></div>
-    </div>
-    <h2>Comparativa de sistemes de personalització</h2>
-    <p class="section-desc">Característiques clau per a l'ús docent:</p>
-    <div class="taula-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Plataforma</th>
-            <th>Nom del sistema</th>
-            <th>Format</th>
-            <th>Compartible</th>
-            <th>Sense codi</th>
-            <th>Privacitat</th>
-            <th>Pla gratuït</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>🟣 Claude</td>
-            <td>Skills / System Prompt</td>
-            <td>Markdown (.md)</td>
-            <td class="check-ok">✓</td>
-            <td class="check-ok">✓</td>
-            <td class="check-mid">⚡ Parcial</td>
-            <td class="check-mid">⚡ Limitat</td>
-          </tr>
-          <tr>
-            <td>🟢 ChatGPT</td>
-            <td>GPTs</td>
-            <td>Formulari web</td>
-            <td class="check-ok">✓</td>
-            <td class="check-ok">✓</td>
-            <td class="check-mid">⚡ Parcial</td>
-            <td class="check-mid">⚡ Limitat</td>
-          </tr>
-          <tr>
-            <td>💎 Gemini</td>
-            <td>Gems</td>
-            <td>Formulari web</td>
-            <td class="check-mid">⚡ Parcial</td>
-            <td class="check-ok">✓</td>
-            <td class="check-mid">⚡ Parcial</td>
-            <td class="check-no">✗ Advanced</td>
-          </tr>
-          <tr>
-            <td>🔵 Copilot</td>
-            <td>Copilot Studio</td>
-            <td>Visual + YAML</td>
-            <td class="check-ok">✓</td>
-            <td class="check-mid">⚡ Bàsic</td>
-            <td class="check-ok">✓ M365</td>
-            <td class="check-mid">⚡ M365</td>
-          </tr>
-          <tr>
-            <td>🔍 Perplexity</td>
-            <td>Instruccions de perfil</td>
-            <td>Text lliure</td>
-            <td class="check-no">✗</td>
-            <td class="check-ok">✓</td>
-            <td class="check-mid">⚡ Parcial</td>
-            <td class="check-ok">✓</td>
-          </tr>
-          <tr>
-            <td>🖥️ Ollama (local)</td>
-            <td>Modelfile</td>
-            <td>Text / YAML</td>
-            <td class="check-no">✗</td>
-            <td class="check-mid">⚡ Tècnic</td>
-            <td class="check-ok">✓ Total</td>
-            <td class="check-ok">✓ Gratuït</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ── SKILL RUBRICA DOCENT ────────────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-badge">📥 Recurs</span>
-      <div class="section-line"></div>
-    </div>
-    <h2>Skill de mostra: Rúbrica Docent</h2>
-    <p class="section-desc">
-      Com a exemple pràctic, aquí tens el skill <strong>rubrica-docent</strong> creat per a Claude.
-      A partir de l'enunciat d'una activitat de programació, genera automàticament una rúbrica
-      d'avaluació en quatre nivells (Excel·lent / Bé / Regular / Insuficient) adaptada als objectius
-      de la tasca. Podeu descarregar els dos fitxers que composen el skill i afegir-los
-      a qualsevol projecte de Claude.
-    </p>
-    <div class="download-bloc">
-      <div class="download-bloc-info">
-        <h3>🧩 rubrica-docent · Skill per a Claude</h3>
-        <p>
-          Dos fitxers: <code>SKILL.md</code> conté les instruccions que llegeix Claude sobre com
-          funciona el sistema de skills. <code>rubrica-docent.skill</code> conté el comportament
-          específic del generador de rúbriques: rol, format de sortida, nivells d'avaluació
-          i criteris per a activitats de programació.
-        </p>
-        <p style="margin-top:8px; font-size:13px; color: var(--text-dim);">
-          📂 Repositori: <strong>ProfeFP / guies</strong> a GitHub
-        </p>
-      </div>
-      <div class="download-btns">
-        <a class="btn-download btn-primary"
-           href="https://github.com/ProfeFP/guies/blob/main/skills/SKILL.md"
-           target="_blank" rel="noopener">
-          📄 Descarregar SKILL.md
-        </a>
-        <a class="btn-download btn-secondary"
-           href="https://github.com/ProfeFP/guies/blob/main/skills/rubrica-docent.skill"
-           target="_blank" rel="noopener">
-          🧩 Descarregar rubrica-docent.skill
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── VÍDEO ───────────────────────────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-badge">🎬 Vídeo</span>
-      <div class="section-line"></div>
-    </div>
-    <div class="video-section">
-      <h2>Skills en acció: demostració pràctica</h2>
-      <p class="section-desc" style="margin-bottom:0;">
-        En aquest vídeo podeu veure com es creen i s'utilitzen els skills de Claude
-        en un context real, i com es comparen amb els sistemes equivalents d'altres plataformes.
+    <!-- ── BLOC REFLEXIU ──────────────────────────────────── -->
+    <div class="reflexio-bloc">
+      <h2>🤔 Programar sense escriure codi… és programar?</h2>
+      <p>
+        Durant dècades, <strong>programar significava dominar una sintaxi</strong>: saber on va el punt i coma,
+        com funcionen els bucles, per què una variable de tipus string no es pot sumar directament a un enter.
+        L'habilitat tècnica era la porta d'entrada — i moltes vegades, la barrera.
       </p>
-      <div class="video-wrapper">
-        <div class="video-embed">
-          <iframe
-            src="https://www.youtube.com/embed/VLIYe7vdNiI"
-            title="Skills de Claude — demostració pràctica"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-          </iframe>
+      <p>
+        Avui, un docent que escriu un skill per a Claude, un GPT personalitzat per a Copilot o un Gem a Gemini
+        <strong>està programant lògica, definint comportament, establint restriccions i dissenyant fluxos</strong>
+        — tot en llenguatge natural. Sense codi. Però amb la mateixa intenció que sempre ha tingut un programador:
+        fer que una màquina es comporti exactament com vols.
+      </p>
+      <p>
+        Aquesta nova realitat ens obliga com a docents a reformular preguntes fonamentals:
+        <strong>Quines competències importa ara ensenyar?</strong>
+        El pensament lògic, la capacitat de descompondre un problema, saber definir l'abast d'una tasca
+        i comunicar-la amb precisió — tot allò que sempre ha estat el nucli de la programació — segueix sent
+        imprescindible. El que canvia és l'eina. I el que no canvia és <strong>la necessitat de pensar bé
+          abans de comunicar</strong>.
+      </p>
+      <p>
+        Els skills d'IA no simplifiquen la programació: la <strong>democratitzen</strong>.
+        I obren la porta perquè més persones puguin construir, automatitzar i crear — amb o sense experiència
+        tècnica prèvia. Per als docents, això no és una amenaça. És una oportunitat de recentrar l'ensenyament
+        en allò que realment importa.
+      </p>
+    </div>
+
+    <!-- ── QUÈ ÉS UN SKILL ────────────────────────────────── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-badge">📖 Concepte</span>
+        <div class="section-line"></div>
+      </div>
+      <h2>Què és un Skill (o instrucció personalitzada)?</h2>
+      <p class="section-desc">
+        Un <strong>skill</strong> és un fitxer de text — normalment en format Markdown — que conté instruccions
+        detallades sobre com ha de comportar-se un model d'IA en un context concret. Defineix el rol, el to,
+        les restriccions, el format de les respostes i fins i tot exemples de bones pràctiques.
+        És, en essència, el codi font d'un assistent especialitzat.
+      </p>
+      <p class="section-desc">
+        Cada plataforma ha batejat aquesta funcionalitat d'una manera diferent, però el principi és idèntic:
+        <strong>capes de context persistent</strong> que s'injecten automàticament a cada conversa
+        sense que l'usuari hagi de repetir les instruccions cada vegada.
+      </p>
+    </div>
+
+    <!-- ── PLATAFORMES ─────────────────────────────────────── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-badge">🌐 Plataformes</span>
+        <div class="section-line"></div>
+      </div>
+      <h2>El nom canvia, la idea és la mateixa</h2>
+      <p class="section-desc">
+        Totes les grans plataformes d'IA ofereixen alguna forma de personalització persistent.
+        Aquí tens les més rellevants en context educatiu:
+      </p>
+
+      <div class="platforms-grid">
+
+        <!-- Claude -->
+        <div class="platform-card">
+          <div class="platform-card-top" style="background: linear-gradient(90deg, #6c5ce7, #a29bfe);"></div>
+          <div class="platform-card-body">
+            <div class="platform-card-header">
+              <div class="platform-logo" style="background: rgba(108,92,231,0.12);">🟣</div>
+              <div>
+                <h3>Claude · Anthropic</h3>
+                <div class="skill-name">🧩 Skills &amp; System Prompts</div>
+              </div>
+            </div>
+            <p>
+              Claude utilitza <strong>skills</strong> com a fitxers Markdown estructurats que es carreguen
+              automàticament en un projecte. Permeten definir comportament, to, límits de contingut i
+              fins i tot workflows multiestep. El sistema de projectes de Claude.ai integra els skills
+              directament sense necessitat de codi.
+            </p>
+            <div class="platform-tags">
+              <span class="tag">Fitxer Markdown</span>
+              <span class="tag">Per projectes</span>
+              <span class="tag">Multiestep</span>
+              <span class="tag">Claude.ai / API</span>
+            </div>
+          </div>
         </div>
-        <div class="video-meta">
-          <span class="video-label">▶ Vídeo incrustat</span>
-          <a class="video-link"
-             href="https://www.youtube.com/watch?v=VLIYe7vdNiI"
-             target="_blank" rel="noopener">
-            🔗 Obrir a YouTube
+
+        <!-- ChatGPT / Copilot -->
+        <div class="platform-card">
+          <div class="platform-card-top" style="background: linear-gradient(90deg, #00a67e, #34d399);"></div>
+          <div class="platform-card-body">
+            <div class="platform-card-header">
+              <div class="platform-logo" style="background: rgba(0,166,126,0.12);">🟢</div>
+              <div>
+                <h3>ChatGPT · OpenAI</h3>
+                <div class="skill-name">🤖 GPTs Personalitzats</div>
+              </div>
+            </div>
+            <p>
+              Els <strong>GPTs</strong> permeten crear assistents amb nom, avatar, instruccions pròpies
+              i fins i tot eines externes (Browsing, DALL·E, Code Interpreter). Es publiquen a la
+              GPT Store i es poden compartir amb altres usuaris. La versió de Microsoft és
+              <strong>Copilot Studio</strong>, que afegeix integració empresarial.
+            </p>
+            <div class="platform-tags">
+              <span class="tag">GPT Store</span>
+              <span class="tag">Eines integrades</span>
+              <span class="tag">Copilot Studio</span>
+              <span class="tag">Compartible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gemini -->
+        <div class="platform-card">
+          <div class="platform-card-top" style="background: linear-gradient(90deg, #4285f4, #fbbc04);"></div>
+          <div class="platform-card-body">
+            <div class="platform-card-header">
+              <div class="platform-logo" style="background: rgba(66,133,244,0.12);">💎</div>
+              <div>
+                <h3>Gemini · Google</h3>
+                <div class="skill-name">💎 Gems</div>
+              </div>
+            </div>
+            <p>
+              Els <strong>Gems</strong> de Gemini Advanced permeten definir un assistent personalitzat
+              amb nom, descripció i instruccions detallades. S'integren directament a l'espai de treball
+              de Google (Docs, Drive, Gmail) i permeten accedir a informació dels documents personals
+              com a context.
+            </p>
+            <div class="platform-tags">
+              <span class="tag">Gems</span>
+              <span class="tag">Google Workspace</span>
+              <span class="tag">Integració Drive</span>
+              <span class="tag">Gemini Advanced</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Copilot -->
+        <div class="platform-card">
+          <div class="platform-card-top" style="background: linear-gradient(90deg, #0078d4, #50e6ff);"></div>
+          <div class="platform-card-body">
+            <div class="platform-card-header">
+              <div class="platform-logo" style="background: rgba(0,120,212,0.12);">🔵</div>
+              <div>
+                <h3>Microsoft Copilot</h3>
+                <div class="skill-name">⚙️ Copilot Studio / Agents</div>
+              </div>
+            </div>
+            <p>
+              <strong>Copilot Studio</strong> permet crear agents empresarials amb instruccions,
+              connectors a dades corporatives i fluxos automatitzats. Per a docents en entorns Microsoft
+              365 és una eina poderosa: es pot crear un "Copilot de l'aula" amb accés als documents
+              compartits del curs.
+            </p>
+            <div class="platform-tags">
+              <span class="tag">Microsoft 365</span>
+              <span class="tag">Agents</span>
+              <span class="tag">Power Platform</span>
+              <span class="tag">Empresarial</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Perplexity -->
+        <div class="platform-card">
+          <div class="platform-card-top" style="background: linear-gradient(90deg, #20b2aa, #48cae4);"></div>
+          <div class="platform-card-body">
+            <div class="platform-card-header">
+              <div class="platform-logo" style="background: rgba(32,178,170,0.12);">🔍</div>
+              <div>
+                <h3>Perplexity</h3>
+                <div class="skill-name">📋 Instruccions del perfil</div>
+              </div>
+            </div>
+            <p>
+              Perplexity permet afegir <strong>instruccions personalitzades al perfil</strong> que
+              s'apliquen a totes les cerques. Menys avançat que els altres sistemes, però útil per
+              definir el nivell de detall, l'idioma preferit i l'estil de les respostes.
+              Especialment interessant per la seva capacitat de cerca web en temps real.
+            </p>
+            <div class="platform-tags">
+              <span class="tag">Cerca web</span>
+              <span class="tag">Instruccions de perfil</span>
+              <span class="tag">Freemium</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Llms locals -->
+        <div class="platform-card">
+          <div class="platform-card-top" style="background: linear-gradient(90deg, #e67e22, #f39c12);"></div>
+          <div class="platform-card-body">
+            <div class="platform-card-header">
+              <div class="platform-logo" style="background: rgba(230,126,34,0.12);">🖥️</div>
+              <div>
+                <h3>LLMs locals (Ollama)</h3>
+                <div class="skill-name">📝 Modelfile / System Prompt</div>
+              </div>
+            </div>
+            <p>
+              En models locals com <strong>Ollama</strong> (Llama, Mistral, Phi…) la personalització
+              es fa via <em>Modelfile</em> o passant un <em>system prompt</em> directament.
+              Màxima privacitat i control: les instruccions queden al propi ordinador i cap dada
+              surt a internet. Ideal per a entorns amb restriccions de privacitat de dades d'alumnes.
+            </p>
+            <div class="platform-tags">
+              <span class="tag">100% local</span>
+              <span class="tag">Sense núvol</span>
+              <span class="tag">Open source</span>
+              <span class="tag">RGPD ✓</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /platforms-grid -->
+    </div>
+
+    <!-- ── TAULA COMPARATIVA ───────────────────────────────── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-badge">📊 Comparativa</span>
+        <div class="section-line"></div>
+      </div>
+      <h2>Comparativa de sistemes de personalització</h2>
+      <p class="section-desc">Característiques clau per a l'ús docent:</p>
+      <div class="taula-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Plataforma</th>
+              <th>Nom del sistema</th>
+              <th>Format</th>
+              <th>Compartible</th>
+              <th>Sense codi</th>
+              <th>Privacitat</th>
+              <th>Pla gratuït</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🟣 Claude</td>
+              <td>Skills / System Prompt</td>
+              <td>Markdown (.md)</td>
+              <td class="check-ok">✓</td>
+              <td class="check-ok">✓</td>
+              <td class="check-mid">⚡ Parcial</td>
+              <td class="check-mid">⚡ Limitat</td>
+            </tr>
+            <tr>
+              <td>🟢 ChatGPT</td>
+              <td>GPTs</td>
+              <td>Formulari web</td>
+              <td class="check-ok">✓</td>
+              <td class="check-ok">✓</td>
+              <td class="check-mid">⚡ Parcial</td>
+              <td class="check-mid">⚡ Limitat</td>
+            </tr>
+            <tr>
+              <td>💎 Gemini</td>
+              <td>Gems</td>
+              <td>Formulari web</td>
+              <td class="check-mid">⚡ Parcial</td>
+              <td class="check-ok">✓</td>
+              <td class="check-mid">⚡ Parcial</td>
+              <td class="check-no">✗ Advanced</td>
+            </tr>
+            <tr>
+              <td>🔵 Copilot</td>
+              <td>Copilot Studio</td>
+              <td>Visual + YAML</td>
+              <td class="check-ok">✓</td>
+              <td class="check-mid">⚡ Bàsic</td>
+              <td class="check-ok">✓ M365</td>
+              <td class="check-mid">⚡ M365</td>
+            </tr>
+            <tr>
+              <td>🔍 Perplexity</td>
+              <td>Instruccions de perfil</td>
+              <td>Text lliure</td>
+              <td class="check-no">✗</td>
+              <td class="check-ok">✓</td>
+              <td class="check-mid">⚡ Parcial</td>
+              <td class="check-ok">✓</td>
+            </tr>
+            <tr>
+              <td>🖥️ Ollama (local)</td>
+              <td>Modelfile</td>
+              <td>Text / YAML</td>
+              <td class="check-no">✗</td>
+              <td class="check-mid">⚡ Tècnic</td>
+              <td class="check-ok">✓ Total</td>
+              <td class="check-ok">✓ Gratuït</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── SKILL RUBRICA DOCENT ────────────────────────────── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-badge">📥 Recurs</span>
+        <div class="section-line"></div>
+      </div>
+      <h2>Skill de mostra: Rúbrica Docent</h2>
+      <p class="section-desc">
+        Com a exemple pràctic, aquí tens el skill <strong>rubrica-docent</strong> creat per a Claude.
+        A partir de l'enunciat d'una activitat de programació, genera automàticament una rúbrica
+        d'avaluació en quatre nivells (Excel·lent / Bé / Regular / Insuficient) adaptada als objectius
+        de la tasca. Podeu descarregar els dos fitxers que composen el skill i afegir-los
+        a qualsevol projecte de Claude.
+      </p>
+      <div class="download-bloc">
+        <div class="download-bloc-info">
+          <h3>🧩 rubrica-docent · Skill per a Claude</h3>
+          <p>
+            Dos fitxers: <code>SKILL.md</code> conté les instruccions que llegeix Claude sobre com
+            funciona el sistema de skills. <code>rubrica-docent.skill</code> conté el comportament
+            específic del generador de rúbriques: rol, format de sortida, nivells d'avaluació
+            i criteris per a activitats de programació.
+          </p>
+          <p style="margin-top:8px; font-size:13px; color: var(--text-dim);">
+            📂 Repositori: <strong>ProfeFP / guies</strong> a GitHub
+          </p>
+        </div>
+        <div class="download-btns">
+          <a class="btn-download btn-primary" href="https://github.com/ProfeFP/guies/blob/main/skills/SKILL.md"
+            target="_blank" rel="noopener">
+            📄 Descarregar SKILL.md
           </a>
-          <a class="video-link"
-             href="https://www.youtube.com/watch?v=VLIYe7vdNiI"
-             target="_blank" rel="noopener"
-             style="background: rgba(255,0,0,0.07); border-color: rgba(255,0,0,0.25); color: #c0392b;">
-            ▶ Obrir a pantalla completa
+          <a class="btn-download btn-secondary"
+            href="https://github.com/ProfeFP/guies/blob/main/skills/rubrica-docent.skill" target="_blank"
+            rel="noopener">
+            🧩 Descarregar rubrica-docent.skill
           </a>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ── NOTA DOCENT ─────────────────────────────────────── -->
-  <div class="nota-docent">
-    <div class="nota-docent-header">
-      <span>🍃</span> Nota pedagògica
-    </div>
-    <p>
-      <strong>Recomanació per a l'aula:</strong> proposeu als alumnes que creïn el seu propi
-      skill personalitzat per a una tasca concreta del curs. El procés de definir instruccions
-      clares, preveure casos límit i iterar fins que l'assistent es comporti exactament com
-      volen és, en si mateix, un exercici de pensament computacional i comunicació precisa —
-      amb o sense escriure codi. Comparar els resultats entre plataformes (Claude, ChatGPT,
-      Gemini) afegeix una capa de pensament crític molt valuosa.
-    </p>
-  </div>
-
-</main>
-
-<!-- ══ FOOTER ═══════════════════════════════════════════════ -->
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <div class="footer-brand-logo">
-        <div class="footer-brand-icon">⚡</div>
-        <span class="footer-brand-name">GAS <span>Docents</span></span>
+    <!-- ── VÍDEO ───────────────────────────────────────────── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-badge">🎬 Vídeo</span>
+        <div class="section-line"></div>
       </div>
-      <p class="footer-desc">
-        Materials de formació per a les Jornades de Docents 2025.
-        Recursos oberts per a l'ensenyament de la IA i la programació.
+      <div class="video-section">
+        <h2>Skills en acció: demostració pràctica</h2>
+        <p class="section-desc" style="margin-bottom:0;">
+          En aquest vídeo podeu veure com es creen i s'utilitzen els skills de Claude
+          en un context real, i com es comparen amb els sistemes equivalents d'altres plataformes.
+        </p>
+        <div class="video-wrapper">
+          <div class="video-embed">
+            <iframe src="https://www.youtube.com/embed/VLIYe7vdNiI" title="Skills de Claude — demostració pràctica"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="video-meta">
+            <span class="video-label">▶ Vídeo incrustat</span>
+            <a class="video-link" href="https://www.youtube.com/watch?v=VLIYe7vdNiI" target="_blank" rel="noopener">
+              🔗 Obrir a YouTube
+            </a>
+            <a class="video-link" href="https://www.youtube.com/watch?v=VLIYe7vdNiI" target="_blank" rel="noopener"
+              style="background: rgba(255,0,0,0.07); border-color: rgba(255,0,0,0.25); color: #c0392b;">
+              ▶ Obrir a pantalla completa
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NOTA DOCENT ─────────────────────────────────────── -->
+    <div class="nota-docent">
+      <div class="nota-docent-header">
+        <span>🍃</span> Nota pedagògica
+      </div>
+      <p>
+        <strong>Recomanació per a l'aula:</strong> proposeu als alumnes que creïn el seu propi
+        skill personalitzat per a una tasca concreta del curs. El procés de definir instruccions
+        clares, preveure casos límit i iterar fins que l'assistent es comporti exactament com
+        volen és, en si mateix, un exercici de pensament computacional i comunicació precisa —
+        amb o sense escriure codi. Comparar els resultats entre plataformes (Claude, ChatGPT,
+        Gemini) afegeix una capa de pensament crític molt valuosa.
       </p>
     </div>
 
-    <div>
-      <div class="footer-col-title">Pàgines del projecte</div>
-      <ul class="footer-links">
-        <li><a href="index.html">🏠 Inici</a></li>
-        <li><a href="historia.html">🕰️ Història de la programació</a></li>
-        <li><a href="equip_IA.html">🤖 Equip d'IA Generativa</a></li>
-        <li><a href="skills.html">🧩 Skills &amp; Personalització</a></li>
-      </ul>
+  </main>
+
+  <!-- ══ FOOTER ═══════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-brand-logo">
+          <div class="footer-brand-icon">⚡</div>
+          <span class="footer-brand-name">GAS <span>Docents</span></span>
+        </div>
+        <p class="footer-desc">
+          Materials de formació per a les Jornades de Docents 2025.
+          Recursos oberts per a l'ensenyament de la IA i la programació.
+        </p>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Pàgines del projecte</div>
+        <ul class="footer-links">
+          <li><a href="index.html">🏠 Inici</a></li>
+          <li><a href="historia.html">🕰️ Història de la programació</a></li>
+          <li><a href="equip_IA.html">🤖 Equip d'IA Generativa</a></li>
+          <li><a href="skills.html">🧩 Skills &amp; Personalització</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Recursos externs</div>
+        <ul class="footer-links">
+          <li><a href="https://github.com/ProfeFP/guies" target="_blank" rel="noopener">📂 Repositori GitHub</a></li>
+          <li><a href="https://github.com/ProfeFP/guies/blob/main/skills/SKILL.md" target="_blank" rel="noopener">📄
+              SKILL.md</a></li>
+          <li><a href="https://github.com/ProfeFP/guies/blob/main/skills/rubrica-docent.skill" target="_blank"
+              rel="noopener">🧩 rubrica-docent.skill</a></li>
+          <li><a href="https://www.youtube.com/watch?v=VLIYe7vdNiI" target="_blank" rel="noopener">▶ Vídeo Skills</a>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <div>
-      <div class="footer-col-title">Recursos externs</div>
-      <ul class="footer-links">
-        <li><a href="https://github.com/ProfeFP/guies" target="_blank" rel="noopener">📂 Repositori GitHub</a></li>
-        <li><a href="https://github.com/ProfeFP/guies/blob/main/skills/SKILL.md" target="_blank" rel="noopener">📄 SKILL.md</a></li>
-        <li><a href="https://github.com/ProfeFP/guies/blob/main/skills/rubrica-docent.skill" target="_blank" rel="noopener">🧩 rubrica-docent.skill</a></li>
-        <li><a href="https://www.youtube.com/watch?v=VLIYe7vdNiI" target="_blank" rel="noopener">▶ Vídeo Skills</a></li>
-      </ul>
+    <div class="footer-bottom"
+      style="max-width:1200px; margin:0 auto; padding:16px 32px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+      <span style="font-size:13px; color:var(--text-dim);">© 2025 GAS Docents · Materials de lliure ús educatiu</span>
+      <span style="font-size:13px; color:var(--text-dim);">Jornades de Formació Docent 2025</span>
     </div>
-  </div>
+  </footer>
 
-  <div class="footer-bottom" style="max-width:1200px; margin:0 auto; padding:16px 32px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-    <span style="font-size:13px; color:var(--text-dim);">© 2025 GAS Docents · Materials de lliure ús educatiu</span>
-    <span style="font-size:13px; color:var(--text-dim);">Jornades de Formació Docent 2025</span>
-  </div>
-</footer>
-
-<script>
-  // Menú hamburguesa mòbil
-  const toggle = document.getElementById('navToggle');
-  const links  = document.getElementById('navLinks');
-  if (toggle && links) {
-    toggle.addEventListener('click', () => {
-      links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
-    });
-  }
-</script>
-
+  <script>
+    // Menú hamburguesa mòbil
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    if (toggle && links) {
+      toggle.addEventListener('click', () => {
+        links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+      });
+    }
+  </script>
+  <!-- Guies a l'arrel (historia.html, skills.html...) -->
+  <script src="nav.js"></script>
 </body>
+
 </html>

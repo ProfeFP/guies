@@ -964,9 +964,9 @@
 
   <!-- NAV GUIES -->
   <div class="guies-nav">
-    <a class="guia-btn inactive" href="gas1.html">📊 Guia 1 · Base de Dades</a>
-    <a class="guia-btn inactive" href="gas2.html">🛠️ Guia 2 · IDE i GAS</a>
-    <a class="guia-btn active" href="gas3.html">📘 Guia 3 · Llenguatge GAS</a>
+    <a class="guia-btn inactive" href="#">📊 Guia 1 · Base de Dades</a>
+    <a class="guia-btn inactive" href="#">🛠️ Guia 2 · IDE i GAS</a>
+    <a class="guia-btn active" href="#">📘 Guia 3 · Llenguatge GAS</a>
   </div>
 
   <div class="content">
@@ -1998,4 +1998,34 @@ SpreadsheetApp.<span class="fn">getActiveSpreadsheet</span>()
       updateProgress();
     }
     function copyCode(btn) {
-      const text = btn.closest('.code-container').quer
+      const text = btn.closest('.code-container').querySelector('pre').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const o = btn.textContent; btn.textContent = '✓ Copiat!'; btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = o; btn.classList.remove('copied'); }, 2200);
+      });
+    }
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function (e) {
+        const id = this.getAttribute('href').slice(1);
+        const t = document.getElementById(id);
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+    const seccions = document.querySelectorAll('.chapter[id]');
+    const tocLinks = document.querySelectorAll('.toc a');
+    window.addEventListener('scroll', () => {
+      let actual = '';
+      seccions.forEach(s => { if (pageYOffset >= s.offsetTop - 120) actual = s.id; });
+      tocLinks.forEach(l => {
+        const ok = l.getAttribute('href') === '#' + actual;
+        l.style.fontWeight = ok ? '700' : '500';
+        l.style.color = ok ? 'var(--primary-dark)' : '';
+      });
+    });
+    updateProgress();
+  </script>
+  <!-- Guies en subcarpeta (gas/, mostra/) -->
+  <script src="../nav.js"></script>
+</body>
+
+</html>

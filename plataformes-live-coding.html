@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Plataformes Live Coding · Taller Web</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --primari: #1a2332;
@@ -22,7 +25,13 @@
       --card-bg: #ffffff;
       --vora: #e2e8f0;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: 'Inter', 'Segoe UI', sans-serif;
       line-height: 1.7;
@@ -39,16 +48,20 @@
       position: relative;
       overflow: hidden;
     }
+
     header::before {
       content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 70% 40%, rgba(59,130,246,0.18), transparent 60%),
-                  radial-gradient(ellipse at 20% 80%, rgba(16,185,129,0.1), transparent 50%);
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 40%, rgba(59, 130, 246, 0.18), transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(16, 185, 129, 0.1), transparent 50%);
     }
+
     header::after {
       content: '</>';
       position: absolute;
-      right: 4rem; top: 50%;
+      right: 4rem;
+      top: 50%;
       transform: translateY(-50%);
       font-family: 'Fira Code', monospace;
       font-size: 6rem;
@@ -56,10 +69,11 @@
       color: white;
       pointer-events: none;
     }
+
     .header-badge {
       display: inline-block;
-      background: rgba(59,130,246,0.25);
-      border: 1px solid rgba(59,130,246,0.4);
+      background: rgba(59, 130, 246, 0.25);
+      border: 1px solid rgba(59, 130, 246, 0.4);
       color: #93c5fd;
       font-size: 0.75rem;
       font-weight: 600;
@@ -70,6 +84,7 @@
       margin-bottom: 1rem;
       position: relative;
     }
+
     header h1 {
       font-size: clamp(1.6rem, 4vw, 2.4rem);
       font-weight: 700;
@@ -77,7 +92,11 @@
       position: relative;
       letter-spacing: -0.02em;
     }
-    header h1 span { color: #60a5fa; }
+
+    header h1 span {
+      color: #60a5fa;
+    }
+
     header p {
       opacity: 0.7;
       font-size: 0.95rem;
@@ -100,6 +119,7 @@
       gap: 0.75rem;
       margin: 2.5rem 0 1.25rem;
     }
+
     .seccio-num {
       background: var(--accent);
       color: white;
@@ -110,6 +130,7 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
+
     .seccio-titol h2 {
       font-size: 1.35rem;
       font-weight: 700;
@@ -122,14 +143,16 @@
       border-radius: 14px;
       border: 1px solid var(--vora);
       overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
       margin-bottom: 2rem;
     }
+
     .taula-wrapper table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.92rem;
     }
+
     .taula-wrapper thead th {
       background: var(--fons-codi);
       color: #94a3b8;
@@ -141,16 +164,25 @@
       text-align: left;
       border-bottom: 2px solid #1e293b;
     }
+
     .taula-wrapper tbody tr {
       border-bottom: 1px solid var(--vora);
       transition: background 0.15s;
     }
-    .taula-wrapper tbody tr:last-child { border-bottom: none; }
-    .taula-wrapper tbody tr:hover { background: #f8fafc; }
+
+    .taula-wrapper tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .taula-wrapper tbody tr:hover {
+      background: #f8fafc;
+    }
+
     .taula-wrapper td {
       padding: 1rem 1.2rem;
       vertical-align: middle;
     }
+
     .plat-nom {
       font-weight: 700;
       color: var(--primari);
@@ -158,13 +190,18 @@
       align-items: center;
       gap: 0.5rem;
     }
+
     .plat-nom a {
       color: var(--accent);
       text-decoration: none;
       font-size: 0.78rem;
       font-weight: 500;
     }
-    .plat-nom a:hover { text-decoration: underline; }
+
+    .plat-nom a:hover {
+      text-decoration: underline;
+    }
+
     .badge-dificultat {
       display: inline-block;
       padding: 0.2rem 0.65rem;
@@ -172,12 +209,38 @@
       font-size: 0.75rem;
       font-weight: 600;
     }
-    .dif-molt-baixa { background: #dcfce7; color: #166534; }
-    .dif-baixa      { background: #dbeafe; color: #1e40af; }
-    .dif-mitjana    { background: #fef9c3; color: #854d0e; }
-    .dif-alta       { background: #fce7f3; color: #9d174d; }
-    .estrelles      { color: #f59e0b; letter-spacing: 0.1em; font-size: 0.95rem; }
-    .col-lab { font-size: 0.85rem; color: #64748b; }
+
+    .dif-molt-baixa {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .dif-baixa {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .dif-mitjana {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+
+    .dif-alta {
+      background: #fce7f3;
+      color: #9d174d;
+    }
+
+    .estrelles {
+      color: #f59e0b;
+      letter-spacing: 0.1em;
+      font-size: 0.95rem;
+    }
+
+    .col-lab {
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
     .rec-tag {
       display: inline-block;
       background: linear-gradient(135deg, #3b82f6, #6366f1);
@@ -187,6 +250,7 @@
       padding: 0.2rem 0.65rem;
       border-radius: 20px;
     }
+
     .rec-normal {
       font-size: 0.82rem;
       color: #475569;
@@ -199,31 +263,51 @@
       gap: 1rem;
       margin-bottom: 2.5rem;
     }
+
     .plat-card {
       background: var(--card-bg);
       border: 1px solid var(--vora);
       border-radius: 14px;
       padding: 1.4rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       position: relative;
       overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s;
     }
+
     .plat-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     }
+
     .plat-card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 3px;
     }
-    .plat-card.codepen::before   { background: #47cf73; }
-    .plat-card.stackblitz::before{ background: #1389fd; }
-    .plat-card.playcode::before  { background: #ff6b35; }
-    .plat-card.codesandbox::before { background: #151515; }
-    .plat-card.liveweave::before { background: #f59e0b; }
+
+    .plat-card.codepen::before {
+      background: #47cf73;
+    }
+
+    .plat-card.stackblitz::before {
+      background: #1389fd;
+    }
+
+    .plat-card.playcode::before {
+      background: #ff6b35;
+    }
+
+    .plat-card.codesandbox::before {
+      background: #151515;
+    }
+
+    .plat-card.liveweave::before {
+      background: #f59e0b;
+    }
 
     .plat-card-header {
       display: flex;
@@ -231,10 +315,12 @@
       align-items: flex-start;
       margin-bottom: 0.75rem;
     }
+
     .plat-card h3 {
       font-size: 1.05rem;
       font-weight: 700;
     }
+
     .plat-card-url {
       font-family: 'Fira Code', monospace;
       font-size: 0.72rem;
@@ -244,13 +330,18 @@
       border-radius: 6px;
       text-decoration: none;
     }
-    .plat-card-url:hover { background: #dbeafe; }
+
+    .plat-card-url:hover {
+      background: #dbeafe;
+    }
+
     .plat-card p {
       font-size: 0.88rem;
       color: #475569;
       line-height: 1.6;
       margin-bottom: 1rem;
     }
+
     .plat-card-footer {
       display: flex;
       justify-content: space-between;
@@ -264,9 +355,10 @@
       border: 1px solid var(--vora);
       border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
       margin-bottom: 1.5rem;
     }
+
     .bloc-header {
       display: flex;
       align-items: center;
@@ -276,47 +368,90 @@
       user-select: none;
       transition: background 0.15s;
     }
-    .bloc-header:hover { background: #f8fafc; }
+
+    .bloc-header:hover {
+      background: #f8fafc;
+    }
+
     .bloc-num {
-      width: 36px; height: 36px;
+      width: 36px;
+      height: 36px;
       border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 0.8rem;
       font-weight: 800;
       flex-shrink: 0;
       color: white;
     }
-    .bloc-I    .bloc-num { background: #3b82f6; }
-    .bloc-II   .bloc-num { background: #8b5cf6; }
-    .bloc-III  .bloc-num { background: #06b6d4; }
-    .bloc-IV   .bloc-num { background: #10b981; }
-    .bloc-V    .bloc-num { background: #f59e0b; }
-    .bloc-VI   .bloc-num { background: #f97316; }
-    .bloc-VII  .bloc-num { background: #ef4444; }
-    .bloc-VIII .bloc-num { background: #ec4899; }
 
-    .bloc-header-text { flex: 1; }
+    .bloc-I .bloc-num {
+      background: #3b82f6;
+    }
+
+    .bloc-II .bloc-num {
+      background: #8b5cf6;
+    }
+
+    .bloc-III .bloc-num {
+      background: #06b6d4;
+    }
+
+    .bloc-IV .bloc-num {
+      background: #10b981;
+    }
+
+    .bloc-V .bloc-num {
+      background: #f59e0b;
+    }
+
+    .bloc-VI .bloc-num {
+      background: #f97316;
+    }
+
+    .bloc-VII .bloc-num {
+      background: #ef4444;
+    }
+
+    .bloc-VIII .bloc-num {
+      background: #ec4899;
+    }
+
+    .bloc-header-text {
+      flex: 1;
+    }
+
     .bloc-header-text h3 {
       font-size: 1rem;
       font-weight: 700;
       margin-bottom: 0.1rem;
     }
+
     .bloc-header-text span {
       font-size: 0.78rem;
       color: #64748b;
     }
+
     .bloc-toggle {
       color: #94a3b8;
       font-size: 1.1rem;
       transition: transform 0.25s;
     }
-    .bloc-toggle.obert { transform: rotate(180deg); }
+
+    .bloc-toggle.obert {
+      transform: rotate(180deg);
+    }
+
     .bloc-cos {
       display: none;
       padding: 0 1.4rem 1.4rem;
       border-top: 1px solid var(--vora);
     }
-    .bloc-cos.visible { display: block; }
+
+    .bloc-cos.visible {
+      display: block;
+    }
 
     .conceptes-grid {
       display: grid;
@@ -324,6 +459,7 @@
       gap: 0.65rem;
       margin-top: 1rem;
     }
+
     .concepte-item {
       display: flex;
       align-items: flex-start;
@@ -335,17 +471,20 @@
       font-size: 0.84rem;
       line-height: 1.5;
     }
+
     .concepte-icon {
       font-size: 1.1rem;
       flex-shrink: 0;
       margin-top: 0.05rem;
     }
+
     .concepte-nom {
       font-weight: 600;
       color: var(--primari);
       font-family: 'Fira Code', monospace;
       font-size: 0.8rem;
     }
+
     .concepte-desc {
       color: #64748b;
       font-size: 0.78rem;
@@ -364,6 +503,7 @@
       line-height: 1.7;
       position: relative;
     }
+
     .prompt-label {
       font-size: 0.7rem;
       font-weight: 600;
@@ -373,9 +513,18 @@
       margin-bottom: 0.5rem;
       font-family: 'Inter', sans-serif;
     }
-    .prompt-exemple .kw { color: #60a5fa; }
-    .prompt-exemple .val { color: #34d399; }
-    .prompt-exemple .tag { color: #f59e0b; }
+
+    .prompt-exemple .kw {
+      color: #60a5fa;
+    }
+
+    .prompt-exemple .val {
+      color: #34d399;
+    }
+
+    .prompt-exemple .tag {
+      color: #f59e0b;
+    }
 
     /* ── CAPSA INTRO ────────────────────────────────────────── */
     .intro-box {
@@ -388,9 +537,21 @@
       gap: 1rem;
       align-items: flex-start;
     }
-    .intro-box .icona { font-size: 1.8rem; flex-shrink: 0; }
-    .intro-box p { font-size: 0.9rem; color: #374151; margin: 0; }
-    .intro-box strong { color: var(--accent-fosc); }
+
+    .intro-box .icona {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .intro-box p {
+      font-size: 0.9rem;
+      color: #374151;
+      margin: 0;
+    }
+
+    .intro-box strong {
+      color: var(--accent-fosc);
+    }
 
     /* ── SUPER PROMPT ───────────────────────────────────────── */
     .superprompt-box {
@@ -401,12 +562,15 @@
       position: relative;
       overflow: hidden;
     }
+
     .superprompt-box::before {
       content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.06));
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.06));
       pointer-events: none;
     }
+
     .superprompt-box h3 {
       color: #60a5fa;
       font-size: 0.85rem;
@@ -414,9 +578,13 @@
       text-transform: uppercase;
       letter-spacing: 0.1em;
       margin-bottom: 0.75rem;
-      display: flex; align-items: center; gap: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-    .superprompt-before, .superprompt-after {
+
+    .superprompt-before,
+    .superprompt-after {
       border-radius: 10px;
       padding: 1rem 1.25rem;
       font-family: 'Fira Code', monospace;
@@ -424,16 +592,19 @@
       line-height: 1.7;
       margin-bottom: 0.75rem;
     }
+
     .superprompt-before {
-      background: rgba(239,68,68,0.1);
+      background: rgba(239, 68, 68, 0.1);
       border-left: 3px solid #ef4444;
       color: #fca5a5;
     }
+
     .superprompt-after {
-      background: rgba(16,185,129,0.1);
+      background: rgba(16, 185, 129, 0.1);
       border-left: 3px solid #10b981;
       color: #6ee7b7;
     }
+
     .prompt-etiqueta {
       font-family: 'Inter', sans-serif;
       font-size: 0.7rem;
@@ -442,10 +613,19 @@
       letter-spacing: 0.1em;
       margin-bottom: 0.4rem;
     }
-    .etiqueta-mal { color: #ef4444; }
-    .etiqueta-be  { color: #10b981; }
 
-    .prompt-highlight { color: #fbbf24; font-style: italic; }
+    .etiqueta-mal {
+      color: #ef4444;
+    }
+
+    .etiqueta-be {
+      color: #10b981;
+    }
+
+    .prompt-highlight {
+      color: #fbbf24;
+      font-style: italic;
+    }
 
     /* ── FOOTER ─────────────────────────────────────────────── */
     footer {
@@ -456,654 +636,689 @@
       font-size: 0.82rem;
       margin-top: 3rem;
     }
-    footer strong { color: #94a3b8; }
+
+    footer strong {
+      color: #94a3b8;
+    }
 
     /* ── RESPONSIVE ─────────────────────────────────────────── */
     @media (max-width: 640px) {
-      .taula-wrapper { overflow-x: auto; }
-      .plat-grid { grid-template-columns: 1fr; }
-      header::after { display: none; }
+      .taula-wrapper {
+        overflow-x: auto;
+      }
+
+      .plat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      header::after {
+        display: none;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<!-- ══════════════════════════════════════════════════════════
+  <!-- ══════════════════════════════════════════════════════════
      HEADER
 ══════════════════════════════════════════════════════════ -->
-<header>
-  <div class="header-badge">Taller Web · Reus</div>
-  <h1>Plataformes de <span>Live Coding</span></h1>
-  <p>Escull l'entorn perfecte per programar al navegador i aprèn els 30 conceptes clau del desenvolupament web modern</p>
-</header>
+  <header>
+    <div class="header-badge">Taller Web · Reus</div>
+    <h1>Plataformes de <span>Live Coding</span></h1>
+    <p>Escull l'entorn perfecte per programar al navegador i aprèn els 30 conceptes clau del desenvolupament web modern
+    </p>
+  </header>
 
-<div class="contenidor">
+  <div class="contenidor">
 
-  <!-- ── INTRO ─────────────────────────────────────────────── -->
-  <div style="margin-top: 2.5rem;">
-    <div class="intro-box">
-      <div class="icona">💡</div>
-      <p>Les plataformes de <strong>live coding</strong> permeten escriure i veure el resultat del codi <strong>en temps real, sense instal·lar res</strong>. Són ideals per a tallers, exercicis en classe i per compartir codi fàcilment. A continuació trobaràs una comparativa i, a sota, el <strong>vocabulari tècnic essencial</strong> per fer prompts de qualitat a una IA.</p>
+    <!-- ── INTRO ─────────────────────────────────────────────── -->
+    <div style="margin-top: 2.5rem;">
+      <div class="intro-box">
+        <div class="icona">💡</div>
+        <p>Les plataformes de <strong>live coding</strong> permeten escriure i veure el resultat del codi <strong>en
+            temps real, sense instal·lar res</strong>. Són ideals per a tallers, exercicis en classe i per compartir
+          codi fàcilment. A continuació trobaràs una comparativa i, a sota, el <strong>vocabulari tècnic
+            essencial</strong> per fer prompts de qualitat a una IA.</p>
+      </div>
     </div>
-  </div>
 
-  <!-- ══════════════════════════════════════════════════════
+    <!-- ══════════════════════════════════════════════════════
        SECCIÓ 1 — COMPARATIVA DE PLATAFORMES
   ══════════════════════════════════════════════════════ -->
-  <div class="seccio-titol">
-    <span class="seccio-num">Secció 01</span>
-    <h2>Comparativa de Plataformes</h2>
-  </div>
-
-  <!-- TAULA COMPARATIVA -->
-  <div class="taula-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Plataforma</th>
-          <th>Dificultat</th>
-          <th>Aspecte Visual</th>
-          <th>Col·laboració</th>
-          <th>Recomanació</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <div class="plat-nom">
-              CodePen
-              <a href="https://codepen.io" target="_blank">↗ codepen.io</a>
-            </div>
-          </td>
-          <td><span class="badge-dificultat dif-molt-baixa">Molt Baixa</span></td>
-          <td><span class="estrelles">★★★★★</span></td>
-          <td class="col-lab">Molt fàcil (Fork)</td>
-          <td><span class="rec-tag">⭐ Millor per tallers</span></td>
-        </tr>
-        <tr>
-          <td>
-            <div class="plat-nom">
-              StackBlitz
-              <a href="https://stackblitz.com" target="_blank">↗ stackblitz.com</a>
-            </div>
-          </td>
-          <td><span class="badge-dificultat dif-mitjana">Mitjana</span></td>
-          <td><span class="estrelles">★★★★</span><span style="color:#cbd5e1">★</span></td>
-          <td class="col-lab">Excel·lent</td>
-          <td class="rec-normal">Per a docents avançats</td>
-        </tr>
-        <tr>
-          <td>
-            <div class="plat-nom">
-              PlayCode
-              <a href="https://playcode.io" target="_blank">↗ playcode.io</a>
-            </div>
-          </td>
-          <td><span class="badge-dificultat dif-baixa">Baixa</span></td>
-          <td><span class="estrelles">★★★★</span><span style="color:#cbd5e1">★</span></td>
-          <td class="col-lab">Bàsica</td>
-          <td class="rec-normal">Ràpida per a proves</td>
-        </tr>
-        <tr>
-          <td>
-            <div class="plat-nom">
-              CodeSandbox
-              <a href="https://codesandbox.io" target="_blank">↗ codesandbox.io</a>
-            </div>
-          </td>
-          <td><span class="badge-dificultat dif-alta">Mitjana/Alta</span></td>
-          <td><span class="estrelles">★★★★</span><span style="color:#cbd5e1">★</span></td>
-          <td class="col-lab">Molt bona (multi-usuari)</td>
-          <td class="rec-normal">Potent, complexa al inici</td>
-        </tr>
-        <tr>
-          <td>
-            <div class="plat-nom">
-              Liveweave
-              <a href="https://liveweave.com" target="_blank">↗ liveweave.com</a>
-            </div>
-          </td>
-          <td><span class="badge-dificultat dif-baixa">Baixa</span></td>
-          <td><span class="estrelles">★★★</span><span style="color:#cbd5e1">★★</span></td>
-          <td class="col-lab">Bona</td>
-          <td class="rec-normal">Eines auxiliars visuals</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- CARDS DE PLATAFORMES -->
-  <div class="plat-grid">
-
-    <div class="plat-card codepen">
-      <div class="plat-card-header">
-        <h3>🖊 CodePen</h3>
-        <a href="https://codepen.io" target="_blank" class="plat-card-url">codepen.io</a>
-      </div>
-      <p>La millor opció per a principiants. Interfície molt neta dividida en 3 panells (HTML / CSS / JS) i un resultat en directe. La funció <strong>Fork</strong> permet copiar qualsevol exercici i modificar-lo.</p>
-      <div class="plat-card-footer">
-        <span class="badge-dificultat dif-molt-baixa">Molt Baixa</span>
-        <span class="rec-tag">⭐ Ideal per al taller</span>
-      </div>
+    <div class="seccio-titol">
+      <span class="seccio-num">Secció 01</span>
+      <h2>Comparativa de Plataformes</h2>
     </div>
 
-    <div class="plat-card stackblitz">
-      <div class="plat-card-header">
-        <h3>⚡ StackBlitz</h3>
-        <a href="https://stackblitz.com" target="_blank" class="plat-card-url">stackblitz.com</a>
-      </div>
-      <p>Experiència de desenvolupador real. És pràcticament <strong>VS Code al navegador</strong>, amb terminals i estructura de fitxers. Molt ràpid de carregar i ideal per als docents que ja saben una mica.</p>
-      <div class="plat-card-footer">
-        <span class="badge-dificultat dif-mitjana">Mitjana</span>
-        <span class="rec-normal">Per a perfils avançats</span>
-      </div>
+    <!-- TAULA COMPARATIVA -->
+    <div class="taula-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Plataforma</th>
+            <th>Dificultat</th>
+            <th>Aspecte Visual</th>
+            <th>Col·laboració</th>
+            <th>Recomanació</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="plat-nom">
+                CodePen
+                <a href="https://codepen.io" target="_blank">↗ codepen.io</a>
+              </div>
+            </td>
+            <td><span class="badge-dificultat dif-molt-baixa">Molt Baixa</span></td>
+            <td><span class="estrelles">★★★★★</span></td>
+            <td class="col-lab">Molt fàcil (Fork)</td>
+            <td><span class="rec-tag">⭐ Millor per tallers</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="plat-nom">
+                StackBlitz
+                <a href="https://stackblitz.com" target="_blank">↗ stackblitz.com</a>
+              </div>
+            </td>
+            <td><span class="badge-dificultat dif-mitjana">Mitjana</span></td>
+            <td><span class="estrelles">★★★★</span><span style="color:#cbd5e1">★</span></td>
+            <td class="col-lab">Excel·lent</td>
+            <td class="rec-normal">Per a docents avançats</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="plat-nom">
+                PlayCode
+                <a href="https://playcode.io" target="_blank">↗ playcode.io</a>
+              </div>
+            </td>
+            <td><span class="badge-dificultat dif-baixa">Baixa</span></td>
+            <td><span class="estrelles">★★★★</span><span style="color:#cbd5e1">★</span></td>
+            <td class="col-lab">Bàsica</td>
+            <td class="rec-normal">Ràpida per a proves</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="plat-nom">
+                CodeSandbox
+                <a href="https://codesandbox.io" target="_blank">↗ codesandbox.io</a>
+              </div>
+            </td>
+            <td><span class="badge-dificultat dif-alta">Mitjana/Alta</span></td>
+            <td><span class="estrelles">★★★★</span><span style="color:#cbd5e1">★</span></td>
+            <td class="col-lab">Molt bona (multi-usuari)</td>
+            <td class="rec-normal">Potent, complexa al inici</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="plat-nom">
+                Liveweave
+                <a href="https://liveweave.com" target="_blank">↗ liveweave.com</a>
+              </div>
+            </td>
+            <td><span class="badge-dificultat dif-baixa">Baixa</span></td>
+            <td><span class="estrelles">★★★</span><span style="color:#cbd5e1">★★</span></td>
+            <td class="col-lab">Bona</td>
+            <td class="rec-normal">Eines auxiliars visuals</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="plat-card playcode">
-      <div class="plat-card-header">
-        <h3>▶ PlayCode</h3>
-        <a href="https://playcode.io" target="_blank" class="plat-card-url">playcode.io</a>
+    <!-- CARDS DE PLATAFORMES -->
+    <div class="plat-grid">
+
+      <div class="plat-card codepen">
+        <div class="plat-card-header">
+          <h3>🖊 CodePen</h3>
+          <a href="https://codepen.io" target="_blank" class="plat-card-url">codepen.io</a>
+        </div>
+        <p>La millor opció per a principiants. Interfície molt neta dividida en 3 panells (HTML / CSS / JS) i un
+          resultat en directe. La funció <strong>Fork</strong> permet copiar qualsevol exercici i modificar-lo.</p>
+        <div class="plat-card-footer">
+          <span class="badge-dificultat dif-molt-baixa">Molt Baixa</span>
+          <span class="rec-tag">⭐ Ideal per al taller</span>
+        </div>
       </div>
-      <p>Simplicitat al màxim. Molt ràpid per provar idees sense ni registrar-se. Ideal per a <strong>demostracions de 5 minuts</strong> o exercicis flash sense complicacions.</p>
-      <div class="plat-card-footer">
-        <span class="badge-dificultat dif-baixa">Baixa</span>
-        <span class="rec-normal">Proves ràpides</span>
+
+      <div class="plat-card stackblitz">
+        <div class="plat-card-header">
+          <h3>⚡ StackBlitz</h3>
+          <a href="https://stackblitz.com" target="_blank" class="plat-card-url">stackblitz.com</a>
+        </div>
+        <p>Experiència de desenvolupador real. És pràcticament <strong>VS Code al navegador</strong>, amb terminals i
+          estructura de fitxers. Molt ràpid de carregar i ideal per als docents que ja saben una mica.</p>
+        <div class="plat-card-footer">
+          <span class="badge-dificultat dif-mitjana">Mitjana</span>
+          <span class="rec-normal">Per a perfils avançats</span>
+        </div>
       </div>
+
+      <div class="plat-card playcode">
+        <div class="plat-card-header">
+          <h3>▶ PlayCode</h3>
+          <a href="https://playcode.io" target="_blank" class="plat-card-url">playcode.io</a>
+        </div>
+        <p>Simplicitat al màxim. Molt ràpid per provar idees sense ni registrar-se. Ideal per a <strong>demostracions de
+            5 minuts</strong> o exercicis flash sense complicacions.</p>
+        <div class="plat-card-footer">
+          <span class="badge-dificultat dif-baixa">Baixa</span>
+          <span class="rec-normal">Proves ràpides</span>
+        </div>
+      </div>
+
+      <div class="plat-card codesandbox">
+        <div class="plat-card-header">
+          <h3>📦 CodeSandbox</h3>
+          <a href="https://codesandbox.io" target="_blank" class="plat-card-url">codesandbox.io</a>
+        </div>
+        <p>La plataforma de <strong>col·laboració en viu</strong>: diversos alumnes poden editar el mateix fitxer
+          simultàniament, com un Google Docs del codi. Molt potent però pot marejar al principi.</p>
+        <div class="plat-card-footer">
+          <span class="badge-dificultat dif-alta">Mitjana/Alta</span>
+          <span class="rec-normal">Col·laboració multi-usuari</span>
+        </div>
+      </div>
+
+      <div class="plat-card liveweave">
+        <div class="plat-card-header">
+          <h3>🧵 Liveweave</h3>
+          <a href="https://liveweave.com" target="_blank" class="plat-card-url">liveweave.com</a>
+        </div>
+        <p>Pensada per al disseny. Inclou <strong>regles visuals, selector de colors i guies</strong> integrades a la
+          mateixa pantalla. Perfecta quan l'objectiu és aprendre CSS de forma visual.</p>
+        <div class="plat-card-footer">
+          <span class="badge-dificultat dif-baixa">Baixa</span>
+          <span class="rec-normal">Eines de disseny visuals</span>
+        </div>
+      </div>
+
     </div>
 
-    <div class="plat-card codesandbox">
-      <div class="plat-card-header">
-        <h3>📦 CodeSandbox</h3>
-        <a href="https://codesandbox.io" target="_blank" class="plat-card-url">codesandbox.io</a>
-      </div>
-      <p>La plataforma de <strong>col·laboració en viu</strong>: diversos alumnes poden editar el mateix fitxer simultàniament, com un Google Docs del codi. Molt potent però pot marejar al principi.</p>
-      <div class="plat-card-footer">
-        <span class="badge-dificultat dif-alta">Mitjana/Alta</span>
-        <span class="rec-normal">Col·laboració multi-usuari</span>
-      </div>
-    </div>
-
-    <div class="plat-card liveweave">
-      <div class="plat-card-header">
-        <h3>🧵 Liveweave</h3>
-        <a href="https://liveweave.com" target="_blank" class="plat-card-url">liveweave.com</a>
-      </div>
-      <p>Pensada per al disseny. Inclou <strong>regles visuals, selector de colors i guies</strong> integrades a la mateixa pantalla. Perfecta quan l'objectiu és aprendre CSS de forma visual.</p>
-      <div class="plat-card-footer">
-        <span class="badge-dificultat dif-baixa">Baixa</span>
-        <span class="rec-normal">Eines de disseny visuals</span>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ══════════════════════════════════════════════════════
+    <!-- ══════════════════════════════════════════════════════
        SECCIÓ 2 — GUIA DE CONCEPTES
   ══════════════════════════════════════════════════════ -->
-  <div class="seccio-titol" style="margin-top: 1rem;">
-    <span class="seccio-num">Secció 02</span>
-    <h2>Diccionari de Conceptes per al Prompt Engineering</h2>
-  </div>
+    <div class="seccio-titol" style="margin-top: 1rem;">
+      <span class="seccio-num">Secció 02</span>
+      <h2>Diccionari de Conceptes per al Prompt Engineering</h2>
+    </div>
 
-  <div class="intro-box" style="margin-bottom: 1.5rem;">
-    <div class="icona">🗝️</div>
-    <p>Per fer <strong>prompts de qualitat</strong> a una IA, cal conèixer el vocabulari tècnic. Si no saps que existeix el concepte <code>Responsive</code>, mai no el demanaràs. Aquí tens els <strong>30 conceptes clau</strong> organitzats per capes — el teu vocabulari d'arquitecte de prompts.</p>
-  </div>
+    <div class="intro-box" style="margin-bottom: 1.5rem;">
+      <div class="icona">🗝️</div>
+      <p>Per fer <strong>prompts de qualitat</strong> a una IA, cal conèixer el vocabulari tècnic. Si no saps que
+        existeix el concepte <code>Responsive</code>, mai no el demanaràs. Aquí tens els <strong>30 conceptes
+          clau</strong> organitzats per capes — el teu vocabulari d'arquitecte de prompts.</p>
+    </div>
 
-  <!-- BLOC I -->
-  <div class="bloc-conceptes bloc-I">
-    <div class="bloc-header" onclick="toggleBloc(this)">
-      <div class="bloc-num">I</div>
-      <div class="bloc-header-text">
-        <h3>Fonaments i Estructura (HTML5)</h3>
-        <span>7 conceptes · L'esquelet de la web</span>
+    <!-- BLOC I -->
+    <div class="bloc-conceptes bloc-I">
+      <div class="bloc-header" onclick="toggleBloc(this)">
+        <div class="bloc-num">I</div>
+        <div class="bloc-header-text">
+          <h3>Fonaments i Estructura (HTML5)</h3>
+          <span>7 conceptes · L'esquelet de la web</span>
+        </div>
+        <span class="bloc-toggle">▼</span>
       </div>
-      <span class="bloc-toggle">▼</span>
-    </div>
-    <div class="bloc-cos">
-      <div class="conceptes-grid">
-        <div class="concepte-item">
-          <span class="concepte-icon">📄</span>
-          <div>
-            <div class="concepte-nom">Doctype HTML</div>
-            <div class="concepte-desc">Declara que usem HTML5 al navegador</div>
+      <div class="bloc-cos">
+        <div class="conceptes-grid">
+          <div class="concepte-item">
+            <span class="concepte-icon">📄</span>
+            <div>
+              <div class="concepte-nom">Doctype HTML</div>
+              <div class="concepte-desc">Declara que usem HTML5 al navegador</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🌳</span>
-          <div>
-            <div class="concepte-nom">&lt;html&gt; Root</div>
-            <div class="concepte-desc">Contenidor pare de tot el document</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🌳</span>
+            <div>
+              <div class="concepte-nom">&lt;html&gt; Root</div>
+              <div class="concepte-desc">Contenidor pare de tot el document</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">✂️</span>
-          <div>
-            <div class="concepte-nom">Head vs Body</div>
-            <div class="concepte-desc">Configuració invisible vs contingut visual</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">✂️</span>
+            <div>
+              <div class="concepte-nom">Head vs Body</div>
+              <div class="concepte-desc">Configuració invisible vs contingut visual</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🏷️</span>
-          <div>
-            <div class="concepte-nom">Semàntica HTML5</div>
-            <div class="concepte-desc">&lt;header&gt;, &lt;main&gt;, &lt;footer&gt;, &lt;section&gt;, &lt;article&gt;</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🏷️</span>
+            <div>
+              <div class="concepte-nom">Semàntica HTML5</div>
+              <div class="concepte-desc">&lt;header&gt;, &lt;main&gt;, &lt;footer&gt;, &lt;section&gt;, &lt;article&gt;
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🔬</span>
-          <div>
-            <div class="concepte-nom">Anatomia Etiqueta</div>
-            <div class="concepte-desc">Obertura, contingut i tancament</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🔬</span>
+            <div>
+              <div class="concepte-nom">Anatomia Etiqueta</div>
+              <div class="concepte-desc">Obertura, contingut i tancament</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">⚙️</span>
-          <div>
-            <div class="concepte-nom">Atributs</div>
-            <div class="concepte-desc">href, src, alt, id, class...</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">⚙️</span>
+            <div>
+              <div class="concepte-nom">Atributs</div>
+              <div class="concepte-desc">href, src, alt, id, class...</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🔗</span>
-          <div>
-            <div class="concepte-nom">Hipervincles i Rutes</div>
-            <div class="concepte-desc">Relatives (internes) vs absolutes (URL externes)</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🔗</span>
+            <div>
+              <div class="concepte-nom">Hipervincles i Rutes</div>
+              <div class="concepte-desc">Relatives (internes) vs absolutes (URL externes)</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- BLOC II -->
-  <div class="bloc-conceptes bloc-II">
-    <div class="bloc-header" onclick="toggleBloc(this)">
-      <div class="bloc-num">II</div>
-      <div class="bloc-header-text">
-        <h3>Configuració Invisible (Metadades)</h3>
-        <span>5 conceptes · El que el navegador llegeix però l'usuari no veu</span>
+    <!-- BLOC II -->
+    <div class="bloc-conceptes bloc-II">
+      <div class="bloc-header" onclick="toggleBloc(this)">
+        <div class="bloc-num">II</div>
+        <div class="bloc-header-text">
+          <h3>Configuració Invisible (Metadades)</h3>
+          <span>5 conceptes · El que el navegador llegeix però l'usuari no veu</span>
+        </div>
+        <span class="bloc-toggle">▼</span>
       </div>
-      <span class="bloc-toggle">▼</span>
-    </div>
-    <div class="bloc-cos">
-      <div class="conceptes-grid">
-        <div class="concepte-item">
-          <span class="concepte-icon">🔤</span>
-          <div>
-            <div class="concepte-nom">Charset UTF-8</div>
-            <div class="concepte-desc">Permet accents i caràcters especials</div>
+      <div class="bloc-cos">
+        <div class="conceptes-grid">
+          <div class="concepte-item">
+            <span class="concepte-icon">🔤</span>
+            <div>
+              <div class="concepte-nom">Charset UTF-8</div>
+              <div class="concepte-desc">Permet accents i caràcters especials</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">📱</span>
-          <div>
-            <div class="concepte-nom">Viewport Meta</div>
-            <div class="concepte-desc">Evita que la web es vegi "en miniatura" al mòbil</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">📱</span>
+            <div>
+              <div class="concepte-nom">Viewport Meta</div>
+              <div class="concepte-desc">Evita que la web es vegi "en miniatura" al mòbil</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🔍</span>
-          <div>
-            <div class="concepte-nom">Metadades SEO</div>
-            <div class="concepte-desc">description i keywords per als cercadors</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🔍</span>
+            <div>
+              <div class="concepte-nom">Metadades SEO</div>
+              <div class="concepte-desc">description i keywords per als cercadors</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">📣</span>
-          <div>
-            <div class="concepte-nom">Open Graph (og:)</div>
-            <div class="concepte-desc">Com es veu la web a WhatsApp o xarxes socials</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">📣</span>
+            <div>
+              <div class="concepte-nom">Open Graph (og:)</div>
+              <div class="concepte-desc">Com es veu la web a WhatsApp o xarxes socials</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🌐</span>
-          <div>
-            <div class="concepte-nom">Favicon</div>
-            <div class="concepte-desc">La petita icona de la pestanya del navegador</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🌐</span>
+            <div>
+              <div class="concepte-nom">Favicon</div>
+              <div class="concepte-desc">La petita icona de la pestanya del navegador</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- BLOC III -->
-  <div class="bloc-conceptes bloc-III">
-    <div class="bloc-header" onclick="toggleBloc(this)">
-      <div class="bloc-num">III</div>
-      <div class="bloc-header-text">
-        <h3>Disseny i Estètica (CSS)</h3>
-        <span>9 conceptes · El vestit de la web</span>
+    <!-- BLOC III -->
+    <div class="bloc-conceptes bloc-III">
+      <div class="bloc-header" onclick="toggleBloc(this)">
+        <div class="bloc-num">III</div>
+        <div class="bloc-header-text">
+          <h3>Disseny i Estètica (CSS)</h3>
+          <span>9 conceptes · El vestit de la web</span>
+        </div>
+        <span class="bloc-toggle">▼</span>
       </div>
-      <span class="bloc-toggle">▼</span>
-    </div>
-    <div class="bloc-cos">
-      <div class="conceptes-grid">
-        <div class="concepte-item">
-          <span class="concepte-icon">🎯</span>
-          <div>
-            <div class="concepte-nom">Selectors CSS</div>
-            <div class="concepte-desc">Per etiqueta, classe (.) o ID (#)</div>
+      <div class="bloc-cos">
+        <div class="conceptes-grid">
+          <div class="concepte-item">
+            <span class="concepte-icon">🎯</span>
+            <div>
+              <div class="concepte-nom">Selectors CSS</div>
+              <div class="concepte-desc">Per etiqueta, classe (.) o ID (#)</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">📦</span>
-          <div>
-            <div class="concepte-nom">Box Model</div>
-            <div class="concepte-desc">margin, border, padding i content</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">📦</span>
+            <div>
+              <div class="concepte-nom">Box Model</div>
+              <div class="concepte-desc">margin, border, padding i content</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">📏</span>
-          <div>
-            <div class="concepte-nom">Unitats de Mesura</div>
-            <div class="concepte-desc">px (fixos) vs rem, %, vh (relatius)</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">📏</span>
+            <div>
+              <div class="concepte-nom">Unitats de Mesura</div>
+              <div class="concepte-desc">px (fixos) vs rem, %, vh (relatius)</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">↔️</span>
-          <div>
-            <div class="concepte-nom">Flexbox</div>
-            <div class="concepte-desc">Alinear elements en eix principal i secundari</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">↔️</span>
+            <div>
+              <div class="concepte-nom">Flexbox</div>
+              <div class="concepte-desc">Alinear elements en eix principal i secundari</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">⬛</span>
-          <div>
-            <div class="concepte-nom">CSS Grid</div>
-            <div class="concepte-desc">Dissenys de graella complexos en 2D</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">⬛</span>
+            <div>
+              <div class="concepte-nom">CSS Grid</div>
+              <div class="concepte-desc">Dissenys de graella complexos en 2D</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">📲</span>
-          <div>
-            <div class="concepte-nom">Responsive Design</div>
-            <div class="concepte-desc">Media Queries per canviar disseny per pantalla</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">📲</span>
+            <div>
+              <div class="concepte-nom">Responsive Design</div>
+              <div class="concepte-desc">Media Queries per canviar disseny per pantalla</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🔡</span>
-          <div>
-            <div class="concepte-nom">Google Fonts</div>
-            <div class="concepte-desc">Importar i aplicar tipografies externes</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🔡</span>
+            <div>
+              <div class="concepte-nom">Google Fonts</div>
+              <div class="concepte-desc">Importar i aplicar tipografies externes</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">✨</span>
-          <div>
-            <div class="concepte-nom">Efectes Visuals</div>
-            <div class="concepte-desc">box-shadow, border-radius, opacity</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">✨</span>
+            <div>
+              <div class="concepte-nom">Efectes Visuals</div>
+              <div class="concepte-desc">box-shadow, border-radius, opacity</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🎞️</span>
-          <div>
-            <div class="concepte-nom">Transicions i :hover</div>
-            <div class="concepte-desc">Pas suau entre estats interactius</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🎞️</span>
+            <div>
+              <div class="concepte-nom">Transicions i :hover</div>
+              <div class="concepte-desc">Pas suau entre estats interactius</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- BLOC IV -->
-  <div class="bloc-conceptes bloc-IV">
-    <div class="bloc-header" onclick="toggleBloc(this)">
-      <div class="bloc-num">IV</div>
-      <div class="bloc-header-text">
-        <h3>Biblioteques i Frameworks</h3>
-        <span>2 conceptes · Eines predefinides per guanyar velocitat</span>
+    <!-- BLOC IV -->
+    <div class="bloc-conceptes bloc-IV">
+      <div class="bloc-header" onclick="toggleBloc(this)">
+        <div class="bloc-num">IV</div>
+        <div class="bloc-header-text">
+          <h3>Biblioteques i Frameworks</h3>
+          <span>2 conceptes · Eines predefinides per guanyar velocitat</span>
+        </div>
+        <span class="bloc-toggle">▼</span>
       </div>
-      <span class="bloc-toggle">▼</span>
-    </div>
-    <div class="bloc-cos">
-      <div class="conceptes-grid">
-        <div class="concepte-item">
-          <span class="concepte-icon">🧰</span>
-          <div>
-            <div class="concepte-nom">Frameworks CSS</div>
-            <div class="concepte-desc">Bootstrap, Tailwind — classes predefinides per disseny</div>
+      <div class="bloc-cos">
+        <div class="conceptes-grid">
+          <div class="concepte-item">
+            <span class="concepte-icon">🧰</span>
+            <div>
+              <div class="concepte-nom">Frameworks CSS</div>
+              <div class="concepte-desc">Bootstrap, Tailwind — classes predefinides per disseny</div>
+            </div>
+          </div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🌍</span>
+            <div>
+              <div class="concepte-nom">CDN</div>
+              <div class="concepte-desc">Carregar llibreries sense descarregar fitxers locals</div>
+            </div>
           </div>
         </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🌍</span>
-          <div>
-            <div class="concepte-nom">CDN</div>
-            <div class="concepte-desc">Carregar llibreries sense descarregar fitxers locals</div>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
 
-  <!-- BLOC V -->
-  <div class="bloc-conceptes bloc-V">
-    <div class="bloc-header" onclick="toggleBloc(this)">
-      <div class="bloc-num">V</div>
-      <div class="bloc-header-text">
-        <h3>Interactivitat i Lògica (JavaScript)</h3>
-        <span>5 conceptes · El cervell de la web</span>
+    <!-- BLOC V -->
+    <div class="bloc-conceptes bloc-V">
+      <div class="bloc-header" onclick="toggleBloc(this)">
+        <div class="bloc-num">V</div>
+        <div class="bloc-header-text">
+          <h3>Interactivitat i Lògica (JavaScript)</h3>
+          <span>5 conceptes · El cervell de la web</span>
+        </div>
+        <span class="bloc-toggle">▼</span>
       </div>
-      <span class="bloc-toggle">▼</span>
-    </div>
-    <div class="bloc-cos">
-      <div class="conceptes-grid">
-        <div class="concepte-item">
-          <span class="concepte-icon">🗺️</span>
-          <div>
-            <div class="concepte-nom">DOM</div>
-            <div class="concepte-desc">El "mapa" que permet al JS modificar l'HTML en viu</div>
+      <div class="bloc-cos">
+        <div class="conceptes-grid">
+          <div class="concepte-item">
+            <span class="concepte-icon">🗺️</span>
+            <div>
+              <div class="concepte-nom">DOM</div>
+              <div class="concepte-desc">El "mapa" que permet al JS modificar l'HTML en viu</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">📦</span>
-          <div>
-            <div class="concepte-nom">Variables i Tipus</div>
-            <div class="concepte-desc">strings, numbers, booleans — on guardem info</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">📦</span>
+            <div>
+              <div class="concepte-nom">Variables i Tipus</div>
+              <div class="concepte-desc">strings, numbers, booleans — on guardem info</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">👆</span>
-          <div>
-            <div class="concepte-nom">EventListeners</div>
-            <div class="concepte-desc">Clics, teclejos, scroll, moviments de ratolí</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">👆</span>
+            <div>
+              <div class="concepte-nom">EventListeners</div>
+              <div class="concepte-desc">Clics, teclejos, scroll, moviments de ratolí</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🔧</span>
-          <div>
-            <div class="concepte-nom">Funcions</div>
-            <div class="concepte-desc">Blocs de codi reutilitzables per a una tasca</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🔧</span>
+            <div>
+              <div class="concepte-nom">Funcions</div>
+              <div class="concepte-desc">Blocs de codi reutilitzables per a una tasca</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🔀</span>
-          <div>
-            <div class="concepte-nom">Condicionals if/else</div>
-            <div class="concepte-desc">La lògica de presa de decisions de la web</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🔀</span>
+            <div>
+              <div class="concepte-nom">Condicionals if/else</div>
+              <div class="concepte-desc">La lògica de presa de decisions de la web</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- BLOC VI -->
-  <div class="bloc-conceptes bloc-VI">
-    <div class="bloc-header" onclick="toggleBloc(this)">
-      <div class="bloc-num">VI</div>
-      <div class="bloc-header-text">
-        <h3>Disseny Flexible i Adaptabilitat</h3>
-        <span>4 conceptes · La web que "reacciona" a l'entorn</span>
+    <!-- BLOC VI -->
+    <div class="bloc-conceptes bloc-VI">
+      <div class="bloc-header" onclick="toggleBloc(this)">
+        <div class="bloc-num">VI</div>
+        <div class="bloc-header-text">
+          <h3>Disseny Flexible i Adaptabilitat</h3>
+          <span>4 conceptes · La web que "reacciona" a l'entorn</span>
+        </div>
+        <span class="bloc-toggle">▼</span>
       </div>
-      <span class="bloc-toggle">▼</span>
-    </div>
-    <div class="bloc-cos">
-      <div class="conceptes-grid">
-        <div class="concepte-item">
-          <span class="concepte-icon">📐</span>
-          <div>
-            <div class="concepte-nom">Media Queries</div>
-            <div class="concepte-desc">Estils CSS que canvien segons la mida de la pantalla</div>
+      <div class="bloc-cos">
+        <div class="conceptes-grid">
+          <div class="concepte-item">
+            <span class="concepte-icon">📐</span>
+            <div>
+              <div class="concepte-nom">Media Queries</div>
+              <div class="concepte-desc">Estils CSS que canvien segons la mida de la pantalla</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">✂️</span>
-          <div>
-            <div class="concepte-nom">Breakpoints</div>
-            <div class="concepte-desc">Punts de tall en píxels on el disseny canvia</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">✂️</span>
+            <div>
+              <div class="concepte-nom">Breakpoints</div>
+              <div class="concepte-desc">Punts de tall en píxels on el disseny canvia</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">📲</span>
-          <div>
-            <div class="concepte-nom">Mobile-First</div>
-            <div class="concepte-desc">Dissenyar primer per mòbil, després per desktop</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">📲</span>
+            <div>
+              <div class="concepte-nom">Mobile-First</div>
+              <div class="concepte-desc">Dissenyar primer per mòbil, després per desktop</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">📏</span>
-          <div>
-            <div class="concepte-nom">vh, vw, %</div>
-            <div class="concepte-desc">Mides proporcionals a la pantalla, no fixes</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">📏</span>
+            <div>
+              <div class="concepte-nom">vh, vw, %</div>
+              <div class="concepte-desc">Mides proporcionals a la pantalla, no fixes</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- BLOC VII -->
-  <div class="bloc-conceptes bloc-VII">
-    <div class="bloc-header" onclick="toggleBloc(this)">
-      <div class="bloc-num">VII</div>
-      <div class="bloc-header-text">
-        <h3>Lògica i Validació (JS Avançat)</h3>
-        <span>4 conceptes · La web com a aplicació</span>
+    <!-- BLOC VII -->
+    <div class="bloc-conceptes bloc-VII">
+      <div class="bloc-header" onclick="toggleBloc(this)">
+        <div class="bloc-num">VII</div>
+        <div class="bloc-header-text">
+          <h3>Lògica i Validació (JS Avançat)</h3>
+          <span>4 conceptes · La web com a aplicació</span>
+        </div>
+        <span class="bloc-toggle">▼</span>
       </div>
-      <span class="bloc-toggle">▼</span>
-    </div>
-    <div class="bloc-cos">
-      <div class="conceptes-grid">
-        <div class="concepte-item">
-          <span class="concepte-icon">🗺️</span>
-          <div>
-            <div class="concepte-nom">DOM (avançat)</div>
-            <div class="concepte-desc">Canviar textos, amagar botons, modificar colors en temps real</div>
+      <div class="bloc-cos">
+        <div class="conceptes-grid">
+          <div class="concepte-item">
+            <span class="concepte-icon">🗺️</span>
+            <div>
+              <div class="concepte-nom">DOM (avançat)</div>
+              <div class="concepte-desc">Canviar textos, amagar botons, modificar colors en temps real</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🎛️</span>
-          <div>
-            <div class="concepte-nom">Events: submit, scroll</div>
-            <div class="concepte-desc">Més que el clic: formularis, desplaçament, hover</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🎛️</span>
+            <div>
+              <div class="concepte-nom">Events: submit, scroll</div>
+              <div class="concepte-desc">Més que el clic: formularis, desplaçament, hover</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🔎</span>
-          <div>
-            <div class="concepte-nom">RegEx (Validació)</div>
-            <div class="concepte-desc">Comprovar si un text té forma d'email o DNI</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🔎</span>
+            <div>
+              <div class="concepte-nom">RegEx (Validació)</div>
+              <div class="concepte-desc">Comprovar si un text té forma d'email o DNI</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">💾</span>
-          <div>
-            <div class="concepte-nom">Variables i États</div>
-            <div class="concepte-desc">La web "recorda" si l'usuari ha iniciat sessió, etc.</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">💾</span>
+            <div>
+              <div class="concepte-nom">Variables i États</div>
+              <div class="concepte-desc">La web "recorda" si l'usuari ha iniciat sessió, etc.</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- BLOC VIII -->
-  <div class="bloc-conceptes bloc-VIII">
-    <div class="bloc-header" onclick="toggleBloc(this)">
-      <div class="bloc-num">VIII</div>
-      <div class="bloc-header-text">
-        <h3>Connexió i Dades Externes (APIs, RSS & JSON)</h3>
-        <span>6 conceptes · La web connectada al món</span>
+    <!-- BLOC VIII -->
+    <div class="bloc-conceptes bloc-VIII">
+      <div class="bloc-header" onclick="toggleBloc(this)">
+        <div class="bloc-num">VIII</div>
+        <div class="bloc-header-text">
+          <h3>Connexió i Dades Externes (APIs, RSS & JSON)</h3>
+          <span>6 conceptes · La web connectada al món</span>
+        </div>
+        <span class="bloc-toggle">▼</span>
       </div>
-      <span class="bloc-toggle">▼</span>
-    </div>
-    <div class="bloc-cos">
-      <div class="conceptes-grid">
-        <div class="concepte-item">
-          <span class="concepte-icon">🍽️</span>
-          <div>
-            <div class="concepte-nom">API</div>
-            <div class="concepte-desc">El "cambrer" que busca dades al servidor per a l'usuari</div>
+      <div class="bloc-cos">
+        <div class="conceptes-grid">
+          <div class="concepte-item">
+            <span class="concepte-icon">🍽️</span>
+            <div>
+              <div class="concepte-nom">API</div>
+              <div class="concepte-desc">El "cambrer" que busca dades al servidor per a l'usuari</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">📡</span>
-          <div>
-            <div class="concepte-nom">RSS</div>
-            <div class="concepte-desc">Format robust per subscriure's a notícies i blogs</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">📡</span>
+            <div>
+              <div class="concepte-nom">RSS</div>
+              <div class="concepte-desc">Format robust per subscriure's a notícies i blogs</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">📋</span>
-          <div>
-            <div class="concepte-nom">JSON</div>
-            <div class="concepte-desc">L'idioma universal de les dades a Internet</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">📋</span>
+            <div>
+              <div class="concepte-nom">JSON</div>
+              <div class="concepte-desc">L'idioma universal de les dades a Internet</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">⏳</span>
-          <div>
-            <div class="concepte-nom">Asincronia / Fetch</div>
-            <div class="concepte-desc">Carregar dades en segon pla sense recarregar la pàgina</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">⏳</span>
+            <div>
+              <div class="concepte-nom">Asincronia / Fetch</div>
+              <div class="concepte-desc">Carregar dades en segon pla sense recarregar la pàgina</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🧱</span>
-          <div>
-            <div class="concepte-nom">Frameworks JS</div>
-            <div class="concepte-desc">React, Vue, jQuery — faciliten la connexió de dades</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🧱</span>
+            <div>
+              <div class="concepte-nom">Frameworks JS</div>
+              <div class="concepte-desc">React, Vue, jQuery — faciliten la connexió de dades</div>
+            </div>
           </div>
-        </div>
-        <div class="concepte-item">
-          <span class="concepte-icon">🔒</span>
-          <div>
-            <div class="concepte-nom">CORS</div>
-            <div class="concepte-desc">Per què el navegador bloqueja recursos d'altres webs</div>
+          <div class="concepte-item">
+            <span class="concepte-icon">🔒</span>
+            <div>
+              <div class="concepte-nom">CORS</div>
+              <div class="concepte-desc">Per què el navegador bloqueja recursos d'altres webs</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ══════════════════════════════════════════════════════
+    <!-- ══════════════════════════════════════════════════════
        SECCIÓ 3 — SUPER PROMPT
   ══════════════════════════════════════════════════════ -->
-  <div class="seccio-titol" style="margin-top: 2rem;">
-    <span class="seccio-num">Secció 03</span>
-    <h2>Del Prompt Bàsic al Súper-Prompt</h2>
-  </div>
+    <div class="seccio-titol" style="margin-top: 2rem;">
+      <span class="seccio-num">Secció 03</span>
+      <h2>Del Prompt Bàsic al Súper-Prompt</h2>
+    </div>
 
-  <div class="superprompt-box">
-    <h3>🚀 Com evoluciona el teu prompt quan coneixes el vocabulari</h3>
+    <div class="superprompt-box">
+      <h3>🚀 Com evoluciona el teu prompt quan coneixes el vocabulari</h3>
 
-    <div class="prompt-etiqueta etiqueta-mal">❌ Prompt sense vocabulari tècnic</div>
-    <div class="superprompt-before">"Fes-me una web de notícies"</div>
+      <div class="prompt-etiqueta etiqueta-mal">❌ Prompt sense vocabulari tècnic</div>
+      <div class="superprompt-before">"Fes-me una web de notícies"</div>
 
-    <div class="prompt-etiqueta etiqueta-be">✅ Prompt d'Arquitecte amb els 30 conceptes</div>
-    <div class="superprompt-after">"Genera una <span class="prompt-highlight">pàgina HTML5 semàntica</span> amb un <span class="prompt-highlight">header fix</span> i un main configurat amb <span class="prompt-highlight">Flexbox</span>. Inclou <span class="prompt-highlight">metadades Open Graph</span> i configuració <span class="prompt-highlight">UTF-8</span>. Connecta la llibreria <span class="prompt-highlight">Bootstrap 5 via CDN</span> per al disseny de les targetes (cards) de notícies i usa la <span class="prompt-highlight">Fetch API</span> per llegir un <span class="prompt-highlight">JSON extern asíncronament</span>. Aplica una tipografia <span class="prompt-highlight">Google Font</span> tipus 'Inter' al body i assegura't que sigui <span class="prompt-highlight">Responsive</span> amb un breakpoint per a mòbil."</div>
-  </div>
+      <div class="prompt-etiqueta etiqueta-be">✅ Prompt d'Arquitecte amb els 30 conceptes</div>
+      <div class="superprompt-after">"Genera una <span class="prompt-highlight">pàgina HTML5 semàntica</span> amb un
+        <span class="prompt-highlight">header fix</span> i un main configurat amb <span
+          class="prompt-highlight">Flexbox</span>. Inclou <span class="prompt-highlight">metadades Open Graph</span> i
+        configuració <span class="prompt-highlight">UTF-8</span>. Connecta la llibreria <span
+          class="prompt-highlight">Bootstrap 5 via CDN</span> per al disseny de les targetes (cards) de notícies i usa
+        la <span class="prompt-highlight">Fetch API</span> per llegir un <span class="prompt-highlight">JSON extern
+          asíncronament</span>. Aplica una tipografia <span class="prompt-highlight">Google Font</span> tipus 'Inter' al
+        body i assegura't que sigui <span class="prompt-highlight">Responsive</span> amb un breakpoint per a mòbil."
+      </div>
+    </div>
 
-</div><!-- fi contenidor -->
+  </div><!-- fi contenidor -->
 
-<footer>
-  <strong>Taller Web · Reus</strong> · Plataformes Live Coding i Vocabulari Tècnic
-</footer>
+  <footer>
+    <strong>Taller Web · Reus</strong> · Plataformes Live Coding i Vocabulari Tècnic
+  </footer>
 
-<script>
-  function toggleBloc(header) {
-    const cos = header.nextElementSibling;
-    const toggle = header.querySelector('.bloc-toggle');
-    const estaObert = cos.classList.contains('visible');
-    cos.classList.toggle('visible', !estaObert);
-    toggle.classList.toggle('obert', !estaObert);
-  }
-</script>
+  <script>
+    function toggleBloc(header) {
+      const cos = header.nextElementSibling;
+      const toggle = header.querySelector('.bloc-toggle');
+      const estaObert = cos.classList.contains('visible');
+      cos.classList.toggle('visible', !estaObert);
+      toggle.classList.toggle('obert', !estaObert);
+    }
+  </script>
+  <!-- Guies a l'arrel (historia.html, skills.html...) -->
+  <script src="nav.js"></script>
 </body>
+
 </html>
