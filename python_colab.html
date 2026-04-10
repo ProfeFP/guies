@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python i Google Colab · GAS Docents</title>
+  <link rel="stylesheet" href="gas-docents.css">
+  <style>
+    /* ── Estils locals python_colab.html ─────────────────── */
+
+    .hero {
+      background: linear-gradient(135deg, #f0fff4 0%, #e8f5e9 50%, #e3f2fd 100%);
+      border-bottom: 1px solid var(--border2);
+      padding: 64px 32px 52px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0,137,123,0.12);
+      color: #00897b;
+      font-family: 'Syne', sans-serif;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(26px, 5vw, 42px);
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      margin-bottom: 16px;
+    }
+    .hero h1 span { color: #00897b; }
+    .hero-sub {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto 28px;
+      line-height: 1.65;
+    }
+    .hero-links {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #00897b;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover { background: #00695c; transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(0,137,123,0.1);
+      color: #00897b;
+      padding: 10px 22px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      border: 1px solid rgba(0,137,123,0.25);
+      transition: background .2s;
+    }
+    .btn-secondary:hover { background: rgba(0,137,123,0.18); }
+
+    /* ── Layout ─────────────────────────────────────────── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ── Seccions ────────────────────────────────────────── */
+    .section {
+      padding: 56px 0 0;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 22px;
+      border-radius: 3px;
+      background: #00897b;
+      flex-shrink: 0;
+    }
+    .section-intro {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+
+    /* ── Quadres concepte ────────────────────────────────── */
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .concept-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .concept-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .concept-card.variables::before { background: #00897b; }
+    .concept-card.condicionals::before { background: #1976d2; }
+    .concept-card.bucles::before { background: #f57c00; }
+    .concept-card.funcions::before { background: #7b1fa2; }
+    .concept-card.llistes::before { background: #c62828; }
+    .concept-card-icon { font-size: 24px; margin-bottom: 8px; }
+    .concept-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .concept-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* ── Blocs de codi ───────────────────────────────────── */
+    .code-block-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: #f8f9fa;
+      border-bottom: 1px solid var(--border);
+    }
+    .code-block-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .cell-badge {
+      font-size: 10.5px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+    .cell-badge.code { background: #e8f5e9; color: #2e7d32; }
+    .cell-badge.text { background: #e3f2fd; color: #1565c0; }
+    .cell-badge.output { background: #fff8e1; color: #e65100; }
+    pre {
+      padding: 18px 20px;
+      margin: 0;
+      overflow-x: auto;
+      font-family: 'Courier New', 'Consolas', monospace;
+      font-size: 13.5px;
+      line-height: 1.65;
+      background: #1e1e2e;
+      color: #cdd6f4;
+    }
+    .output-pre {
+      background: #fafafa;
+      color: #333;
+      border-top: 1px solid var(--border);
+    }
+    /* Syntax highlighting */
+    .kw   { color: #cba6f7; } /* keywords */
+    .fn   { color: #89b4fa; } /* functions */
+    .str  { color: #a6e3a1; } /* strings */
+    .num  { color: #fab387; } /* numbers */
+    .cmt  { color: #6c7086; font-style: italic; } /* comments */
+    .var  { color: #f38ba8; } /* variables */
+    .op   { color: #89dceb; } /* operators */
+
+    /* ── Caixa Colab ─────────────────────────────────────── */
+    .colab-box {
+      background: linear-gradient(135deg, #fff8e1 0%, #fffde7 100%);
+      border: 1px solid #f9a825;
+      border-left: 4px solid #f9a825;
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .colab-box-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+    .colab-box-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #e65100;
+      margin-bottom: 4px;
+    }
+    .colab-box p { font-size: 13.5px; color: #6d4c41; line-height: 1.6; }
+
+    /* ── Caixa docent ────────────────────────────────────── */
+    .docent-box {
+      background: linear-gradient(135deg, #f3e5f5 0%, #fce4ec 100%);
+      border: 1px solid #ce93d8;
+      border-left: 4px solid #8e24aa;
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }
+    .docent-box-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #6a1b9a;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .docent-box p, .docent-box li {
+      font-size: 13.5px;
+      color: #4a148c;
+      line-height: 1.65;
+    }
+    .docent-box ul { padding-left: 18px; margin-top: 6px; }
+    .docent-box li { margin-bottom: 4px; }
+
+    /* ── Avantatges Colab ────────────────────────────────── */
+    .avantatges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .avantatge-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .avantatge-card h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 8px 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .avantatge-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Video embed ─────────────────────────────────────── */
+    .video-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+    .video-caption {
+      padding: 14px 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .video-caption-text {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .video-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ff0000;
+      color: #fff;
+      padding: 7px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background .2s;
+    }
+    .video-btn:hover { background: #cc0000; }
+
+    /* ── Taula resum ─────────────────────────────────────── */
+    .taula-resum {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin-bottom: 28px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .taula-resum thead tr {
+      background: #00897b;
+      color: white;
+    }
+    .taula-resum thead th { padding: 11px 14px; text-align: left; font-weight: 600; }
+    .taula-resum tbody tr:nth-child(even) { background: #f5fffe; }
+    .taula-resum tbody tr:hover { background: #e0f2f1; }
+    .taula-resum td { padding: 10px 14px; border-bottom: 1px solid #e0e0e0; }
+    .taula-resum td:first-child { font-weight: 600; color: #00695c; font-family: 'Courier New', monospace; }
+
+    /* ── Flux de treball ─────────────────────────────────── */
+    .flux-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      padding-left: 36px;
+      margin-bottom: 28px;
+    }
+    .flux-steps::before {
+      content: '';
+      position: absolute;
+      left: 14px;
+      top: 24px;
+      bottom: 24px;
+      width: 2px;
+      background: linear-gradient(to bottom, #00897b, #1976d2, #f57c00, #7b1fa2);
+    }
+    .flux-step {
+      position: relative;
+      padding: 16px 0 16px;
+    }
+    .flux-step-num {
+      position: absolute;
+      left: -36px;
+      top: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #00897b;
+      color: white;
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+    .flux-step:nth-child(2) .flux-step-num { background: #1976d2; }
+    .flux-step:nth-child(3) .flux-step-num { background: #f57c00; }
+    .flux-step:nth-child(4) .flux-step-num { background: #7b1fa2; }
+    .flux-step h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+    .flux-step p { font-size: 13.5px; color: var(--text-muted); }
+
+    /* ── Divider ─────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 40px 0 0;
+    }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .container { padding: 0 18px; }
+      .hero { padding: 40px 18px 36px; }
+      .concept-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════════════════ -->
+<nav class="site-nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">🤖</div>
+    <span class="nav-logo-text">GAS <span>Docents</span></span>
+  </a>
+  <div class="nav-divider"></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="historia.html"><span class="nav-icon">📜</span> Història</a></li>
+    <li><a href="equip_IA.html"><span class="nav-icon">🧠</span> Equip IA</a></li>
+    <li><a href="python_colab.html" class="active"><span class="nav-icon">🐍</span> Python</a></li>
+    <li><a href="primera_app.html"><span class="nav-icon">💻</span> Primera App</a></li>
+    <li><a href="skills.html"><span class="nav-icon">⚙️</span> Skills</a></li>
+  </ul>
+  <div class="nav-actions">
+    <span class="nav-badge">Jornades 2025</span>
+  </div>
+  <button class="nav-toggle" id="navToggle" aria-label="Menú">☰</button>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-badge">🐍 Python · Google Colab</div>
+  <h1>Eines bàsiques de<br><span>Programació amb Python</span></h1>
+  <p class="hero-sub">
+    Aprèn variables, condicionals, bucles i funcions des del navegador, sense instal·lar res, 
+    en un entorn compartit i col·laboratiu amb el professor i el grup.
+  </p>
+  <div class="hero-links">
+    <a href="https://colab.research.google.com/drive/1Zi2OA8bqFjpiBvM6PfriG8alQFlUpxu3?usp=drive_link"
+       target="_blank" rel="noopener" class="btn-primary">
+      🚀 Obrir Quadern Colab
+    </a>
+    <a href="https://www.youtube.com/watch?v=9g61bnipcSs&list=PLMUejNMebG_VGByQwI2dUF5qdwxi8QqBx"
+       target="_blank" rel="noopener" class="btn-secondary">
+      ▶ Videotutorials
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     CONTINGUT
+══════════════════════════════════════════════════════════ -->
+<main class="container">
+
+  <!-- ── Bloc reflexiu ─────────────────────────────────── -->
+  <section class="section">
+    <h2 class="section-title">Per què Google Colab?</h2>
+    <p class="section-intro">
+      Google Colab és molt més que un editor de codi. És un <strong>quadern interactiu</strong> 
+      (Jupyter Notebook) allotjat al núvol que barreja text explicatiu, codi executable i 
+      resultats en un sol document. Per a l'aula, això canvia completament la manera d'aprendre 
+      a programar: el professor pot compartir el quadern amb tota la classe, els alumnes hi 
+      executen el codi pas a pas, veuen els resultats immediatament i l'entreguen amb els 
+      exercicis resolts al mateix fitxer.
+    </p>
+
+    <div class="avantatges-grid">
+      <div class="avantatge-card">
+        <div style="font-size:28px">☁️</div>
+        <h4>Sense instal·lació</h4>
+        <p>Funciona al navegador. Python, llibreries i entorn ja configurat. Cap problema amb versions ni sistemes operatius.</p>
+      </div>
+      <div class="avantatge-card">
+        <div style="font-size:28px">🤝</div>
+        <h4>Treball col·laboratiu</h4>
+        <p>Com un Google Docs però per a codi. El professor pot veure el treball dels alumnes en temps real i deixar comentaris.</p>
+      </div>
+      <div class="avantatge-card">
+        <div style="font-size:28px">📦</div>
+        <h4>Cel·les independents</h4>
+        <p>Cada cel·la s'executa per separat. Pots provar un fragment, corregir-lo i tornar-lo a executar sense reiniciar tot.</p>
+      </div>
+      <div class="avantatge-card">
+        <div style="font-size:28px">📝</div>
+        <h4>Text + codi barrejat</h4>
+        <p>Les cel·les de text (Markdown) permeten afegir explicacions, títols i notes directament al costat del codi.</p>
+      </div>
+      <div class="avantatge-card">
+        <div style="font-size:28px">🖥️</div>
+        <h4>GPU gratuïta</h4>
+        <p>Per a projectes avançats, Colab ofereix accés gratuït a GPU, ideal per a Machine Learning i processament de dades.</p>
+      </div>
+      <div class="avantatge-card">
+        <div style="font-size:28px">💾</div>
+        <h4>Integrat amb Drive</h4>
+        <p>Es guarda automàticament a Google Drive. Accessible des de qualsevol dispositiu amb el compte de Google.</p>
+      </div>
+    </div>
+
+    <div class="colab-box">
+      <div class="colab-box-icon">💡</div>
+      <div>
+        <div class="colab-box-title">Com funciona un quadern Colab</div>
+        <p>Un quadern es divideix en <strong>cel·les</strong>. Les cel·les de <strong>codi</strong> 
+        s'executen amb el botó ▶ o prement <code>Ctrl+Enter</code>. Les cel·les de 
+        <strong>text</strong> contenen explicacions en format Markdown. Pots afegir noves 
+        cel·les, reordenar-les i compartir el quadern complet amb un sol enllaç.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 1. Variables ───────────────────────────────────── -->
+  <section class="section" id="variables">
+    <h2 class="section-title">1. Variables i Tipus de Dades</h2>
+    <p class="section-intro">
+      Una variable és un <strong>contenidor</strong> que guarda un valor a la memòria. 
+      A Python no cal declarar el tipus: s'infereix automàticament. 
+      Cada cel·la de Colab pot definir variables que estaran disponibles per a les cel·les posteriors.
+    </p>
+
+    <div class="concept-grid">
+      <div class="concept-card variables">
+        <div class="concept-card-icon">🔢</div>
+        <h3>int / float</h3>
+        <p>Nombres enters i decimals. <code>edat = 17</code> o <code>nota = 8.5</code></p>
+      </div>
+      <div class="concept-card variables">
+        <div class="concept-card-icon">📝</div>
+        <h3>str</h3>
+        <p>Cadenes de text entre cometes. <code>nom = "Anna"</code></p>
+      </div>
+      <div class="concept-card variables">
+        <div class="concept-card-icon">☑️</div>
+        <h3>bool</h3>
+        <p>Valors lògics. <code>aprobat = True</code> o <code>False</code></p>
+      </div>
+      <div class="concept-card variables">
+        <div class="concept-card-icon">🔍</div>
+        <h3>type()</h3>
+        <p>Consulta el tipus. <code>type(edat)</code> retorna <code>&lt;class 'int'&gt;</code></p>
+      </div>
+    </div>
+
+    <div class="code-block-wrap">
+      <div class="code-block-header">
+        <span class="code-block-title">📓 Cel·la Colab <span class="cell-badge code">codi</span></span>
+      </div>
+      <pre><span class="cmt"># ── 1. VARIABLES ─────────────────────────────</span>
+
+<span class="cmt"># Tipus numèrics</span>
+<span class="var">edat</span>   = <span class="num">17</span>
+<span class="var">nota</span>   = <span class="num">8.5</span>
+<span class="var">nom</span>    = <span class="str">"Anna"</span>
+<span class="var">aprobat</span> = <span class="kw">True</span>
+
+<span class="cmt"># Mostrar valors i tipus</span>
+<span class="fn">print</span>(<span class="str">f"Nom: {<span class="var">nom</span>} | Edat: {<span class="var">edat</span>} anys"</span>)
+<span class="fn">print</span>(<span class="str">f"Nota: {<span class="var">nota</span>} | Aprovat: {<span class="var">aprobat</span>}"</span>)
+<span class="fn">print</span>(<span class="str">f"Tipus de nota: {<span class="fn">type</span>(<span class="var">nota</span>)}"</span>)
+
+<span class="cmt"># Conversió de tipus</span>
+<span class="var">nota_text</span> = <span class="fn">str</span>(<span class="var">nota</span>)   <span class="cmt"># float → string</span>
+<span class="var">edat_real</span> = <span class="fn">float</span>(<span class="var">edat</span>) <span class="cmt"># int → float</span></pre>
+      <pre class="output-pre"><span style="color:#888">▶ Sortida:</span>
+Nom: Anna | Edat: 17 anys
+Nota: 8.5 | Aprovat: True
+Tipus de nota: &lt;class 'float'&gt;</pre>
+    </div>
+
+    <div class="docent-box">
+      <div class="docent-box-title">🎓 Proposta d'exercici Colab</div>
+      <p>Afegeix una nova cel·la al quadern i defineix 4 variables pròpies: el teu nom, l'any de naixement, la nota mitjana i si t'agrada la programació. Mostra-les amb un <code>print()</code> formatat. Executa la cel·la i comprova que el resultat és correcte.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 2. Condicionals ────────────────────────────────── -->
+  <section class="section" id="condicionals">
+    <h2 class="section-title">2. Condicionals (if / elif / else)</h2>
+    <p class="section-intro">
+      Els condicionals permeten que el programa prengui <strong>decisions</strong>. 
+      A Python l'indentació (4 espais) és obligatòria i defineix els blocs de codi. 
+      A Colab pots provar ràpidament condicions canviant el valor de les variables a 
+      la cel·la anterior i tornant a executar.
+    </p>
+
+    <div class="code-block-wrap">
+      <div class="code-block-header">
+        <span class="code-block-title">📓 Cel·la Colab <span class="cell-badge code">codi</span></span>
+      </div>
+      <pre><span class="cmt"># ── 2. CONDICIONALS ──────────────────────────</span>
+
+<span class="var">nota</span> = <span class="num">6.8</span>
+
+<span class="kw">if</span> <span class="var">nota</span> <span class="op">>=</span> <span class="num">9</span>:
+    <span class="fn">print</span>(<span class="str">"Excel·lent 🌟"</span>)
+<span class="kw">elif</span> <span class="var">nota</span> <span class="op">>=</span> <span class="num">7</span>:
+    <span class="fn">print</span>(<span class="str">"Notable 👍"</span>)
+<span class="kw">elif</span> <span class="var">nota</span> <span class="op">>=</span> <span class="num">5</span>:
+    <span class="fn">print</span>(<span class="str">"Aprovat ✅"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Suspès ❌ — Cal repassar!"</span>)
+
+<span class="cmt"># Operadors lògics: and, or, not</span>
+<span class="var">edat</span> = <span class="num">17</span>
+<span class="var">te_carnet</span> = <span class="kw">False</span>
+
+<span class="kw">if</span> <span class="var">edat</span> <span class="op">>=</span> <span class="num">18</span> <span class="kw">and</span> <span class="var">te_carnet</span>:
+    <span class="fn">print</span>(<span class="str">"Pot conduir"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"No pot conduir"</span>)</pre>
+      <pre class="output-pre"><span style="color:#888">▶ Sortida:</span>
+Aprovat ✅
+No pot conduir</pre>
+    </div>
+
+    <div class="docent-box">
+      <div class="docent-box-title">🎓 Proposta d'exercici Colab</div>
+      <p>Modifica el valor de <code>nota</code> a 3, 5, 7.5 i 9.2 i executa la cel·la cada vegada. Observa com canvia la sortida. Afegeix un <code>elif</code> per a la condició "Matrícula d'honor" per a notes ≥ 9.5.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 3. Bucles ──────────────────────────────────────── -->
+  <section class="section" id="bucles">
+    <h2 class="section-title">3. Bucles (for / while)</h2>
+    <p class="section-intro">
+      Els bucles repeteixen un bloc de codi múltiples vegades. 
+      <strong><code>for</code></strong> itera sobre una seqüència coneguda; 
+      <strong><code>while</code></strong> repeteix mentre es compleixi una condició. 
+      A Colab és molt útil per processar llistes de dades o generar seqüències.
+    </p>
+
+    <div class="code-block-wrap">
+      <div class="code-block-header">
+        <span class="code-block-title">📓 Cel·la Colab <span class="cell-badge code">codi</span></span>
+      </div>
+      <pre><span class="cmt"># ── 3. BUCLES ────────────────────────────────</span>
+
+<span class="cmt"># for amb range()</span>
+<span class="fn">print</span>(<span class="str">"Taula del 3:"</span>)
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    <span class="fn">print</span>(<span class="str">f"  3 × {<span class="var">i</span>} = {<span class="num">3</span> <span class="op">*</span> <span class="var">i</span>}"</span>)
+
+<span class="cmt"># for sobre una llista</span>
+<span class="var">alumnes</span> = [<span class="str">"Anna"</span>, <span class="str">"Bernat"</span>, <span class="str">"Carla"</span>, <span class="str">"David"</span>]
+<span class="kw">for</span> <span class="var">alumne</span> <span class="kw">in</span> <span class="var">alumnes</span>:
+    <span class="fn">print</span>(<span class="str">f"👤 {<span class="var">alumne</span>}"</span>)
+
+<span class="cmt"># while amb comptador</span>
+<span class="var">contador</span> = <span class="num">0</span>
+<span class="kw">while</span> <span class="var">contador</span> <span class="op"><</span> <span class="num">5</span>:
+    <span class="fn">print</span>(<span class="str">f"Volta {<span class="var">contador</span> <span class="op">+</span> <span class="num">1</span>}"</span>)
+    <span class="var">contador</span> <span class="op">+=</span> <span class="num">1</span>
+
+<span class="fn">print</span>(<span class="str">"Bucle acabat!"</span>)</pre>
+      <pre class="output-pre"><span style="color:#888">▶ Sortida:</span>
+Taula del 3:
+  3 × 1 = 3
+  3 × 2 = 6
+  ...
+👤 Anna
+👤 Bernat
+...
+Volta 1 · Volta 2 · ... · Volta 5
+Bucle acabat!</pre>
+    </div>
+
+    <div class="docent-box">
+      <div class="docent-box-title">🎓 Proposta d'exercici Colab</div>
+      <ul>
+        <li>Crea una llista amb els teus 5 videosjocs / pel·lícules / cançons preferides i recorre-la amb un <code>for</code> mostrant cada element numerat.</li>
+        <li>Afegeix un <code>while</code> que acumuli la suma dels números de l'1 al 100 i mostri el resultat.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 4. Llistes i Diccionaris ───────────────────────── -->
+  <section class="section" id="llistes">
+    <h2 class="section-title">4. Llistes i Diccionaris</h2>
+    <p class="section-intro">
+      Les <strong>llistes</strong> guarden col·leccions ordenades d'elements. 
+      Els <strong>diccionaris</strong> associen claus amb valors, com una base de dades senzilla. 
+      Tots dos s'utilitzen constantment en programació real.
+    </p>
+
+    <div class="code-block-wrap">
+      <div class="code-block-header">
+        <span class="code-block-title">📓 Cel·la Colab <span class="cell-badge code">codi</span></span>
+      </div>
+      <pre><span class="cmt"># ── 4. LLISTES I DICCIONARIS ──────────────────</span>
+
+<span class="cmt"># Llista — ordenada, modificable</span>
+<span class="var">notes</span> = [<span class="num">7.5</span>, <span class="num">8.0</span>, <span class="num">6.5</span>, <span class="num">9.0</span>, <span class="num">5.5</span>]
+<span class="fn">print</span>(<span class="str">f"Notes: {<span class="var">notes</span>}"</span>)
+<span class="fn">print</span>(<span class="str">f"Màxima: {<span class="fn">max</span>(<span class="var">notes</span>)} | Mínima: {<span class="fn">min</span>(<span class="var">notes</span>)}"</span>)
+<span class="fn">print</span>(<span class="str">f"Mitjana: {<span class="fn">sum</span>(<span class="var">notes</span>) <span class="op">/</span> <span class="fn">len</span>(<span class="var">notes</span>):<span class="num">.2f</span>}"</span>)
+
+<span class="var">notes</span>.<span class="fn">append</span>(<span class="num">7.0</span>)   <span class="cmt"># Afegir</span>
+<span class="var">notes</span>.<span class="fn">sort</span>()        <span class="cmt"># Ordenar</span>
+
+<span class="cmt"># Diccionari — clau: valor</span>
+<span class="var">alumne</span> = {
+    <span class="str">"nom"</span>:   <span class="str">"Anna"</span>,
+    <span class="str">"edat"</span>:  <span class="num">17</span>,
+    <span class="str">"curs"</span>:  <span class="str">"1r DAM"</span>,
+    <span class="str">"notes"</span>: [<span class="num">8</span>, <span class="num">7</span>, <span class="num">9</span>]
+}
+
+<span class="fn">print</span>(<span class="str">f"{<span class="var">alumne</span>[<span class="str">'nom'</span>]} cursa {<span class="var">alumne</span>[<span class="str">'curs'</span>]}"</span>)
+<span class="kw">for</span> <span class="var">clau</span>, <span class="var">valor</span> <span class="kw">in</span> <span class="var">alumne</span>.<span class="fn">items</span>():
+    <span class="fn">print</span>(<span class="str">f"  {<span class="var">clau</span>}: {<span class="var">valor</span>}"</span>)</pre>
+      <pre class="output-pre"><span style="color:#888">▶ Sortida:</span>
+Notes: [7.5, 8.0, 6.5, 9.0, 5.5]
+Màxima: 9.0 | Mínima: 5.5
+Mitjana: 7.30
+Anna cursa 1r DAM
+  nom: Anna · edat: 17 · curs: 1r DAM ...</pre>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── 5. Funcions ────────────────────────────────────── -->
+  <section class="section" id="funcions">
+    <h2 class="section-title">5. Funcions</h2>
+    <p class="section-intro">
+      Les funcions agrupen codi que es repeteix i li donen un nom. 
+      Permeten reutilitzar lògica, llegir millor el codi i treballar en equip: 
+      cadascú pot implementar una funció diferent al quadern Colab compartit.
+    </p>
+
+    <div class="code-block-wrap">
+      <div class="code-block-header">
+        <span class="code-block-title">📓 Cel·la Colab <span class="cell-badge code">codi</span></span>
+      </div>
+      <pre><span class="cmt"># ── 5. FUNCIONS ──────────────────────────────</span>
+
+<span class="cmt"># Funció bàsica amb paràmetres i retorn</span>
+<span class="kw">def</span> <span class="fn">calcular_mitjana</span>(<span class="var">notes</span>):
+    <span class="str">"""Calcula la mitjana d'una llista de notes."""</span>
+    <span class="kw">if</span> <span class="fn">len</span>(<span class="var">notes</span>) <span class="op">==</span> <span class="num">0</span>:
+        <span class="kw">return</span> <span class="num">0</span>
+    <span class="kw">return</span> <span class="fn">sum</span>(<span class="var">notes</span>) <span class="op">/</span> <span class="fn">len</span>(<span class="var">notes</span>)
+
+<span class="kw">def</span> <span class="fn">qualificacio</span>(<span class="var">nota</span>):
+    <span class="str">"""Retorna la qualificació textual d'una nota."""</span>
+    <span class="kw">if</span>   <span class="var">nota</span> <span class="op">>=</span> <span class="num">9</span>:   <span class="kw">return</span> <span class="str">"Excel·lent"</span>
+    <span class="kw">elif</span> <span class="var">nota</span> <span class="op">>=</span> <span class="num">7</span>:   <span class="kw">return</span> <span class="str">"Notable"</span>
+    <span class="kw">elif</span> <span class="var">nota</span> <span class="op">>=</span> <span class="num">5</span>:   <span class="kw">return</span> <span class="str">"Aprovat"</span>
+    <span class="kw">else</span>:              <span class="kw">return</span> <span class="str">"Suspès"</span>
+
+<span class="cmt"># Crida a les funcions</span>
+<span class="var">notas_classe</span> = [<span class="num">7.5</span>, <span class="num">8.0</span>, <span class="num">6.5</span>, <span class="num">9.0</span>, <span class="num">5.5</span>]
+<span class="var">mit</span> = <span class="fn">calcular_mitjana</span>(<span class="var">notas_classe</span>)
+
+<span class="fn">print</span>(<span class="str">f"Mitjana: {<span class="var">mit</span>:<span class="num">.2f</span>} → {<span class="fn">qualificacio</span>(<span class="var">mit</span>)}"</span>)
+
+<span class="cmt"># Funció amb valors per defecte</span>
+<span class="kw">def</span> <span class="fn">saludar</span>(<span class="var">nom</span>, <span class="var">idioma</span>=<span class="str">"ca"</span>):
+    <span class="var">salutacions</span> = {<span class="str">"ca"</span>: <span class="str">"Hola"</span>, <span class="str">"es"</span>: <span class="str">"Hola"</span>, <span class="str">"en"</span>: <span class="str">"Hello"</span>}
+    <span class="kw">return</span> <span class="str">f"{<span class="var">salutacions</span>.<span class="fn">get</span>(<span class="var">idioma</span>, <span class="str">'Hi'</span>)}, {<span class="var">nom</span>}!"</span>
+
+<span class="fn">print</span>(<span class="fn">saludar</span>(<span class="str">"Anna"</span>))
+<span class="fn">print</span>(<span class="fn">saludar</span>(<span class="str">"Anna"</span>, <span class="str">"en"</span>))</pre>
+      <pre class="output-pre"><span style="color:#888">▶ Sortida:</span>
+Mitjana: 7.30 → Notable
+Hola, Anna!
+Hello, Anna!</pre>
+    </div>
+
+    <div class="docent-box">
+      <div class="docent-box-title">🎓 Proposta d'exercici col·laboratiu Colab</div>
+      <ul>
+        <li>Cada alumne defineix una funció diferent al quadern compartit: <code>es_parell(n)</code>, <code>factorial(n)</code>, <code>invertir_text(s)</code>, <code>comptar_vocals(s)</code>…</li>
+        <li>Al final, tots utilitzen les funcions dels companys en un programa que les combina.</li>
+        <li>El professor revisa el quadern en temps real i deixa comentaris a les cel·les incorrectes.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── Taula resum ────────────────────────────────────── -->
+  <section class="section" id="resum">
+    <h2 class="section-title">Resum d'Eines</h2>
+    <p class="section-intro">Referència ràpida de les estructures principals de Python que hem treballat al quadern Colab.</p>
+
+    <table class="taula-resum">
+      <thead>
+        <tr>
+          <th>Eina</th>
+          <th>Sintaxi bàsica</th>
+          <th>Quan usar-la</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Variable</td>
+          <td><code>nom = "Anna"</code></td>
+          <td>Guardar qualsevol valor a la memòria</td>
+        </tr>
+        <tr>
+          <td>if / elif / else</td>
+          <td><code>if nota &gt;= 5: ...</code></td>
+          <td>Prendre decisions segons condicions</td>
+        </tr>
+        <tr>
+          <td>for</td>
+          <td><code>for x in llista: ...</code></td>
+          <td>Repetir per cada element d'una seqüència</td>
+        </tr>
+        <tr>
+          <td>while</td>
+          <td><code>while condicio: ...</code></td>
+          <td>Repetir fins que canviï una condició</td>
+        </tr>
+        <tr>
+          <td>list</td>
+          <td><code>notes = [7, 8, 6]</code></td>
+          <td>Col·lecció ordenada d'elements</td>
+        </tr>
+        <tr>
+          <td>dict</td>
+          <td><code>{"nom": "Anna"}</code></td>
+          <td>Associar claus amb valors</td>
+        </tr>
+        <tr>
+          <td>def / return</td>
+          <td><code>def suma(a, b): return a+b</code></td>
+          <td>Encapsular codi reutilitzable</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── Flux de treball aula ───────────────────────────── -->
+  <section class="section" id="fluxaula">
+    <h2 class="section-title">Flux de Treball a l'Aula</h2>
+    <p class="section-intro">Proposta de dinàmica per treballar amb Google Colab de manera col·laborativa entre professor i alumnes.</p>
+
+    <div class="flux-steps">
+      <div class="flux-step">
+        <div class="flux-step-num">1</div>
+        <h4>El professor prepara el quadern</h4>
+        <p>Crea el fitxer <code>.ipynb</code> amb cel·les de text explicatives, exemples resolts i cel·les buides per als exercicis dels alumnes.</p>
+      </div>
+      <div class="flux-step">
+        <div class="flux-step-num">2</div>
+        <h4>Compartir l'enllaç</h4>
+        <p>Comparteix el quadern via Google Drive amb permisos de «Qualsevol amb l'enllaç pot editar» o crea còpies individuals per alumne via Classroom.</p>
+      </div>
+      <div class="flux-step">
+        <div class="flux-step-num">3</div>
+        <h4>Els alumnes executen i experimenten</h4>
+        <p>Executen les cel·les d'exemple, modifiquen valors, veuen els errors en temps real i resolen els exercicis proposats.</p>
+      </div>
+      <div class="flux-step">
+        <div class="flux-step-num">4</div>
+        <h4>Revisió i feedback</h4>
+        <p>El professor accedeix als quaderns dels alumnes, revisa les solucions i pot deixar comentaris directament a les cel·les. L'entrega és automàtica: no cal enviar cap fitxer.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── Video ──────────────────────────────────────────── -->
+  <section class="section" id="video">
+    <h2 class="section-title">Videotutorial: Python des de Zero</h2>
+    <p class="section-intro">
+      Llista de reproducció completa per aprendre Python des de zero, ideal per 
+      complementar les sessions pràctiques al quadern Colab.
+    </p>
+
+    <div class="video-wrap">
+      <div class="video-container">
+        <iframe
+          src="https://www.youtube.com/embed/9g61bnipcSs?list=PLMUejNMebG_VGByQwI2dUF5qdwxi8QqBx"
+          title="Python des de Zero — Llista de reproducció"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="video-caption">
+        <span class="video-caption-text">
+          🎬 <strong>Python des de Zero</strong> — variables, condicionals, bucles, funcions i molt més. 
+          Recomanat per seguir en paral·lel amb el quadern Colab.
+        </span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <a href="https://www.youtube.com/watch?v=9g61bnipcSs&list=PLMUejNMebG_VGByQwI2dUF5qdwxi8QqBx"
+             target="_blank" rel="noopener" class="video-btn">
+            ▶ Obrir a YouTube
+          </a>
+          <a href="https://colab.research.google.com/drive/1Zi2OA8bqFjpiBvM6PfriG8alQFlUpxu3?usp=drive_link"
+             target="_blank" rel="noopener" class="btn-primary" style="font-size:13px;padding:7px 16px;">
+            🚀 Obrir Quadern
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="colab-box">
+      <div class="colab-box-icon">🎯</div>
+      <div>
+        <div class="colab-box-title">Consell d'ús combinat</div>
+        <p>Mentre veus el vídeo, obre el quadern Colab en una altra pestanya i ves codificant 
+        cada exemple en temps real. Executar el codi mentre l'entens és la manera més ràpida 
+        de consolidar el coneixement — i si t'equivoques, Colab et mostra exactament on és l'error.</p>
+      </div>
+    </div>
+  </section>
+
+  <div style="height:60px"></div>
+</main>
+
+<!-- ══════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-brand-logo">
+        <div class="footer-brand-icon">🤖</div>
+        <span class="footer-brand-name">GAS <span>Docents</span></span>
+      </div>
+      <p class="footer-desc">
+        Materials de formació docent per integrar la Intel·ligència Artificial 
+        a l'aula de cicles formatius. Jornades 2025.
+      </p>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Guies del Projecte</div>
+      <ul class="footer-links">
+        <li><a href="historia.html">📜 Història de la Programació</a></li>
+        <li><a href="equip_IA.html">🧠 Equip IA a l'Aula</a></li>
+        <li><a href="python_colab.html">🐍 Python i Google Colab</a></li>
+        <li><a href="primera_app.html">💻 Primera App amb IA</a></li>
+        <li><a href="skills.html">⚙️ Skills i Instruccions</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Recursos Externs</div>
+      <ul class="footer-links">
+        <li>
+          <a href="https://colab.research.google.com/drive/1Zi2OA8bqFjpiBvM6PfriG8alQFlUpxu3?usp=drive_link"
+             target="_blank" rel="noopener">
+            🚀 Quadern Colab
+          </a>
+        </li>
+        <li>
+          <a href="https://www.youtube.com/watch?v=9g61bnipcSs&list=PLMUejNMebG_VGByQwI2dUF5qdwxi8QqBx"
+             target="_blank" rel="noopener">
+            ▶ Videotutorials Python
+          </a>
+        </li>
+        <li>
+          <a href="https://colab.research.google.com" target="_blank" rel="noopener">
+            📓 Google Colab
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.python.org/ca/3/" target="_blank" rel="noopener">
+            📘 Documentació Python
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="max-width:1200px; margin:0 auto; padding:16px 32px;
+              border-top:1px solid var(--border);
+              display:flex; align-items:center; justify-content:space-between;
+              flex-wrap:wrap; gap:8px;">
+    <span style="font-size:13px; color:var(--text-dim);">© 2025 GAS Docents · Materials de lliure ús educatiu</span>
+    <span style="font-size:13px; color:var(--text-dim);">Jornades de Formació Docent 2025</span>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const links  = document.getElementById('navLinks');
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+    });
+  }
+</script>
+
+</body>
+</html>
