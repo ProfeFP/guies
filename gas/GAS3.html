@@ -244,7 +244,7 @@ Logger.<span class="fn">log</span>(<span class="str">"Confirmació enviada: "</s
             <pre><code><span class="kw">const</span> NOM_JORNADES    = <span class="str">"Jornades Docents 2025"</span>;
 <span class="kw">const</span> DATA_JORNADES   = <span class="str">"15/11/2025"</span>;
 <span class="kw">const</span> AFORAMENT_MAX   = <span class="nb">25</span>;
-<span class="kw">const</span> EMAIL_ORG       = <span class="str">"jornades@edu.cat"</span>;
+<span class="kw">const</span> EMAIL_ORG       = <span class="str">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="503a3f223e31343523103534257e333124">[email&#160;protected]</a>"</span>;
 
 Logger.<span class="fn">log</span>(<span class="str">"Benvinguts a "</span> + NOM_JORNADES);
 
@@ -315,7 +315,7 @@ Logger.<span class="fn">log</span>(<span class="str">"Ocupació: "</span> + ocup
 
 <span class="cm">// ── String ────────────────────────────────────────────────────</span>
 <span class="kw">let</span> nomParticipant = <span class="str">"Jordi Puig Mas"</span>;
-<span class="kw">let</span> email          = <span class="str">"jordi.puig@edu.cat"</span>;
+<span class="kw">let</span> email          = <span class="str">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="eb8184998f82c59b9e828cab8e8f9ec5888a9f">[email&#160;protected]</a>"</span>;
 <span class="kw">let</span> activitatM1    = <span class="str">"B"</span>;   <span class="cm">// l'opció escollida al formulari</span>
 Logger.<span class="fn">log</span>(nomParticipant.<span class="fn">toUpperCase</span>());  <span class="cm">// "JORDI PUIG MAS"</span>
 Logger.<span class="fn">log</span>(nomParticipant.<span class="fn">split</span>(<span class="str">" "</span>)[<span class="nb">0</span>]);  <span class="cm">// "Jordi" (primer nom)</span>
@@ -367,7 +367,7 @@ Logger.<span class="fn">log</span>(<span class="str">`Hola ${nom}, queden ${plac
             <div class="exercise-title">Exercicis del Bloc II</div>
             <div class="ex-item" onclick="toggleEx(this,'b02',0)"><div class="ex-check" id="chk-b02-0"></div><div class="ex-text"><span class="ex-num">1</span> Llegeix la cel·la G2 de la fulla ACTIVITATS (l'aforament). Usa <code>typeof</code> per veure el tipus que retorna el Sheets, converteix-lo a número i verifica que el tipus ha canviat.</div></div>
             <div class="ex-item" onclick="toggleEx(this,'b02',1)"><div class="ex-check" id="chk-b02-1"></div><div class="ex-text"><span class="ex-num">2</span> Crea una funció que calculi dies fins a les Jornades i els mostri en format: <em>"Falten 127 dies per a les Jornades Docents 2025 (15/11/2025)"</em> usant template literals.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b02',2)"><div class="ex-check" id="chk-b02-2"></div><div class="ex-text"><span class="ex-num">3</span> A partir del nom complet "Anna Ferrer Bosch", usa mètodes de String per extreure: el primer nom, els cognoms, les inicials (A.F.B.) i l'email probable (anna.ferrer@edu.cat).</div></div>
+            <div class="ex-item" onclick="toggleEx(this,'b02',2)"><div class="ex-check" id="chk-b02-2"></div><div class="ex-text"><span class="ex-num">3</span> A partir del nom complet "Anna Ferrer Bosch", usa mètodes de String per extreure: el primer nom, els cognoms, les inicials (A.F.B.) i l'email probable (<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ec8d82828dc28a899e9e899eac898899c28f8d98">[email&#160;protected]</a>).</div></div>
         </div>
         <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b01">← Bloc I</a><span class="bloc-label">Bloc 2 de 8</span><a class="btn-nav btn-next" href="#b03">Bloc III · Control →</a></div>
     </div>
@@ -649,6 +649,7 @@ Logger.<span class="fn">log</span>(<span class="str">"Anna trobada: "</span>    
         <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VI</span></div>
         <h2 class="chapter-title">Bloc VI — Arrays i els seus Mètodes</h2>
         <p>Un <strong>array</strong> és una llista ordenada de valors. Quan GAS llegeix les files d'un Sheets, obté un array d'arrays. Dominar els mètodes d'array és la clau per escriure scripts nets i potents.</p>
+        <div class="analogy-box"><strong>🧠 Analogia docent:</strong> Un array és com la llista de participants en paper: cada inscrit ocupa una posició numerada (índex 0, 1, 2...). Els mètodes <code>filter</code>, <code>map</code> i <code>reduce</code> són com operacions que fas sobre aquesta llista: "subratlla els del centre Miralles", "copia només els noms a una nova llista", "compta quants hi ha en total".</div>
 
         <h3 class="chapter-subtitle">6.1 Creació i accés</h3>
         <div class="code-container">
@@ -671,8 +672,8 @@ inscritsAvui.<span class="fn">pop</span>();            <span class="cm">// treu 
 <span class="cm">// Array 2D: el que retorna getValues() del Sheets</span>
 <span class="kw">const</span> dades = [
   [<span class="str">"Nom"</span>,   <span class="str">"Email"</span>,          <span class="str">"Activitat"</span>],  <span class="cm">// fila 0 = capçalera</span>
-  [<span class="str">"Anna"</span>,  <span class="str">"anna@edu.cat"</span>,   <span class="str">"A"</span>],           <span class="cm">// fila 1</span>
-  [<span class="str">"Jordi"</span>, <span class="str">"jordi@edu.cat"</span>,  <span class="str">"B"</span>]            <span class="cm">// fila 2</span>
+  [<span class="str">"Anna"</span>,  <span class="str">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="86e7e8e8e7c6e3e2f3a8e5e7f2">[email&#160;protected]</a>"</span>,   <span class="str">"A"</span>],           <span class="cm">// fila 1</span>
+  [<span class="str">"Jordi"</span>, <span class="str">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0b6164796f624b6e6f7e25686a7f">[email&#160;protected]</a>"</span>,  <span class="str">"B"</span>]            <span class="cm">// fila 2</span>
 ];
 Logger.<span class="fn">log</span>(dades[<span class="nb">1</span>][<span class="nb">0</span>]);  <span class="cm">// "Anna"  (fila 1, col 0)</span>
 Logger.<span class="fn">log</span>(dades[<span class="nb">2</span>][<span class="nb">2</span>]);  <span class="cm">// "B"     (fila 2, col 2)</span></code></pre>
@@ -685,7 +686,7 @@ Logger.<span class="fn">log</span>(dades[<span class="nb">2</span>][<span class=
 
 <span class="cm">// ── map: transforma cada element → nou array ──────────────────</span>
 <span class="kw">const</span> emails = inscrits.<span class="fn">map</span>(p => p.email);
-<span class="cm">// ["anna@edu.cat", "jordi@edu.cat", ...]</span>
+<span class="cm">// ["<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3a5b54545b7a5f5e4f14595b4e">[email&#160;protected]</a>", "<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d1bbbea3b5b891b4b5a4ffb2b0a5">[email&#160;protected]</a>", ...]</span>
 
 <span class="kw">const</span> noms = inscrits.<span class="fn">map</span>(p => p.nom.<span class="fn">split</span>(<span class="str">" "</span>)[<span class="nb">0</span>]);
 <span class="cm">// ["Anna", "Jordi", "Maria", ...]  ← primer nom</span>
@@ -724,6 +725,7 @@ Logger.<span class="fn">log</span>(<span class="str">"Alguna activitat completa?
         <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VII</span></div>
         <h2 class="chapter-title">Bloc VII — Objectes i JSON</h2>
         <p>Un <strong>objecte</strong> agrupa dades relacionades sota un mateix nom. En el nostre sistema, cada participant, cada activitat i cada franja de la Sala Especial és un objecte. El format <strong>JSON</strong> és la manera estàndard d'intercanviar objectes entre sistemes (és el que retorna la nostra Web App).</p>
+        <div class="analogy-box"><strong>🧠 Analogia docent:</strong> Un objecte és com la fitxa d'inscripció d'un participant: té camps amb nom (<code>nom</code>, <code>email</code>, <code>activitats</code>) i el seu valor corresponent. JSON és com enviar aquella fitxa per correu: es converteix a un format de text estàndard que qualsevol sistema pot llegir i reconstruir.</div>
 
         <h3 class="chapter-subtitle">7.1 Objectes literals</h3>
         <div class="code-container">
@@ -732,7 +734,7 @@ Logger.<span class="fn">log</span>(<span class="str">"Alguna activitat completa?
 <span class="kw">const</span> participant = {
   nom:       <span class="str">"Anna Ferrer Bosch"</span>,
   centre:    <span class="str">"INS Can Puig - Badalona"</span>,
-  email:     <span class="str">"anna.ferrer@insedu.cat"</span>,
+  email:     <span class="str">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0968676768276f6c7b7b6c7b4960677a6c6d7c276a687d">[email&#160;protected]</a>"</span>,
   activitats: { m1: <span class="str">"A"</span>, m2: <span class="str">"C"</span>, tarda: <span class="str">"B"</span> },  <span class="cm">// objecte niuat</span>
   volSala:   <span class="kw">true</span>,
   confirmat: <span class="kw">false</span>
@@ -829,6 +831,7 @@ Logger.<span class="fn">log</span>(objecte.inscrits);  <span class="cm">// 20</s
         <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VIII</span></div>
         <h2 class="chapter-title">Bloc VIII — Gestió d'Errors i Bones Pràctiques</h2>
         <p>Un bon script no és només el que funciona quan tot va bé: és el que <strong>gestiona els errors amb elegància</strong> i és fàcil de llegir i mantenir mesos després d'haver-lo escrit.</p>
+        <div class="analogy-box"><strong>🧠 Analogia docent:</strong> El bloc <code>try/catch</code> és com una xarxa de seguretat en un trapezi: no s'espera caure, però si passa, atura la caiguda sense que tot l'espectacle s'aturi. Un script sense gestió d'errors és un script que para de treballar al primer obstacle; un amb <code>try/catch</code> registra el problema i continua processant la resta.</div>
 
         <h3 class="chapter-subtitle">8.1 try / catch / finally</h3>
         <div class="code-container">
@@ -935,7 +938,7 @@ SpreadsheetApp.<span class="fn">getActiveSpreadsheet</span>()
     <a href="#">← Guia 2 · IDE de GAS</a>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const state={b01:[false,false,false],b02:[false,false,false],b03:[false,false,false],b04:[false,false,false],b05:[false,false,false],b06:[false,false,false],b07:[false,false,false],b08:[false,false,false]};
 const totals={b01:3,b02:3,b03:3,b04:3,b05:3,b06:3,b07:3,b08:3};
 function toggleEx(item,bloc,idx){
@@ -968,31 +971,4 @@ function resetProgress(){
     updateProgress();
 }
 function copyCode(btn){
-    const text=btn.closest('.code-container').querySelector('pre').textContent;
-    navigator.clipboard.writeText(text).then(()=>{
-        const o=btn.textContent;btn.textContent='✓ Copiat!';btn.classList.add('copied');
-        setTimeout(()=>{btn.textContent=o;btn.classList.remove('copied');},2200);
-    });
-}
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-    a.addEventListener('click',function(e){
-        const id=this.getAttribute('href').slice(1);
-        const t=document.getElementById(id);
-        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
-    });
-});
-const seccions=document.querySelectorAll('.chapter[id]');
-const tocLinks=document.querySelectorAll('.toc a');
-window.addEventListener('scroll',()=>{
-    let actual='';
-    seccions.forEach(s=>{if(pageYOffset>=s.offsetTop-120)actual=s.id;});
-    tocLinks.forEach(l=>{
-        const ok=l.getAttribute('href')==='#'+actual;
-        l.style.fontWeight=ok?'700':'500';
-        l.style.color=ok?'var(--primary-dark)':'';
-    });
-});
-updateProgress();
-</script>
-</body>
-</html>
+    const text=btn.closest('.code-container').quer

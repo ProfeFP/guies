@@ -450,8 +450,8 @@
             <thead><tr><th>Hora_Inici</th><th>Hora_Fi</th><th>Responsable</th><th>Grup / Activitat</th><th>Email</th><th>Estat</th></tr></thead>
             <tbody>
                 <tr><td>09:00</td><td>09:30</td><td></td><td></td><td></td><td class="disp">DISPONIBLE</td></tr>
-                <tr><td>09:30</td><td>10:00</td><td>M. Gómez</td><td>Coordinació TIC</td><td>mgomez@edu.cat</td><td class="res">RESERVAT</td></tr>
-                <tr><td>10:00</td><td>10:30</td><td>M. Gómez</td><td>Coordinació TIC</td><td>mgomez@edu.cat</td><td class="res">RESERVAT</td></tr>
+                <tr><td>09:30</td><td>10:00</td><td>M. Gómez</td><td>Coordinació TIC</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="68050f07050d12280d0c1d460b091c">[email&#160;protected]</a></td><td class="res">RESERVAT</td></tr>
+                <tr><td>10:00</td><td>10:30</td><td>M. Gómez</td><td>Coordinació TIC</td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5d303a323038271d383928733e3c29">[email&#160;protected]</a></td><td class="res">RESERVAT</td></tr>
                 <tr><td>10:30</td><td>11:00</td><td></td><td></td><td></td><td class="disp">DISPONIBLE</td></tr>
                 <tr><td colspan="5" style="text-align:center;color:#94a3b8;font-style:italic;">... (fins les 18:30) ...</td><td class="disp">DISPONIBLE</td></tr>
             </tbody>
@@ -503,8 +503,8 @@
                 <tr><td><code>NOM_JORNADES</code></td><td>Jornades Docents 2025</td><td>Nom oficial de l'event</td></tr>
                 <tr><td><code>DATA_JORNADES</code></td><td>15/11/2025</td><td>Data de celebració</td></tr>
                 <tr><td><code>LLOC</code></td><td>Institut XYZ · Sala d'Actes</td><td>Ubicació</td></tr>
-                <tr><td><code>EMAIL_ORGANITZACIO</code></td><td>jornades@edu.cat</td><td>Email oficial de les Jornades</td></tr>
-                <tr><td><code>EMAIL_NOTIFICACIONS</code></td><td>coordinacio@edu.cat</td><td>Rep els informes automàtics</td></tr>
+                <tr><td><code>EMAIL_ORGANITZACIO</code></td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2f45405d414e4b4a5c6f4a4b5a014c4e5b">[email&#160;protected]</a></td><td>Email oficial de les Jornades</td></tr>
+                <tr><td><code>EMAIL_NOTIFICACIONS</code></td><td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e1828e8e9385888f8082888ea1848594cf828095">[email&#160;protected]</a></td><td>Rep els informes automàtics</td></tr>
                 <tr><td><code>AFORAMENT_DEFAULT</code></td><td>25</td><td>Places per defecte per activitat</td></tr>
                 <tr><td><code>HORA_INICI_SALA</code></td><td>09:00</td><td>Primera franja de la Sala</td></tr>
                 <tr><td><code>HORA_FI_SALA</code></td><td>18:30</td><td>Última franja de la Sala</td></tr>
@@ -605,7 +605,7 @@
     <a href="#mapa">↑ Tornar al mapa</a> &nbsp;|&nbsp; <a href="#">Guia 2 · IDE de GAS →</a>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const state = { b01:[false,false,false], b02:[false,false,false], b03:[false,false,false], b04:[false,false,false], b05:[false,false,false], b06:[false,false,false], b07:[false,false,false], b08:[false,false] };
 const totals = { b01:3,b02:3,b03:3,b04:3,b05:3,b06:3,b07:3,b08:2 };
 
@@ -654,23 +654,4 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', function(e) {
         const id = this.getAttribute('href').slice(1);
         const t = document.getElementById(id);
-        if (t) { e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); }
-    });
-});
-
-const seccions = document.querySelectorAll('.chapter[id]');
-const tocLinks = document.querySelectorAll('.toc a');
-window.addEventListener('scroll', () => {
-    let actual='';
-    seccions.forEach(s => { if(pageYOffset >= s.offsetTop-120) actual=s.id; });
-    tocLinks.forEach(l => {
-        const ok = l.getAttribute('href')==='#'+actual;
-        l.style.fontWeight = ok?'700':'500';
-        l.style.color = ok?'var(--primary-dark)':'';
-    });
-});
-
-updateProgress();
-</script>
-</body>
-</html>
+        if (t) { e.preventDefault(

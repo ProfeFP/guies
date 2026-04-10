@@ -21,7 +21,7 @@
         body { font-family:'DM Sans','Segoe UI',sans-serif; line-height:1.72; color:var(--text); background:var(--bg); }
 
         /* HERO */
-        .hero { background:linear-gradient(160deg,#0d1f35 0%,#0f2d45 55%,#0a3060 100%); color:#fff; padding:44px 40px 36px; text-align:center; position:relative; overflow:hidden; }
+        .hero { background:linear-gradient(160deg,var(--navy) 0%,#0d2240 60%,#0a2d4a 100%); color:#fff; padding:44px 40px 36px; text-align:center; position:relative; overflow:hidden; }
         .hero::before { content:''; position:absolute; top:-80px; right:-80px; width:320px; height:320px; background:radial-gradient(circle,rgba(47,184,196,.18) 0%,transparent 70%); }
         .hero::after  { content:''; position:absolute; bottom:-60px; left:-40px; width:260px; height:260px; background:radial-gradient(circle,rgba(59,158,222,.12) 0%,transparent 70%); }
         .hero-badge { display:inline-block; background:rgba(47,184,196,.2); border:1px solid rgba(47,184,196,.45); color:rgba(255,255,255,.92); padding:4px 18px; border-radius:20px; font-size:.78em; letter-spacing:.1em; text-transform:uppercase; margin-bottom:14px; font-weight:600; }
@@ -30,7 +30,7 @@
         .hero p { color:rgba(255,255,255,.72); font-size:1.05em; max-width:640px; margin:0 auto; }
 
         /* MAPA */
-        .mapa-section { background:linear-gradient(180deg,#0d1f35 0%,var(--navy-mid) 100%); padding:30px 40px 36px; }
+        .mapa-section { background:linear-gradient(180deg,var(--navy) 0%,var(--navy-mid) 100%); padding:30px 40px 36px; }
         .mapa-title { text-align:center; color:rgba(255,255,255,.85); font-size:.82em; font-weight:700; letter-spacing:.12em; text-transform:uppercase; margin-bottom:22px; }
         .mapa-title span { color:var(--gold); margin-right:8px; }
         .bloc-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; max-width:960px; margin:0 auto 24px; }
@@ -266,6 +266,7 @@
         </div>
         <h2 class="chapter-title">Bloc I — L'IDE de GAS: Primer Contacte</h2>
         <p>L'<strong>editor de Google Apps Script</strong> és l'entorn on escrivim, executem i depurem tot el codi. És accessible des del navegador, sense instal·lacions, directament vinculat al nostre Spreadsheet.</p>
+        <div class="analogy-box"><strong>🧠 Analogia:</strong> L'IDE és com el taller d'un artesà: té les eines al seu lloc (editor, registres, triggers), tot es guarda dins del mateix projecte i no cal portar res de casa. Quan tanques i tornes a obrir, tot és exactament on ho vas deixar.</div>
 
         <h3 class="chapter-subtitle">1.1 Accedir a l'IDE des del Spreadsheet</h3>
         <div class="step-box">
@@ -356,6 +357,7 @@
         <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC II</span></div>
         <h2 class="chapter-title">Bloc II — Llegir la Base de Dades</h2>
         <p>La primera habilitat fonamental de GAS és <strong>llegir dades d'un Spreadsheet</strong>. Aquí aprendrem el patró bàsic amb <code>SpreadsheetApp</code> i construirem les dues funcions de lectura que usaran tots els altres scripts.</p>
+        <div class="analogy-box"><strong>🧠 Analogia:</strong> Llegir el Spreadsheet amb GAS és com anar a buscar una carpeta de l'arxivador: primer obres l'armari (<code>getActiveSpreadsheet</code>), busques la carpeta correcta (<code>getSheetByName</code>), i agafes tots els fulls (<code>getValues</code>). Cada pas necessita l'anterior.</div>
 
         <h3 class="chapter-subtitle">2.1 El patró bàsic de lectura</h3>
         <div class="flow">
@@ -554,6 +556,7 @@
         <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC IV</span></div>
         <h2 class="chapter-title">Bloc IV — Escriure a Sheets: Aforaments i Resum</h2>
         <p>Ara aprenem a <strong>escriure valors calculats</strong> de tornada al Spreadsheet. Les dues funcions principals d'aquesta secció actualitzen l'ocupació de cada activitat i generen el full de Resum per als organitzadors.</p>
+        <div class="analogy-box"><strong>🧠 Analogia:</strong> Escriure al Sheets amb GAS és com un auxiliar administratiu que, un cop tancada la inscripció, repassa tota la llista, fa el recompte per activitat i omple la pissarra d'ocupació. Ho pot fer en 2 segons; manualment trigaria 20 minuts.</div>
 
         <h3 class="chapter-subtitle">4.1 actualitzarAforaments()</h3>
         <div class="code-container">
@@ -660,6 +663,7 @@
         <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC V</span></div>
         <h2 class="chapter-title">Bloc V — GmailApp: Confirmació Automàtica</h2>
         <p>La funció <code>enviarConfirmacionsPendents()</code> recorre tots els inscrits i envia un correu personalitzat als que encara no han rebut la confirmació (<code>Confirmacio_Enviada = FALSE</code>). Marca la columna K amb <code>TRUE</code> per evitar duplicats.</p>
+        <div class="analogy-box"><strong>🧠 Analogia:</strong> El sistema de correus és com un carter intel·ligent: passa per tota la llista de participants, mira si cada persona ja ha rebut el sobre de confirmació (columna K) i, si no, li'n posa un a la bústia. Els que ja el tenen, els salta sense molestar-los.</div>
 
         <div class="code-container">
             <div class="code-header"><span class="code-language">Correus.gs — enviarConfirmacionsPendents()</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
@@ -752,6 +756,7 @@ ${cfg["EMAIL_ORGANITZACIO"]}`</span>;
         <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VI</span></div>
         <h2 class="chapter-title">Bloc VI — Triggers: Automatització Programada</h2>
         <p>Els <strong>triggers</strong> (disparadors) permeten que GAS executi funcions automàticament sense que ningú premi cap botó. N'hi ha de dos tipus principals: els que s'activen per un <strong>esdeveniment</strong> (obrir el full, enviar un formulari) i els que s'activen per <strong>temps</strong> (cada hora, cada dia a les 8h...).</p>
+        <div class="analogy-box"><strong>🧠 Analogia:</strong> Els triggers funcionen com els automatismes d'una escola moderna: el timbre sona sol a les 8h (trigger de temps), les llums del passadís s'activen quan algú passa (trigger d'esdeveniment), i el sistema d'assistència s'obre sol quan el professor entra a l'aula (onOpen). Cap acció manual necessària.</div>
 
         <h3 class="chapter-subtitle">6.1 Tipus de triggers</h3>
         <table class="data-table">
@@ -876,6 +881,7 @@ ${cfg["EMAIL_ORGANITZACIO"]}`</span>;
         <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VII</span></div>
         <h2 class="chapter-title">Bloc VII — Web App i doGet(): L'API Pública</h2>
         <p>El punt culminant del projecte: publicar una <strong>Web App</strong> que exposi les dades de les Jornades com una <strong>API REST pública</strong>. Qualsevol persona amb la URL podrà consultar activitats, aforaments i disponibilitat de la Sala Especial en temps real, sense accés al Spreadsheet.</p>
+        <div class="analogy-box"><strong>🧠 Analogia:</strong> La Web App és com una finestreta d'informació de les Jornades: tu hi arribes amb una pregunta (<code>?ruta=activitats</code>), la finestreta consulta els arxius interns (Sheets) i et dóna una resposta en format estàndard (JSON). No necessites accedir als arxius directament: la finestreta actua d'intermediari.</div>
 
         <div class="webapp-box">
             <div class="webapp-box-title">Com funciona una Web App de GAS</div>
