@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manual de Supervivència Digital · HTML/CSS/JS + Live Coding</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primari: #1a2332;
+      --accent: #3b82f6;
+      --accent-fosc: #2563eb;
+      --verd: #10b981;
+      --groc: #f59e0b;
+      --taronja: #f97316;
+      --vermell: #ef4444;
+      --lila: #8b5cf6;
+      --fons: #f1f5f9;
+      --fons-codi: #0f172a;
+      --text-codi: #e2e8f0;
+      --card-bg: #ffffff;
+      --vora: #e2e8f0;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Syne', 'Segoe UI', sans-serif;
+      line-height: 1.7;
+      color: var(--primari);
+      background: var(--fons);
+    }
+
+    /* ── HEADER ───────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #1a2332 0%, #243447 60%, #1e3a5f 100%);
+      color: white;
+      text-align: center;
+      padding: 3.5rem 2rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 70% 40%, rgba(59, 130, 246, .18), transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(16, 185, 129, .1), transparent 50%);
+    }
+
+    header::after {
+      content: '</>';
+      position: absolute;
+      right: 4rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Fira Code', monospace;
+      font-size: 6rem;
+      opacity: .05;
+      color: white;
+      pointer-events: none;
+    }
+
+    .header-badge {
+      display: inline-block;
+      background: rgba(59, 130, 246, .25);
+      border: 1px solid rgba(59, 130, 246, .4);
+      color: #93c5fd;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .25rem .9rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      font-weight: 800;
+      margin-bottom: .6rem;
+      position: relative;
+      letter-spacing: -.02em;
+    }
+
+    header h1 span {
+      color: #60a5fa;
+    }
+
+    header p {
+      opacity: .75;
+      font-size: .95rem;
+      position: relative;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ── LAYOUT ──────────────────────────────────────────── */
+    .contenidor {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ── SECCIONS ─────────────────────────────────────────── */
+    .seccio-titol {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin: 2.5rem 0 1.25rem;
+    }
+
+    .seccio-num {
+      background: var(--accent);
+      color: white;
+      font-size: .72rem;
+      font-weight: 700;
+      padding: .2rem .65rem;
+      border-radius: 6px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .seccio-titol h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+    }
+
+    /* ── INTRO BOX ────────────────────────────────────────── */
+    .intro-box {
+      background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .intro-box .icona {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .intro-box p {
+      font-size: .9rem;
+      color: #374151;
+      margin: 0;
+    }
+
+    .intro-box strong {
+      color: var(--accent-fosc);
+    }
+
+    /* ── VÍDEO SECTION ────────────────────────────────────── */
+    .video-wrap {
+      background: var(--card-bg);
+      border: 1px solid var(--vora);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, .07);
+      margin-bottom: 1.5rem;
+    }
+
+    .video-header {
+      background: var(--fons-codi);
+      padding: .85rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .video-header .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .video-header .d1 {
+      background: #ef4444;
+    }
+
+    .video-header .d2 {
+      background: #f59e0b;
+    }
+
+    .video-header .d3 {
+      background: #10b981;
+    }
+
+    .video-header span {
+      font-family: 'Fira Code', monospace;
+      font-size: .8rem;
+      color: #94a3b8;
+      margin-left: .5rem;
+    }
+
+    .video-responsive {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+
+    .video-responsive iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-footer {
+      padding: 1.1rem 1.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--vora);
+    }
+
+    .video-footer p {
+      font-size: .85rem;
+      color: #64748b;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .video-footer strong {
+      color: var(--primari);
+    }
+
+    /* ── LIVE-CODING EXERCISE BOX ─────────────────────────── */
+    .exercici-box {
+      background: var(--fons-codi);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .exercici-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(59, 130, 246, .07), rgba(139, 92, 246, .05));
+      pointer-events: none;
+    }
+
+    .exercici-box-header {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin-bottom: .9rem;
+    }
+
+    .exercici-tag {
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      color: white;
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: .2rem .65rem;
+      border-radius: 20px;
+    }
+
+    .exercici-box h4 {
+      color: #60a5fa;
+      font-size: .9rem;
+      font-weight: 700;
+    }
+
+    .exercici-box p {
+      color: #94a3b8;
+      font-size: .83rem;
+      margin-bottom: .9rem;
+    }
+
+    .exercici-box pre {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: .78rem;
+      color: var(--text-codi);
+      line-height: 1.7;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    .exercici-box pre .kw {
+      color: #60a5fa;
+    }
+
+    .exercici-box pre .at {
+      color: #f59e0b;
+    }
+
+    .exercici-box pre .val {
+      color: #34d399;
+    }
+
+    .exercici-box pre .cm {
+      color: #475569;
+      font-style: italic;
+    }
+
+    .plat-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      margin-top: 1rem;
+    }
+
+    .plat-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      text-decoration: none;
+      font-size: .78rem;
+      font-weight: 600;
+      padding: .35rem .9rem;
+      border-radius: 8px;
+      border: 1px solid;
+      transition: opacity .15s, transform .15s;
+    }
+
+    .plat-link:hover {
+      opacity: .8;
+      transform: translateY(-1px);
+    }
+
+    .plat-link.codepen {
+      color: #47cf73;
+      border-color: #47cf73;
+      background: rgba(71, 207, 115, .08);
+    }
+
+    .plat-link.stackblitz {
+      color: #6fa8dc;
+      border-color: #6fa8dc;
+      background: rgba(111, 168, 220, .08);
+    }
+
+    .plat-link.playcode {
+      color: #ff6b35;
+      border-color: #ff6b35;
+      background: rgba(255, 107, 53, .08);
+    }
+
+    /* ── BLOCS DE CODI ────────────────────────────────────── */
+    .bloc-card {
+      background: var(--card-bg);
+      border: 1px solid var(--vora);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+      margin-bottom: 1.5rem;
+      transition: box-shadow .2s;
+    }
+
+    .bloc-card:hover {
+      box-shadow: 0 6px 22px rgba(0, 0, 0, .09);
+    }
+
+    .bloc-card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.1rem 1.4rem;
+      border-bottom: 1px solid var(--vora);
+      background: #fafbfc;
+    }
+
+    .bloc-num {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .8rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      color: white;
+    }
+
+    .n1 {
+      background: #3b82f6;
+    }
+
+    .n2 {
+      background: #8b5cf6;
+    }
+
+    .n3 {
+      background: #06b6d4;
+    }
+
+    .n4 {
+      background: #10b981;
+    }
+
+    .n5 {
+      background: #f59e0b;
+    }
+
+    .n6 {
+      background: #f97316;
+    }
+
+    .n7 {
+      background: #ef4444;
+    }
+
+    .n8 {
+      background: #ec4899;
+    }
+
+    .bloc-card-header-text {
+      flex: 1;
+    }
+
+    .bloc-card-header-text h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .1rem;
+    }
+
+    .bloc-card-header-text span {
+      font-size: .78rem;
+      color: #64748b;
+    }
+
+    .bloc-card-body {
+      padding: 1.25rem 1.4rem 0;
+    }
+
+    .bloc-card-body>p {
+      font-size: .9rem;
+      color: #475569;
+      margin-bottom: 1rem;
+      line-height: 1.65;
+    }
+
+    .bloc-card-body>p code {
+      font-family: 'Fira Code', monospace;
+      font-size: .83em;
+      background: #f1f5f9;
+      border: 1px solid var(--vora);
+      padding: .1rem .35rem;
+      border-radius: 5px;
+      color: var(--accent-fosc);
+    }
+
+    .bloc-card-body>p strong {
+      color: var(--primari);
+    }
+
+    /* ── CONTENIDOR CODI (editor) ─────────────────────────── */
+    .contenidor-codi {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: .75rem;
+    }
+
+    .capçalera-codi {
+      background: var(--fons-codi);
+      padding: .6rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Fira Code', monospace;
+      font-size: .75rem;
+      color: #64748b;
+    }
+
+    .boto-copia {
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .12);
+      color: #94a3b8;
+      font-size: .72rem;
+      font-weight: 600;
+      padding: .25rem .7rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Syne', sans-serif;
+      transition: background .15s, color .15s;
+    }
+
+    .boto-copia:hover {
+      background: rgba(255, 255, 255, .15);
+      color: white;
+    }
+
+    .boto-copia.copiat {
+      color: #34d399;
+      border-color: #34d399;
+    }
+
+    .editor-codi {
+      display: block;
+      background: #111827;
+      color: #d1fae5;
+      font-family: 'Fira Code', monospace;
+      font-size: .78rem;
+      line-height: 1.7;
+      padding: 1rem 1.1rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      min-height: 80px;
+      outline: none;
+      tab-size: 4;
+    }
+
+    .editor-codi:focus {
+      box-shadow: inset 0 0 0 2px rgba(59, 130, 246, .35);
+    }
+
+    .bloc-card-footer {
+      padding: .85rem 1.4rem 1.1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .consell-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: .75rem;
+      color: #64748b;
+      background: #f8fafc;
+      border: 1px solid var(--vora);
+      padding: .25rem .65rem;
+      border-radius: 6px;
+    }
+
+    /* ── SUPER PROMPT ─────────────────────────────────────── */
+    .superprompt-box {
+      background: var(--fons-codi);
+      border-radius: 14px;
+      padding: 1.5rem 1.75rem;
+      margin: 1.5rem 0 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .superprompt-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(59, 130, 246, .08), rgba(139, 92, 246, .06));
+      pointer-events: none;
+    }
+
+    .superprompt-box h3 {
+      color: #60a5fa;
+      font-size: .85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: .75rem;
+    }
+
+    .prompt-etiqueta {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .35rem;
+    }
+
+    .etiqueta-mal {
+      color: #ef4444;
+    }
+
+    .etiqueta-be {
+      color: #10b981;
+    }
+
+    .superprompt-before,
+    .superprompt-after {
+      border-radius: 10px;
+      padding: .9rem 1.1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: .82rem;
+      line-height: 1.7;
+      margin-bottom: .75rem;
+    }
+
+    .superprompt-before {
+      background: rgba(239, 68, 68, .1);
+      border-left: 3px solid #ef4444;
+      color: #fca5a5;
+    }
+
+    .superprompt-after {
+      background: rgba(16, 185, 129, .1);
+      border-left: 3px solid #10b981;
+      color: #6ee7b7;
+    }
+
+    .prompt-highlight {
+      color: #fbbf24;
+      font-style: italic;
+    }
+
+    /* ── FOOTER ───────────────────────────────────────────── */
+    footer {
+      background: var(--fons-codi);
+      color: #64748b;
+      text-align: center;
+      padding: 2rem;
+      font-size: .82rem;
+      margin-top: 3rem;
+    }
+
+    footer strong {
+      color: #94a3b8;
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 640px) {
+      header::after {
+        display: none;
+      }
+
+      .plat-links {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════════════════ -->
+  <header>
+    <div class="header-badge">Taller Web · Reus</div>
+    <h1>📘 Manual de <span>Supervivència Digital</span></h1>
+    <p>Aprèn HTML, CSS i JavaScript modificant el codi en temps real amb plataformes live coding</p>
+  </header>
+
+  <div class="contenidor">
+
+    <!-- INTRO -->
+    <div style="margin-top:2.5rem;">
+      <div class="intro-box">
+        <div class="icona">💡</div>
+        <p>Aquest manual combina els <strong>blocs teòrics d'HTML/CSS/JS</strong> amb l'ús de <strong>plataformes de
+            live coding</strong> (CodePen, StackBlitz, PlayCode). A cada bloc trobaràs el codi llest per copiar i
+          enganxar directament a la plataforma. Comença pel <strong>vídeo introductori</strong> per entendre
+          l'estructura base, i després practica cada bloc al navegador, <strong>sense instal·lar res</strong>.</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+       SECCIÓ 0 — VÍDEO INTRODUCTORI
+  ══════════════════════════════════════════════════════ -->
+    <div class="seccio-titol">
+      <span class="seccio-num">Secció 00</span>
+      <h2>Vídeo Introductori: HTML com a HTML i com a Live Coding</h2>
+    </div>
+
+    <!-- EMBED YOUTUBE -->
+    <div class="video-wrap">
+      <div class="video-header">
+        <div class="dot d1"></div>
+        <div class="dot d2"></div>
+        <div class="dot d3"></div>
+        <span>video-introductori.html — Reproducció en directe</span>
+      </div>
+      <div class="video-responsive">
+        <iframe src="https://www.youtube.com/embed/EvKm8yhM7V8" title="Vídeo introductori HTML"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="video-footer">
+        <p>👆 Mira el vídeo per veure <strong>com s'estructura una pàgina HTML</strong> des de zero. Fixa't en com s'usa
+          el <code>&lt;head&gt;</code>, el <code>&lt;body&gt;</code> i la relació entre HTML, CSS i JS.</p>
+        <a href="https://www.youtube.com/watch?v=EvKm8yhM7V8" target="_blank"
+          style="font-size:.78rem; color:var(--accent); text-decoration:none; white-space:nowrap;">↗ Obre a YouTube</a>
+      </div>
+    </div>
+
+    <!-- EXERCICI LIVE CODING: embed el vídeo tu mateix -->
+    <div class="exercici-box">
+      <div class="exercici-box-header">
+        <span class="exercici-tag">✏️ Exercici Live Coding</span>
+        <h4>Prova-ho: Incrusta el vídeo dins d'una pàgina HTML</h4>
+      </div>
+      <p>Copia aquest codi a CodePen (o qualsevol plataforma) i veuràs el vídeo integrat dins d'una pàgina HTML real.
+        Modifica el <strong>títol</strong>, el <strong>color de fons</strong> o afegeix un paràgraf descriptiu.</p>
+      <pre>
+<span class="cm">&lt;!-- ► Exercici: Incrusta un vídeo de YouTube en una pàgina HTML --&gt;</span>
+<span class="kw">&lt;!DOCTYPE html&gt;</span>
+<span class="kw">&lt;html</span> <span class="at">lang</span>=<span class="val">"ca"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;head&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="at">charset</span>=<span class="val">"UTF-8"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;title&gt;</span>El meu primer vídeo incrustat<span class="kw">&lt;/title&gt;</span>
+  <span class="kw">&lt;style&gt;</span>
+    body { font-family: sans-serif; max-width: 720px; margin: 2rem auto; padding: 1rem; }
+    h1   { color: #1e3a5f; }
+    <span class="cm">/* Contenidor responsiu 16:9 */</span>
+    .video-box { position: relative; padding-bottom: 56.25%; height: 0; }
+    .video-box iframe { position: absolute; top:0; left:0; width:100%; height:100%; }
+  <span class="kw">&lt;/style&gt;</span>
+<span class="kw">&lt;/head&gt;</span>
+<span class="kw">&lt;body&gt;</span>
+
+  <span class="kw">&lt;h1&gt;</span>Introducció a l'HTML<span class="kw">&lt;/h1&gt;</span>
+  <span class="kw">&lt;p&gt;</span>Mira aquest vídeo per entendre l'estructura bàsica d'una pàgina web.<span class="kw">&lt;/p&gt;</span>
+
+  <span class="cm">&lt;!-- L'etiqueta iframe permet incrustar contingut extern --&gt;</span>
+  <span class="kw">&lt;div</span> <span class="at">class</span>=<span class="val">"video-box"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;iframe</span>
+      <span class="at">src</span>=<span class="val">"https://www.youtube.com/embed/EvKm8yhM7V8"</span>
+      <span class="at">title</span>=<span class="val">"Vídeo introductori HTML"</span>
+      <span class="at">allowfullscreen</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;/iframe&gt;</span>
+  <span class="kw">&lt;/div&gt;</span>
+
+  <span class="cm">&lt;!-- REPTE: Afegeix aquí un paràgraf amb la teva reflexió --&gt;</span>
+  <span class="kw">&lt;p&gt;</span>Escriu aquí el que has après...<span class="kw">&lt;/p&gt;</span>
+
+<span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></pre>
+      <div class="plat-links">
+        <a href="https://codepen.io/pen/" target="_blank" class="plat-link codepen">🖊 Obre a CodePen</a>
+        <a href="https://stackblitz.com/fork/html" target="_blank" class="plat-link stackblitz">⚡ Obre a StackBlitz</a>
+        <a href="https://playcode.io/new" target="_blank" class="plat-link playcode">▶ Obre a PlayCode</a>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+       SECCIÓ 1 — BLOCS DE CODI
+  ══════════════════════════════════════════════════════ -->
+    <div class="seccio-titol">
+      <span class="seccio-num">Secció 01</span>
+      <h2>Els Blocs de Codi: De l'Esquelet a la Connexió</h2>
+    </div>
+
+    <!-- ── BLOC I ─────────────────────────────────────────── -->
+    <div class="bloc-card">
+      <div class="bloc-card-header">
+        <div class="bloc-num n1">I</div>
+        <div class="bloc-card-header-text">
+          <h3>L'Estructura "Trinitat" (HTML / CSS / JS)</h3>
+          <span>L'esquelet, el vestit i el cervell — tot en un sol fitxer</span>
+        </div>
+      </div>
+      <div class="bloc-card-body">
+        <p>Una pàgina web professional sempre té tres parts: l'<strong>esquelet</strong> (HTML), el
+          <strong>vestit</strong> (CSS) i el <strong>cervell</strong> (JS). En aquest bloc veuràs com conviuen tots tres
+          dins d'un sol fitxer.</p>
+        <div class="contenidor-codi">
+          <div class="capçalera-codi">
+            <span>bloc-I-trinitat.html</span>
+            <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+          </div>
+          <pre contenteditable="true" class="editor-codi">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;La meva primera web&lt;/title&gt;
+    &lt;style&gt;
+        /* AQUÍ VA EL CSS (EL VESTIT) */
+        h1 { color: #e67e22; text-align: center; font-family: sans-serif; }
+    &lt;/style&gt;
+    &lt;script&gt;
+    // AQUÍ VA EL JAVASCRIPT (EL CERVELL)
+    console.log("Hola! La pàgina s'ha carregat correctament.");
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h1&gt;Soc una pàgina HTML&lt;/h1&gt;
+   
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+        </div>
+      </div>
+      <div class="bloc-card-footer">
+        <span class="consell-tag">💡 Ideal per a CodePen — 3 panells HTML/CSS/JS en directe</span>
+        <div class="plat-links" style="margin-top:0;">
+          <a href="https://codepen.io/pen/" target="_blank" class="plat-link codepen">🖊 CodePen</a>
+          <a href="https://playcode.io/new" target="_blank" class="plat-link playcode">▶ PlayCode</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BLOC II ────────────────────────────────────────── -->
+    <div class="bloc-card">
+      <div class="bloc-card-header">
+        <div class="bloc-num n2">II</div>
+        <div class="bloc-card-header-text">
+          <h3>La Configuració "Pro" (Metadades, UTF-8 i Bootstrap)</h3>
+          <span>El &lt;head&gt; que prepara la web per al món real</span>
+        </div>
+      </div>
+      <div class="bloc-card-body">
+        <p>Dins del <code>&lt;head&gt;</code> preparem la web per al món real: accents que es veuen bé, connexió a
+          llibreries externes (Bootstrap) i com es veurà el link quan el compartim per WhatsApp.</p>
+        <div class="contenidor-codi">
+          <div class="capçalera-codi">
+            <span>bloc-II-head-pro.html</span>
+            <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+          </div>
+          <pre contenteditable="true" class="editor-codi">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ca"&gt;
+&lt;head&gt;
+    &lt;!-- 1. Codificació per a accents i ç --&gt;
+    &lt;meta charset="UTF-8"&gt;
+
+    &lt;!-- 2. Responsive: Adaptació a mòbils --&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+
+    &lt;!-- 3. Metadades OpenGraph (per a Xarxes Socials) --&gt;
+    &lt;meta property="og:title" content="Portfoli Docent de Reus"&gt;
+    &lt;meta property="og:image" content="https://via.placeholder.com/1200x630"&gt;
+
+    &lt;!-- 4. Connexió a BOOTSTRAP 5 (CSS) --&gt;
+    &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+
+    &lt;!-- 5. Tipografia de Google Fonts --&gt;
+    &lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"&gt;
+
+    &lt;style&gt;
+        body { font-family: 'Inter', sans-serif; }
+        .prova-lletra { font-weight: 700; color: #0d6efd; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body class="container mt-4"&gt;
+
+    &lt;h1 class="text-primary"&gt;L'educació a l'era digital&lt;/h1&gt;
+    &lt;p&gt;Gràcies a UTF-8, els accents es veuen perfectes.&lt;/p&gt;
+    
+    &lt;span class="prova-lletra"&gt;Soc un text amb la lletra 'Inter' de Google&lt;/span&gt;
+    
+    &lt;!-- Botó amb estil de Bootstrap --&gt;
+    &lt;button class="btn btn-success d-block mt-3"&gt;Guardar Canvis&lt;/button&gt;
+
+    &lt;!-- 6. JavaScript de Bootstrap (al final del body) --&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+        </div>
+      </div>
+      <div class="bloc-card-footer">
+        <span class="consell-tag">⚡ StackBlitz gestiona bé els fitxers múltiples i les CDN externes</span>
+        <div class="plat-links" style="margin-top:0;">
+          <a href="https://stackblitz.com/fork/html" target="_blank" class="plat-link stackblitz">⚡ StackBlitz</a>
+          <a href="https://codepen.io/pen/" target="_blank" class="plat-link codepen">🖊 CodePen</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BLOC III ───────────────────────────────────────── -->
+    <div class="bloc-card">
+      <div class="bloc-card-header">
+        <div class="bloc-num n3">III</div>
+        <div class="bloc-card-header-text">
+          <h3>Anatomia de l'Etiqueta (Atributs, Classes i ID)</h3>
+          <span>Com les etiquetes obtenen "superpoders"</span>
+        </div>
+      </div>
+      <div class="bloc-card-body">
+        <p>Les etiquetes no només diuen "què són", sinó "com es comporten". Fem servir <strong>Atributs</strong> per
+          donar informació extra, <strong>Classes</strong> per agrupar estils i <strong>ID</strong> per identificar un
+          element únic.</p>
+        <div class="contenidor-codi">
+          <div class="capçalera-codi">
+            <span>bloc-III-atributs.html</span>
+            <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+          </div>
+          <pre contenteditable="true" class="editor-codi">
+&lt;!-- 1. DIV: El contenidor (Bloc) --&gt;
+&lt;div id="seccio-principal" class="caixa-estil"&gt;
+    
+    &lt;!-- 2. IMG: Imatge amb atributs (src, alt, width) --&gt;
+    &lt;img src="https://picsum.photos/150" alt="Imatge d'exemple" width="100"&gt;
+
+    &lt;!-- 3. BR: Salt de línia (sense tancament) --&gt;
+    &lt;br&gt;
+
+    &lt;!-- 4. A: Enllaç amb atribut ID per a JS --&gt;
+    &lt;a href="https://agora.xtec.cat" id="enllac-escola"&gt;Visita la nostra web&lt;/a&gt;
+
+    &lt;!-- 5. BUTTON: Interacció amb classe --&gt;
+    &lt;button class="boto-accions" onclick="alert('Hola!')"&gt;Clica'm&lt;/button&gt;
+
+    &lt;!-- 6. INPUT: L'etiqueta que no podem oblidar per rebre dades --&gt;
+    &lt;input type="text" placeholder="Escriu el teu nom..." id="entrada-usuari"&gt;
+
+&lt;/div&gt;
+
+&lt;style&gt;
+    /* Fem servir la CLASSE (.) per estils compartits */
+    .caixa-estil { border: 2px solid #3498db; padding: 20px; border-radius: 10px; }
+    .boto-accions { background: #e74c3c; color: white; border: none; padding: 10px; }
+
+    /* Fem servir l'ID (#) per estils ÚNICS */
+    #enllac-escola { font-weight: bold; color: green; display: block; margin: 10px 0; }
+&lt;/style&gt;</pre>
+        </div>
+      </div>
+      <div class="bloc-card-footer">
+        <span class="consell-tag">🖊 CodePen: prova el clic al botó i observa l'alert en directe</span>
+        <div class="plat-links" style="margin-top:0;">
+          <a href="https://codepen.io/pen/" target="_blank" class="plat-link codepen">🖊 CodePen</a>
+          <a href="https://playcode.io/new" target="_blank" class="plat-link playcode">▶ PlayCode</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BLOC IV ────────────────────────────────────────── -->
+    <div class="bloc-card">
+      <div class="bloc-card-header">
+        <div class="bloc-num n4">IV</div>
+        <div class="bloc-card-header-text">
+          <h3>El Disseny en Detall (Estils de Text i Imatge)</h3>
+          <span>Typography, ombres i hover — el maquillatge visual</span>
+        </div>
+      </div>
+      <div class="bloc-card-body">
+        <p>El CSS ens permet controlar cada detall visual. Aquí veurem com transformar un text simple en un titular
+          elegant i com fer que una imatge sembli professional amb vores i ombres.</p>
+        <div class="contenidor-codi">
+          <div class="capçalera-codi">
+            <span>bloc-IV-tipografia.html</span>
+            <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+          </div>
+          <pre contenteditable="true" class="editor-codi">
+&lt;!-- 1. Text amb estil treballat --&gt;
+&lt;h2 class="titol-elegant"&gt;Benvinguts a l'Aula Digital&lt;/h2&gt;
+&lt;p class="paragraf-modern"&gt;
+    Aquest text té un interlineat i un espaiat pensats per a una lectura còmoda.
+&lt;/p&gt;
+
+&lt;!-- 2. Imatge amb estil professional --&gt;
+&lt;img src="https://picsum.photos/300/200" class="imatge-estilitzada" alt="Foto de mostra"&gt;
+
+&lt;style&gt;
+    /* Estils per al TEXT */
+    .titol-elegant {
+        color: #2c3e50;
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 2.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        border-bottom: 3px solid #3498db;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+    .paragraf-modern {
+        color: #7f8c8d;
+        line-height: 1.8;       /* Espai entre línies */
+        letter-spacing: 0.5px;  /* Espai entre lletres */
+        text-align: justify;
+    }
+
+    /* Estils per a la IMATGE */
+    .imatge-estilitzada {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 15px;                    /* Vores arrodonides */
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2); /* Ombra profunda */
+        border: 5px solid white;
+        transition: transform 0.3s ease;        /* Animació suau */
+    }
+
+    .imatge-estilitzada:hover {
+        transform: scale(1.05); /* S'engrandeix en passar el ratolí */
+    }
+&lt;/style&gt;</pre>
+        </div>
+      </div>
+      <div class="bloc-card-footer">
+        <span class="consell-tag">🔍 Prova a canviar els valors de color, font-size o box-shadow i veu el canvi al
+          preview</span>
+        <div class="plat-links" style="margin-top:0;">
+          <a href="https://codepen.io/pen/" target="_blank" class="plat-link codepen">🖊 CodePen</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BLOC V ─────────────────────────────────────────── -->
+    <div class="bloc-card">
+      <div class="bloc-card-header">
+        <div class="bloc-num n5">V</div>
+        <div class="bloc-card-header-text">
+          <h3>L'Ordre Lògic (Semàntica HTML5)</h3>
+          <span>header, main, section, article, aside, footer — estructura amb significat</span>
+        </div>
+      </div>
+      <div class="bloc-card-body">
+        <p>No totes les caixes són iguals. L'HTML5 ens dóna etiquetes amb significat perquè els cercadors i les eines
+          d'accessibilitat entenguin quina part és el menú, quina el contingut i quina el peu de pàgina.</p>
+        <div class="contenidor-codi">
+          <div class="capçalera-codi">
+            <span>bloc-V-semantica.html</span>
+            <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+          </div>
+          <pre contenteditable="true" class="editor-codi">
+&lt;!-- El cap de la web (Logo, títol, menú) --&gt;
+&lt;header&gt;
+    &lt;h1&gt;Institut de Reus&lt;/h1&gt;
+    &lt;nav&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href="#"&gt;Inici&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#"&gt;Projectes&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;!-- El contingut principal i únic de la pàgina --&gt;
+&lt;main&gt;
+    &lt;section id="noticies"&gt;
+        &lt;h2&gt;Últimes Notícies&lt;/h2&gt;
+        &lt;article&gt;
+            &lt;h3&gt;Guanyem el premi d'Innovació&lt;/h3&gt;
+            &lt;p&gt;L'alumnat de 4t d'ESO ha creat una web...&lt;/p&gt;
+        &lt;/article&gt;
+    &lt;/section&gt;
+
+    &lt;aside&gt;
+        &lt;p&gt;Barra lateral: Enllaços d'interès o avisos ràpids.&lt;/p&gt;
+    &lt;/aside&gt;
+&lt;/main&gt;
+
+&lt;!-- El final de la web (Contacte, xarxes, copyright) --&gt;
+&lt;footer&gt;
+    &lt;p&gt;&amp;copy; 2026 - Creat amb finalitats docents&lt;/p&gt;
+&lt;/footer&gt;
+
+&lt;style&gt;
+    header { background: #34495e; color: white; padding: 10px; }
+    main   { display: flex; gap: 20px; padding: 20px; }
+    section { flex: 3; }
+    aside  { flex: 1; background: #ecf0f1; padding: 10px; }
+    footer { text-align: center; background: #2c3e50; color: white; padding: 10px; }
+&lt;/style&gt;</pre>
+        </div>
+      </div>
+      <div class="bloc-card-footer">
+        <span class="consell-tag">📐 Observa com el display:flex fa que l'aside s'adapti automàticament</span>
+        <div class="plat-links" style="margin-top:0;">
+          <a href="https://codepen.io/pen/" target="_blank" class="plat-link codepen">🖊 CodePen</a>
+          <a href="https://playcode.io/new" target="_blank" class="plat-link playcode">▶ PlayCode</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BLOC VI ────────────────────────────────────────── -->
+    <div class="bloc-card">
+      <div class="bloc-card-header">
+        <div class="bloc-num n6">VI</div>
+        <div class="bloc-card-header-text">
+          <h3>L'Art d'Endreçar l'Espai (Flexbox)</h3>
+          <span>display:flex — el contenidor elàstic</span>
+        </div>
+      </div>
+      <div class="bloc-card-body">
+        <p>Com fem que el menú estigui a l'esquerra i el contingut a la dreta? Amb <code>display: flex</code>, el
+          contenidor es torna "elàstic" i ordena els seus elements de manera automàtica.</p>
+        <div class="contenidor-codi">
+          <div class="capçalera-codi">
+            <span>bloc-VI-flexbox.html</span>
+            <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+          </div>
+          <pre contenteditable="true" class="editor-codi">
+&lt;!-- El contenidor PARE defineix les regles --&gt;
+&lt;div class="zona-flex"&gt;
+    &lt;div class="targeta"&gt;🍎 Recurs A&lt;/div&gt;
+    &lt;div class="targeta"&gt;📚 Recurs B&lt;/div&gt;
+    &lt;div class="targeta"&gt;💻 Recurs C&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+    .zona-flex {
+        display: flex;                  /* Activem el mode flexible */
+        justify-content: space-around;  /* Reparteix l'espai entre elements */
+        align-items: center;            /* Centra verticalment */
+        flex-wrap: wrap;                /* Si no caben, salten de línia (Mòbil!) */
+        gap: 20px;                      /* Distància de seguretat entre caixes */
+        background: #f8f9fa;
+        padding: 30px;
+        border: 1px dashed #ccc;
+    }
+
+    .targeta {
+        background: white;
+        border-bottom: 4px solid #0d6efd;
+        padding: 20px;
+        flex: 1;              /* Totes intenten mesurar el mateix */
+        min-width: 200px;     /* Però no es fan més petites que 200px */
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+&lt;/style&gt;</pre>
+        </div>
+      </div>
+      <div class="bloc-card-footer">
+        <span class="consell-tag">🔄 Repte: canvia justify-content per "center" o "flex-start" i observa el canvi</span>
+        <div class="plat-links" style="margin-top:0;">
+          <a href="https://codepen.io/pen/" target="_blank" class="plat-link codepen">🖊 CodePen</a>
+          <a href="https://playcode.io/new" target="_blank" class="plat-link playcode">▶ PlayCode</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BLOC VII ───────────────────────────────────────── -->
+    <div class="bloc-card">
+      <div class="bloc-card-header">
+        <div class="bloc-num n7">VII</div>
+        <div class="bloc-card-header-text">
+          <h3>El Cervell de la Web (Validació amb JavaScript)</h3>
+          <span>EventListeners, DOM i lògica condicional</span>
+        </div>
+      </div>
+      <div class="bloc-card-body">
+        <p>JavaScript ens permet comprovar les dades abans d'enviar-les. En aquest exemple, el botó d'enviar estarà
+          bloquejat (desactivat) fins que l'usuari escrigui un correu electrònic amb el format correcte.</p>
+        <div class="contenidor-codi">
+          <div class="capçalera-codi">
+            <span>bloc-VII-validacio.html</span>
+            <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+          </div>
+          <pre contenteditable="true" class="editor-codi">
+&lt;!-- Formulari simple de Bootstrap --&gt;
+&lt;div class="p-4 border rounded bg-light"&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label for="emailInput" class="form-label"&gt;Correu electrònic d'escola:&lt;/label&gt;
+        &lt;input type="email" class="form-control" id="emailInput" placeholder="nom@escola.cat"&gt;
+        &lt;div id="avis-error" class="text-danger mt-1" style="display:none;"&gt;L'email no és vàlid encara...&lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;button id="botoEnviar" class="btn btn-primary" disabled&gt;Enviar dades&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    const inputEmail = document.getElementById('emailInput');
+    const boto = document.getElementById('botoEnviar');
+    const avis = document.getElementById('avis-error');
+
+    // Escoltador d'esdeveniments: "quan l'usuari escrigui..."
+    inputEmail.addEventListener('input', function() {
+        const valor = inputEmail.value;
+        
+        // Regla de validació simple (conté @ i .)
+        const esValid = valor.includes('@') &amp;&amp; valor.includes('.');
+
+        if (esValid) {
+            boto.disabled = false; // Activem el botó
+            avis.style.display = 'none';
+            inputEmail.classList.add('is-valid');
+            inputEmail.classList.remove('is-invalid');
+        } else {
+            boto.disabled = true; // Bloquegem el botó
+            avis.style.display = 'block';
+            inputEmail.classList.add('is-invalid');
+            inputEmail.classList.remove('is-valid');
+        }
+    });
+&lt;/script&gt;</pre>
+        </div>
+      </div>
+      <div class="bloc-card-footer">
+        <span class="consell-tag">⚡ A StackBlitz pots veure el consola.log() de JS en temps real</span>
+        <div class="plat-links" style="margin-top:0;">
+          <a href="https://stackblitz.com/fork/html" target="_blank" class="plat-link stackblitz">⚡ StackBlitz</a>
+          <a href="https://codepen.io/pen/" target="_blank" class="plat-link codepen">🖊 CodePen</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BLOC VIII ──────────────────────────────────────── -->
+    <div class="bloc-card">
+      <div class="bloc-card-header">
+        <div class="bloc-num n8">VIII</div>
+        <div class="bloc-card-header-text">
+          <h3>Connexió Real (Notícies del Diari ARA via API)</h3>
+          <span>Fetch, JSON asíncron, CORS i creació dinàmica de DOM</span>
+        </div>
+      </div>
+      <div class="bloc-card-body">
+        <p>La web pot "llegir" altres mitjans. Aquí connectem amb l'RSS de l'Ara.cat, processem les dades i les maquetem
+          amb imatges i descripcions en temps real. Hem de fer servir un proxy (rss2json) per evitar el bloqueig
+          <strong>CORS</strong> del navegador.</p>
+        <div class="contenidor-codi">
+          <div class="capçalera-codi">
+            <span>bloc-VIII-api-noticies.html</span>
+            <button class="boto-copia" onclick="copiarCodi(this)">Copiar</button>
+          </div>
+          <pre contenteditable="true" class="editor-codi">
+&lt;div class="container mt-4"&gt;
+    &lt;h3 class="mb-4 text-danger border-bottom pb-2"&gt;Últimes notícies: Diari ARA&lt;/h3&gt;
+    &lt;div id="noticiari" class="row g-4"&gt;
+        &lt;p class="text-muted"&gt;Connectant amb el diari...&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+async function carregarAra() {
+    const contenidor = document.getElementById('noticiari');
+    const rssUrl = 'https://www.ara.cat/rss/latest/';
+    // Fem servir un convertidor RSS→JSON gratuït per evitar bloquejos (CORS)
+    const apiProxy = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+    try {
+        const resposta = await fetch(apiProxy);
+        const dades = await resposta.json();
+
+        contenidor.innerHTML = ""; // Netegem el missatge de càrrega
+
+        // Agafem les primeres 3 notícies
+        dades.items.slice(0, 3).forEach(item =&gt; {
+            const col = document.createElement('div');
+            col.className = "col-md-4";
+            const imatge = item.enclosure?.link || item.thumbnail || 'https://picsum.photos/300/200';
+
+            col.innerHTML = `
+                &lt;div class="card h-100 shadow-sm"&gt;
+                    &lt;img src="${imatge}" class="card-img-top" style="height:180px;object-fit:cover;" alt="Foto"&gt;
+                    &lt;div class="card-body"&gt;
+                        &lt;h5 class="card-title"&gt;${item.title}&lt;/h5&gt;
+                        &lt;p class="card-text text-muted small"&gt;${item.description.substring(0,100)}...&lt;/p&gt;
+                        &lt;a href="${item.link}" target="_blank" class="btn btn-outline-danger btn-sm"&gt;Llegir més&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;`;
+            contenidor.appendChild(col);
+        });
+    } catch(err) {
+        contenidor.innerHTML = `&lt;p class="text-danger"&gt;Error al connectar: ${err.message}&lt;/p&gt;`;
+    }
+}
+
+carregarAra(); // Executem la funció en carregar la pàgina
+&lt;/script&gt;
+
+&lt;!-- No oblidis afegir Bootstrap al &lt;head&gt; per als estils de cards --&gt;
+&lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"&gt;</pre>
+        </div>
+      </div>
+      <div class="bloc-card-footer">
+        <span class="consell-tag">⚡ Millor a StackBlitz — permet veure errors de xarxa i la resposta JSON</span>
+        <div class="plat-links" style="margin-top:0;">
+          <a href="https://stackblitz.com/fork/html" target="_blank" class="plat-link stackblitz">⚡ StackBlitz</a>
+          <a href="https://codepen.io/pen/" target="_blank" class="plat-link codepen">🖊 CodePen</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+       SECCIÓ 2 — SUPER PROMPT
+  ══════════════════════════════════════════════════════ -->
+    <div class="seccio-titol" style="margin-top:2rem;">
+      <span class="seccio-num">Secció 02</span>
+      <h2>Del Prompt Bàsic al Súper-Prompt</h2>
+    </div>
+
+    <div class="superprompt-box">
+      <h3>🚀 Com evoluciona el teu prompt quan coneixes el vocabulari</h3>
+      <div class="prompt-etiqueta etiqueta-mal">❌ Prompt sense vocabulari tècnic</div>
+      <div class="superprompt-before">"Fes-me una web de notícies"</div>
+      <div class="prompt-etiqueta etiqueta-be">✅ Prompt d'Arquitecte amb els conceptes apresos</div>
+      <div class="superprompt-after">"Genera una <span class="prompt-highlight">pàgina HTML5 semàntica</span> amb un
+        <span class="prompt-highlight">header fix</span> i un main configurat amb <span
+          class="prompt-highlight">Flexbox</span>. Inclou <span class="prompt-highlight">metadades Open Graph</span> i
+        configuració <span class="prompt-highlight">UTF-8</span>. Connecta la llibreria <span
+          class="prompt-highlight">Bootstrap 5 via CDN</span> per al disseny de les targetes (cards) de notícies i usa
+        la <span class="prompt-highlight">Fetch API</span> per llegir un <span class="prompt-highlight">JSON extern
+          asíncronament</span>. Afegeix un <span class="prompt-highlight">iframe responsiu</span> per incrustar un vídeo
+        de YouTube. Aplica una tipografia <span class="prompt-highlight">Google Font</span> tipus 'Inter' al body i
+        assegura't que sigui <span class="prompt-highlight">Responsive</span> amb un breakpoint per a mòbil."</div>
+    </div>
+
+  </div><!-- fi contenidor -->
+
+  <footer>
+    <strong>Taller Web · Reus</strong> · Manual de Supervivència Digital — HTML/CSS/JS + Live Coding
+  </footer>
+
+  <script>
+    function copiarCodi(boto) {
+      const pre = boto.closest('.contenidor-codi').querySelector('.editor-codi');
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        boto.textContent = '✓ Copiat!';
+        boto.classList.add('copiat');
+        setTimeout(() => {
+          boto.textContent = 'Copiar';
+          boto.classList.remove('copiat');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+
+</html>
