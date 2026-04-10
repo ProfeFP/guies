@@ -1,308 +1,1313 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia 2 · IDE i Google Apps Script – Jornades Docents</title>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        :root {
-            --navy:#0f1b2d; --navy-mid:#162032; --navy-card:#1a2840; --navy-border:#243450;
-            --accent:#3b9ede; --accent2:#2fb8c4; --gold:#f0a830; --gold-dim:#c97d10;
-            --green:#22c55e;
-            --primary-dark:#1b3a5c; --primary-mid:#1e6fa6; --primary-light:#2fb8c4;
-            --tip-bg:#e8f4fd; --warn-bg:#fff7ed; --warn-color:#d97706;
-            --ok-bg:#f0fdf4; --ok-color:#16a34a;
-            --purple-bg:#faf5ff; --purple-border:#d8b4fe; --purple-color:#7c3aed;
-            --code-bg:#0d1117; --code-head:#161b22; --code-border:#30363d;
-            --text:#374151; --border:#e5e7eb; --bg:#f3f6fa;
-        }
-        body { font-family:'DM Sans','Segoe UI',sans-serif; line-height:1.72; color:var(--text); background:var(--bg); }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia 2 · IDE i Google Apps Script – Jornades Docents</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* HERO */
-        .hero { background:linear-gradient(160deg,var(--navy) 0%,#0d2240 60%,#0a2d4a 100%); color:#fff; padding:44px 40px 36px; text-align:center; position:relative; overflow:hidden; }
-        .hero::before { content:''; position:absolute; top:-80px; right:-80px; width:320px; height:320px; background:radial-gradient(circle,rgba(47,184,196,.18) 0%,transparent 70%); }
-        .hero::after  { content:''; position:absolute; bottom:-60px; left:-40px; width:260px; height:260px; background:radial-gradient(circle,rgba(59,158,222,.12) 0%,transparent 70%); }
-        .hero-badge { display:inline-block; background:rgba(47,184,196,.2); border:1px solid rgba(47,184,196,.45); color:rgba(255,255,255,.92); padding:4px 18px; border-radius:20px; font-size:.78em; letter-spacing:.1em; text-transform:uppercase; margin-bottom:14px; font-weight:600; }
-        .hero h1 { font-family:'Source Serif 4',Georgia,serif; font-size:2.5em; font-weight:700; margin-bottom:10px; line-height:1.2; }
-        .hero h1 span { color:var(--accent2); }
-        .hero p { color:rgba(255,255,255,.72); font-size:1.05em; max-width:640px; margin:0 auto; }
+    :root {
+      --navy: #0f1b2d;
+      --navy-mid: #162032;
+      --navy-card: #1a2840;
+      --navy-border: #243450;
+      --accent: #3b9ede;
+      --accent2: #2fb8c4;
+      --gold: #f0a830;
+      --gold-dim: #c97d10;
+      --green: #22c55e;
+      --primary-dark: #1b3a5c;
+      --primary-mid: #1e6fa6;
+      --primary-light: #2fb8c4;
+      --tip-bg: #e8f4fd;
+      --warn-bg: #fff7ed;
+      --warn-color: #d97706;
+      --ok-bg: #f0fdf4;
+      --ok-color: #16a34a;
+      --purple-bg: #faf5ff;
+      --purple-border: #d8b4fe;
+      --purple-color: #7c3aed;
+      --code-bg: #0d1117;
+      --code-head: #161b22;
+      --code-border: #30363d;
+      --text: #374151;
+      --border: #e5e7eb;
+      --bg: #f3f6fa;
+    }
 
-        /* MAPA */
-        .mapa-section { background:linear-gradient(180deg,var(--navy) 0%,var(--navy-mid) 100%); padding:30px 40px 36px; }
-        .mapa-title { text-align:center; color:rgba(255,255,255,.85); font-size:.82em; font-weight:700; letter-spacing:.12em; text-transform:uppercase; margin-bottom:22px; }
-        .mapa-title span { color:var(--gold); margin-right:8px; }
-        .bloc-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; max-width:960px; margin:0 auto 24px; }
-        .bloc-card { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:12px; padding:18px 14px 14px; text-align:center; cursor:pointer; transition:all .25s; text-decoration:none; display:block; }
-        .bloc-card:hover { background:#1f3356; border-color:var(--accent2); transform:translateY(-3px); box-shadow:0 8px 24px rgba(47,184,196,.2); }
-        .bloc-card.done { border-color:rgba(34,197,94,.35); background:#172a1e; }
-        .bloc-card.done:hover { border-color:var(--green); }
-        .bloc-card-icon { font-size:1.9em; margin-bottom:8px; display:block; }
-        .bloc-card-num { color:rgba(255,255,255,.55); font-size:.72em; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:4px; }
-        .bloc-card-name { color:#e2e8f0; font-size:.88em; font-weight:600; margin-bottom:8px; line-height:1.25; }
-        .bloc-card-progress { font-size:.78em; font-weight:700; padding:3px 10px; border-radius:10px; display:inline-block; }
-        .progress-none { background:rgba(255,255,255,.08); color:rgba(255,255,255,.4); }
-        .progress-part { background:rgba(240,168,48,.15); color:var(--gold); }
-        .progress-done { background:rgba(34,197,94,.15); color:var(--green); }
-        .progress-bar-wrap { max-width:960px; margin:0 auto; }
-        .progress-meta { display:flex; justify-content:space-between; align-items:center; color:rgba(255,255,255,.65); font-size:.86em; margin-bottom:8px; }
-        .progress-meta strong { color:#fff; }
-        .btn-reset { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); color:rgba(255,255,255,.7); padding:5px 14px; border-radius:14px; font-size:.8em; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:600; transition:all .2s; }
-        .btn-reset:hover { background:rgba(255,255,255,.15); color:#fff; }
-        .progress-track { background:rgba(255,255,255,.1); border-radius:6px; height:8px; overflow:hidden; }
-        .progress-fill { background:linear-gradient(90deg,var(--accent2),var(--accent)); height:100%; border-radius:6px; transition:width .5s ease; }
+    body {
+      font-family: 'DM Sans', 'Segoe UI', sans-serif;
+      line-height: 1.72;
+      color: var(--text);
+      background: var(--bg);
+    }
 
-        /* NAV GUIES */
-        .guies-nav { display:flex; justify-content:center; gap:10px; padding:14px 40px; background:#f8fafc; border-bottom:1px solid var(--border); flex-wrap:wrap; }
-        .guia-btn { padding:6px 18px; border-radius:20px; font-size:.86em; font-weight:600; text-decoration:none; border:2px solid transparent; transition:all .22s; font-family:'DM Sans',sans-serif; cursor:pointer; }
-        .guia-btn.active { background:var(--primary-mid); color:#fff; border-color:var(--primary-mid); }
-        .guia-btn.inactive { background:#fff; color:var(--primary-mid); border-color:var(--primary-mid); }
-        .guia-btn.inactive:hover { background:var(--primary-mid); color:#fff; }
+    /* HERO */
+    .hero {
+      background: linear-gradient(160deg, var(--navy) 0%, #0d2240 60%, #0a2d4a 100%);
+      color: #fff;
+      padding: 44px 40px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-        /* CONTENT */
-        .content { padding:44px 44px 60px; max-width:1060px; margin:0 auto; }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(47, 184, 196, .18) 0%, transparent 70%);
+    }
 
-        /* BLOC UI */
-        .bloc-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; flex-wrap:wrap; gap:8px; }
-        .btn-back-map { display:inline-flex; align-items:center; gap:6px; background:#f1f5f9; color:var(--primary-dark); border:1px solid #cbd5e1; padding:6px 16px; border-radius:20px; font-size:.83em; font-weight:600; cursor:pointer; transition:all .2s; font-family:'DM Sans',sans-serif; }
-        .btn-back-map:hover { background:#e2e8f0; }
-        .bloc-pill { display:inline-flex; align-items:center; background:var(--primary-mid); color:#fff; padding:6px 16px; border-radius:20px; font-size:.83em; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
-        .bloc-nav { display:flex; justify-content:space-between; align-items:center; padding:12px 0; margin-top:28px; border-top:1px solid var(--border); flex-wrap:wrap; gap:8px; }
-        .btn-nav { display:inline-flex; align-items:center; gap:6px; padding:7px 18px; border-radius:20px; font-size:.85em; font-weight:600; text-decoration:none; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .22s; }
-        .btn-prev { background:#f1f5f9; color:var(--primary-dark); border:1px solid #cbd5e1; }
-        .btn-prev:hover { background:#e2e8f0; }
-        .btn-next { background:var(--primary-mid); color:#fff; }
-        .btn-next:hover { background:var(--primary-dark); transform:translateX(2px); }
-        .bloc-label { font-size:.8em; color:#94a3b8; font-weight:500; text-transform:uppercase; letter-spacing:.06em; }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: -40px;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(59, 158, 222, .12) 0%, transparent 70%);
+    }
 
-        /* EXERCICI */
-        .ex-item { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; cursor:pointer; }
-        .ex-check { width:20px; height:20px; min-width:20px; border:2px solid var(--purple-color); border-radius:5px; display:flex; align-items:center; justify-content:center; margin-top:2px; transition:all .2s; background:#fff; }
-        .ex-check.checked { background:var(--purple-color); border-color:var(--purple-color); }
-        .ex-check.checked::after { content:'✓'; color:#fff; font-size:.85em; font-weight:700; }
-        .ex-text { color:var(--text); font-size:1em; line-height:1.5; }
-        .ex-text.done { text-decoration:line-through; color:#9ca3af; }
-        .ex-num { display:inline-flex; align-items:center; justify-content:center; background:var(--purple-color); color:#fff; border-radius:50%; width:22px; height:22px; min-width:22px; font-size:.78em; font-weight:700; margin-right:4px; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(47, 184, 196, .2);
+      border: 1px solid rgba(47, 184, 196, .45);
+      color: rgba(255, 255, 255, .92);
+      padding: 4px 18px;
+      border-radius: 20px;
+      font-size: .78em;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
 
-        /* TOC */
-        .toc { background:linear-gradient(135deg,#f8fafc,#eef2f8); padding:24px 28px; border-radius:10px; margin-bottom:36px; border:1px solid #d1dae8; }
-        .toc h2 { color:var(--primary-dark); margin-bottom:14px; font-family:'Source Serif 4',serif; font-size:1.2em; }
-        .toc ul { list-style:none; margin:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:7px; }
-        .toc li { margin:0; }
-        .toc a { color:var(--primary-mid); text-decoration:none; font-weight:500; font-size:.95em; display:flex; align-items:center; gap:5px; transition:color .2s; }
-        .toc a:hover { color:var(--primary-dark); text-decoration:underline; }
+    .hero h1 {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 2.5em;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
 
-        /* CHAPTERS */
-        .chapter { margin-bottom:50px; border-bottom:2px solid var(--border); padding-bottom:30px; }
-        .chapter:last-child { border-bottom:none; }
-        .chapter-title { font-family:'Source Serif 4',Georgia,serif; font-size:1.75em; color:var(--primary-dark); margin-bottom:18px; padding-bottom:10px; border-bottom:3px solid var(--accent2); display:inline-block; font-weight:700; }
-        .chapter-subtitle { font-size:1.18em; color:var(--primary-mid); margin:24px 0 12px; font-weight:600; }
-        p { margin-bottom:12px; color:var(--text); font-size:1.01em; }
-        ul,ol { margin:12px 0 16px 26px; color:var(--text); }
-        li { margin-bottom:6px; }
-        strong { color:var(--primary-dark); }
-        code { font-family:'JetBrains Mono','Consolas',monospace; background:#f1f5f9; color:#7c3aed; padding:1px 6px; border-radius:4px; font-size:.89em; }
+    .hero h1 span {
+      color: var(--accent2);
+    }
 
-        /* CODE BLOCKS */
-        .code-container { background:var(--code-bg); border-radius:10px; margin:18px 0; box-shadow:0 4px 18px rgba(0,0,0,.22); overflow:hidden; border:1px solid var(--code-border); }
-        .code-header { background:var(--code-head); padding:9px 16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--code-border); }
-        .code-language { color:#8b949e; font-size:.83em; font-family:'JetBrains Mono',monospace; }
-        .copy-button { background:#238636; color:#fff; border:none; padding:4px 14px; border-radius:6px; cursor:pointer; font-size:.83em; font-weight:600; transition:all .22s; font-family:'DM Sans',sans-serif; }
-        .copy-button:hover { background:#2ea043; transform:translateY(-1px); }
-        .copy-button.copied { background:#1f6feb; }
-        pre { margin:0; padding:20px 22px; overflow-x:auto; }
-        pre code { background:none; color:#e6edf3; padding:0; font-size:.9em; line-height:1.65; border-radius:0; }
-        .kw{color:#ff7b72;} .fn{color:#d2a8ff;} .str{color:#a5d6ff;} .cm{color:#8b949e;font-style:italic;} .nb{color:#79c0ff;} .prop{color:#ffa657;} .gas{color:#2fb8c4;}
+    .hero p {
+      color: rgba(255, 255, 255, .72);
+      font-size: 1.05em;
+      max-width: 640px;
+      margin: 0 auto;
+    }
 
-        /* BOXES */
-        .tip-box { background:var(--tip-bg); border-left:4px solid var(--primary-mid); padding:14px 18px; margin:16px 0; border-radius:0 8px 8px 0; }
-        .warning-box { background:var(--warn-bg); border-left:4px solid var(--warn-color); padding:14px 18px; margin:16px 0; border-radius:0 8px 8px 0; }
-        .analogy-box { background:var(--ok-bg); border-left:4px solid var(--ok-color); padding:14px 18px; margin:16px 0; border-radius:0 8px 8px 0; font-style:italic; }
-        .docent-box { background:#fff8ec; border:1px solid #f0a830; border-radius:10px; padding:15px 19px; margin:16px 0; }
-        .docent-box-title { color:var(--gold-dim); font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:7px; font-size:.99em; font-style:normal; }
-        .docent-box-title::before { content:"🎓"; font-size:1.1em; }
-        .exercise-box { background:var(--purple-bg); border:1px solid var(--purple-border); border-radius:10px; padding:18px 20px; margin:18px 0; }
-        .exercise-title { color:var(--purple-color); font-weight:700; font-size:.99em; margin-bottom:10px; display:flex; align-items:center; gap:7px; }
-        .exercise-title::before { content:"✏️"; }
-        .webapp-box { background:#f0f9ff; border:1px solid #7dd3fc; border-radius:10px; padding:15px 19px; margin:16px 0; }
-        .webapp-box-title { color:#0369a1; font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:7px; font-size:.99em; }
-        .webapp-box-title::before { content:"🌐"; font-size:1.1em; }
+    /* MAPA */
+    .mapa-section {
+      background: linear-gradient(180deg, var(--navy) 0%, var(--navy-mid) 100%);
+      padding: 30px 40px 36px;
+    }
 
-        /* TABLES */
-        .data-table { width:100%; border-collapse:collapse; margin:12px 0 18px; font-size:.91em; border-radius:8px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,.07); }
-        .data-table thead tr { background:var(--primary-dark); color:#fff; }
-        .data-table thead th { padding:10px 13px; text-align:left; font-weight:600; font-size:.87em; letter-spacing:.03em; }
-        .data-table tbody tr:nth-child(even) { background:#f5f8fc; }
-        .data-table tbody tr:hover { background:#e8f0fa; }
-        .data-table tbody td { padding:9px 13px; border-bottom:1px solid #e5e7eb; color:var(--text); }
-        .col-type { font-family:'JetBrains Mono',monospace; font-size:.81em; color:#7c3aed; font-weight:500; }
-        .badge { padding:2px 8px; border-radius:4px; font-size:.77em; font-weight:700; font-family:monospace; white-space:nowrap; }
-        .badge-green { background:#dcfce7; color:#166534; }
-        .badge-blue  { background:#dbeafe; color:#1e40af; }
-        .badge-yellow{ background:#fef9c3; color:#854d0e; }
-        .badge-red   { background:#fee2e2; color:#991b1b; }
+    .mapa-title {
+      text-align: center;
+      color: rgba(255, 255, 255, .85);
+      font-size: .82em;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
 
-        /* STEPS */
-        .step-box { margin:13px 0; }
-        .step { display:flex; align-items:flex-start; gap:12px; margin-bottom:10px; }
-        .step-num { background:var(--primary-mid); color:#fff; border-radius:50%; width:27px; height:27px; min-width:27px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.86em; }
-        .step-content { padding-top:3px; }
+    .mapa-title span {
+      color: var(--gold);
+      margin-right: 8px;
+    }
 
-        /* IDE MOCKUP */
-        .ide-wrap { border:1px solid #30363d; border-radius:10px; overflow:hidden; margin:18px 0; box-shadow:0 6px 24px rgba(0,0,0,.18); }
-        .ide-bar { background:#21262d; padding:9px 16px; display:flex; align-items:center; gap:8px; }
-        .dot { width:12px; height:12px; border-radius:50%; }
-        .dot-r{background:#ff5f57;} .dot-y{background:#febc2e;} .dot-g{background:#28c840;}
-        .ide-bar-title { color:#8b949e; font-size:.83em; font-family:'JetBrains Mono',monospace; margin-left:8px; }
-        .ide-toolbar { background:#161b22; border-bottom:1px solid #30363d; padding:7px 16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-        .ide-btn { background:#238636; color:#fff; border:none; padding:4px 14px; border-radius:6px; font-size:.81em; font-family:'DM Sans',sans-serif; cursor:default; font-weight:600; }
-        .ide-btn-grey { background:#30363d; color:#e6edf3; }
-        .ide-select { background:#21262d; color:#e6edf3; border:1px solid #30363d; padding:4px 10px; border-radius:6px; font-size:.81em; font-family:'JetBrains Mono',monospace; }
-        .ide-body { display:flex; min-height:180px; }
-        .ide-sidebar { background:#161b22; border-right:1px solid #30363d; padding:12px 10px; min-width:150px; }
-        .ide-item { color:#8b949e; font-size:.8em; font-family:'JetBrains Mono',monospace; padding:4px 8px; border-radius:4px; margin-bottom:3px; cursor:default; }
-        .ide-item.active { background:rgba(31,111,235,.2); color:#79c0ff; }
-        .ide-editor { background:#0d1117; padding:16px 20px; flex:1; }
-        .ide-editor code { font-size:.86em; display:block; }
-        .ide-log { background:#0d1117; border-top:1px solid #30363d; padding:10px 20px; }
-        .ide-log-title { color:#8b949e; font-size:.76em; font-family:'JetBrains Mono',monospace; margin-bottom:6px; }
-        .ide-log code { font-size:.84em; color:#3fb950; display:block; line-height:1.6; }
+    .bloc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-width: 960px;
+      margin: 0 auto 24px;
+    }
 
-        /* FRANJA CARDS */
-        .franja-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:13px; margin:14px 0; }
-        .franja-card { border:1px solid var(--border); border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.06); }
-        .franja-head { padding:10px 14px; color:#fff; font-weight:700; font-size:.95em; }
-        .f-teal  .franja-head { background:#0e7490; }
-        .f-blue  .franja-head { background:#0369a1; }
-        .f-green .franja-head { background:#059669; }
-        .f-purple.franja-head,.f-purple .franja-head { background:#7c3aed; }
-        .franja-body { padding:11px 15px; font-size:.91em; }
+    .bloc-card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 12px;
+      padding: 18px 14px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .25s;
+      text-decoration: none;
+      display: block;
+    }
 
-        /* FLOW DIAGRAM */
-        .flow { display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; margin:16px 0; padding:16px; background:#f8fafc; border-radius:10px; border:1px solid #d1dae8; }
-        .flow-box { background:#fff; border:2px solid var(--primary-mid); border-radius:8px; padding:8px 14px; font-weight:700; font-size:.87em; color:var(--primary-dark); box-shadow:0 2px 6px rgba(0,0,0,.07); text-align:center; }
-        .flow-box small { display:block; font-weight:400; font-size:.82em; color:#6b7280; margin-top:2px; }
-        .flow-arrow { color:var(--primary-mid); font-size:1.4em; font-weight:700; }
-        .flow-box.highlight { border-color:var(--accent2); background:#f0fdfe; }
-        .flow-box.highlight small { color:var(--primary-mid); }
+    .bloc-card:hover {
+      background: #1f3356;
+      border-color: var(--accent2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(47, 184, 196, .2);
+    }
 
-        /* RESPONSIVE */
-        @media(max-width:900px){ .bloc-grid{grid-template-columns:repeat(2,1fr);} }
-        @media(max-width:600px){ .content{padding:20px 16px;} .mapa-section{padding:20px 16px 24px;} .hero{padding:32px 18px 26px;} .hero h1{font-size:1.75em;} .bloc-grid{grid-template-columns:repeat(2,1fr);} .toc ul{grid-template-columns:1fr;} }
+    .bloc-card.done {
+      border-color: rgba(34, 197, 94, .35);
+      background: #172a1e;
+    }
 
-        .footer { background:var(--primary-dark); color:rgba(255,255,255,.7); text-align:center; padding:20px; font-size:.87em; }
-        .footer a { color:var(--accent2); }
-    </style>
+    .bloc-card.done:hover {
+      border-color: var(--green);
+    }
+
+    .bloc-card-icon {
+      font-size: 1.9em;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .bloc-card-num {
+      color: rgba(255, 255, 255, .55);
+      font-size: .72em;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .bloc-card-name {
+      color: #e2e8f0;
+      font-size: .88em;
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+
+    .bloc-card-progress {
+      font-size: .78em;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    .progress-none {
+      background: rgba(255, 255, 255, .08);
+      color: rgba(255, 255, 255, .4);
+    }
+
+    .progress-part {
+      background: rgba(240, 168, 48, .15);
+      color: var(--gold);
+    }
+
+    .progress-done {
+      background: rgba(34, 197, 94, .15);
+      color: var(--green);
+    }
+
+    .progress-bar-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: rgba(255, 255, 255, .65);
+      font-size: .86em;
+      margin-bottom: 8px;
+    }
+
+    .progress-meta strong {
+      color: #fff;
+    }
+
+    .btn-reset {
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .18);
+      color: rgba(255, 255, 255, .7);
+      padding: 5px 14px;
+      border-radius: 14px;
+      font-size: .8em;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      transition: all .2s;
+    }
+
+    .btn-reset:hover {
+      background: rgba(255, 255, 255, .15);
+      color: #fff;
+    }
+
+    .progress-track {
+      background: rgba(255, 255, 255, .1);
+      border-radius: 6px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      height: 100%;
+      border-radius: 6px;
+      transition: width .5s ease;
+    }
+
+    /* NAV GUIES */
+    .guies-nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 40px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .guia-btn {
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: .86em;
+      font-weight: 600;
+      text-decoration: none;
+      border: 2px solid transparent;
+      transition: all .22s;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+    }
+
+    .guia-btn.active {
+      background: var(--primary-mid);
+      color: #fff;
+      border-color: var(--primary-mid);
+    }
+
+    .guia-btn.inactive {
+      background: #fff;
+      color: var(--primary-mid);
+      border-color: var(--primary-mid);
+    }
+
+    .guia-btn.inactive:hover {
+      background: var(--primary-mid);
+      color: #fff;
+    }
+
+    /* CONTENT */
+    .content {
+      padding: 44px 44px 60px;
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+
+    /* BLOC UI */
+    .bloc-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn-back-map {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f1f5f9;
+      color: var(--primary-dark);
+      border: 1px solid #cbd5e1;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: .83em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .btn-back-map:hover {
+      background: #e2e8f0;
+    }
+
+    .bloc-pill {
+      display: inline-flex;
+      align-items: center;
+      background: var(--primary-mid);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: .83em;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .bloc-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      margin-top: 28px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 18px;
+      border-radius: 20px;
+      font-size: .85em;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .22s;
+    }
+
+    .btn-prev {
+      background: #f1f5f9;
+      color: var(--primary-dark);
+      border: 1px solid #cbd5e1;
+    }
+
+    .btn-prev:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-next {
+      background: var(--primary-mid);
+      color: #fff;
+    }
+
+    .btn-next:hover {
+      background: var(--primary-dark);
+      transform: translateX(2px);
+    }
+
+    .bloc-label {
+      font-size: .8em;
+      color: #94a3b8;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    /* EXERCICI */
+    .ex-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    .ex-check {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      border: 2px solid var(--purple-color);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+      transition: all .2s;
+      background: #fff;
+    }
+
+    .ex-check.checked {
+      background: var(--purple-color);
+      border-color: var(--purple-color);
+    }
+
+    .ex-check.checked::after {
+      content: '✓';
+      color: #fff;
+      font-size: .85em;
+      font-weight: 700;
+    }
+
+    .ex-text {
+      color: var(--text);
+      font-size: 1em;
+      line-height: 1.5;
+    }
+
+    .ex-text.done {
+      text-decoration: line-through;
+      color: #9ca3af;
+    }
+
+    .ex-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--purple-color);
+      color: #fff;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      font-size: .78em;
+      font-weight: 700;
+      margin-right: 4px;
+    }
+
+    /* TOC */
+    .toc {
+      background: linear-gradient(135deg, #f8fafc, #eef2f8);
+      padding: 24px 28px;
+      border-radius: 10px;
+      margin-bottom: 36px;
+      border: 1px solid #d1dae8;
+    }
+
+    .toc h2 {
+      color: var(--primary-dark);
+      margin-bottom: 14px;
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.2em;
+    }
+
+    .toc ul {
+      list-style: none;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 7px;
+    }
+
+    .toc li {
+      margin: 0;
+    }
+
+    .toc a {
+      color: var(--primary-mid);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: .95em;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color .2s;
+    }
+
+    .toc a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    /* CHAPTERS */
+    .chapter {
+      margin-bottom: 50px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 30px;
+    }
+
+    .chapter:last-child {
+      border-bottom: none;
+    }
+
+    .chapter-title {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1.75em;
+      color: var(--primary-dark);
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid var(--accent2);
+      display: inline-block;
+      font-weight: 700;
+    }
+
+    .chapter-subtitle {
+      font-size: 1.18em;
+      color: var(--primary-mid);
+      margin: 24px 0 12px;
+      font-weight: 600;
+    }
+
+    p {
+      margin-bottom: 12px;
+      color: var(--text);
+      font-size: 1.01em;
+    }
+
+    ul,
+    ol {
+      margin: 12px 0 16px 26px;
+      color: var(--text);
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    strong {
+      color: var(--primary-dark);
+    }
+
+    code {
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+      background: #f1f5f9;
+      color: #7c3aed;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: .89em;
+    }
+
+    /* CODE BLOCKS */
+    .code-container {
+      background: var(--code-bg);
+      border-radius: 10px;
+      margin: 18px 0;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, .22);
+      overflow: hidden;
+      border: 1px solid var(--code-border);
+    }
+
+    .code-header {
+      background: var(--code-head);
+      padding: 9px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--code-border);
+    }
+
+    .code-language {
+      color: #8b949e;
+      font-size: .83em;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .copy-button {
+      background: #238636;
+      color: #fff;
+      border: none;
+      padding: 4px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: .83em;
+      font-weight: 600;
+      transition: all .22s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .copy-button:hover {
+      background: #2ea043;
+      transform: translateY(-1px);
+    }
+
+    .copy-button.copied {
+      background: #1f6feb;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px 22px;
+      overflow-x: auto;
+    }
+
+    pre code {
+      background: none;
+      color: #e6edf3;
+      padding: 0;
+      font-size: .9em;
+      line-height: 1.65;
+      border-radius: 0;
+    }
+
+    .kw {
+      color: #ff7b72;
+    }
+
+    .fn {
+      color: #d2a8ff;
+    }
+
+    .str {
+      color: #a5d6ff;
+    }
+
+    .cm {
+      color: #8b949e;
+      font-style: italic;
+    }
+
+    .nb {
+      color: #79c0ff;
+    }
+
+    .prop {
+      color: #ffa657;
+    }
+
+    .gas {
+      color: #2fb8c4;
+    }
+
+    /* BOXES */
+    .tip-box {
+      background: var(--tip-bg);
+      border-left: 4px solid var(--primary-mid);
+      padding: 14px 18px;
+      margin: 16px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .warning-box {
+      background: var(--warn-bg);
+      border-left: 4px solid var(--warn-color);
+      padding: 14px 18px;
+      margin: 16px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .analogy-box {
+      background: var(--ok-bg);
+      border-left: 4px solid var(--ok-color);
+      padding: 14px 18px;
+      margin: 16px 0;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+    }
+
+    .docent-box {
+      background: #fff8ec;
+      border: 1px solid #f0a830;
+      border-radius: 10px;
+      padding: 15px 19px;
+      margin: 16px 0;
+    }
+
+    .docent-box-title {
+      color: var(--gold-dim);
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: .99em;
+      font-style: normal;
+    }
+
+    .docent-box-title::before {
+      content: "🎓";
+      font-size: 1.1em;
+    }
+
+    .exercise-box {
+      background: var(--purple-bg);
+      border: 1px solid var(--purple-border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin: 18px 0;
+    }
+
+    .exercise-title {
+      color: var(--purple-color);
+      font-weight: 700;
+      font-size: .99em;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .exercise-title::before {
+      content: "✏️";
+    }
+
+    .webapp-box {
+      background: #f0f9ff;
+      border: 1px solid #7dd3fc;
+      border-radius: 10px;
+      padding: 15px 19px;
+      margin: 16px 0;
+    }
+
+    .webapp-box-title {
+      color: #0369a1;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: .99em;
+    }
+
+    .webapp-box-title::before {
+      content: "🌐";
+      font-size: 1.1em;
+    }
+
+    /* TABLES */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      font-size: .91em;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .07);
+    }
+
+    .data-table thead tr {
+      background: var(--primary-dark);
+      color: #fff;
+    }
+
+    .data-table thead th {
+      padding: 10px 13px;
+      text-align: left;
+      font-weight: 600;
+      font-size: .87em;
+      letter-spacing: .03em;
+    }
+
+    .data-table tbody tr:nth-child(even) {
+      background: #f5f8fc;
+    }
+
+    .data-table tbody tr:hover {
+      background: #e8f0fa;
+    }
+
+    .data-table tbody td {
+      padding: 9px 13px;
+      border-bottom: 1px solid #e5e7eb;
+      color: var(--text);
+    }
+
+    .col-type {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .81em;
+      color: #7c3aed;
+      font-weight: 500;
+    }
+
+    .badge {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: .77em;
+      font-weight: 700;
+      font-family: monospace;
+      white-space: nowrap;
+    }
+
+    .badge-green {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .badge-blue {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .badge-yellow {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+
+    .badge-red {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* STEPS */
+    .step-box {
+      margin: 13px 0;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .step-num {
+      background: var(--primary-mid);
+      color: #fff;
+      border-radius: 50%;
+      width: 27px;
+      height: 27px;
+      min-width: 27px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: .86em;
+    }
+
+    .step-content {
+      padding-top: 3px;
+    }
+
+    /* IDE MOCKUP */
+    .ide-wrap {
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 18px 0;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, .18);
+    }
+
+    .ide-bar {
+      background: #21262d;
+      padding: 9px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-r {
+      background: #ff5f57;
+    }
+
+    .dot-y {
+      background: #febc2e;
+    }
+
+    .dot-g {
+      background: #28c840;
+    }
+
+    .ide-bar-title {
+      color: #8b949e;
+      font-size: .83em;
+      font-family: 'JetBrains Mono', monospace;
+      margin-left: 8px;
+    }
+
+    .ide-toolbar {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 7px 16px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .ide-btn {
+      background: #238636;
+      color: #fff;
+      border: none;
+      padding: 4px 14px;
+      border-radius: 6px;
+      font-size: .81em;
+      font-family: 'DM Sans', sans-serif;
+      cursor: default;
+      font-weight: 600;
+    }
+
+    .ide-btn-grey {
+      background: #30363d;
+      color: #e6edf3;
+    }
+
+    .ide-select {
+      background: #21262d;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: .81em;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .ide-body {
+      display: flex;
+      min-height: 180px;
+    }
+
+    .ide-sidebar {
+      background: #161b22;
+      border-right: 1px solid #30363d;
+      padding: 12px 10px;
+      min-width: 150px;
+    }
+
+    .ide-item {
+      color: #8b949e;
+      font-size: .8em;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-bottom: 3px;
+      cursor: default;
+    }
+
+    .ide-item.active {
+      background: rgba(31, 111, 235, .2);
+      color: #79c0ff;
+    }
+
+    .ide-editor {
+      background: #0d1117;
+      padding: 16px 20px;
+      flex: 1;
+    }
+
+    .ide-editor code {
+      font-size: .86em;
+      display: block;
+    }
+
+    .ide-log {
+      background: #0d1117;
+      border-top: 1px solid #30363d;
+      padding: 10px 20px;
+    }
+
+    .ide-log-title {
+      color: #8b949e;
+      font-size: .76em;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 6px;
+    }
+
+    .ide-log code {
+      font-size: .84em;
+      color: #3fb950;
+      display: block;
+      line-height: 1.6;
+    }
+
+    /* FRANJA CARDS */
+    .franja-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 13px;
+      margin: 14px 0;
+    }
+
+    .franja-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+    }
+
+    .franja-head {
+      padding: 10px 14px;
+      color: #fff;
+      font-weight: 700;
+      font-size: .95em;
+    }
+
+    .f-teal .franja-head {
+      background: #0e7490;
+    }
+
+    .f-blue .franja-head {
+      background: #0369a1;
+    }
+
+    .f-green .franja-head {
+      background: #059669;
+    }
+
+    .f-purple.franja-head,
+    .f-purple .franja-head {
+      background: #7c3aed;
+    }
+
+    .franja-body {
+      padding: 11px 15px;
+      font-size: .91em;
+    }
+
+    /* FLOW DIAGRAM */
+    .flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 10px;
+      border: 1px solid #d1dae8;
+    }
+
+    .flow-box {
+      background: #fff;
+      border: 2px solid var(--primary-mid);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-weight: 700;
+      font-size: .87em;
+      color: var(--primary-dark);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .07);
+      text-align: center;
+    }
+
+    .flow-box small {
+      display: block;
+      font-weight: 400;
+      font-size: .82em;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    .flow-arrow {
+      color: var(--primary-mid);
+      font-size: 1.4em;
+      font-weight: 700;
+    }
+
+    .flow-box.highlight {
+      border-color: var(--accent2);
+      background: #f0fdfe;
+    }
+
+    .flow-box.highlight small {
+      color: var(--primary-mid);
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:900px) {
+      .bloc-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media(max-width:600px) {
+      .content {
+        padding: 20px 16px;
+      }
+
+      .mapa-section {
+        padding: 20px 16px 24px;
+      }
+
+      .hero {
+        padding: 32px 18px 26px;
+      }
+
+      .hero h1 {
+        font-size: 1.75em;
+      }
+
+      .bloc-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .toc ul {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer {
+      background: var(--primary-dark);
+      color: rgba(255, 255, 255, .7);
+      text-align: center;
+      padding: 20px;
+      font-size: .87em;
+    }
+
+    .footer a {
+      color: var(--accent2);
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- HERO -->
-<div class="hero">
+  <!-- HERO -->
+  <div class="hero">
     <div class="hero-badge">Guia 2 de 3 · Jornades Docents</div>
     <h1>🛠️ L'IDE de <span>Google Apps Script</span></h1>
     <p>De l'editor al sistema complet: menú personalitzat, automatitzacions i Web App pública</p>
-</div>
+  </div>
 
-<!-- MAPA DE BLOCS -->
-<div class="mapa-section" id="mapa">
+  <!-- MAPA DE BLOCS -->
+  <div class="mapa-section" id="mapa">
     <div class="mapa-title"><span>⚙️</span>EL TEU OBJECTIU FINAL — CLICA UN BLOC PER ANAR-HI DIRECTAMENT</div>
     <div class="bloc-grid">
-        <a class="bloc-card" href="#b01"><span class="bloc-card-icon">🖥️</span><div class="bloc-card-num">Bloc I</div><div class="bloc-card-name">L'IDE de GAS: primer contacte</div><span class="bloc-card-progress progress-none" id="prog-b01">0/3</span></a>
-        <a class="bloc-card" href="#b02"><span class="bloc-card-icon">📖</span><div class="bloc-card-num">Bloc II</div><div class="bloc-card-name">Llegir la BD: llegirConfig i getValues</div><span class="bloc-card-progress progress-none" id="prog-b02">0/3</span></a>
-        <a class="bloc-card" href="#b03"><span class="bloc-card-icon">📋</span><div class="bloc-card-num">Bloc III</div><div class="bloc-card-name">onOpen: menú personalitzat</div><span class="bloc-card-progress progress-none" id="prog-b03">0/3</span></a>
-        <a class="bloc-card" href="#b04"><span class="bloc-card-icon">✍️</span><div class="bloc-card-num">Bloc IV</div><div class="bloc-card-name">Escriure a Sheets: aforaments i resum</div><span class="bloc-card-progress progress-none" id="prog-b04">0/3</span></a>
-        <a class="bloc-card" href="#b05"><span class="bloc-card-icon">📧</span><div class="bloc-card-num">Bloc V</div><div class="bloc-card-name">GmailApp: confirmació automàtica</div><span class="bloc-card-progress progress-none" id="prog-b05">0/3</span></a>
-        <a class="bloc-card" href="#b06"><span class="bloc-card-icon">⏰</span><div class="bloc-card-num">Bloc VI</div><div class="bloc-card-name">Triggers: automatització programada</div><span class="bloc-card-progress progress-none" id="prog-b06">0/3</span></a>
-        <a class="bloc-card" href="#b07"><span class="bloc-card-icon">🌐</span><div class="bloc-card-num">Bloc VII</div><div class="bloc-card-name">Web App i doGet: API pública</div><span class="bloc-card-progress progress-none" id="prog-b07">0/4</span></a>
-        <a class="bloc-card" href="#b08"><span class="bloc-card-icon">🚀</span><div class="bloc-card-num">Bloc VIII</div><div class="bloc-card-name">Desplegament i proves finals</div><span class="bloc-card-progress progress-none" id="prog-b08">0/3</span></a>
+      <a class="bloc-card" href="#b01"><span class="bloc-card-icon">🖥️</span>
+        <div class="bloc-card-num">Bloc I</div>
+        <div class="bloc-card-name">L'IDE de GAS: primer contacte</div><span class="bloc-card-progress progress-none"
+          id="prog-b01">0/3</span>
+      </a>
+      <a class="bloc-card" href="#b02"><span class="bloc-card-icon">📖</span>
+        <div class="bloc-card-num">Bloc II</div>
+        <div class="bloc-card-name">Llegir la BD: llegirConfig i getValues</div><span
+          class="bloc-card-progress progress-none" id="prog-b02">0/3</span>
+      </a>
+      <a class="bloc-card" href="#b03"><span class="bloc-card-icon">📋</span>
+        <div class="bloc-card-num">Bloc III</div>
+        <div class="bloc-card-name">onOpen: menú personalitzat</div><span class="bloc-card-progress progress-none"
+          id="prog-b03">0/3</span>
+      </a>
+      <a class="bloc-card" href="#b04"><span class="bloc-card-icon">✍️</span>
+        <div class="bloc-card-num">Bloc IV</div>
+        <div class="bloc-card-name">Escriure a Sheets: aforaments i resum</div><span
+          class="bloc-card-progress progress-none" id="prog-b04">0/3</span>
+      </a>
+      <a class="bloc-card" href="#b05"><span class="bloc-card-icon">📧</span>
+        <div class="bloc-card-num">Bloc V</div>
+        <div class="bloc-card-name">GmailApp: confirmació automàtica</div><span class="bloc-card-progress progress-none"
+          id="prog-b05">0/3</span>
+      </a>
+      <a class="bloc-card" href="#b06"><span class="bloc-card-icon">⏰</span>
+        <div class="bloc-card-num">Bloc VI</div>
+        <div class="bloc-card-name">Triggers: automatització programada</div><span
+          class="bloc-card-progress progress-none" id="prog-b06">0/3</span>
+      </a>
+      <a class="bloc-card" href="#b07"><span class="bloc-card-icon">🌐</span>
+        <div class="bloc-card-num">Bloc VII</div>
+        <div class="bloc-card-name">Web App i doGet: API pública</div><span class="bloc-card-progress progress-none"
+          id="prog-b07">0/4</span>
+      </a>
+      <a class="bloc-card" href="#b08"><span class="bloc-card-icon">🚀</span>
+        <div class="bloc-card-num">Bloc VIII</div>
+        <div class="bloc-card-name">Desplegament i proves finals</div><span class="bloc-card-progress progress-none"
+          id="prog-b08">0/3</span>
+      </a>
     </div>
     <div class="progress-bar-wrap">
-        <div class="progress-meta">
-            <span><strong id="prog-done">0</strong> / <strong id="prog-total">25</strong> exercicis completats · <strong id="prog-pct">0%</strong></span>
-            <button class="btn-reset" onclick="resetProgress()">🔄 Reiniciar progrés</button>
-        </div>
-        <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <div class="progress-meta">
+        <span><strong id="prog-done">0</strong> / <strong id="prog-total">25</strong> exercicis completats · <strong
+            id="prog-pct">0%</strong></span>
+        <button class="btn-reset" onclick="resetProgress()">🔄 Reiniciar progrés</button>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
     </div>
-</div>
+  </div>
 
-<!-- NAV GUIES -->
-<div class="guies-nav">
-    <a class="guia-btn inactive" href="#">📊 Guia 1 · Base de Dades</a>
-    <a class="guia-btn active"   href="#">🛠️ Guia 2 · IDE i GAS</a>
-    <a class="guia-btn inactive" href="#">📘 Guia 3 · Llenguatge GAS</a>
-</div>
+  <!-- NAV GUIES -->
+  <div class="guies-nav">
+    <a class="guia-btn inactive" href="gas1.html">📊 Guia 1 · Base de Dades</a>
+    <a class="guia-btn active" href="gas2.html">🛠️ Guia 2 · IDE i GAS</a>
+    <a class="guia-btn inactive" href="gas3.html">📘 Guia 3 · Llenguatge GAS</a>
+  </div>
 
-<div class="content">
+  <div class="content">
 
     <!-- TOC -->
     <div class="toc">
-        <h2>📚 Continguts d'aquesta guia</h2>
-        <ul>
-            <li><a href="#b01">🖥️ Bloc I · L'IDE: primer contacte</a></li>
-            <li><a href="#b02">📖 Bloc II · Llegir CONFIG i INSCRITS</a></li>
-            <li><a href="#b03">📋 Bloc III · onOpen i menú personalitzat</a></li>
-            <li><a href="#b04">✍️ Bloc IV · Escriure aforaments i RESUM</a></li>
-            <li><a href="#b05">📧 Bloc V · GmailApp: confirmació automàtica</a></li>
-            <li><a href="#b06">⏰ Bloc VI · Triggers: automatització</a></li>
-            <li><a href="#b07">🌐 Bloc VII · Web App i doGet(): API pública</a></li>
-            <li><a href="#b08">🚀 Bloc VIII · Desplegament i proves finals</a></li>
-        </ul>
+      <h2>📚 Continguts d'aquesta guia</h2>
+      <ul>
+        <li><a href="#b01">🖥️ Bloc I · L'IDE: primer contacte</a></li>
+        <li><a href="#b02">📖 Bloc II · Llegir CONFIG i INSCRITS</a></li>
+        <li><a href="#b03">📋 Bloc III · onOpen i menú personalitzat</a></li>
+        <li><a href="#b04">✍️ Bloc IV · Escriure aforaments i RESUM</a></li>
+        <li><a href="#b05">📧 Bloc V · GmailApp: confirmació automàtica</a></li>
+        <li><a href="#b06">⏰ Bloc VI · Triggers: automatització</a></li>
+        <li><a href="#b07">🌐 Bloc VII · Web App i doGet(): API pública</a></li>
+        <li><a href="#b08">🚀 Bloc VIII · Desplegament i proves finals</a></li>
+      </ul>
     </div>
 
     <div style="margin-bottom:32px;">
-        <p>En aquesta guia passem de la base de dades a l'<strong>acció</strong>. Obrirem l'IDE de Google Apps Script, configurarem el projecte i construirem, pas a pas, totes les funcions del sistema: un menú personalitzat al Sheets, l'enviament automàtic de correus i, com a cim del projecte, una <strong>Web App pública</strong> que exposarà les dades de les Jornades com una API REST.</p>
-        <div class="docent-box">
-            <div class="docent-box-title">Prerequisit: tens la Guia 1 completada?</div>
-            <p style="margin:0">Necessites el Spreadsheet amb les 5 fulles <code>INSCRITS</code>, <code>ACTIVITATS</code>, <code>SALA_ESPECIAL</code>, <code>RESUM</code> i <code>CONFIG</code> creades i amb dades. Si no ho tens llest, torna a la <a href="#" style="color:var(--primary-mid)">Guia 1</a> i completa la posada a punt.</p>
-        </div>
+      <p>En aquesta guia passem de la base de dades a l'<strong>acció</strong>. Obrirem l'IDE de Google Apps Script,
+        configurarem el projecte i construirem, pas a pas, totes les funcions del sistema: un menú personalitzat al
+        Sheets, l'enviament automàtic de correus i, com a cim del projecte, una <strong>Web App pública</strong> que
+        exposarà les dades de les Jornades com una API REST.</p>
+      <div class="docent-box">
+        <div class="docent-box-title">Prerequisit: tens la Guia 1 completada?</div>
+        <p style="margin:0">Necessites el Spreadsheet amb les 5 fulles <code>INSCRITS</code>, <code>ACTIVITATS</code>,
+          <code>SALA_ESPECIAL</code>, <code>RESUM</code> i <code>CONFIG</code> creades i amb dades. Si no ho tens llest,
+          torna a la <a href="#" style="color:var(--primary-mid)">Guia 1</a> i completa la posada a punt.</p>
+      </div>
     </div>
 
     <!-- ═══ BLOC I ═══ -->
     <div class="chapter" id="b01">
-        <div class="bloc-topbar">
-            <button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button>
-            <span class="bloc-pill">BLOC I</span>
+      <div class="bloc-topbar">
+        <button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑
+          Tornar al mapa</button>
+        <span class="bloc-pill">BLOC I</span>
+      </div>
+      <h2 class="chapter-title">Bloc I — L'IDE de GAS: Primer Contacte</h2>
+      <p>L'<strong>editor de Google Apps Script</strong> és l'entorn on escrivim, executem i depurem tot el codi. És
+        accessible des del navegador, sense instal·lacions, directament vinculat al nostre Spreadsheet.</p>
+      <div class="analogy-box"><strong>🧠 Analogia:</strong> L'IDE és com el taller d'un artesà: té les eines al seu
+        lloc (editor, registres, triggers), tot es guarda dins del mateix projecte i no cal portar res de casa. Quan
+        tanques i tornes a obrir, tot és exactament on ho vas deixar.</div>
+
+      <h3 class="chapter-subtitle">1.1 Accedir a l'IDE des del Spreadsheet</h3>
+      <div class="step-box">
+        <div class="step"><span class="step-num">1</span>
+          <div class="step-content">Obre el Spreadsheet <strong>"Gestió Jornades Docents 2025"</strong>.</div>
         </div>
-        <h2 class="chapter-title">Bloc I — L'IDE de GAS: Primer Contacte</h2>
-        <p>L'<strong>editor de Google Apps Script</strong> és l'entorn on escrivim, executem i depurem tot el codi. És accessible des del navegador, sense instal·lacions, directament vinculat al nostre Spreadsheet.</p>
-        <div class="analogy-box"><strong>🧠 Analogia:</strong> L'IDE és com el taller d'un artesà: té les eines al seu lloc (editor, registres, triggers), tot es guarda dins del mateix projecte i no cal portar res de casa. Quan tanques i tornes a obrir, tot és exactament on ho vas deixar.</div>
-
-        <h3 class="chapter-subtitle">1.1 Accedir a l'IDE des del Spreadsheet</h3>
-        <div class="step-box">
-            <div class="step"><span class="step-num">1</span><div class="step-content">Obre el Spreadsheet <strong>"Gestió Jornades Docents 2025"</strong>.</div></div>
-            <div class="step"><span class="step-num">2</span><div class="step-content">Menú superior: <strong>Extensions → Apps Script</strong>. S'obrirà l'IDE en una nova pestanya.</div></div>
-            <div class="step"><span class="step-num">3</span><div class="step-content">Posa nom al projecte: fes clic a <em>"Projecte sense títol"</em> → escriu <strong>"Gestió Jornades"</strong> → Canvia el nom.</div></div>
-            <div class="step"><span class="step-num">4</span><div class="step-content">Esborra el contingut per defecte (<code>function myFunction() {}</code>) que apareix a l'editor.</div></div>
+        <div class="step"><span class="step-num">2</span>
+          <div class="step-content">Menú superior: <strong>Extensions → Apps Script</strong>. S'obrirà l'IDE en una nova
+            pestanya.</div>
         </div>
+        <div class="step"><span class="step-num">3</span>
+          <div class="step-content">Posa nom al projecte: fes clic a <em>"Projecte sense títol"</em> → escriu
+            <strong>"Gestió Jornades"</strong> → Canvia el nom.</div>
+        </div>
+        <div class="step"><span class="step-num">4</span>
+          <div class="step-content">Esborra el contingut per defecte (<code>function myFunction() {}</code>) que apareix
+            a l'editor.</div>
+        </div>
+      </div>
 
-        <h3 class="chapter-subtitle">1.2 Anatomia de l'IDE</h3>
+      <h3 class="chapter-subtitle">1.2 Anatomia de l'IDE</h3>
 
-        <!-- IDE MOCKUP -->
-        <div class="ide-wrap">
-            <div class="ide-bar">
-                <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
-                <span class="ide-bar-title">Google Apps Script · Gestió Jornades</span>
-            </div>
-            <div class="ide-toolbar">
-                <select class="ide-select"><option>presentarJornades</option></select>
-                <button class="ide-btn">▶ Executa</button>
-                <button class="ide-btn ide-btn-grey">⏸ Depura</button>
-                <button class="ide-btn ide-btn-grey">💾 Desa (Ctrl+S)</button>
-            </div>
-            <div class="ide-body">
-                <div class="ide-sidebar">
-                    <div class="ide-item" style="color:rgba(255,255,255,.4);font-size:.73em;margin-bottom:6px;">📁 FITXERS</div>
-                    <div class="ide-item active">📄 Codi.gs</div>
-                    <div class="ide-item">📄 WebApp.gs</div>
-                    <div class="ide-item">📄 Utils.gs</div>
-                    <div class="ide-item" style="margin-top:10px;color:rgba(255,255,255,.4);font-size:.73em;">🔧 SERVEIS</div>
-                    <div class="ide-item">⏰ Triggers</div>
-                    <div class="ide-item">🔐 Permisos</div>
-                    <div class="ide-item">📋 Registres</div>
-                </div>
-                <div class="ide-editor">
-                    <code>
+      <!-- IDE MOCKUP -->
+      <div class="ide-wrap">
+        <div class="ide-bar">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <span class="ide-bar-title">Google Apps Script · Gestió Jornades</span>
+        </div>
+        <div class="ide-toolbar">
+          <select class="ide-select">
+            <option>presentarJornades</option>
+          </select>
+          <button class="ide-btn">▶ Executa</button>
+          <button class="ide-btn ide-btn-grey">⏸ Depura</button>
+          <button class="ide-btn ide-btn-grey">💾 Desa (Ctrl+S)</button>
+        </div>
+        <div class="ide-body">
+          <div class="ide-sidebar">
+            <div class="ide-item" style="color:rgba(255,255,255,.4);font-size:.73em;margin-bottom:6px;">📁 FITXERS</div>
+            <div class="ide-item active">📄 Codi.gs</div>
+            <div class="ide-item">📄 WebApp.gs</div>
+            <div class="ide-item">📄 Utils.gs</div>
+            <div class="ide-item" style="margin-top:10px;color:rgba(255,255,255,.4);font-size:.73em;">🔧 SERVEIS</div>
+            <div class="ide-item">⏰ Triggers</div>
+            <div class="ide-item">🔐 Permisos</div>
+            <div class="ide-item">📋 Registres</div>
+          </div>
+          <div class="ide-editor">
+            <code>
 <span class="cm">// Gestió Jornades Docents 2025</span><br>
 <span class="cm">// Fitxer: Codi.gs — funcions principals</span><br><br>
 <span class="kw">const</span> <span class="prop">FULL_INSCRITS</span>   = <span class="str">"INSCRITS"</span>;<br>
@@ -311,68 +1316,148 @@
 <span class="kw">const</span> <span class="prop">FULL_CONFIG</span>     = <span class="str">"CONFIG"</span>;<br>
 <span class="kw">const</span> <span class="prop">FULL_RESUM</span>      = <span class="str">"RESUM"</span>;
                     </code>
-                </div>
-            </div>
-            <div class="ide-log">
-                <div class="ide-log-title">📋 REGISTRES D'EXECUCIÓ</div>
-                <code>[15:32:04] Script inicialitzat correctament.</code>
-            </div>
+          </div>
         </div>
-
-        <table class="data-table">
-            <thead><tr><th>Element IDE</th><th>Ubicació</th><th>Per a què serveix</th></tr></thead>
-            <tbody>
-                <tr><td><strong>Editor de codi</strong></td><td>Zona central</td><td>On escrivim el JavaScript / GAS</td></tr>
-                <tr><td><strong>Selector de funció</strong></td><td>Desplegable superior</td><td>Tria quina funció s'executa en prémer ▶</td></tr>
-                <tr><td><strong>▶ Executa</strong></td><td>Barra superior</td><td>Llança la funció seleccionada immediatament</td></tr>
-                <tr><td><strong>Registres</strong></td><td>Menú Vista → Registres</td><td>Mostra la sortida de <code>Logger.log()</code></td></tr>
-                <tr><td><strong>⏰ Triggers</strong></td><td>Icona rellotge</td><td>Programa execucions automàtiques</td></tr>
-                <tr><td><strong>Historial de versions</strong></td><td>Projecte → Historial</td><td>Recupera versions anteriors del codi</td></tr>
-                <tr><td><strong>Múltiples fitxers .gs</strong></td><td>Panel esquerre</td><td>Organitza el codi en fitxers temàtics</td></tr>
-            </tbody>
-        </table>
-
-        <h3 class="chapter-subtitle">1.3 Estructura de fitxers recomanada</h3>
-        <p>Organitzarem el codi en <strong>4 fitxers .gs</strong> per mantenir-lo net i fàcil de mantenir:</p>
-        <div class="franja-grid">
-            <div class="franja-card f-blue"><div class="franja-head">📄 Codi.gs</div><div class="franja-body"><p style="margin:0"><code>onOpen()</code>, constants globals i funcions principals del menú.</p></div></div>
-            <div class="franja-card f-teal"><div class="franja-head">📄 Dades.gs</div><div class="franja-body"><p style="margin:0"><code>llegirConfig()</code>, <code>actualitzarAforaments()</code>, <code>generarResum()</code>.</p></div></div>
-            <div class="franja-card f-green"><div class="franja-head">📄 Correus.gs</div><div class="franja-body"><p style="margin:0"><code>enviarConfirmacio()</code>, <code>enviarInformeDiari()</code>.</p></div></div>
-            <div class="franja-card f-purple"><div class="franja-head">📄 WebApp.gs</div><div class="franja-body"><p style="margin:0"><code>doGet()</code>: API pública de les Jornades.</p></div></div>
+        <div class="ide-log">
+          <div class="ide-log-title">📋 REGISTRES D'EXECUCIÓ</div>
+          <code>[15:32:04] Script inicialitzat correctament.</code>
         </div>
+      </div>
 
-        <div class="tip-box"><strong>💡 Crea els fitxers ara:</strong> Al panell esquerre de l'IDE → icona "+" → <em>Fitxer de script</em>. Crea <code>Dades</code>, <code>Correus</code> i <code>WebApp</code>. Tots els fitxers .gs del mateix projecte comparteixen les mateixes variables globals.</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Element IDE</th>
+            <th>Ubicació</th>
+            <th>Per a què serveix</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Editor de codi</strong></td>
+            <td>Zona central</td>
+            <td>On escrivim el JavaScript / GAS</td>
+          </tr>
+          <tr>
+            <td><strong>Selector de funció</strong></td>
+            <td>Desplegable superior</td>
+            <td>Tria quina funció s'executa en prémer ▶</td>
+          </tr>
+          <tr>
+            <td><strong>▶ Executa</strong></td>
+            <td>Barra superior</td>
+            <td>Llança la funció seleccionada immediatament</td>
+          </tr>
+          <tr>
+            <td><strong>Registres</strong></td>
+            <td>Menú Vista → Registres</td>
+            <td>Mostra la sortida de <code>Logger.log()</code></td>
+          </tr>
+          <tr>
+            <td><strong>⏰ Triggers</strong></td>
+            <td>Icona rellotge</td>
+            <td>Programa execucions automàtiques</td>
+          </tr>
+          <tr>
+            <td><strong>Historial de versions</strong></td>
+            <td>Projecte → Historial</td>
+            <td>Recupera versions anteriors del codi</td>
+          </tr>
+          <tr>
+            <td><strong>Múltiples fitxers .gs</strong></td>
+            <td>Panel esquerre</td>
+            <td>Organitza el codi en fitxers temàtics</td>
+          </tr>
+        </tbody>
+      </table>
 
-        <div class="exercise-box">
-            <div class="exercise-title">Exercicis del Bloc I</div>
-            <div class="ex-item" onclick="toggleEx(this,'b01',0)"><div class="ex-check" id="chk-b01-0"></div><div class="ex-text"><span class="ex-num">1</span> Obre l'IDE des del Spreadsheet (Extensions → Apps Script) i canvia el nom del projecte a "Gestió Jornades".</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b01',1)"><div class="ex-check" id="chk-b01-1"></div><div class="ex-text"><span class="ex-num">2</span> Crea els 4 fitxers .gs: <code>Codi</code>, <code>Dades</code>, <code>Correus</code>, <code>WebApp</code>. Afegeix un comentari de capçalera a cadascun amb el seu propòsit.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b01',2)"><div class="ex-check" id="chk-b01-2"></div><div class="ex-text"><span class="ex-num">3</span> Escriu les 5 constants globals (<code>FULL_INSCRITS</code>, etc.) a <code>Codi.gs</code>, executa una funció de prova amb <code>Logger.log(FULL_CONFIG)</code> i comprova que el Registre mostra "CONFIG".</div></div>
+      <h3 class="chapter-subtitle">1.3 Estructura de fitxers recomanada</h3>
+      <p>Organitzarem el codi en <strong>4 fitxers .gs</strong> per mantenir-lo net i fàcil de mantenir:</p>
+      <div class="franja-grid">
+        <div class="franja-card f-blue">
+          <div class="franja-head">📄 Codi.gs</div>
+          <div class="franja-body">
+            <p style="margin:0"><code>onOpen()</code>, constants globals i funcions principals del menú.</p>
+          </div>
         </div>
-        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#mapa">↑ Mapa</a><span class="bloc-label">Bloc 1 de 8</span><a class="btn-nav btn-next" href="#b02">Bloc II · Llegir BD →</a></div>
+        <div class="franja-card f-teal">
+          <div class="franja-head">📄 Dades.gs</div>
+          <div class="franja-body">
+            <p style="margin:0"><code>llegirConfig()</code>, <code>actualitzarAforaments()</code>,
+              <code>generarResum()</code>.</p>
+          </div>
+        </div>
+        <div class="franja-card f-green">
+          <div class="franja-head">📄 Correus.gs</div>
+          <div class="franja-body">
+            <p style="margin:0"><code>enviarConfirmacio()</code>, <code>enviarInformeDiari()</code>.</p>
+          </div>
+        </div>
+        <div class="franja-card f-purple">
+          <div class="franja-head">📄 WebApp.gs</div>
+          <div class="franja-body">
+            <p style="margin:0"><code>doGet()</code>: API pública de les Jornades.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-box"><strong>💡 Crea els fitxers ara:</strong> Al panell esquerre de l'IDE → icona "+" →
+        <em>Fitxer de script</em>. Crea <code>Dades</code>, <code>Correus</code> i <code>WebApp</code>. Tots els fitxers
+        .gs del mateix projecte comparteixen les mateixes variables globals.</div>
+
+      <div class="exercise-box">
+        <div class="exercise-title">Exercicis del Bloc I</div>
+        <div class="ex-item" onclick="toggleEx(this,'b01',0)">
+          <div class="ex-check" id="chk-b01-0"></div>
+          <div class="ex-text"><span class="ex-num">1</span> Obre l'IDE des del Spreadsheet (Extensions → Apps Script) i
+            canvia el nom del projecte a "Gestió Jornades".</div>
+        </div>
+        <div class="ex-item" onclick="toggleEx(this,'b01',1)">
+          <div class="ex-check" id="chk-b01-1"></div>
+          <div class="ex-text"><span class="ex-num">2</span> Crea els 4 fitxers .gs: <code>Codi</code>,
+            <code>Dades</code>, <code>Correus</code>, <code>WebApp</code>. Afegeix un comentari de capçalera a cadascun
+            amb el seu propòsit.</div>
+        </div>
+        <div class="ex-item" onclick="toggleEx(this,'b01',2)">
+          <div class="ex-check" id="chk-b01-2"></div>
+          <div class="ex-text"><span class="ex-num">3</span> Escriu les 5 constants globals (<code>FULL_INSCRITS</code>,
+            etc.) a <code>Codi.gs</code>, executa una funció de prova amb <code>Logger.log(FULL_CONFIG)</code> i
+            comprova que el Registre mostra "CONFIG".</div>
+        </div>
+      </div>
+      <div class="bloc-nav"><a class="btn-nav btn-prev" href="#mapa">↑ Mapa</a><span class="bloc-label">Bloc 1 de
+          8</span><a class="btn-nav btn-next" href="#b02">Bloc II · Llegir BD →</a></div>
     </div>
 
     <!-- ═══ BLOC II ═══ -->
     <div class="chapter" id="b02">
-        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC II</span></div>
-        <h2 class="chapter-title">Bloc II — Llegir la Base de Dades</h2>
-        <p>La primera habilitat fonamental de GAS és <strong>llegir dades d'un Spreadsheet</strong>. Aquí aprendrem el patró bàsic amb <code>SpreadsheetApp</code> i construirem les dues funcions de lectura que usaran tots els altres scripts.</p>
-        <div class="analogy-box"><strong>🧠 Analogia:</strong> Llegir el Spreadsheet amb GAS és com anar a buscar una carpeta de l'arxivador: primer obres l'armari (<code>getActiveSpreadsheet</code>), busques la carpeta correcta (<code>getSheetByName</code>), i agafes tots els fulls (<code>getValues</code>). Cada pas necessita l'anterior.</div>
+      <div class="bloc-topbar"><button class="btn-back-map"
+          onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span
+          class="bloc-pill">BLOC II</span></div>
+      <h2 class="chapter-title">Bloc II — Llegir la Base de Dades</h2>
+      <p>La primera habilitat fonamental de GAS és <strong>llegir dades d'un Spreadsheet</strong>. Aquí aprendrem el
+        patró bàsic amb <code>SpreadsheetApp</code> i construirem les dues funcions de lectura que usaran tots els
+        altres scripts.</p>
+      <div class="analogy-box"><strong>🧠 Analogia:</strong> Llegir el Spreadsheet amb GAS és com anar a buscar una
+        carpeta de l'arxivador: primer obres l'armari (<code>getActiveSpreadsheet</code>), busques la carpeta correcta
+        (<code>getSheetByName</code>), i agafes tots els fulls (<code>getValues</code>). Cada pas necessita l'anterior.
+      </div>
 
-        <h3 class="chapter-subtitle">2.1 El patró bàsic de lectura</h3>
-        <div class="flow">
-            <div class="flow-box">SpreadsheetApp<small>.getActiveSpreadsheet()</small></div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-box">.getSheetByName()<small>"INSCRITS"</small></div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-box">.getDataRange()<small>tot el rang de dades</small></div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-box highlight">.getValues()<small>array 2D de valors</small></div>
-        </div>
+      <h3 class="chapter-subtitle">2.1 El patró bàsic de lectura</h3>
+      <div class="flow">
+        <div class="flow-box">SpreadsheetApp<small>.getActiveSpreadsheet()</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">.getSheetByName()<small>"INSCRITS"</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">.getDataRange()<small>tot el rang de dades</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box highlight">.getValues()<small>array 2D de valors</small></div>
+      </div>
 
-        <div class="code-container">
-            <div class="code-header"><span class="code-language">Dades.gs — llegirConfig()</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
-            <pre><code><span class="cm">// ─────────────────────────────────────────────────────────────
+      <div class="code-container">
+        <div class="code-header"><span class="code-language">Dades.gs — llegirConfig()</span><button class="copy-button"
+            onclick="copyCode(this)">Copiar</button></div>
+        <pre><code><span class="cm">// ─────────────────────────────────────────────────────────────
 // llegirConfig()
 // Llegeix la fulla CONFIG i retorna un objecte clau → valor.
 // Ús:  const cfg = llegirConfig();
@@ -399,11 +1484,12 @@
   Logger.<span class="fn">log</span>(<span class="str">"Config llegida: "</span> + Object.<span class="fn">keys</span>(cfg).<span class="prop">length</span> + <span class="str">" paràmetres"</span>);
   <span class="kw">return</span> cfg;
 }</code></pre>
-        </div>
+      </div>
 
-        <div class="code-container">
-            <div class="code-header"><span class="code-language">Dades.gs — llegirInscrits()</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
-            <pre><code><span class="cm">// ─────────────────────────────────────────────────────────────
+      <div class="code-container">
+        <div class="code-header"><span class="code-language">Dades.gs — llegirInscrits()</span><button
+            class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+        <pre><code><span class="cm">// ─────────────────────────────────────────────────────────────
 // llegirInscrits()
 // Retorna un array d'objectes, un per participant.
 // Ús:  const llista = llegirInscrits();
@@ -438,31 +1524,56 @@
   Logger.<span class="fn">log</span>(<span class="str">"Total inscrits llegits: "</span> + inscrits.<span class="prop">length</span>);
   <span class="kw">return</span> inscrits;
 }</code></pre>
-        </div>
+      </div>
 
-        <div class="tip-box"><strong>💡 Per què retornem objectes i no l'array raw?</strong> Accedir a <code>p.email</code> és molt més llegible i menys propens a errors que <code>fila[3]</code>. Si algun dia canvies l'ordre de les columnes, només has d'actualitzar <code>llegirInscrits()</code>, no tots els scripts.</div>
+      <div class="tip-box"><strong>💡 Per què retornem objectes i no l'array raw?</strong> Accedir a
+        <code>p.email</code> és molt més llegible i menys propens a errors que <code>fila[3]</code>. Si algun dia
+        canvies l'ordre de les columnes, només has d'actualitzar <code>llegirInscrits()</code>, no tots els scripts.
+      </div>
 
-        <div class="exercise-box">
-            <div class="exercise-title">Exercicis del Bloc II</div>
-            <div class="ex-item" onclick="toggleEx(this,'b02',0)"><div class="ex-check" id="chk-b02-0"></div><div class="ex-text"><span class="ex-num">1</span> Copia <code>llegirConfig()</code> a <code>Dades.gs</code>, executa-la i comprova als Registres que mostra "10 paràmetres" (o els que tinguis a CONFIG).</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b02',1)"><div class="ex-check" id="chk-b02-1"></div><div class="ex-text"><span class="ex-num">2</span> Copia <code>llegirInscrits()</code> i executa-la. Afegeix un <code>Logger.log</code> que mostri el nom i l'email dels 3 primers inscrits.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b02',2)"><div class="ex-check" id="chk-b02-2"></div><div class="ex-text"><span class="ex-num">3</span> Crea una funció <code>llegirActivitats()</code> seguint el mateix patró. Ha de retornar un array d'objectes amb els camps: <code>id</code>, <code>franja</code>, <code>opcio</code>, <code>titol</code>, <code>ponent</code>, <code>aula</code>, <code>aforamentMax</code>.</div></div>
+      <div class="exercise-box">
+        <div class="exercise-title">Exercicis del Bloc II</div>
+        <div class="ex-item" onclick="toggleEx(this,'b02',0)">
+          <div class="ex-check" id="chk-b02-0"></div>
+          <div class="ex-text"><span class="ex-num">1</span> Copia <code>llegirConfig()</code> a <code>Dades.gs</code>,
+            executa-la i comprova als Registres que mostra "10 paràmetres" (o els que tinguis a CONFIG).</div>
         </div>
-        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b01">← Bloc I</a><span class="bloc-label">Bloc 2 de 8</span><a class="btn-nav btn-next" href="#b03">Bloc III · onOpen →</a></div>
+        <div class="ex-item" onclick="toggleEx(this,'b02',1)">
+          <div class="ex-check" id="chk-b02-1"></div>
+          <div class="ex-text"><span class="ex-num">2</span> Copia <code>llegirInscrits()</code> i executa-la. Afegeix
+            un <code>Logger.log</code> que mostri el nom i l'email dels 3 primers inscrits.</div>
+        </div>
+        <div class="ex-item" onclick="toggleEx(this,'b02',2)">
+          <div class="ex-check" id="chk-b02-2"></div>
+          <div class="ex-text"><span class="ex-num">3</span> Crea una funció <code>llegirActivitats()</code> seguint el
+            mateix patró. Ha de retornar un array d'objectes amb els camps: <code>id</code>, <code>franja</code>,
+            <code>opcio</code>, <code>titol</code>, <code>ponent</code>, <code>aula</code>, <code>aforamentMax</code>.
+          </div>
+        </div>
+      </div>
+      <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b01">← Bloc I</a><span class="bloc-label">Bloc 2 de
+          8</span><a class="btn-nav btn-next" href="#b03">Bloc III · onOpen →</a></div>
     </div>
 
     <!-- ═══ BLOC III ═══ -->
     <div class="chapter" id="b03">
-        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC III</span></div>
-        <h2 class="chapter-title">Bloc III — onOpen(): El Menú Personalitzat</h2>
-        <p>La funció <code>onOpen()</code> és un <strong>trigger simple</strong> que GAS executa automàticament cada cop que s'obre el Spreadsheet. L'usarem per afegir un menú personalitzat "🎓 Jornades" amb accés directe a totes les funcions del sistema.</p>
+      <div class="bloc-topbar"><button class="btn-back-map"
+          onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span
+          class="bloc-pill">BLOC III</span></div>
+      <h2 class="chapter-title">Bloc III — onOpen(): El Menú Personalitzat</h2>
+      <p>La funció <code>onOpen()</code> és un <strong>trigger simple</strong> que GAS executa automàticament cada cop
+        que s'obre el Spreadsheet. L'usarem per afegir un menú personalitzat "🎓 Jornades" amb accés directe a totes les
+        funcions del sistema.</p>
 
-        <div class="analogy-box"><strong>🧠 Analogia:</strong> <code>onOpen()</code> és com el porter d'un hotel que, en arribar, t'obre la porta, et dona la benvinguda i t'indica on és la recepció. S'executa sol, sense que ningú li digui res.</div>
+      <div class="analogy-box"><strong>🧠 Analogia:</strong> <code>onOpen()</code> és com el porter d'un hotel que, en
+        arribar, t'obre la porta, et dona la benvinguda i t'indica on és la recepció. S'executa sol, sense que ningú li
+        digui res.</div>
 
-        <h3 class="chapter-subtitle">3.1 La funció onOpen() completa</h3>
-        <div class="code-container">
-            <div class="code-header"><span class="code-language">Codi.gs — onOpen() amb menú complet</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
-            <pre><code><span class="cm">// ─────────────────────────────────────────────────────────────
+      <h3 class="chapter-subtitle">3.1 La funció onOpen() completa</h3>
+      <div class="code-container">
+        <div class="code-header"><span class="code-language">Codi.gs — onOpen() amb menú complet</span><button
+            class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+        <pre><code><span class="cm">// ─────────────────────────────────────────────────────────────
 // onOpen()
 // S'executa automàticament quan s'obre el Spreadsheet.
 // Afegeix el menú personalitzat "🎓 Jornades" a la barra de menús.
@@ -538,30 +1649,52 @@
   SpreadsheetApp.<span class="fn">getUi</span>().<span class="fn">alert</span>(<span class="str">"🌐 URL de la Web App"</span>, url,
     SpreadsheetApp.<span class="fn">getUi</span>().<span class="prop">ButtonSet</span>.<span class="prop">OK</span>);
 }</code></pre>
-        </div>
+      </div>
 
-        <div class="warning-box"><strong>⚠️ onOpen() no es pot executar manualment amb ▶</strong> — és un trigger automàtic. Per provar-lo: desa el codi i <strong>tanca i re-obre</strong> el Spreadsheet. Veuràs el menú "🎓 Jornades" a la barra de menús.</div>
+      <div class="warning-box"><strong>⚠️ onOpen() no es pot executar manualment amb ▶</strong> — és un trigger
+        automàtic. Per provar-lo: desa el codi i <strong>tanca i re-obre</strong> el Spreadsheet. Veuràs el menú "🎓
+        Jornades" a la barra de menús.</div>
 
-        <div class="exercise-box">
-            <div class="exercise-title">Exercicis del Bloc III</div>
-            <div class="ex-item" onclick="toggleEx(this,'b03',0)"><div class="ex-check" id="chk-b03-0"></div><div class="ex-text"><span class="ex-num">1</span> Copia tot el codi a <code>Codi.gs</code>, desa i re-obre el Spreadsheet. Comprova que apareix el menú "🎓 Jornades" amb totes les opcions.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b03',1)"><div class="ex-check" id="chk-b03-1"></div><div class="ex-text"><span class="ex-num">2</span> Prova <code>toggleSistema()</code> des del menú. Comprova que la cel·la ACTIU de CONFIG canvia de TRUE a FALSE. Torna a activar-lo.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b03',2)"><div class="ex-check" id="chk-b03-2"></div><div class="ex-text"><span class="ex-num">3</span> Afegeix al submenú "📊 Informes" una nova opció pròpia. La funció pot fer simplement un <code>Logger.log("Funcionant!")</code> de moment.</div></div>
+      <div class="exercise-box">
+        <div class="exercise-title">Exercicis del Bloc III</div>
+        <div class="ex-item" onclick="toggleEx(this,'b03',0)">
+          <div class="ex-check" id="chk-b03-0"></div>
+          <div class="ex-text"><span class="ex-num">1</span> Copia tot el codi a <code>Codi.gs</code>, desa i re-obre el
+            Spreadsheet. Comprova que apareix el menú "🎓 Jornades" amb totes les opcions.</div>
         </div>
-        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b02">← Bloc II</a><span class="bloc-label">Bloc 3 de 8</span><a class="btn-nav btn-next" href="#b04">Bloc IV · Escriure →</a></div>
+        <div class="ex-item" onclick="toggleEx(this,'b03',1)">
+          <div class="ex-check" id="chk-b03-1"></div>
+          <div class="ex-text"><span class="ex-num">2</span> Prova <code>toggleSistema()</code> des del menú. Comprova
+            que la cel·la ACTIU de CONFIG canvia de TRUE a FALSE. Torna a activar-lo.</div>
+        </div>
+        <div class="ex-item" onclick="toggleEx(this,'b03',2)">
+          <div class="ex-check" id="chk-b03-2"></div>
+          <div class="ex-text"><span class="ex-num">3</span> Afegeix al submenú "📊 Informes" una nova opció pròpia. La
+            funció pot fer simplement un <code>Logger.log("Funcionant!")</code> de moment.</div>
+        </div>
+      </div>
+      <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b02">← Bloc II</a><span class="bloc-label">Bloc 3 de
+          8</span><a class="btn-nav btn-next" href="#b04">Bloc IV · Escriure →</a></div>
     </div>
 
     <!-- ═══ BLOC IV ═══ -->
     <div class="chapter" id="b04">
-        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC IV</span></div>
-        <h2 class="chapter-title">Bloc IV — Escriure a Sheets: Aforaments i Resum</h2>
-        <p>Ara aprenem a <strong>escriure valors calculats</strong> de tornada al Spreadsheet. Les dues funcions principals d'aquesta secció actualitzen l'ocupació de cada activitat i generen el full de Resum per als organitzadors.</p>
-        <div class="analogy-box"><strong>🧠 Analogia:</strong> Escriure al Sheets amb GAS és com un auxiliar administratiu que, un cop tancada la inscripció, repassa tota la llista, fa el recompte per activitat i omple la pissarra d'ocupació. Ho pot fer en 2 segons; manualment trigaria 20 minuts.</div>
+      <div class="bloc-topbar"><button class="btn-back-map"
+          onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span
+          class="bloc-pill">BLOC IV</span></div>
+      <h2 class="chapter-title">Bloc IV — Escriure a Sheets: Aforaments i Resum</h2>
+      <p>Ara aprenem a <strong>escriure valors calculats</strong> de tornada al Spreadsheet. Les dues funcions
+        principals d'aquesta secció actualitzen l'ocupació de cada activitat i generen el full de Resum per als
+        organitzadors.</p>
+      <div class="analogy-box"><strong>🧠 Analogia:</strong> Escriure al Sheets amb GAS és com un auxiliar administratiu
+        que, un cop tancada la inscripció, repassa tota la llista, fa el recompte per activitat i omple la pissarra
+        d'ocupació. Ho pot fer en 2 segons; manualment trigaria 20 minuts.</div>
 
-        <h3 class="chapter-subtitle">4.1 actualitzarAforaments()</h3>
-        <div class="code-container">
-            <div class="code-header"><span class="code-language">Dades.gs — actualitzarAforaments()</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
-            <pre><code><span class="kw">function</span> <span class="fn">actualitzarAforaments</span>() {
+      <h3 class="chapter-subtitle">4.1 actualitzarAforaments()</h3>
+      <div class="code-container">
+        <div class="code-header"><span class="code-language">Dades.gs — actualitzarAforaments()</span><button
+            class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+        <pre><code><span class="kw">function</span> <span class="fn">actualitzarAforaments</span>() {
   <span class="kw">const</span> cfg = <span class="fn">llegirConfig</span>();
   <span class="kw">if</span> (cfg[<span class="str">"ACTIU"</span>] === <span class="kw">false</span> || cfg[<span class="str">"ACTIU"</span>] === <span class="str">"FALSE"</span>) {
     Logger.<span class="fn">log</span>(<span class="str">"Sistema inactiu. Operació cancel·lada."</span>); <span class="kw">return</span>;
@@ -605,12 +1738,13 @@
   Logger.<span class="fn">log</span>(<span class="str">"✅ Aforaments actualitzats per a "</span> + (activitats.<span class="prop">length</span>-<span class="nb">1</span>) + <span class="str">" activitats"</span>);
   SpreadsheetApp.<span class="fn">getUi</span>().<span class="fn">alert</span>(<span class="str">"✅ Aforaments actualitzats correctament!"</span>);
 }</code></pre>
-        </div>
+      </div>
 
-        <h3 class="chapter-subtitle">4.2 generarResum()</h3>
-        <div class="code-container">
-            <div class="code-header"><span class="code-language">Dades.gs — generarResum()</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
-            <pre><code><span class="kw">function</span> <span class="fn">generarResum</span>() {
+      <h3 class="chapter-subtitle">4.2 generarResum()</h3>
+      <div class="code-container">
+        <div class="code-header"><span class="code-language">Dades.gs — generarResum()</span><button class="copy-button"
+            onclick="copyCode(this)">Copiar</button></div>
+        <pre><code><span class="kw">function</span> <span class="fn">generarResum</span>() {
   <span class="kw">const</span> ss       = SpreadsheetApp.<span class="fn">getActiveSpreadsheet</span>();
   <span class="kw">const</span> cfg      = <span class="fn">llegirConfig</span>();
   <span class="kw">const</span> inscrits = <span class="fn">llegirInscrits</span>();
@@ -647,27 +1781,48 @@
   Logger.<span class="fn">log</span>(<span class="str">"✅ Resum generat amb "</span> + totalInscrits + <span class="str">" participants"</span>);
   SpreadsheetApp.<span class="fn">getUi</span>().<span class="fn">alert</span>(<span class="str">"✅ Full RESUM actualitzat!"</span>);
 }</code></pre>
-        </div>
+      </div>
 
-        <div class="exercise-box">
-            <div class="exercise-title">Exercicis del Bloc IV</div>
-            <div class="ex-item" onclick="toggleEx(this,'b04',0)"><div class="ex-check" id="chk-b04-0"></div><div class="ex-text"><span class="ex-num">1</span> Executa <code>actualitzarAforaments()</code> des del menú 🎓 Jornades. Comprova que les columnes H, I, J d'ACTIVITATS s'han actualitzat amb les dades dels 20 inscrits de mostra.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b04',1)"><div class="ex-check" id="chk-b04-1"></div><div class="ex-text"><span class="ex-num">2</span> Executa <code>generarResum()</code>. Comprova que la fulla RESUM s'omple amb els totals i la taula d'activitats.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b04',2)"><div class="ex-check" id="chk-b04-2"></div><div class="ex-text"><span class="ex-num">3</span> Afegeix al <code>generarResum()</code> una secció nova (a partir de la fila 22) que mostri els 5 centres educatius amb més participants.</div></div>
+      <div class="exercise-box">
+        <div class="exercise-title">Exercicis del Bloc IV</div>
+        <div class="ex-item" onclick="toggleEx(this,'b04',0)">
+          <div class="ex-check" id="chk-b04-0"></div>
+          <div class="ex-text"><span class="ex-num">1</span> Executa <code>actualitzarAforaments()</code> des del menú
+            🎓 Jornades. Comprova que les columnes H, I, J d'ACTIVITATS s'han actualitzat amb les dades dels 20 inscrits
+            de mostra.</div>
         </div>
-        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b03">← Bloc III</a><span class="bloc-label">Bloc 4 de 8</span><a class="btn-nav btn-next" href="#b05">Bloc V · Correus →</a></div>
+        <div class="ex-item" onclick="toggleEx(this,'b04',1)">
+          <div class="ex-check" id="chk-b04-1"></div>
+          <div class="ex-text"><span class="ex-num">2</span> Executa <code>generarResum()</code>. Comprova que la fulla
+            RESUM s'omple amb els totals i la taula d'activitats.</div>
+        </div>
+        <div class="ex-item" onclick="toggleEx(this,'b04',2)">
+          <div class="ex-check" id="chk-b04-2"></div>
+          <div class="ex-text"><span class="ex-num">3</span> Afegeix al <code>generarResum()</code> una secció nova (a
+            partir de la fila 22) que mostri els 5 centres educatius amb més participants.</div>
+        </div>
+      </div>
+      <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b03">← Bloc III</a><span class="bloc-label">Bloc 4 de
+          8</span><a class="btn-nav btn-next" href="#b05">Bloc V · Correus →</a></div>
     </div>
 
     <!-- ═══ BLOC V ═══ -->
     <div class="chapter" id="b05">
-        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC V</span></div>
-        <h2 class="chapter-title">Bloc V — GmailApp: Confirmació Automàtica</h2>
-        <p>La funció <code>enviarConfirmacionsPendents()</code> recorre tots els inscrits i envia un correu personalitzat als que encara no han rebut la confirmació (<code>Confirmacio_Enviada = FALSE</code>). Marca la columna K amb <code>TRUE</code> per evitar duplicats.</p>
-        <div class="analogy-box"><strong>🧠 Analogia:</strong> El sistema de correus és com un carter intel·ligent: passa per tota la llista de participants, mira si cada persona ja ha rebut el sobre de confirmació (columna K) i, si no, li'n posa un a la bústia. Els que ja el tenen, els salta sense molestar-los.</div>
+      <div class="bloc-topbar"><button class="btn-back-map"
+          onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span
+          class="bloc-pill">BLOC V</span></div>
+      <h2 class="chapter-title">Bloc V — GmailApp: Confirmació Automàtica</h2>
+      <p>La funció <code>enviarConfirmacionsPendents()</code> recorre tots els inscrits i envia un correu personalitzat
+        als que encara no han rebut la confirmació (<code>Confirmacio_Enviada = FALSE</code>). Marca la columna K amb
+        <code>TRUE</code> per evitar duplicats.</p>
+      <div class="analogy-box"><strong>🧠 Analogia:</strong> El sistema de correus és com un carter intel·ligent: passa
+        per tota la llista de participants, mira si cada persona ja ha rebut el sobre de confirmació (columna K) i, si
+        no, li'n posa un a la bústia. Els que ja el tenen, els salta sense molestar-los.</div>
 
-        <div class="code-container">
-            <div class="code-header"><span class="code-language">Correus.gs — enviarConfirmacionsPendents()</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
-            <pre><code><span class="kw">function</span> <span class="fn">enviarConfirmacionsPendents</span>() {
+      <div class="code-container">
+        <div class="code-header"><span class="code-language">Correus.gs — enviarConfirmacionsPendents()</span><button
+            class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+        <pre><code><span class="kw">function</span> <span class="fn">enviarConfirmacionsPendents</span>() {
   <span class="kw">const</span> cfg = <span class="fn">llegirConfig</span>();
   <span class="kw">if</span> (cfg[<span class="str">"ACTIU"</span>] === <span class="kw">false</span> || cfg[<span class="str">"ACTIU"</span>] === <span class="str">"FALSE"</span>) <span class="kw">return</span>;
 
@@ -738,44 +1893,97 @@ Equip organitzador
 ${cfg["NOM_JORNADES"]}
 ${cfg["EMAIL_ORGANITZACIO"]}`</span>;
 }</code></pre>
-        </div>
+      </div>
 
-        <div class="warning-box"><strong>⚠️ Quota de Gmail:</strong> GmailApp.sendEmail() té un límit de 100 correus/dia amb comptes gratuïts de Google i 1.500/dia amb Google Workspace. Per a jornades amb molts participants, considera enviar en lots o usar un servei de correu professional.</div>
+      <div class="warning-box"><strong>⚠️ Quota de Gmail:</strong> GmailApp.sendEmail() té un límit de 100 correus/dia
+        amb comptes gratuïts de Google i 1.500/dia amb Google Workspace. Per a jornades amb molts participants,
+        considera enviar en lots o usar un servei de correu professional.</div>
 
-        <div class="exercise-box">
-            <div class="exercise-title">Exercicis del Bloc V</div>
-            <div class="ex-item" onclick="toggleEx(this,'b05',0)"><div class="ex-check" id="chk-b05-0"></div><div class="ex-text"><span class="ex-num">1</span> Copia el codi a <code>Correus.gs</code>. Canvia l'email d'un inscrit de mostra pel teu propi email i executa la funció. Comprova que reps el correu i que la columna K es marca com TRUE.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b05',1)"><div class="ex-check" id="chk-b05-1"></div><div class="ex-text"><span class="ex-num">2</span> Executa la funció una segona vegada. Comprova que <strong>no</strong> s'envien correus duplicats (ja que confirmat = TRUE).</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b05',2)"><div class="ex-check" id="chk-b05-2"></div><div class="ex-text"><span class="ex-num">3</span> Crea una funció <code>enviarInformeDiari()</code> a <code>Correus.gs</code> que enviï un resum de l'ocupació actual a l'email de <code>EMAIL_NOTIFICACIONS</code> de CONFIG.</div></div>
+      <div class="exercise-box">
+        <div class="exercise-title">Exercicis del Bloc V</div>
+        <div class="ex-item" onclick="toggleEx(this,'b05',0)">
+          <div class="ex-check" id="chk-b05-0"></div>
+          <div class="ex-text"><span class="ex-num">1</span> Copia el codi a <code>Correus.gs</code>. Canvia l'email
+            d'un inscrit de mostra pel teu propi email i executa la funció. Comprova que reps el correu i que la columna
+            K es marca com TRUE.</div>
         </div>
-        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b04">← Bloc IV</a><span class="bloc-label">Bloc 5 de 8</span><a class="btn-nav btn-next" href="#b06">Bloc VI · Triggers →</a></div>
+        <div class="ex-item" onclick="toggleEx(this,'b05',1)">
+          <div class="ex-check" id="chk-b05-1"></div>
+          <div class="ex-text"><span class="ex-num">2</span> Executa la funció una segona vegada. Comprova que
+            <strong>no</strong> s'envien correus duplicats (ja que confirmat = TRUE).</div>
+        </div>
+        <div class="ex-item" onclick="toggleEx(this,'b05',2)">
+          <div class="ex-check" id="chk-b05-2"></div>
+          <div class="ex-text"><span class="ex-num">3</span> Crea una funció <code>enviarInformeDiari()</code> a
+            <code>Correus.gs</code> que enviï un resum de l'ocupació actual a l'email de
+            <code>EMAIL_NOTIFICACIONS</code> de CONFIG.</div>
+        </div>
+      </div>
+      <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b04">← Bloc IV</a><span class="bloc-label">Bloc 5 de
+          8</span><a class="btn-nav btn-next" href="#b06">Bloc VI · Triggers →</a></div>
     </div>
 
     <!-- ═══ BLOC VI ═══ -->
     <div class="chapter" id="b06">
-        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VI</span></div>
-        <h2 class="chapter-title">Bloc VI — Triggers: Automatització Programada</h2>
-        <p>Els <strong>triggers</strong> (disparadors) permeten que GAS executi funcions automàticament sense que ningú premi cap botó. N'hi ha de dos tipus principals: els que s'activen per un <strong>esdeveniment</strong> (obrir el full, enviar un formulari) i els que s'activen per <strong>temps</strong> (cada hora, cada dia a les 8h...).</p>
-        <div class="analogy-box"><strong>🧠 Analogia:</strong> Els triggers funcionen com els automatismes d'una escola moderna: el timbre sona sol a les 8h (trigger de temps), les llums del passadís s'activen quan algú passa (trigger d'esdeveniment), i el sistema d'assistència s'obre sol quan el professor entra a l'aula (onOpen). Cap acció manual necessària.</div>
+      <div class="bloc-topbar"><button class="btn-back-map"
+          onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span
+          class="bloc-pill">BLOC VI</span></div>
+      <h2 class="chapter-title">Bloc VI — Triggers: Automatització Programada</h2>
+      <p>Els <strong>triggers</strong> (disparadors) permeten que GAS executi funcions automàticament sense que ningú
+        premi cap botó. N'hi ha de dos tipus principals: els que s'activen per un <strong>esdeveniment</strong> (obrir
+        el full, enviar un formulari) i els que s'activen per <strong>temps</strong> (cada hora, cada dia a les 8h...).
+      </p>
+      <div class="analogy-box"><strong>🧠 Analogia:</strong> Els triggers funcionen com els automatismes d'una escola
+        moderna: el timbre sona sol a les 8h (trigger de temps), les llums del passadís s'activen quan algú passa
+        (trigger d'esdeveniment), i el sistema d'assistència s'obre sol quan el professor entra a l'aula (onOpen). Cap
+        acció manual necessària.</div>
 
-        <h3 class="chapter-subtitle">6.1 Tipus de triggers</h3>
-        <table class="data-table">
-            <thead><tr><th>Tipus</th><th>Quan s'activa</th><th>Funció del nostre sistema</th></tr></thead>
-            <tbody>
-                <tr><td><span class="badge badge-blue">onOpen</span></td><td>Quan s'obre el Spreadsheet</td><td>Crear el menú personalitzat</td></tr>
-                <tr><td><span class="badge badge-green">onFormSubmit</span></td><td>Quan s'envia el Formulari</td><td>Enviar confirmació immediatament</td></tr>
-                <tr><td><span class="badge badge-yellow">Temps · cada hora</span></td><td>Cada hora exacta</td><td>Actualitzar aforaments en temps real</td></tr>
-                <tr><td><span class="badge badge-yellow">Temps · diari</span></td><td>Cada dia a una hora fixada</td><td>Enviar informe diari als organitzadors</td></tr>
-                <tr><td><span class="badge badge-red">onEdit</span></td><td>Quan s'edita una cel·la</td><td>Detectar canvis d'estat a SALA_ESPECIAL</td></tr>
-            </tbody>
-        </table>
+      <h3 class="chapter-subtitle">6.1 Tipus de triggers</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Tipus</th>
+            <th>Quan s'activa</th>
+            <th>Funció del nostre sistema</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-blue">onOpen</span></td>
+            <td>Quan s'obre el Spreadsheet</td>
+            <td>Crear el menú personalitzat</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-green">onFormSubmit</span></td>
+            <td>Quan s'envia el Formulari</td>
+            <td>Enviar confirmació immediatament</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-yellow">Temps · cada hora</span></td>
+            <td>Cada hora exacta</td>
+            <td>Actualitzar aforaments en temps real</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-yellow">Temps · diari</span></td>
+            <td>Cada dia a una hora fixada</td>
+            <td>Enviar informe diari als organitzadors</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-red">onEdit</span></td>
+            <td>Quan s'edita una cel·la</td>
+            <td>Detectar canvis d'estat a SALA_ESPECIAL</td>
+          </tr>
+        </tbody>
+      </table>
 
-        <h3 class="chapter-subtitle">6.2 Trigger onFormSubmit: confirmació immediata</h3>
-        <p>Aquest és el trigger més potent per al nostre sistema: cada cop que algú envia el formulari, GAS envia automàticament el correu de confirmació en qüestió de segons.</p>
+      <h3 class="chapter-subtitle">6.2 Trigger onFormSubmit: confirmació immediata</h3>
+      <p>Aquest és el trigger més potent per al nostre sistema: cada cop que algú envia el formulari, GAS envia
+        automàticament el correu de confirmació en qüestió de segons.</p>
 
-        <div class="code-container">
-            <div class="code-header"><span class="code-language">Correus.gs — onFormSubmit() + configuració del trigger</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
-            <pre><code><span class="cm">// ─────────────────────────────────────────────────────────────
+      <div class="code-container">
+        <div class="code-header"><span class="code-language">Correus.gs — onFormSubmit() + configuració del
+            trigger</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+        <pre><code><span class="cm">// ─────────────────────────────────────────────────────────────
 // onFormSubmit(e)
 // S'executa automàticament quan el formulari rep una resposta.
 // El paràmetre 'e' conté les dades de la nova fila.
@@ -863,43 +2071,67 @@ ${cfg["EMAIL_ORGANITZACIO"]}`</span>;
   Logger.<span class="fn">log</span>(<span class="str">"✅ Triggers configurats correctament"</span>);
   SpreadsheetApp.<span class="fn">getUi</span>().<span class="fn">alert</span>(<span class="str">"✅ 3 triggers instal·lats correctament!"</span>);
 }</code></pre>
-        </div>
+      </div>
 
-        <div class="tip-box"><strong>💡 Executa <code>configurarTriggers()</code> una sola vegada.</strong> Des del selector de funció de l'IDE, selecciona <code>configurarTriggers</code> i prem ▶. Això instal·la els 3 triggers automàtics. Pots verificar-los a l'IDE → icona ⏰.</div>
+      <div class="tip-box"><strong>💡 Executa <code>configurarTriggers()</code> una sola vegada.</strong> Des del
+        selector de funció de l'IDE, selecciona <code>configurarTriggers</code> i prem ▶. Això instal·la els 3 triggers
+        automàtics. Pots verificar-los a l'IDE → icona ⏰.</div>
 
-        <div class="exercise-box">
-            <div class="exercise-title">Exercicis del Bloc VI</div>
-            <div class="ex-item" onclick="toggleEx(this,'b06',0)"><div class="ex-check" id="chk-b06-0"></div><div class="ex-text"><span class="ex-num">1</span> Executa <code>configurarTriggers()</code> i comprova a la pantalla de triggers de l'IDE que s'han creat els 3 disparadors.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b06',1)"><div class="ex-check" id="chk-b06-1"></div><div class="ex-text"><span class="ex-num">2</span> Envia una resposta real al formulari (amb el teu email). Comprova que en pocs segons reps el correu de confirmació automàtic.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b06',2)"><div class="ex-check" id="chk-b06-2"></div><div class="ex-text"><span class="ex-num">3</span> Afegeix un 4t trigger manual: un <code>onEdit</code> que detecti quan algú canvia la columna F (Estat) de SALA_ESPECIAL i mostri un <code>Logger.log</code> amb el missatge "Reserva modificada a la fila X".</div></div>
+      <div class="exercise-box">
+        <div class="exercise-title">Exercicis del Bloc VI</div>
+        <div class="ex-item" onclick="toggleEx(this,'b06',0)">
+          <div class="ex-check" id="chk-b06-0"></div>
+          <div class="ex-text"><span class="ex-num">1</span> Executa <code>configurarTriggers()</code> i comprova a la
+            pantalla de triggers de l'IDE que s'han creat els 3 disparadors.</div>
         </div>
-        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b05">← Bloc V</a><span class="bloc-label">Bloc 6 de 8</span><a class="btn-nav btn-next" href="#b07">Bloc VII · Web App →</a></div>
+        <div class="ex-item" onclick="toggleEx(this,'b06',1)">
+          <div class="ex-check" id="chk-b06-1"></div>
+          <div class="ex-text"><span class="ex-num">2</span> Envia una resposta real al formulari (amb el teu email).
+            Comprova que en pocs segons reps el correu de confirmació automàtic.</div>
+        </div>
+        <div class="ex-item" onclick="toggleEx(this,'b06',2)">
+          <div class="ex-check" id="chk-b06-2"></div>
+          <div class="ex-text"><span class="ex-num">3</span> Afegeix un 4t trigger manual: un <code>onEdit</code> que
+            detecti quan algú canvia la columna F (Estat) de SALA_ESPECIAL i mostri un <code>Logger.log</code> amb el
+            missatge "Reserva modificada a la fila X".</div>
+        </div>
+      </div>
+      <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b05">← Bloc V</a><span class="bloc-label">Bloc 6 de
+          8</span><a class="btn-nav btn-next" href="#b07">Bloc VII · Web App →</a></div>
     </div>
 
     <!-- ═══ BLOC VII ═══ -->
     <div class="chapter" id="b07">
-        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VII</span></div>
-        <h2 class="chapter-title">Bloc VII — Web App i doGet(): L'API Pública</h2>
-        <p>El punt culminant del projecte: publicar una <strong>Web App</strong> que exposi les dades de les Jornades com una <strong>API REST pública</strong>. Qualsevol persona amb la URL podrà consultar activitats, aforaments i disponibilitat de la Sala Especial en temps real, sense accés al Spreadsheet.</p>
-        <div class="analogy-box"><strong>🧠 Analogia:</strong> La Web App és com una finestreta d'informació de les Jornades: tu hi arribes amb una pregunta (<code>?ruta=activitats</code>), la finestreta consulta els arxius interns (Sheets) i et dóna una resposta en format estàndard (JSON). No necessites accedir als arxius directament: la finestreta actua d'intermediari.</div>
+      <div class="bloc-topbar"><button class="btn-back-map"
+          onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span
+          class="bloc-pill">BLOC VII</span></div>
+      <h2 class="chapter-title">Bloc VII — Web App i doGet(): L'API Pública</h2>
+      <p>El punt culminant del projecte: publicar una <strong>Web App</strong> que exposi les dades de les Jornades com
+        una <strong>API REST pública</strong>. Qualsevol persona amb la URL podrà consultar activitats, aforaments i
+        disponibilitat de la Sala Especial en temps real, sense accés al Spreadsheet.</p>
+      <div class="analogy-box"><strong>🧠 Analogia:</strong> La Web App és com una finestreta d'informació de les
+        Jornades: tu hi arribes amb una pregunta (<code>?ruta=activitats</code>), la finestreta consulta els arxius
+        interns (Sheets) i et dóna una resposta en format estàndard (JSON). No necessites accedir als arxius
+        directament: la finestreta actua d'intermediari.</div>
 
-        <div class="webapp-box">
-            <div class="webapp-box-title">Com funciona una Web App de GAS</div>
-            <div class="flow" style="background:transparent; border:none; padding:8px 0; margin:0;">
-                <div class="flow-box">Navegador / Fetch<small>URL pública</small></div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-box highlight">doGet(e)<small>WebApp.gs</small></div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-box">Llegeix Sheets<small>getValues()</small></div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-box highlight">JSON Response<small>ContentService</small></div>
-            </div>
+      <div class="webapp-box">
+        <div class="webapp-box-title">Com funciona una Web App de GAS</div>
+        <div class="flow" style="background:transparent; border:none; padding:8px 0; margin:0;">
+          <div class="flow-box">Navegador / Fetch<small>URL pública</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box highlight">doGet(e)<small>WebApp.gs</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box">Llegeix Sheets<small>getValues()</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box highlight">JSON Response<small>ContentService</small></div>
         </div>
+      </div>
 
-        <h3 class="chapter-subtitle">7.1 La funció doGet() completa amb rutes</h3>
-        <div class="code-container">
-            <div class="code-header"><span class="code-language">WebApp.gs — doGet() amb router i endpoints</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
-            <pre><code><span class="cm">// ─────────────────────────────────────────────────────────────
+      <h3 class="chapter-subtitle">7.1 La funció doGet() completa amb rutes</h3>
+      <div class="code-container">
+        <div class="code-header"><span class="code-language">WebApp.gs — doGet() amb router i endpoints</span><button
+            class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+        <pre><code><span class="cm">// ─────────────────────────────────────────────────────────────
 // doGet(e)
 // Punt d'entrada de la Web App. Gestiona les rutes (endpoints):
 //
@@ -1038,12 +2270,13 @@ ${cfg["EMAIL_ORGANITZACIO"]}`</span>;
     <span class="prop">actualitzat</span>: <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toISOString</span>()
   };
 }</code></pre>
-        </div>
+      </div>
 
-        <h3 class="chapter-subtitle">7.2 Exemples de resposta JSON</h3>
-        <div class="code-container">
-            <div class="code-header"><span class="code-language">JSON — resposta de ?ruta=activitat&id=M1-A</span><button class="copy-button" onclick="copyCode(this)">Copiar</button></div>
-            <pre><code>{
+      <h3 class="chapter-subtitle">7.2 Exemples de resposta JSON</h3>
+      <div class="code-container">
+        <div class="code-header"><span class="code-language">JSON — resposta de ?ruta=activitat&id=M1-A</span><button
+            class="copy-button" onclick="copyCode(this)">Copiar</button></div>
+        <pre><code>{
   <span class="prop">"ok"</span>: <span class="kw">true</span>,
   <span class="prop">"activitat"</span>: {
     <span class="prop">"id"</span>:           <span class="str">"M1-A"</span>,
@@ -1058,135 +2291,227 @@ ${cfg["EMAIL_ORGANITZACIO"]}`</span>;
     <span class="prop">"estat"</span>:        <span class="str">"Oberta"</span>
   }
 }</code></pre>
-        </div>
+      </div>
 
-        <div class="exercise-box">
-            <div class="exercise-title">Exercicis del Bloc VII</div>
-            <div class="ex-item" onclick="toggleEx(this,'b07',0)"><div class="ex-check" id="chk-b07-0"></div><div class="ex-text"><span class="ex-num">1</span> Copia tot el codi a <code>WebApp.gs</code>. Testa la funció <code>apiActivitats()</code> directament des de l'IDE (selecciona-la al desplegable i prem ▶). Comprova als Registres que no hi ha errors.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b07',1)"><div class="ex-check" id="chk-b07-1"></div><div class="ex-text"><span class="ex-num">2</span> Publica la Web App (veure Bloc VIII). Un cop tinguis la URL, prova els 5 endpoints al navegador i comprova que retornen JSON vàlid.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b07',2)"><div class="ex-check" id="chk-b07-2"></div><div class="ex-text"><span class="ex-num">3</span> Afegeix un nou endpoint <code>?ruta=inscrit&email=X</code> que comprovi si un email ja està registrat i retorni les seves activitats.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b07',3)"><div class="ex-check" id="chk-b07-3"></div><div class="ex-text"><span class="ex-num">4</span> [Repte] Crea una pàgina HTML senzilla que faci <code>fetch()</code> a la teva Web App i mostri les activitats disponibles en forma de targetes visuals.</div></div>
+      <div class="exercise-box">
+        <div class="exercise-title">Exercicis del Bloc VII</div>
+        <div class="ex-item" onclick="toggleEx(this,'b07',0)">
+          <div class="ex-check" id="chk-b07-0"></div>
+          <div class="ex-text"><span class="ex-num">1</span> Copia tot el codi a <code>WebApp.gs</code>. Testa la funció
+            <code>apiActivitats()</code> directament des de l'IDE (selecciona-la al desplegable i prem ▶). Comprova als
+            Registres que no hi ha errors.</div>
         </div>
-        <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b06">← Bloc VI</a><span class="bloc-label">Bloc 7 de 8</span><a class="btn-nav btn-next" href="#b08">Bloc VIII · Desplegament →</a></div>
+        <div class="ex-item" onclick="toggleEx(this,'b07',1)">
+          <div class="ex-check" id="chk-b07-1"></div>
+          <div class="ex-text"><span class="ex-num">2</span> Publica la Web App (veure Bloc VIII). Un cop tinguis la
+            URL, prova els 5 endpoints al navegador i comprova que retornen JSON vàlid.</div>
+        </div>
+        <div class="ex-item" onclick="toggleEx(this,'b07',2)">
+          <div class="ex-check" id="chk-b07-2"></div>
+          <div class="ex-text"><span class="ex-num">3</span> Afegeix un nou endpoint <code>?ruta=inscrit&email=X</code>
+            que comprovi si un email ja està registrat i retorni les seves activitats.</div>
+        </div>
+        <div class="ex-item" onclick="toggleEx(this,'b07',3)">
+          <div class="ex-check" id="chk-b07-3"></div>
+          <div class="ex-text"><span class="ex-num">4</span> [Repte] Crea una pàgina HTML senzilla que faci
+            <code>fetch()</code> a la teva Web App i mostri les activitats disponibles en forma de targetes visuals.
+          </div>
+        </div>
+      </div>
+      <div class="bloc-nav"><a class="btn-nav btn-prev" href="#b06">← Bloc VI</a><span class="bloc-label">Bloc 7 de
+          8</span><a class="btn-nav btn-next" href="#b08">Bloc VIII · Desplegament →</a></div>
     </div>
 
     <!-- ═══ BLOC VIII ═══ -->
     <div class="chapter" id="b08">
-        <div class="bloc-topbar"><button class="btn-back-map" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span class="bloc-pill">BLOC VIII</span></div>
-        <h2 class="chapter-title">Bloc VIII — Desplegament i Proves Finals</h2>
-        <p>L'últim pas: publicar la Web App i verificar que tot el sistema funciona correctament de principi a fi.</p>
+      <div class="bloc-topbar"><button class="btn-back-map"
+          onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">↑ Tornar al mapa</button><span
+          class="bloc-pill">BLOC VIII</span></div>
+      <h2 class="chapter-title">Bloc VIII — Desplegament i Proves Finals</h2>
+      <p>L'últim pas: publicar la Web App i verificar que tot el sistema funciona correctament de principi a fi.</p>
 
-        <h3 class="chapter-subtitle">8.1 Publicar la Web App</h3>
-        <div class="step-box">
-            <div class="step"><span class="step-num">1</span><div class="step-content">A l'IDE: botó blau <strong>"Desplega"</strong> (dalt a la dreta) → <em>Nova implementació</em>.</div></div>
-            <div class="step"><span class="step-num">2</span><div class="step-content">Tipus: <strong>Aplicació web</strong>. Descripció: <em>"Jornades Docents 2025 – v1"</em>.</div></div>
-            <div class="step"><span class="step-num">3</span><div class="step-content">Executar com: <strong>Jo (el meu compte)</strong> — el script s'executarà amb els teus permisos.</div></div>
-            <div class="step"><span class="step-num">4</span><div class="step-content">Qui té accés: <strong>Qualsevol persona</strong> — per a una API pública sense autenticació.</div></div>
-            <div class="step"><span class="step-num">5</span><div class="step-content">Fes clic a <strong>"Desplega"</strong>. Copia la URL de la Web App que apareix.</div></div>
-            <div class="step"><span class="step-num">6</span><div class="step-content">Guarda la URL a la fulla CONFIG: afegeix un nou paràmetre <code>URL_WEBAPP</code> amb la URL copiada.</div></div>
+      <h3 class="chapter-subtitle">8.1 Publicar la Web App</h3>
+      <div class="step-box">
+        <div class="step"><span class="step-num">1</span>
+          <div class="step-content">A l'IDE: botó blau <strong>"Desplega"</strong> (dalt a la dreta) → <em>Nova
+              implementació</em>.</div>
         </div>
-
-        <div class="warning-box"><strong>⚠️ Cada vegada que modifiques el codi</strong> cal crear una <em>nova versió</em> del desplegament (Desplega → Gestiona implementacions → ✏️ Edita → nova versió). La URL pública no canvia, però el codi sí s'actualitza.</div>
-
-        <h3 class="chapter-subtitle">8.2 Checklist final del sistema complet</h3>
-        <table class="data-table">
-            <thead><tr><th>✔</th><th>Verificació</th><th>Com comprovar-ho</th></tr></thead>
-            <tbody>
-                <tr><td>☐</td><td>El menú 🎓 Jornades apareix en obrir el Spreadsheet</td><td>Tanca i re-obre el Sheets</td></tr>
-                <tr><td>☐</td><td><code>actualitzarAforaments()</code> omple H, I, J d'ACTIVITATS</td><td>Menú → Actualitzar aforaments</td></tr>
-                <tr><td>☐</td><td><code>generarResum()</code> omple la fulla RESUM</td><td>Menú → Generar full de Resum</td></tr>
-                <tr><td>☐</td><td>El trigger <code>onFormSubmit</code> envia el correu immediatament</td><td>Envia una resposta de prova</td></tr>
-                <tr><td>☐</td><td>La Web App respon JSON vàlid a tots els endpoints</td><td>Prova al navegador: <code>?ruta=activitats</code></td></tr>
-                <tr><td>☐</td><td>La URL de la Web App és a CONFIG[URL_WEBAPP]</td><td>Fulla CONFIG, cel·la URL_WEBAPP</td></tr>
-                <tr><td>☐</td><td><code>toggleSistema()</code> activa/desactiva correctament</td><td>Menú → Sistema ACTIU/INACTIU</td></tr>
-            </tbody>
-        </table>
-
-        <div class="docent-box">
-            <div class="docent-box-title">Enhorabona — el sistema està operatiu!</div>
-            <p style="margin:0 0 8px">Has construït un sistema complet de gestió de Jornades Docents: base de dades estructurada, menú personalitzat, automatitzacions per trigger, notificacions per correu i una API REST pública. A la <strong>Guia 3</strong> aprofundirem en el llenguatge GAS per dominar estructures de control, arrays, objectes i funcions avançades que et permetran escriure scripts més potents i elegants.</p>
+        <div class="step"><span class="step-num">2</span>
+          <div class="step-content">Tipus: <strong>Aplicació web</strong>. Descripció: <em>"Jornades Docents 2025 –
+              v1"</em>.</div>
         </div>
-
-        <div class="exercise-box">
-            <div class="exercise-title">Exercicis del Bloc VIII</div>
-            <div class="ex-item" onclick="toggleEx(this,'b08',0)"><div class="ex-check" id="chk-b08-0"></div><div class="ex-text"><span class="ex-num">1</span> Publica la Web App seguint els 6 passos. Guarda la URL a CONFIG. Prova tots els endpoints al navegador.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b08',1)"><div class="ex-check" id="chk-b08-1"></div><div class="ex-text"><span class="ex-num">2</span> Passa per tota la checklist del punt 8.2 i marca cada ítem. El sistema ha d'estar 100% operatiu abans de passar a la Guia 3.</div></div>
-            <div class="ex-item" onclick="toggleEx(this,'b08',2)"><div class="ex-check" id="chk-b08-2"></div><div class="ex-text"><span class="ex-num">3</span> [Repte final] Comparteix la URL de la Web App amb un company. Que faci una consulta <code>?ruta=resum</code> i comprovi que veu les dades reals de les teves jornades en temps real.</div></div>
+        <div class="step"><span class="step-num">3</span>
+          <div class="step-content">Executar com: <strong>Jo (el meu compte)</strong> — el script s'executarà amb els
+            teus permisos.</div>
         </div>
-
-        <div class="bloc-nav">
-            <a class="btn-nav btn-prev" href="#b07">← Bloc VII</a>
-            <span class="bloc-label">Bloc 8 de 8</span>
-            <a class="btn-nav btn-next" href="#">📘 Continua a la Guia 3 →</a>
+        <div class="step"><span class="step-num">4</span>
+          <div class="step-content">Qui té accés: <strong>Qualsevol persona</strong> — per a una API pública sense
+            autenticació.</div>
         </div>
+        <div class="step"><span class="step-num">5</span>
+          <div class="step-content">Fes clic a <strong>"Desplega"</strong>. Copia la URL de la Web App que apareix.
+          </div>
+        </div>
+        <div class="step"><span class="step-num">6</span>
+          <div class="step-content">Guarda la URL a la fulla CONFIG: afegeix un nou paràmetre <code>URL_WEBAPP</code>
+            amb la URL copiada.</div>
+        </div>
+      </div>
+
+      <div class="warning-box"><strong>⚠️ Cada vegada que modifiques el codi</strong> cal crear una <em>nova versió</em>
+        del desplegament (Desplega → Gestiona implementacions → ✏️ Edita → nova versió). La URL pública no canvia, però
+        el codi sí s'actualitza.</div>
+
+      <h3 class="chapter-subtitle">8.2 Checklist final del sistema complet</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>✔</th>
+            <th>Verificació</th>
+            <th>Com comprovar-ho</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>☐</td>
+            <td>El menú 🎓 Jornades apareix en obrir el Spreadsheet</td>
+            <td>Tanca i re-obre el Sheets</td>
+          </tr>
+          <tr>
+            <td>☐</td>
+            <td><code>actualitzarAforaments()</code> omple H, I, J d'ACTIVITATS</td>
+            <td>Menú → Actualitzar aforaments</td>
+          </tr>
+          <tr>
+            <td>☐</td>
+            <td><code>generarResum()</code> omple la fulla RESUM</td>
+            <td>Menú → Generar full de Resum</td>
+          </tr>
+          <tr>
+            <td>☐</td>
+            <td>El trigger <code>onFormSubmit</code> envia el correu immediatament</td>
+            <td>Envia una resposta de prova</td>
+          </tr>
+          <tr>
+            <td>☐</td>
+            <td>La Web App respon JSON vàlid a tots els endpoints</td>
+            <td>Prova al navegador: <code>?ruta=activitats</code></td>
+          </tr>
+          <tr>
+            <td>☐</td>
+            <td>La URL de la Web App és a CONFIG[URL_WEBAPP]</td>
+            <td>Fulla CONFIG, cel·la URL_WEBAPP</td>
+          </tr>
+          <tr>
+            <td>☐</td>
+            <td><code>toggleSistema()</code> activa/desactiva correctament</td>
+            <td>Menú → Sistema ACTIU/INACTIU</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="docent-box">
+        <div class="docent-box-title">Enhorabona — el sistema està operatiu!</div>
+        <p style="margin:0 0 8px">Has construït un sistema complet de gestió de Jornades Docents: base de dades
+          estructurada, menú personalitzat, automatitzacions per trigger, notificacions per correu i una API REST
+          pública. A la <strong>Guia 3</strong> aprofundirem en el llenguatge GAS per dominar estructures de control,
+          arrays, objectes i funcions avançades que et permetran escriure scripts més potents i elegants.</p>
+      </div>
+
+      <div class="exercise-box">
+        <div class="exercise-title">Exercicis del Bloc VIII</div>
+        <div class="ex-item" onclick="toggleEx(this,'b08',0)">
+          <div class="ex-check" id="chk-b08-0"></div>
+          <div class="ex-text"><span class="ex-num">1</span> Publica la Web App seguint els 6 passos. Guarda la URL a
+            CONFIG. Prova tots els endpoints al navegador.</div>
+        </div>
+        <div class="ex-item" onclick="toggleEx(this,'b08',1)">
+          <div class="ex-check" id="chk-b08-1"></div>
+          <div class="ex-text"><span class="ex-num">2</span> Passa per tota la checklist del punt 8.2 i marca cada ítem.
+            El sistema ha d'estar 100% operatiu abans de passar a la Guia 3.</div>
+        </div>
+        <div class="ex-item" onclick="toggleEx(this,'b08',2)">
+          <div class="ex-check" id="chk-b08-2"></div>
+          <div class="ex-text"><span class="ex-num">3</span> [Repte final] Comparteix la URL de la Web App amb un
+            company. Que faci una consulta <code>?ruta=resum</code> i comprovi que veu les dades reals de les teves
+            jornades en temps real.</div>
+        </div>
+      </div>
+
+      <div class="bloc-nav">
+        <a class="btn-nav btn-prev" href="#b07">← Bloc VII</a>
+        <span class="bloc-label">Bloc 8 de 8</span>
+        <a class="btn-nav btn-next" href="#">📘 Continua a la Guia 3 →</a>
+      </div>
     </div>
 
-</div><!-- fi content -->
+  </div><!-- fi content -->
 
-<div class="footer">
+  <div class="footer">
     Guia 2 de 3 · IDE i Google Apps Script · Jornades Docents &nbsp;|&nbsp;
     <a href="#mapa">↑ Tornar al mapa</a> &nbsp;|&nbsp; <a href="#">📘 Guia 3 · Llenguatge GAS →</a>
-</div>
+  </div>
 
-<script>
-const state = { b01:[false,false,false], b02:[false,false,false], b03:[false,false,false], b04:[false,false,false], b05:[false,false,false], b06:[false,false,false], b07:[false,false,false,false], b08:[false,false,false] };
-const totals = { b01:3,b02:3,b03:3,b04:3,b05:3,b06:3,b07:4,b08:3 };
+  <script>
+    const state = { b01: [false, false, false], b02: [false, false, false], b03: [false, false, false], b04: [false, false, false], b05: [false, false, false], b06: [false, false, false], b07: [false, false, false, false], b08: [false, false, false] };
+    const totals = { b01: 3, b02: 3, b03: 3, b04: 3, b05: 3, b06: 3, b07: 4, b08: 3 };
 
-function toggleEx(item, bloc, idx) {
-    state[bloc][idx] = !state[bloc][idx];
-    document.getElementById('chk-'+bloc+'-'+idx).classList.toggle('checked', state[bloc][idx]);
-    item.querySelector('.ex-text').classList.toggle('done', state[bloc][idx]);
+    function toggleEx(item, bloc, idx) {
+      state[bloc][idx] = !state[bloc][idx];
+      document.getElementById('chk-' + bloc + '-' + idx).classList.toggle('checked', state[bloc][idx]);
+      item.querySelector('.ex-text').classList.toggle('done', state[bloc][idx]);
+      updateProgress();
+    }
+    function updateProgress() {
+      let done = 0, total = 0;
+      Object.keys(state).forEach(bloc => {
+        const d = state[bloc].filter(Boolean).length, t = totals[bloc];
+        done += d; total += t;
+        const p = document.getElementById('prog-' + bloc);
+        if (!p) return;
+        p.textContent = d + '/' + t;
+        p.className = 'bloc-card-progress ' + (d === 0 ? 'progress-none' : d === t ? 'progress-done' : 'progress-part');
+        p.closest('.bloc-card').classList.toggle('done', d === t);
+      });
+      const pct = total > 0 ? Math.round(done / total * 100) : 0;
+      document.getElementById('prog-done').textContent = done;
+      document.getElementById('prog-total').textContent = total;
+      document.getElementById('prog-pct').textContent = pct + '%';
+      document.getElementById('progress-fill').style.width = pct + '%';
+    }
+    function resetProgress() {
+      Object.keys(state).forEach(b => state[b].fill(false));
+      document.querySelectorAll('.ex-check').forEach(e => e.classList.remove('checked'));
+      document.querySelectorAll('.ex-text').forEach(e => e.classList.remove('done'));
+      updateProgress();
+    }
+    function copyCode(btn) {
+      const text = btn.closest('.code-container').querySelector('pre').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const o = btn.textContent; btn.textContent = '✓ Copiat!'; btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = o; btn.classList.remove('copied'); }, 2200);
+      });
+    }
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function (e) {
+        const id = this.getAttribute('href').slice(1);
+        const t = document.getElementById(id);
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+    const seccions = document.querySelectorAll('.chapter[id]');
+    const tocLinks = document.querySelectorAll('.toc a');
+    window.addEventListener('scroll', () => {
+      let actual = '';
+      seccions.forEach(s => { if (pageYOffset >= s.offsetTop - 120) actual = s.id; });
+      tocLinks.forEach(l => {
+        const ok = l.getAttribute('href') === '#' + actual;
+        l.style.fontWeight = ok ? '700' : '500';
+        l.style.color = ok ? 'var(--primary-dark)' : '';
+      });
+    });
     updateProgress();
-}
-function updateProgress() {
-    let done=0, total=0;
-    Object.keys(state).forEach(bloc => {
-        const d=state[bloc].filter(Boolean).length, t=totals[bloc];
-        done+=d; total+=t;
-        const p=document.getElementById('prog-'+bloc);
-        if(!p) return;
-        p.textContent=d+'/'+t;
-        p.className='bloc-card-progress '+(d===0?'progress-none':d===t?'progress-done':'progress-part');
-        p.closest('.bloc-card').classList.toggle('done',d===t);
-    });
-    const pct=total>0?Math.round(done/total*100):0;
-    document.getElementById('prog-done').textContent=done;
-    document.getElementById('prog-total').textContent=total;
-    document.getElementById('prog-pct').textContent=pct+'%';
-    document.getElementById('progress-fill').style.width=pct+'%';
-}
-function resetProgress() {
-    Object.keys(state).forEach(b=>state[b].fill(false));
-    document.querySelectorAll('.ex-check').forEach(e=>e.classList.remove('checked'));
-    document.querySelectorAll('.ex-text').forEach(e=>e.classList.remove('done'));
-    updateProgress();
-}
-function copyCode(btn) {
-    const text=btn.closest('.code-container').querySelector('pre').textContent;
-    navigator.clipboard.writeText(text).then(()=>{
-        const o=btn.textContent; btn.textContent='✓ Copiat!'; btn.classList.add('copied');
-        setTimeout(()=>{btn.textContent=o;btn.classList.remove('copied');},2200);
-    });
-}
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-    a.addEventListener('click',function(e){
-        const id=this.getAttribute('href').slice(1);
-        const t=document.getElementById(id);
-        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
-    });
-});
-const seccions=document.querySelectorAll('.chapter[id]');
-const tocLinks=document.querySelectorAll('.toc a');
-window.addEventListener('scroll',()=>{
-    let actual='';
-    seccions.forEach(s=>{if(pageYOffset>=s.offsetTop-120)actual=s.id;});
-    tocLinks.forEach(l=>{
-        const ok=l.getAttribute('href')==='#'+actual;
-        l.style.fontWeight=ok?'700':'500';
-        l.style.color=ok?'var(--primary-dark)':'';
-    });
-});
-updateProgress();
-</script>
+  </script>
 </body>
+
 </html>
