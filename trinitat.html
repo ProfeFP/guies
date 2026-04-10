@@ -628,6 +628,315 @@
       font-style: italic;
     }
 
+    /* ── GLOSSARI VIBE CODING ────────────────────────────── */
+    .filtre-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .filtre-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .75rem;
+      font-weight: 700;
+      padding: .35rem .9rem;
+      border-radius: 20px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all .18s;
+      font-family: 'Syne', sans-serif;
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    .filtre-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .filtre-btn.actiu {
+      color: white;
+    }
+
+    .filtre-btn[data-cat="tot"].actiu {
+      background: var(--primari);
+      border-color: var(--primari);
+    }
+
+    .filtre-btn[data-cat="estructura"].actiu {
+      background: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    .filtre-btn[data-cat="css"].actiu {
+      background: #8b5cf6;
+      border-color: #8b5cf6;
+    }
+
+    .filtre-btn[data-cat="tipografia"].actiu {
+      background: #06b6d4;
+      border-color: #06b6d4;
+    }
+
+    .filtre-btn[data-cat="llibreries"].actiu {
+      background: #10b981;
+      border-color: #10b981;
+    }
+
+    .filtre-btn[data-cat="javascript"].actiu {
+      background: #f59e0b;
+      border-color: #f59e0b;
+    }
+
+    .filtre-btn[data-cat="api"].actiu {
+      background: #f97316;
+      border-color: #f97316;
+    }
+
+    .filtre-btn[data-cat="multimedia"].actiu {
+      background: #ef4444;
+      border-color: #ef4444;
+    }
+
+    .filtre-btn[data-cat="formularis"].actiu {
+      background: #ec4899;
+      border-color: #ec4899;
+    }
+
+    .filtre-btn[data-cat="seo"].actiu {
+      background: #0ea5e9;
+      border-color: #0ea5e9;
+    }
+
+    .filtre-btn[data-cat="eines"].actiu {
+      background: #84cc16;
+      border-color: #84cc16;
+    }
+
+    .cerca-wrap {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+
+    .cerca-wrap input {
+      width: 100%;
+      padding: .65rem 1rem .65rem 2.6rem;
+      border: 1.5px solid var(--vora);
+      border-radius: 10px;
+      font-size: .9rem;
+      font-family: 'Syne', sans-serif;
+      color: var(--primari);
+      background: white;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .cerca-wrap input:focus {
+      border-color: var(--accent);
+    }
+
+    .cerca-wrap::before {
+      content: '🔍';
+      position: absolute;
+      left: .85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: .85rem;
+      pointer-events: none;
+    }
+
+    .cerca-recompte {
+      font-size: .78rem;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+      font-family: 'Fira Code', monospace;
+    }
+
+    .glossari-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: .85rem;
+    }
+
+    .glossari-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--vora);
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      position: relative;
+      transition: transform .18s, box-shadow .18s, opacity .2s;
+      overflow: hidden;
+    }
+
+    .glossari-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .glossari-card[data-cat="estructura"]::before {
+      background: #3b82f6;
+    }
+
+    .glossari-card[data-cat="css"]::before {
+      background: #8b5cf6;
+    }
+
+    .glossari-card[data-cat="tipografia"]::before {
+      background: #06b6d4;
+    }
+
+    .glossari-card[data-cat="llibreries"]::before {
+      background: #10b981;
+    }
+
+    .glossari-card[data-cat="javascript"]::before {
+      background: #f59e0b;
+    }
+
+    .glossari-card[data-cat="api"]::before {
+      background: #f97316;
+    }
+
+    .glossari-card[data-cat="multimedia"]::before {
+      background: #ef4444;
+    }
+
+    .glossari-card[data-cat="formularis"]::before {
+      background: #ec4899;
+    }
+
+    .glossari-card[data-cat="seo"]::before {
+      background: #0ea5e9;
+    }
+
+    .glossari-card[data-cat="eines"]::before {
+      background: #84cc16;
+    }
+
+    .glossari-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .1);
+    }
+
+    .glossari-card.oculta {
+      display: none;
+    }
+
+    .glossari-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: .5rem;
+      margin-bottom: .45rem;
+    }
+
+    .glossari-nom {
+      font-family: 'Fira Code', monospace;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--primari);
+      line-height: 1.3;
+    }
+
+    .glossari-badge {
+      font-size: .65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: .15rem .5rem;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .badge-estructura {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .badge-css {
+      background: #ede9fe;
+      color: #5b21b6;
+    }
+
+    .badge-tipografia {
+      background: #cffafe;
+      color: #155e75;
+    }
+
+    .badge-llibreries {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .badge-javascript {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+
+    .badge-api {
+      background: #ffedd5;
+      color: #9a3412;
+    }
+
+    .badge-multimedia {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .badge-formularis {
+      background: #fce7f3;
+      color: #9d174d;
+    }
+
+    .badge-seo {
+      background: #e0f2fe;
+      color: #075985;
+    }
+
+    .badge-eines {
+      background: #ecfccb;
+      color: #3f6212;
+    }
+
+    .glossari-desc {
+      font-size: .8rem;
+      color: #64748b;
+      line-height: 1.55;
+    }
+
+    .glossari-exemple {
+      margin-top: .6rem;
+      background: #f8fafc;
+      border: 1px solid var(--vora);
+      border-radius: 7px;
+      padding: .45rem .7rem;
+      font-family: 'Fira Code', monospace;
+      font-size: .7rem;
+      color: #475569;
+      line-height: 1.5;
+      display: none;
+    }
+
+    .glossari-card:hover .glossari-exemple,
+    .glossari-card:focus-within .glossari-exemple {
+      display: block;
+    }
+
+    .buit-resultat {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #94a3b8;
+      font-size: .9rem;
+    }
+
     /* ── FOOTER ───────────────────────────────────────────── */
     footer {
       background: var(--fons-codi);
@@ -847,7 +1156,7 @@
     &lt;meta property="og:image" content="https://via.placeholder.com/1200x630"&gt;
 
     &lt;!-- 4. Connexió a BOOTSTRAP 5 (CSS) --&gt;
-    &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+    &lt;link href="https://cdn.jsdelivr.net/npm/<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="11737e7e65626563706151243f223f21">[email&#160;protected]</a>/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
 
     &lt;!-- 5. Tipografia de Google Fonts --&gt;
     &lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"&gt;
@@ -868,7 +1177,7 @@
     &lt;button class="btn btn-success d-block mt-3"&gt;Guardar Canvis&lt;/button&gt;
 
     &lt;!-- 6. JavaScript de Bootstrap (al final del body) --&gt;
-    &lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e6848989929592948796a6d3c8d5c8d6">[email&#160;protected]</a>/dist/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre>
         </div>
@@ -1158,7 +1467,7 @@
 &lt;div class="p-4 border rounded bg-light"&gt;
     &lt;div class="mb-3"&gt;
         &lt;label for="emailInput" class="form-label"&gt;Correu electrònic d'escola:&lt;/label&gt;
-        &lt;input type="email" class="form-control" id="emailInput" placeholder="nom@escola.cat"&gt;
+        &lt;input type="email" class="form-control" id="emailInput" placeholder="<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4628292b06233525292a2768252732">[email&#160;protected]</a>"&gt;
         &lt;div id="avis-error" class="text-danger mt-1" style="display:none;"&gt;L'email no és vàlid encara...&lt;/div&gt;
     &lt;/div&gt;
     
@@ -1266,7 +1575,7 @@ carregarAra(); // Executem la funció en carregar la pàgina
 &lt;/script&gt;
 
 &lt;!-- No oblidis afegir Bootstrap al &lt;head&gt; per als estils de cards --&gt;
-&lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"&gt;</pre>
+&lt;link href="https://cdn.jsdelivr.net/npm/<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="395b56564d4a4d4b5849790c170a1709">[email&#160;protected]</a>/dist/css/bootstrap.min.css" rel="stylesheet"&gt;</pre>
         </div>
       </div>
       <div class="bloc-card-footer">
@@ -1302,6 +1611,679 @@ carregarAra(); // Executem la funció en carregar la pàgina
         assegura't que sigui <span class="prompt-highlight">Responsive</span> amb un breakpoint per a mòbil."</div>
     </div>
 
+
+    <!-- ══════════════════════════════════════════════════════
+       SECCIÓ 3 — GLOSSARI VIBE CODING
+  ══════════════════════════════════════════════════════ -->
+    <div class="seccio-titol" style="margin-top:2.5rem;">
+      <span class="seccio-num">Secció 03</span>
+      <h2>Glossari Vibe Coding: Conceptes per Construir una Web</h2>
+    </div>
+
+    <div class="intro-box">
+      <div class="icona">🧠</div>
+      <p>Aquests són els <strong>conceptes que has de conèixer</strong> per demanar-li a una IA exactament el que vols.
+        Com més vocabulari tècnic facis servir al teu prompt, millor serà el resultat. <strong>Passa el ratolí</strong>
+        per sobre de cada targeta per veure un exemple de codi o ús.</p>
+    </div>
+
+    <!-- CERCADOR -->
+    <div class="cerca-wrap">
+      <input type="text" id="cercaGlossari" placeholder="Cerca un concepte... (ex: flexbox, fetch, bootstrap)"
+        oninput="filtrarGlossari()">
+    </div>
+
+    <!-- FILTRES PER CATEGORIA -->
+    <div class="filtre-bar" id="filtreBar">
+      <button class="filtre-btn actiu" data-cat="tot" onclick="setFiltre('tot', this)">🌐 Tots</button>
+      <button class="filtre-btn" data-cat="estructura" onclick="setFiltre('estructura', this)">🏗️ Estructura</button>
+      <button class="filtre-btn" data-cat="css" onclick="setFiltre('css', this)">🎨 CSS</button>
+      <button class="filtre-btn" data-cat="tipografia" onclick="setFiltre('tipografia', this)">🔤 Tipografia</button>
+      <button class="filtre-btn" data-cat="llibreries" onclick="setFiltre('llibreries', this)">📦 Llibreries</button>
+      <button class="filtre-btn" data-cat="javascript" onclick="setFiltre('javascript', this)">⚡ JavaScript</button>
+      <button class="filtre-btn" data-cat="api" onclick="setFiltre('api', this)">🌐 API & Dades</button>
+      <button class="filtre-btn" data-cat="multimedia" onclick="setFiltre('multimedia', this)">🎬 Multimèdia</button>
+      <button class="filtre-btn" data-cat="formularis" onclick="setFiltre('formularis', this)">📝 Formularis</button>
+      <button class="filtre-btn" data-cat="seo" onclick="setFiltre('seo', this)">🔍 SEO & Accés</button>
+      <button class="filtre-btn" data-cat="eines" onclick="setFiltre('eines', this)">🛠️ Eines</button>
+    </div>
+
+    <div class="cerca-recompte" id="recompte">— conceptes</div>
+
+    <!-- GRID DE CONCEPTES -->
+    <div class="glossari-grid" id="glossariGrid">
+
+      <!-- ── ESTRUCTURA ──────────────────────────────────── -->
+      <div class="glossari-card" data-cat="estructura" data-cerca="doctype document tipus html5 declaració">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">&lt;!DOCTYPE html&gt;</div>
+          <span class="glossari-badge badge-estructura">Estructura</span>
+        </div>
+        <div class="glossari-desc">Declara al navegador que el document és HTML5. Ha d'anar sempre a la primera línia
+          del fitxer, abans de tot.</div>
+        <div class="glossari-exemple">&lt;!DOCTYPE html&gt;<br>&lt;html lang="ca"&gt;...</div>
+      </div>
+
+      <div class="glossari-card" data-cat="estructura" data-cerca="head capçalera metadades resources cap">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">&lt;head&gt;</div>
+          <span class="glossari-badge badge-estructura">Estructura</span>
+        </div>
+        <div class="glossari-desc">Conté tot el que el navegador necessita però l'usuari no veu: títol, fonts, CSS,
+          metadades i scripts de configuració.</div>
+        <div class="glossari-exemple">&lt;head&gt;<br> &lt;title&gt;La meva web&lt;/title&gt;<br>&lt;/head&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="estructura" data-cerca="charset utf-8 codificació accents ç">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">charset="UTF-8"</div>
+          <span class="glossari-badge badge-estructura">Estructura</span>
+        </div>
+        <div class="glossari-desc">Defineix la codificació de caràcters. Imprescindible perquè els accents, la ç i els
+          emojis es mostrin correctament a tots els sistemes.</div>
+        <div class="glossari-exemple">&lt;meta charset="UTF-8"&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="estructura" data-cerca="viewport responsive mobile mòbil mida pantalla">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">viewport</div>
+          <span class="glossari-badge badge-estructura">Estructura</span>
+        </div>
+        <div class="glossari-desc">Instrucció que indica als dispositius mòbils que adaptin l'amplada de la pàgina a la
+          mida real de la pantalla. Sense això, el mòbil mostra la web en miniatura.</div>
+        <div class="glossari-exemple">&lt;meta name="viewport"<br> content="width=device-width,<br>
+          initial-scale=1.0"&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="estructura"
+        data-cerca="semàntica semantic header main footer section article aside nav">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">HTML Semàntic</div>
+          <span class="glossari-badge badge-estructura">Estructura</span>
+        </div>
+        <div class="glossari-desc">Etiquetes HTML5 amb significat: &lt;header&gt;, &lt;main&gt;, &lt;section&gt;,
+          &lt;article&gt;, &lt;aside&gt;, &lt;footer&gt;, &lt;nav&gt;. Ajuden als cercadors i als lectors de pantalla.
+        </div>
+        <div class="glossari-exemple">&lt;header&gt;...&lt;/header&gt;<br>&lt;main&gt;<br>
+          &lt;section&gt;...&lt;/section&gt;<br>&lt;/main&gt;<br>&lt;footer&gt;...&lt;/footer&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="estructura" data-cerca="lang idioma llengua atribut">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">lang="ca"</div>
+          <span class="glossari-badge badge-estructura">Estructura</span>
+        </div>
+        <div class="glossari-desc">Indica l'idioma principal de la pàgina. Millora el SEO i permet als lectors de
+          pantalla pronunciar correctament el text.</div>
+        <div class="glossari-exemple">&lt;html lang="ca"&gt; /* català */<br>&lt;html lang="es"&gt; /* castellà
+          */<br>&lt;html lang="en"&gt; /* anglès */</div>
+      </div>
+
+      <!-- ── CSS ────────────────────────────────────────── -->
+      <div class="glossari-card" data-cat="css" data-cerca="flexbox flex display layout distribució">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Flexbox</div>
+          <span class="glossari-badge badge-css">CSS</span>
+        </div>
+        <div class="glossari-desc">Sistema de maquetació unidimensional. El contenidor pare amb
+          <code>display:flex</code> controla com es col·loquen els fills: en fila, en columna, centrats, separats.</div>
+        <div class="glossari-exemple">display: flex;<br>justify-content: space-between;<br>align-items: center;<br>gap:
+          1rem;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="css" data-cerca="grid css layout graella columnes files">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">CSS Grid</div>
+          <span class="glossari-badge badge-css">CSS</span>
+        </div>
+        <div class="glossari-desc">Sistema de maquetació bidimensional per crear graelles complexes amb files i
+          columnes. Ideal per a galeries, dashboards i layouts de pàgines completes.</div>
+        <div class="glossari-exemple">display: grid;<br>grid-template-columns:<br> repeat(3, 1fr);<br>gap: 1.5rem;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="css" data-cerca="variables css custom properties root colors">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Variables CSS</div>
+          <span class="glossari-badge badge-css">CSS</span>
+        </div>
+        <div class="glossari-desc">Variables reutilitzables que es defineixen a <code>:root</code> i s'usen a tot el
+          document. Permeten canviar el color principal o la font en un sol lloc.</div>
+        <div class="glossari-exemple">:root { --color-principal: #3b82f6; }<br>h1 { color: var(--color-principal); }
+        </div>
+      </div>
+
+      <div class="glossari-card" data-cat="css" data-cerca="box model margin padding border mida caixa">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Box Model</div>
+          <span class="glossari-badge badge-css">CSS</span>
+        </div>
+        <div class="glossari-desc">Cada element HTML és una caixa amb: contingut + padding (espai interior) + border
+          (vora) + margin (espai exterior). Entendre-ho resol el 80% dels problemes d'espaiat.</div>
+        <div class="glossari-exemple">div {<br> padding: 1rem; /* interior */<br> border: 2px solid;<br> margin: 2rem;
+          /* exterior */<br>}</div>
+      </div>
+
+      <div class="glossari-card" data-cat="css" data-cerca="pseudo-classes hover focus active nth-child">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Pseudo-classes</div>
+          <span class="glossari-badge badge-css">CSS</span>
+        </div>
+        <div class="glossari-desc">Selectores que apliquen estils en estats especials: <code>:hover</code> (ratolí a
+          sobre), <code>:focus</code> (element actiu), <code>:nth-child()</code> (element N d'una llista).</div>
+        <div class="glossari-exemple">a:hover { color: red; }<br>input:focus { border-color: blue; }<br>li:nth-child(2n)
+          { background: #f5f5f5; }</div>
+      </div>
+
+      <div class="glossari-card" data-cat="css" data-cerca="transicions transition animació suau durada">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Transitions</div>
+          <span class="glossari-badge badge-css">CSS</span>
+        </div>
+        <div class="glossari-desc">Fa que els canvis d'estil (color, mida, posició) es produeixin de manera suau en lloc
+          d'instantàniament. La clau per a interaccions professionals.</div>
+        <div class="glossari-exemple">button {<br> transition: background 0.3s ease,<br> transform
+          0.2s;<br>}<br>button:hover { transform: scale(1.05); }</div>
+      </div>
+
+      <div class="glossari-card" data-cat="css" data-cerca="animations keyframes animació css moviment">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">@keyframes</div>
+          <span class="glossari-badge badge-css">CSS</span>
+        </div>
+        <div class="glossari-desc">Crea animacions CSS pures. Es defineix el punt inicial (from/0%) i final (to/100%) i
+          el navegador calcula els passos intermedis automàticament.</div>
+        <div class="glossari-exemple">@keyframes apareixer {<br> from { opacity: 0; transform: translateY(20px); }<br>
+          to { opacity: 1; transform: translateY(0); }<br>}<br>.element { animation: apareixer .5s ease; }</div>
+      </div>
+
+      <div class="glossari-card" data-cat="css" data-cerca="position sticky fixed absolute relative z-index">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">position</div>
+          <span class="glossari-badge badge-css">CSS</span>
+        </div>
+        <div class="glossari-desc">Controla com es col·loca un element: <code>fixed</code> (queda fix en fer scroll),
+          <code>sticky</code> (queda fix en arribar al límit), <code>absolute</code> (relatiu al pare).</div>
+        <div class="glossari-exemple">header { position: sticky; top: 0; }<br>.overlay { position: fixed; inset: 0;
+          }<br>.badge { position: absolute; top: -5px; }</div>
+      </div>
+
+      <!-- ── TIPOGRAFIA ──────────────────────────────────── -->
+      <div class="glossari-card" data-cat="tipografia" data-cerca="google fonts font tipografia lletra cdn">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Google Fonts</div>
+          <span class="glossari-badge badge-tipografia">Tipografia</span>
+        </div>
+        <div class="glossari-desc">Biblioteca gratuïta de Google amb centenars de tipografies professionals. Es
+          carreguen via CDN amb un link al &lt;head&gt; sense instal·lar res.</div>
+        <div class="glossari-exemple">&lt;link
+          href="https://fonts.googleapis.com/<br>css2?family=Inter:wght@400;700<br>&display=swap"
+          rel="stylesheet"&gt;<br>body { font-family: 'Inter', sans-serif; }</div>
+      </div>
+
+      <div class="glossari-card" data-cat="tipografia" data-cerca="font-size mida text rem em px clamp">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">font-size + clamp()</div>
+          <span class="glossari-badge badge-tipografia">Tipografia</span>
+        </div>
+        <div class="glossari-desc"><code>clamp(mínim, preferit, màxim)</code> crea textos que s'adapten a la pantalla de
+          manera fluida sense media queries. La solució moderna per a títols responsius.</div>
+        <div class="glossari-exemple">h1 {<br> font-size: clamp(1.5rem, 5vw, 3rem);<br> /* Mínim 1.5rem, ideal 5vw,
+          màxim 3rem */<br>}</div>
+      </div>
+
+      <div class="glossari-card" data-cat="tipografia" data-cerca="font-weight negreta bold gruix">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">font-weight</div>
+          <span class="glossari-badge badge-tipografia">Tipografia</span>
+        </div>
+        <div class="glossari-desc">Gruix de la tipografia. Va de 100 (ultra prim) a 900 (ultra negreta). Els valors més
+          usats: 400 (normal), 600 (semibold), 700 (bold).</div>
+        <div class="glossari-exemple">p { font-weight: 400; } /* normal */<br>h2 { font-weight: 700; } /* bold
+          */<br>.hero { font-weight: 900; } /* black */</div>
+      </div>
+
+      <div class="glossari-card" data-cat="tipografia" data-cerca="line-height interlineat lectura text">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">line-height</div>
+          <span class="glossari-badge badge-tipografia">Tipografia</span>
+        </div>
+        <div class="glossari-desc">Espai entre línies de text. Un valor de 1.6–1.8 millora molt la llegibilitat en
+          paràgrafs llargs. Valors sense unitat (com 1.6) s'escalen proporcionalment.</div>
+        <div class="glossari-exemple">body { line-height: 1.7; } /* còmode */<br>h1 { line-height: 1.1; } /* titulars
+          ajustats */<br>code { line-height: 1.5; }</div>
+      </div>
+
+      <!-- ── LLIBRERIES ─────────────────────────────────── -->
+      <div class="glossari-card" data-cat="llibreries" data-cerca="bootstrap css framework grid components cdn">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Bootstrap 5</div>
+          <span class="glossari-badge badge-llibreries">Llibreries</span>
+        </div>
+        <div class="glossari-desc">El framework CSS més popular. Inclou un sistema de grid de 12 columnes, components
+          (cards, modals, navbar) i classes utilitàries. Es carrega via CDN.</div>
+        <div class="glossari-exemple">&lt;link
+          href="https://cdn.jsdelivr.net/npm/<br>bootstrap@5.3.0/dist/css/bootstrap.min.css"<br>rel="stylesheet"&gt;<br>&lt;div
+          class="container row"&gt;&lt;/div&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="llibreries" data-cerca="tailwind css utilitat classes atomic">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Tailwind CSS</div>
+          <span class="glossari-badge badge-llibreries">Llibreries</span>
+        </div>
+        <div class="glossari-desc">Framework CSS "atomic": en lloc de components, ofereix milers de classes utilitàries
+          petites que es combinen directament al HTML. Molt popular en vibe coding.</div>
+        <div class="glossari-exemple">&lt;button class="bg-blue-500<br> text-white px-4 py-2<br> rounded-lg
+          hover:bg-blue-700"&gt;<br> Enviar<br>&lt;/button&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="llibreries" data-cerca="chart.js gràfiques charts visualització dades">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Chart.js</div>
+          <span class="glossari-badge badge-llibreries">Llibreries</span>
+        </div>
+        <div class="glossari-desc">Llibreria JavaScript per crear gràfiques interactives (barres, línies, sectors,
+          radar) amb molt poc codi. Perfecte per a dashboards de dades.</div>
+        <div class="glossari-exemple">&lt;canvas id="grafica"&gt;&lt;/canvas&gt;<br>&lt;script&gt;<br>new
+          Chart(document.getElementById('grafica'), {<br> type: 'bar', data: {...}<br>});<br>&lt;/script&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="llibreries" data-cerca="swiper slider carrusel galeria slider">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Swiper.js</div>
+          <span class="glossari-badge badge-llibreries">Llibreries</span>
+        </div>
+        <div class="glossari-desc">La millor llibreria per crear sliders, carrusels i galeries tàctils. Funciona
+          perfectament en mòbils i és molt fàcil de configurar via CDN.</div>
+        <div class="glossari-exemple">&lt;div class="swiper"&gt;<br> &lt;div class="swiper-wrapper"&gt;<br> &lt;div
+          class="swiper-slide"&gt;1&lt;/div&gt;<br> &lt;/div&gt;<br>&lt;/div&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="llibreries" data-cerca="font awesome icones icons svg iconografia">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Font Awesome</div>
+          <span class="glossari-badge badge-llibreries">Llibreries</span>
+        </div>
+        <div class="glossari-desc">Biblioteca d'icones vectorials (SVG) que es poden usar com a text CSS. Inclou milers
+          d'icones de UI, xarxes socials, tecnologia i molt més.</div>
+        <div class="glossari-exemple">&lt;i class="fa-solid fa-house"&gt;&lt;/i&gt;<br>&lt;i class="fa-brands
+          fa-github"&gt;&lt;/i&gt;<br>&lt;i class="fa-regular fa-envelope"&gt;&lt;/i&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="llibreries" data-cerca="CDN content delivery network càrrega externa link">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">CDN</div>
+          <span class="glossari-badge badge-llibreries">Llibreries</span>
+        </div>
+        <div class="glossari-desc">Content Delivery Network: xarxa de servidors distribuïts que serveix fitxers (CSS,
+          JS, fonts) ràpidament des del servidor més proper a l'usuari. Evita descarregar fitxers.</div>
+        <div class="glossari-exemple">&lt;!-- Sense CDN: has de descarregar --&gt;<br>&lt;link rel="stylesheet"
+          href="bootstrap.css"&gt;<br>&lt;!-- Amb CDN: carrega directe d'internet --&gt;<br>&lt;link
+          href="https://cdn.jsdelivr.net/..."&gt;</div>
+      </div>
+
+      <!-- ── JAVASCRIPT ─────────────────────────────────── -->
+      <div class="glossari-card" data-cat="javascript"
+        data-cerca="dom document object model selectors querySelector getElementById">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">DOM</div>
+          <span class="glossari-badge badge-javascript">JavaScript</span>
+        </div>
+        <div class="glossari-desc">Document Object Model: el "mapa" de tots els elements HTML que el JavaScript pot
+          llegir i modificar. <code>querySelector</code> és la porta d'entrada.</div>
+        <div class="glossari-exemple">const titol = document.querySelector('h1');<br>titol.textContent = 'Nou
+          text!';<br>titol.style.color = 'red';<br>titol.classList.add('actiu');</div>
+      </div>
+
+      <div class="glossari-card" data-cat="javascript"
+        data-cerca="eventlistener click addEventListener events escoltadors">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">EventListeners</div>
+          <span class="glossari-badge badge-javascript">JavaScript</span>
+        </div>
+        <div class="glossari-desc">Funcions que "escolten" accions de l'usuari: clic, tecla premuda, scroll, enviament
+          de formulari. La base de tota la interactivitat web.</div>
+        <div class="glossari-exemple">document.querySelector('#boto')<br> .addEventListener('click', function() {<br>
+          alert('Has fet clic!');<br> });</div>
+      </div>
+
+      <div class="glossari-card" data-cat="javascript" data-cerca="variables const let var declaració emmagatzemar">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">const / let</div>
+          <span class="glossari-badge badge-javascript">JavaScript</span>
+        </div>
+        <div class="glossari-desc"><code>const</code> declara una variable que no canviarà (immutable). <code>let</code>
+          declara una variable que sí pot canviar. Usa sempre <code>const</code> per defecte.</div>
+        <div class="glossari-exemple">const nom = 'Reus'; // no canvia<br>let comptador = 0; // pot canviar<br>comptador
+          = comptador + 1;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="javascript" data-cerca="funcions functions arrow fletxa reutilitzable">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Arrow Functions</div>
+          <span class="glossari-badge badge-javascript">JavaScript</span>
+        </div>
+        <div class="glossari-desc">Sintaxi moderna i concisa per declarar funcions. S'usen molt en callbacks, forEach,
+          map i addEventListener. La sintaxi és <code>() => {}</code>.</div>
+        <div class="glossari-exemple">// Clàssica<br>function saludar(nom) { return 'Hola ' + nom; }<br>// Arrow
+          (equivalent)<br>const saludar = (nom) => 'Hola ' + nom;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="javascript" data-cerca="condicionals if else switch lògica decisió">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">if / else</div>
+          <span class="glossari-badge badge-javascript">JavaScript</span>
+        </div>
+        <div class="glossari-desc">La lògica de presa de decisions del codi. Permet executar codi diferent depenent
+          d'una condició (cert/fals). És la base de tota la validació.</div>
+        <div class="glossari-exemple">if (edat >= 18) {<br> console.log('Major d\'edat');<br>} else {<br>
+          console.log('Menor d\'edat');<br>}</div>
+      </div>
+
+      <div class="glossari-card" data-cat="javascript" data-cerca="arrays arrays llistes forEach map filter bucle">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Arrays & forEach</div>
+          <span class="glossari-badge badge-javascript">JavaScript</span>
+        </div>
+        <div class="glossari-desc">Un array és una llista de valors. <code>forEach</code> permet recórrer cada element
+          per fer alguna acció. Essencial per mostrar llistes de dades dinàmicament.</div>
+        <div class="glossari-exemple">const colors = ['vermell', 'blau', 'verd'];<br>colors.forEach(color => {<br>
+          console.log(color);<br>});</div>
+      </div>
+
+      <div class="glossari-card" data-cat="javascript"
+        data-cerca="localStorage sessió emmagatzemar guardar dades local">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">localStorage</div>
+          <span class="glossari-badge badge-javascript">JavaScript</span>
+        </div>
+        <div class="glossari-desc">Permet guardar dades al navegador de l'usuari de manera persistent (sobreviu a tancar
+          el navegador). Ideal per a preferències, temes, carret de compra senzill.</div>
+        <div class="glossari-exemple">localStorage.setItem('tema', 'fosc');<br>const tema =
+          localStorage.getItem('tema');<br>localStorage.removeItem('tema');</div>
+      </div>
+
+      <!-- ── API & DADES ─────────────────────────────────── -->
+      <div class="glossari-card" data-cat="api" data-cerca="fetch api petició http dades externa asíncrona">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Fetch API</div>
+          <span class="glossari-badge badge-api">API & Dades</span>
+        </div>
+        <div class="glossari-desc">Funció nativa de JavaScript per fer peticions HTTP a servidors externs. Retorna una
+          Promesa. La forma moderna de connectar-se a APIs i serveis web.</div>
+        <div class="glossari-exemple">const resposta = await fetch('https://api.exemple.com/dades');<br>const dades =
+          await resposta.json();<br>console.log(dades);</div>
+      </div>
+
+      <div class="glossari-card" data-cat="api" data-cerca="async await asíncrona promesa espera">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">async / await</div>
+          <span class="glossari-badge badge-api">API & Dades</span>
+        </div>
+        <div class="glossari-desc">Sintaxi que permet escriure codi asíncron (que espera una resposta externa) de manera
+          llegible, com si fos síncron. <code>async</code> marca la funció, <code>await</code> espera el resultat.</div>
+        <div class="glossari-exemple">async function carregarDades() {<br> const res = await fetch('/api/noticies');<br>
+          const json = await res.json();<br> return json;<br>}</div>
+      </div>
+
+      <div class="glossari-card" data-cat="api" data-cerca="json javascript object notation format dades">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">JSON</div>
+          <span class="glossari-badge badge-api">API & Dades</span>
+        </div>
+        <div class="glossari-desc">JavaScript Object Notation: el format universal d'intercanvi de dades a Internet. Les
+          APIs retornen JSON, i JavaScript el llegeix de manera nativa.</div>
+        <div class="glossari-exemple">/* Format JSON */<br>{<br> "nom": "Reus",<br> "poblacio": 106000,<br> "comarques":
+          ["Baix Camp"]<br>}</div>
+      </div>
+
+      <div class="glossari-card" data-cat="api" data-cerca="cors cross origin bloqueig seguretat proxy">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">CORS</div>
+          <span class="glossari-badge badge-api">API & Dades</span>
+        </div>
+        <div class="glossari-desc">Cross-Origin Resource Sharing: mecanisme de seguretat del navegador que bloqueja les
+          peticions a dominis externs. Sol solucionar-se amb un proxy (rss2json, allorigins).</div>
+        <div class="glossari-exemple">/* Error típic CORS */<br>Access-Control-Allow-Origin blocat<br><br>/* Solució:
+          usar un proxy */<br>fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url))</div>
+      </div>
+
+      <div class="glossari-card" data-cat="api" data-cerca="rss feed notícies sindicació xml">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">RSS Feed</div>
+          <span class="glossari-badge badge-api">API & Dades</span>
+        </div>
+        <div class="glossari-desc">Format XML per subscriure's a actualitzacions de webs (notícies, blogs, podcasts).
+          Molts diaris i serveis ofereixen una URL RSS que podem llegir des del nostre codi.</div>
+        <div class="glossari-exemple">/* URL RSS d'exemple */<br>https://www.ara.cat/rss/latest/<br><br>/* Convertir a
+          JSON (evita CORS) */<br>https://api.rss2json.com/v1/api.json?rss_url=...</div>
+      </div>
+
+      <div class="glossari-card" data-cat="api" data-cerca="openweather mapbox unsplash api gratuïtes clau">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">APIs Públiques</div>
+          <span class="glossari-badge badge-api">API & Dades</span>
+        </div>
+        <div class="glossari-desc">Serveis externs que ofereixen dades gratuïtament: OpenWeatherMap (temps), Unsplash
+          (fotos), JSONPlaceholder (proves), PokéAPI (dades). Requereixen una API Key.</div>
+        <div class="glossari-exemple">/* Temps de Reus
+          */<br>fetch('https://api.openweathermap.org/data/2.5/weather?q=Reus&appid=LA_TEVA_KEY')</div>
+      </div>
+
+      <!-- ── MULTIMEDIA ─────────────────────────────────── -->
+      <div class="glossari-card" data-cat="multimedia" data-cerca="iframe incrustar embed youtube mapa vídeo extern">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">&lt;iframe&gt;</div>
+          <span class="glossari-badge badge-multimedia">Multimèdia</span>
+        </div>
+        <div class="glossari-desc">Incrusta contingut d'una altra pàgina dins la teva: vídeos de YouTube, mapes de
+          Google Maps, formularis de Typeform, presentacions de Canva.</div>
+        <div class="glossari-exemple">&lt;iframe<br> src="https://www.youtube.com/embed/ID"<br> width="560"
+          height="315"<br> allowfullscreen&gt;<br>&lt;/iframe&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="multimedia" data-cerca="img imatge src alt srcset responsive lazy loading">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">&lt;img&gt; + srcset</div>
+          <span class="glossari-badge badge-multimedia">Multimèdia</span>
+        </div>
+        <div class="glossari-desc"><code>srcset</code> permet servir imatges de diferent resolució depenent de la
+          pantalla. <code>loading="lazy"</code> retarda la càrrega fins que l'imatge és visible.</div>
+        <div class="glossari-exemple">&lt;img<br> src="foto.jpg"<br> srcset="foto-2x.jpg 2x"<br> alt="Descripció"<br>
+          loading="lazy"&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="multimedia" data-cerca="object-fit imatge cover contain proporcions">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">object-fit</div>
+          <span class="glossari-badge badge-multimedia">Multimèdia</span>
+        </div>
+        <div class="glossari-desc">Controla com s'adapta una imatge (o vídeo) dins del seu contenidor.
+          <code>cover</code> omple el contenidor mantenint proporcions (pot retallar). <code>contain</code> mostra tot.
+        </div>
+        <div class="glossari-exemple">img {<br> width: 100%;<br> height: 200px;<br> object-fit: cover; /* ← retalla però
+          omple */<br> object-position: center;<br>}</div>
+      </div>
+
+      <div class="glossari-card" data-cat="multimedia" data-cerca="video audio html5 controls loop autoplay muted">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">&lt;video&gt; / &lt;audio&gt;</div>
+          <span class="glossari-badge badge-multimedia">Multimèdia</span>
+        </div>
+        <div class="glossari-desc">Etiquetes HTML5 natives per incrustar vídeo i àudio sense plugins.
+          <code>autoplay muted</code> és el truc per a vídeos de fons (el navegador requereix el silenci).</div>
+        <div class="glossari-exemple">&lt;video autoplay muted loop playsinline&gt;<br> &lt;source src="video.mp4"
+          type="video/mp4"&gt;<br>&lt;/video&gt;</div>
+      </div>
+
+      <!-- ── FORMULARIS ─────────────────────────────────── -->
+      <div class="glossari-card" data-cat="formularis" data-cerca="input type text email password number form">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">&lt;input type&gt;</div>
+          <span class="glossari-badge badge-formularis">Formularis</span>
+        </div>
+        <div class="glossari-desc">L'etiqueta més versàtil de HTML. Amb l'atribut <code>type</code> canvia de
+          comportament: text, email, password, number, date, color, range, file, checkbox.</div>
+        <div class="glossari-exemple">&lt;input type="email" required&gt;<br>&lt;input type="range" min="0"
+          max="100"&gt;<br>&lt;input type="color" value="#3b82f6"&gt;<br>&lt;input type="date"&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="formularis" data-cerca="regex regexp validació patró email dni format">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">RegEx (Validació)</div>
+          <span class="glossari-badge badge-formularis">Formularis</span>
+        </div>
+        <div class="glossari-desc">Expressions regulars per comprovar si un text segueix un patró (email, telèfon, DNI).
+          Complexes però molt potents per a validació de formularis.</div>
+        <div class="glossari-exemple">/* Validar email */<br>const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;<br>const
+          esEmail = regex.test('nom@escola.cat');<br>// → true</div>
+      </div>
+
+      <div class="glossari-card" data-cat="formularis"
+        data-cerca="label placeholder required disabled atributs accessibilitat">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">label + placeholder</div>
+          <span class="glossari-badge badge-formularis">Formularis</span>
+        </div>
+        <div class="glossari-desc"><code>&lt;label for&gt;</code> vincula un text descriptiu a un camp.
+          <code>placeholder</code> mostra un text d'exemple dins del camp (desapareix en escriure). El
+          <code>label</code> millora l'accessibilitat.</div>
+        <div class="glossari-exemple">&lt;label for="correu"&gt;Correu:&lt;/label&gt;<br>&lt;input id="correu"
+          type="email"<br> placeholder="nom@escola.cat"<br> required&gt;</div>
+      </div>
+
+      <!-- ── SEO & ACCESSIBILITAT ───────────────────────── -->
+      <div class="glossari-card" data-cat="seo" data-cerca="meta description og opengraph xarxes title link preview">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Metadades Open Graph</div>
+          <span class="glossari-badge badge-seo">SEO & Accés</span>
+        </div>
+        <div class="glossari-desc">Etiquetes meta que controlen com apareix la teva web quan es comparteix a WhatsApp,
+          Twitter o LinkedIn: títol, descripció i imatge de previsualització.</div>
+        <div class="glossari-exemple">&lt;meta property="og:title" content="La meva web"&gt;<br>&lt;meta
+          property="og:description" content="Aprèn HTML"&gt;<br>&lt;meta property="og:image" content="preview.jpg"&gt;
+        </div>
+      </div>
+
+      <div class="glossari-card" data-cat="seo"
+        data-cerca="alt atribut imatge accessibilitat lector pantalla screen reader">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">alt (text alternatiu)</div>
+          <span class="glossari-badge badge-seo">SEO & Accés</span>
+        </div>
+        <div class="glossari-desc">Text descriptiu de les imatges per a persones amb discapacitat visual i per als
+          cercadors. Si la imatge no carrega, es mostra el text alt. Obligatori per bona pràctica.</div>
+        <div class="glossari-exemple">&lt;!-- ❌ Incorrecte --&gt;<br>&lt;img src="foto.jpg"&gt;<br>&lt;!-- ✅ Correcte
+          --&gt;<br>&lt;img src="foto.jpg" alt="Alumnes treballant en grup"&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="seo" data-cerca="aria role accessibilitat discapacitat navegació teclat">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">ARIA roles</div>
+          <span class="glossari-badge badge-seo">SEO & Accés</span>
+        </div>
+        <div class="glossari-desc">Accessible Rich Internet Applications: atributs per descriure elements dinàmics als
+          lectors de pantalla. <code>aria-label</code> és el més usat per a botons sense text visible.</div>
+        <div class="glossari-exemple">&lt;button aria-label="Tancar menú"&gt;✕&lt;/button&gt;<br>&lt;nav
+          role="navigation"&gt;&lt;/nav&gt;<br>&lt;div aria-live="polite"&gt;Missatge nou&lt;/div&gt;</div>
+      </div>
+
+      <div class="glossari-card" data-cat="seo" data-cerca="responsive media queries mobile first breakpoint adaptació">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Media Queries</div>
+          <span class="glossari-badge badge-seo">SEO & Accés</span>
+        </div>
+        <div class="glossari-desc">Regles CSS que apliquen estils depenent de la mida de pantalla. Permeten crear
+          dissenys responsius que s'adapten a mòbil, tauleta i escriptori.</div>
+        <div class="glossari-exemple">/* Per a pantalles de menys de 768px (mòbil) */<br>@media (max-width: 768px) {<br>
+          .columnes { flex-direction: column; }<br> .menu { display: none; }<br>}</div>
+      </div>
+
+      <div class="glossari-card" data-cat="seo" data-cerca="favicon icona tab pestanya icon web">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Favicon</div>
+          <span class="glossari-badge badge-seo">SEO & Accés</span>
+        </div>
+        <div class="glossari-desc">La petita icona que apareix a la pestanya del navegador i als marcadors. Es declara
+          al &lt;head&gt; amb un link. El format modern és SVG o PNG de 32×32px.</div>
+        <div class="glossari-exemple">&lt;link rel="icon" type="image/png"<br> href="/favicon.png"&gt;<br>&lt;!-- O amb
+          emoji (truc ràpid) --&gt;<br>&lt;link rel="icon" href="data:image/svg+xml,&lt;svg
+          xmlns='http://www.w3.org/2000/svg'&gt;&lt;text y='32' font-size='32'&gt;📘&lt;/text&gt;&lt;/svg&gt;"&gt;</div>
+      </div>
+
+      <!-- ── EINES ──────────────────────────────────────── -->
+      <div class="glossari-card" data-cat="eines" data-cerca="codepen live coding editor navegador pen">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">CodePen</div>
+          <span class="glossari-badge badge-eines">Eines</span>
+        </div>
+        <div class="glossari-desc">Editor online amb 3 panells (HTML/CSS/JS) i previsualització en directe. La
+          plataforma ideal per a principiants i tallers. La funció <strong>Fork</strong> permet copiar qualsevol
+          exercici.</div>
+        <div class="glossari-exemple">🌐 codepen.io/pen/<br>→ Copia codi → Enganxa → Veu el resultat<br>→ Fork d'un
+          exercici del professor</div>
+      </div>
+
+      <div class="glossari-card" data-cat="eines" data-cerca="stackblitz vscode navegador ide terminal projecte">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">StackBlitz</div>
+          <span class="glossari-badge badge-eines">Eines</span>
+        </div>
+        <div class="glossari-desc">VS Code al navegador. Permet estructura de fitxers múltiples, terminal integrada i
+          vista prèvia instantània. Ideal per a projectes més complexos o APIs.</div>
+        <div class="glossari-exemple">🌐 stackblitz.com/fork/html<br>→ Estructura de fitxers real<br>→ Console.log
+          visible<br>→ Errors de xarxa detallats</div>
+      </div>
+
+      <div class="glossari-card" data-cat="eines" data-cerca="github pages hosting publicar deploy web gratuït">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">GitHub Pages</div>
+          <span class="glossari-badge badge-eines">Eines</span>
+        </div>
+        <div class="glossari-desc">Allotjament web gratuït de GitHub. Pots publicar qualsevol fitxer HTML/CSS/JS i
+          obtenir una URL pública (usuari.github.io/projecte) en qüestió de minuts.</div>
+        <div class="glossari-exemple">1. Crea un repositori a GitHub<br>2. Puja el teu index.html<br>3. Settings → Pages
+          → Deploy<br>→ URL: usuari.github.io/nom-repo</div>
+      </div>
+
+      <div class="glossari-card" data-cat="eines" data-cerca="netlify vercel deploy hosting cdn publicar automàtic">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Netlify / Vercel</div>
+          <span class="glossari-badge badge-eines">Eines</span>
+        </div>
+        <div class="glossari-desc">Plataformes d'allotjament gratuït amb CDN global. Es connecten al teu repositori
+          GitHub i redesplguen automàticament quan puges canvis. La forma més professional de publicar.</div>
+        <div class="glossari-exemple">🌐 netlify.com → Drag & Drop!<br>→ Arrossega la carpeta del projecte<br>→ Obté URL
+          pública en 10 segons</div>
+      </div>
+
+      <div class="glossari-card" data-cat="eines" data-cerca="devtools inspector consola elements xarxa debug f12">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">DevTools (F12)</div>
+          <span class="glossari-badge badge-eines">Eines</span>
+        </div>
+        <div class="glossari-desc">Les eines de desenvolupador del navegador. Permeten inspeccionar l'HTML, modificar el
+          CSS en viu, veure errors de JavaScript i analitzar les peticions de xarxa. <strong>Imprescindible</strong>.
+        </div>
+        <div class="glossari-exemple">F12 (o clic dret → Inspeccionar)<br>→ Elements: modifica HTML/CSS en viu<br>→
+          Console: veu errors i console.log<br>→ Network: analitza peticions API</div>
+      </div>
+
+      <div class="glossari-card" data-cat="eines"
+        data-cerca="vibe coding ia intelligència artificial prompt generar codi">
+        <div class="glossari-card-top">
+          <div class="glossari-nom">Vibe Coding</div>
+          <span class="glossari-badge badge-eines">Eines</span>
+        </div>
+        <div class="glossari-desc">Metodologia de programació assistida per IA: descriure el que vols en linguatge
+          natural i la IA genera el codi. El vocabulari tècnic d'aquest glossari és la clau per obtenir bons resultats.
+        </div>
+        <div class="glossari-exemple">"Genera una pàgina HTML5 semàntica<br>amb Flexbox, Bootstrap 5 via CDN,<br>Google
+          Fonts 'Inter', metadades OpenGraph<br>i un iframe responsiu per a YouTube"</div>
+      </div>
+
+    </div><!-- fi glossari-grid -->
+
   </div><!-- fi contenidor -->
 
   <footer>
@@ -1309,6 +2291,42 @@ carregarAra(); // Executem la funció en carregar la pàgina
   </footer>
 
   <script>
+    /* ── GLOSSARI ── */
+    let catActiva = 'tot';
+
+    function setFiltre(cat, btn) {
+      catActiva = cat;
+      document.querySelectorAll('.filtre-btn').forEach(b => b.classList.remove('actiu'));
+      btn.classList.add('actiu');
+      filtrarGlossari();
+    }
+
+    function filtrarGlossari() {
+      const cerca = document.getElementById('cercaGlossari').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.glossari-card');
+      let visibles = 0;
+
+      cards.forEach(card => {
+        const cat = card.dataset.cat;
+        const text = (card.dataset.cerca + ' ' + card.innerText).toLowerCase();
+        const passaCat = catActiva === 'tot' || cat === catActiva;
+        const passaCerca = cerca === '' || text.includes(cerca);
+
+        if (passaCat && passaCerca) {
+          card.classList.remove('oculta');
+          visibles++;
+        } else {
+          card.classList.add('oculta');
+        }
+      });
+
+      document.getElementById('recompte').textContent =
+        visibles + ' concepte' + (visibles !== 1 ? 's' : '') + ' visibles';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => filtrarGlossari());
+
+    /* ── COPIAR CODI ── */
     function copiarCodi(boto) {
       const pre = boto.closest('.contenidor-codi').querySelector('.editor-codi');
       navigator.clipboard.writeText(pre.innerText).then(() => {
